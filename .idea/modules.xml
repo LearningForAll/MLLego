@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MLLego.iml" filepath="$PROJECT_DIR$/.idea/modules/MLLego.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MLLego_main.iml" filepath="$PROJECT_DIR$/.idea/modules/MLLego_main.iml" group="MLLego" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MLLego_test.iml" filepath="$PROJECT_DIR$/.idea/modules/MLLego_test.iml" group="MLLego" />
+    </modules>
+  </component>
+</project>
