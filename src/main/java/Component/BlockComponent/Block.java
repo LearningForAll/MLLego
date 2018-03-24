@@ -5,6 +5,8 @@ import Models.Coords;
 import java.awt.*;
 
 public abstract class Block extends Component{
-    abstract Coords getBlockCoords();
+    Block[] beforeBlocks;
+    Block[] afterBlocks;
+    Coords coords;
     abstract String getBlockAttrStr();
 }
