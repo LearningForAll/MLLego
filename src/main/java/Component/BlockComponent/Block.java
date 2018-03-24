@@ -9,4 +9,6 @@ public abstract class Block extends Component{
     Block[] afterBlocks;
     Coords coords;
     abstract String getBlockAttrStr();
+
+
 }
