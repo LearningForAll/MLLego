@@ -20,7 +20,7 @@ public class MainFrame extends JFrame {
         ProceedPanel proceedPanel=new ProceedPanel();
 
 
-        setSize(1500,1000);
+        setSize(1700,1000);
         add(topMenuPanel, BorderLayout.NORTH);
         add(blockBatchPanel, BorderLayout.CENTER);
         add(blockListPanel, BorderLayout.EAST);
