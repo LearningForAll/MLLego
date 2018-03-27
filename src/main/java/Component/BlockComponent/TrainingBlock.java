@@ -21,4 +21,6 @@ public class TrainingBlock extends Block {
     String getBlockAttrStr() {
         return null;
     }
+
+
 }
