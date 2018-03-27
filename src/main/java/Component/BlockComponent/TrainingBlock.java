@@ -1,9 +1,7 @@
 package Component.BlockComponent;
 
 import Models.Coords;
-
 import javax.swing.*;
-
 public class TrainingBlock extends Block {
 
     // 트레이닝 블록에서 epoch, batch_size, learning_rate 설정
