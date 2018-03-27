@@ -1,24 +1,22 @@
 package Component.BlockComponent;
 
+import Component.NumberOnlyTextField;
+import Const.ActivationFunc;
 import Models.Coords;
 
 import javax.swing.*;
 
 public class ConvolutionLayerBlock extends LayerBlock {
 
-    private String activationFunction;
-    private float keep_prob;
-    private int filterNum;
-    private int[] kernelSize;
-    private int filterSize;
+    ActivationFunc activationFunc;
 
     // 드롭아웃 레이트를 조정할 수 있는 JSlider
     JSlider keepprobJSlider;
     JComboBox<String> activationFunctionCombobox;
-    JTextField fileterNumTextField;
-    JTextField filterSizeTextField;
-    JTextField horizontalKernelSize;
-    JTextField verticalKernelSize;
+    // 필터 개수
+    NumberOnlyTextField kernelNumTextField;
+    NumberOnlyTextField horizontalKernelSize;
+    NumberOnlyTextField verticalKernelSize;
 
     @Override
     String getBlockAttrStr() {
