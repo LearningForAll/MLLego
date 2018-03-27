@@ -10,4 +10,6 @@ public abstract class Block extends JPanel{
     Block[] afterBlocks;
     Coords coords;
     abstract String getBlockAttrStr();
+
+
 }
