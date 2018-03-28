@@ -14,6 +14,11 @@ public class LstmBlock extends LayerBlock {
     // 드롭아웃 레이트를 조정할 수 있는 JSlider
     JSlider keepprobJSlider;
 
+
+    public LstmBlock(){
+        keepprobJSlider = new JSlider();
+    }
+
     @Override
     String getBlockAttrStr() {
         return null;

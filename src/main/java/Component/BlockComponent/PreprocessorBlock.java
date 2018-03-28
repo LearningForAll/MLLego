@@ -6,6 +6,10 @@ package Component.BlockComponent;
 public class PreprocessorBlock extends Block {
 
 
+    public PreprocessorBlock(){
+
+
+    }
     @Override
     String getBlockAttrStr() {
         return null;
