@@ -7,7 +7,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class InputBlock extends Block implements ActionListener{
+public class InputBlock extends Block{
 
     // ... 이런식으로 생겨서 누르면 파일 익스플로어를 연다.
     private JButton openFileExploreButton;
@@ -17,14 +17,18 @@ public class InputBlock extends Block implements ActionListener{
 
     public InputBlock(){
         openFileExploreButton = new JButton();
+        openFileExploreButton.addActionListener(new FileOpenListener());
         filePathTextField = new JTextField();
         // 파일패스를 직접 설정하지 못하게..
         filePathTextField.setEditable(false);
+
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource().equals(openFileExploreButton)){
+    //이너 클래스로 재 정의
+    private class FileOpenListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
             JFileChooser jFileChooser = new JFileChooser();
             // TODO 확장자 정리
             FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG","jpg");
