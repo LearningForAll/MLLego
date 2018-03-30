@@ -22,4 +22,14 @@ public class DenseBlock extends LayerBlock {
     String getBlockAttrStr() {
         return null;
     }
+
+    @Override
+    void registerNextBlock() {
+
+    }
+
+    @Override
+    void registerPreviousBlock() {
+
+    }
 }

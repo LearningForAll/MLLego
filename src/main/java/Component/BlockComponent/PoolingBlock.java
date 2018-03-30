@@ -25,11 +25,20 @@ public class PoolingBlock extends LayerBlock {
         horizontalStrideTextField = new NumberOnlyTextField(1, 1, 10000);
         verticalStrideTextField = new NumberOnlyTextField(1, 1, 10000);
 
-
     }
 
     @Override
     String getBlockAttrStr() {
         return null;
+    }
+
+    @Override
+    void registerNextBlock() {
+
+    }
+
+    @Override
+    void registerPreviousBlock() {
+
     }
 }

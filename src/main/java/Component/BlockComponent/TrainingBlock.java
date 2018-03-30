@@ -38,5 +38,15 @@ public class TrainingBlock extends Block {
         return null;
     }
 
+    @Override
+    void registerNextBlock() {
+
+    }
+
+    @Override
+    void registerPreviousBlock() {
+
+    }
+
 
 }

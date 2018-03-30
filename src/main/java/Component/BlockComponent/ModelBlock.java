@@ -8,4 +8,14 @@ public class ModelBlock extends Block {
     String getBlockAttrStr() {
         return null;
     }
+
+    @Override
+    void registerNextBlock() {
+
+    }
+
+    @Override
+    void registerPreviousBlock() {
+
+    }
 }

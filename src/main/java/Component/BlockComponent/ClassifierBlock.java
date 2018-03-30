@@ -15,4 +15,14 @@ public class ClassifierBlock extends ExtendableBlock{
     String getBlockAttrStr() {
         return null;
     }
+
+    @Override
+    void registerNextBlock() {
+
+    }
+
+    @Override
+    void registerPreviousBlock() {
+
+    }
 }

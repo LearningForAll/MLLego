@@ -34,4 +34,14 @@ public class ConvolutionLayerBlock extends LayerBlock {
     String getBlockAttrStr() {
         return null;
     }
+
+    @Override
+    void registerNextBlock() {
+
+    }
+
+    @Override
+    void registerPreviousBlock() {
+
+    }
 }
