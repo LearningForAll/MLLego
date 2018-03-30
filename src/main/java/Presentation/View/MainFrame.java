@@ -11,7 +11,7 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout());
 
         TopMenuPanel topMenuPanel=new TopMenuPanel();
-        BlockBatchPanel blockBatchPanel=new BlockBatchPanel();
+        BlockPlacementPanel blockPlacementPanel =new BlockPlacementPanel();
         ModelTestPanel modelTestPanel=new ModelTestPanel();
         BlockListPanel blockListPanel=new BlockListPanel();
         MyModelPanel myModelPanel=new MyModelPanel();
@@ -22,7 +22,7 @@ public class MainFrame extends JFrame {
 
         setSize(1700,1000);
         add(topMenuPanel, BorderLayout.NORTH);
-        add(blockBatchPanel, BorderLayout.CENTER);
+        add(blockPlacementPanel, BorderLayout.CENTER);
         add(blockListPanel, BorderLayout.EAST);
         add(myModelPanel, BorderLayout.SOUTH);
         setVisible(true);

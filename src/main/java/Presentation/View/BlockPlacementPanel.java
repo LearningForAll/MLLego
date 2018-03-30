@@ -6,8 +6,8 @@ import java.awt.*;
 /**
  * Created by LG on 2018-03-26.
  */
-public class BlockBatchPanel extends JPanel {
-    BlockBatchPanel(){
+public class BlockPlacementPanel extends JPanel {
+    BlockPlacementPanel(){
         setBackground(Color.darkGray);
         setVisible(true);
     }
