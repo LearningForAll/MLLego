@@ -9,29 +9,15 @@ public class ModelBlock extends Block {
         return null;
     }
 
-    @Override
-    void registerNextBlock(Block block) {
-
-    }
-
-    @Override
-    void registerPreviousBlock(Block block) {
-
-    }
-
-
-    @Override
-    void getPoint() {
-
-    }
 
     @Override
     boolean isNextBlockConnectable(Block block) {
+        // 최종 Output 블록
         return false;
     }
 
     @Override
     boolean isPreviousBlockConnectable(Block block) {
-        return false;
+        return (block instanceof TrainingBlock);
     }
 }

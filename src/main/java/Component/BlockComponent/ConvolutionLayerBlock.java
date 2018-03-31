@@ -2,8 +2,6 @@ package Component.BlockComponent;
 
 import Component.NumberOnlyTextField;
 import Const.ActivationFunc;
-import Models.Coords;
-
 import javax.swing.*;
 
 public class ConvolutionLayerBlock extends LayerBlock {
@@ -36,28 +34,13 @@ public class ConvolutionLayerBlock extends LayerBlock {
     }
 
     @Override
-    void registerNextBlock(Block block) {
-
-    }
-
-    @Override
-    void registerPreviousBlock(Block block) {
-
-    }
-
-
-    @Override
-    void getPoint() {
-
-    }
-
-    @Override
     boolean isNextBlockConnectable(Block block) {
-        return false;
+        return (block instanceof LayerBlock);
     }
 
     @Override
     boolean isPreviousBlockConnectable(Block block) {
-        return false;
+        // InputBlock, PoolingBlock, 그리고 같은 ConvolutionLayerBlock을 이전 블록으로 받을 수 있음.
+        return (block instanceof InputBlock || block instanceof LayerBlock);
     }
 }

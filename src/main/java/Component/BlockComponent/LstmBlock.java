@@ -24,28 +24,16 @@ public class LstmBlock extends LayerBlock {
         return null;
     }
 
-    @Override
-    void registerNextBlock(Block block) {
 
-    }
 
-    @Override
-    void registerPreviousBlock(Block block) {
-
-    }
-
-    @Override
-    void getPoint() {
-
-    }
 
     @Override
     boolean isNextBlockConnectable(Block block) {
-        return false;
+        return (block instanceof LayerBlock);
     }
 
     @Override
     boolean isPreviousBlockConnectable(Block block) {
-        return false;
+        return (block instanceof InputBlock || block instanceof LayerBlock);
     }
 }

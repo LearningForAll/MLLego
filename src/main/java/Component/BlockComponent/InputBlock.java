@@ -48,29 +48,12 @@ public class InputBlock extends Block{
     }
 
     @Override
-    void registerNextBlock(Block block) {
-        if(isNextBlockConnectable(block)){
-            afterBlocks.add(block);
-        }
-    }
-
-    @Override
-    void registerPreviousBlock(Block block) {
-
-    }
-
-
-    @Override
-    void getPoint() {
-
-    }
-
-    @Override
     boolean isNextBlockConnectable(Block block) {
 
-        return (block instanceof PreprocessorBlock);
+        return (block instanceof PreprocessorBlock || block instanceof ConvolutionLayerBlock);
     }
 
+    //시작 블록
     @Override
     boolean isPreviousBlockConnectable(Block block) {
         return false;

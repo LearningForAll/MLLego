@@ -32,21 +32,7 @@ public class PoolingBlock extends LayerBlock {
         return null;
     }
 
-    @Override
-    void registerNextBlock(Block block) {
 
-    }
-
-    @Override
-    void registerPreviousBlock(Block block) {
-
-    }
-
-
-    @Override
-    void getPoint() {
-
-    }
 
     @Override
     boolean isNextBlockConnectable(Block block) {
