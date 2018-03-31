@@ -1,7 +1,5 @@
 package Component.BlockComponent;
 
-import Models.Coords;
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
@@ -50,13 +48,32 @@ public class InputBlock extends Block{
     }
 
     @Override
-    void registerNextBlock() {
+    void registerNextBlock(Block block) {
+        if(isNextBlockConnectable(block)){
+            afterBlocks.add(block);
+        }
+    }
+
+    @Override
+    void registerPreviousBlock(Block block) {
+
+    }
+
+
+    @Override
+    void getPoint() {
 
     }
 
     @Override
-    void registerPreviousBlock() {
+    boolean isNextBlockConnectable(Block block) {
 
+        return (block instanceof PreprocessorBlock);
+    }
+
+    @Override
+    boolean isPreviousBlockConnectable(Block block) {
+        return false;
     }
 
 

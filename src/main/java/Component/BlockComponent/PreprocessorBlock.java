@@ -16,12 +16,28 @@ public class PreprocessorBlock extends Block {
     }
 
     @Override
-    void registerNextBlock() {
+    void registerNextBlock(Block block) {
 
     }
 
     @Override
-    void registerPreviousBlock() {
+    void registerPreviousBlock(Block block) {
 
+    }
+
+
+    @Override
+    void getPoint() {
+
+    }
+
+    @Override
+    boolean isNextBlockConnectable(Block block) {
+        return false;
+    }
+
+    @Override
+    boolean isPreviousBlockConnectable(Block block) {
+        return false;
     }
 }
