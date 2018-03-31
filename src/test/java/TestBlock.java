@@ -1,5 +1,6 @@
 import Component.*;
 import Component.BlockComponent.ModelBlock;
+import Const.Classifier;
 import ML.Core.ProcessListener;
 import ML.Core.Python.TensorFlow.TFBuilder;
 import org.junit.Test;
@@ -33,6 +34,7 @@ public class TestBlock {
         NumberOnlyTextField numberOnlyTextField = new NumberOnlyTextField(0.0,0,1);
         frame.add(numberOnlyTextField);
         frame.setVisible(true);
+        System.out.println(Classifier.LOGISTIC_CLASSIFIER.name());
         TFBuilder tfBuilder = new TFBuilder();
         tfBuilder.setProcessListener(new ProcessListener() {
             @Override
