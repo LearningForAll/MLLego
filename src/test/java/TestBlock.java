@@ -30,7 +30,7 @@ public class TestBlock {
         JFrame frame = new JFrame("Number Format Demo");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(300, 200);
-        NumberOnlyTextField numberOnlyTextField = new NumberOnlyTextField(0,10,200);
+        NumberOnlyTextField numberOnlyTextField = new NumberOnlyTextField(0.0,0,1);
         frame.add(numberOnlyTextField);
         frame.setVisible(true);
         TFBuilder tfBuilder = new TFBuilder();
