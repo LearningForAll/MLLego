@@ -14,7 +14,7 @@ public interface MLBuilder {
      * 코드파일 생성함수.
      * @param trainingBlock
      * 트레이닝 블록부터 거꾸로 올라가면서 모든 블록파악 및 코드생성
-     * 역트리 모양이 형성됨
+     * 양방향 트리 모양이 형성됨
      *
      * @return
      * 코드파일이 정상적으로 생성되었는지 반환
