@@ -36,11 +36,11 @@ public class PoolingBlock extends LayerBlock {
 
     @Override
     boolean isNextBlockConnectable(Block block) {
-        return false;
+        return (block instanceof LayerBlock);
     }
 
     @Override
     boolean isPreviousBlockConnectable(Block block) {
-        return false;
+        return (block instanceof LayerBlock);
     }
 }
