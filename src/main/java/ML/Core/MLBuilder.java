@@ -22,9 +22,12 @@ public interface MLBuilder {
     boolean generateCodeFile(TrainingBlock trainingBlock);
 
     /**
-     * 트레이닝 요청 진행함수.
+     * 트레이닝 요청 함수. 가장 최근 생성된 codeFile을 트레이닝함
+     * @see #generateCodeFile(TrainingBlock)
+     *
      * @return
      * 트레이닝 요청 성공 실패를 반환.
+     * false : 최근 생성된 소스코드 파일이 없다는 뜻
      */
     boolean training();
 }
