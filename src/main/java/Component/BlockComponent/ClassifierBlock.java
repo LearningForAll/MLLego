@@ -25,6 +25,7 @@ public class ClassifierBlock extends ExtendableBlock{
     @Override
     boolean isPreviousBlockConnectable(Block block) {
         return (block instanceof DenseBlock);
+    }
 
     public Block getxPartBlock() {
         return xPartBlock;
