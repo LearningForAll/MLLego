@@ -5,6 +5,7 @@ import Const.ActivationFunc;
 import javax.swing.*;
 
 public class ConvolutionLayerBlock extends LayerBlock {
+    int convDimension = 2; // 1D or 2D for convolution
 
     ActivationFunc activationFunc;
 
