@@ -24,7 +24,6 @@ public class DenseBlock extends LayerBlock {
     }
 
 
-
     @Override
     boolean isNextBlockConnectable(Block block) {
         return (block instanceof LayerBlock);
