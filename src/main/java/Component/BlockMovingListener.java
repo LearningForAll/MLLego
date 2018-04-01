@@ -1,8 +1,10 @@
 package Component;
 
+import Component.BlockComponent.Block;
 import Models.Coords;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -12,49 +14,39 @@ import java.awt.event.MouseEvent;
 // 리스너 대신 필요한 것만 쓸 수 있는 어뎁터 사용
 public class BlockMovingListener extends MouseAdapter {
 
-
-    JPanel panel;
+    Block block;
+    int offX, offY;
     boolean isDragged;
-    public BlockMovingListener(JPanel panel) {
-        this.panel = panel;
+    public BlockMovingListener(Block block) {
+        this.block = block;
         isDragged = false;
-
-        this.panel.addMouseListener(this);
 
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        super.mousePressed(e);
-        //TODO Point 클래스와 Coords를 잘 구별해야할듯?
-        /*if(panel.contains(new Coords(panel.getX(),panel.getY()))){
-            //#1 마우스 버튼 누름
-            //사각형내 마우스 클릭 상대 좌표를 구함
-            //현재 마우스 스크린 좌표에서 사각형 위치 좌표의 차이를 구함
-            offX = me.getX() - box.x;
-            offY = me.getY() - box.y;
+        if(block.contains(new Point(e.getX(), e.getY()))){
 
-            //드래그 시작을 표시
+
             isDragged = true;
+            offX = e.getX() - block.getX();
 
-        }*/
-
+            offY = e.getY() - block.getY();
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        super.mouseReleased(e);
         isDragged = false;
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        super.mouseDragged(e);
-        /*
         if(isDragged){
-            box.x = me.getX() - offX;
-            box.y = me.getY() - offY;
-        }*/
+            block.setLocation(e.getX() - offX,e.getY() - offY);
+
+        }
+        block.repaint();
 
     }
 }
