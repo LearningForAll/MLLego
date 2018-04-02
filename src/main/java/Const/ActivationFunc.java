@@ -1,8 +1,10 @@
 package Const;
 
-public class ActivationFunc {
-    public static final int ACTIVATION_RELU=1;
-    public static final int ACTIVATION_SIGMOID=2;
-    public static final int ACTIVATION_TANH=3;
-    public static final int ACTIVATION_ERELU=4;
+public enum  ActivationFunc {
+    //TODO ENUM으로 바꿨음 혹시 클래스로 할꺼면 바꾸면댐
+    ACTIVATION_NONE,
+    ACTIVATION_RELU,
+    ACTIVATION_SIGMOID,
+    ACTIVATION_TANH,
+    ACTIVATION_ERELU
 }

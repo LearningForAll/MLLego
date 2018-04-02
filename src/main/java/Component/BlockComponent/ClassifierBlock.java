@@ -17,6 +17,15 @@ public class ClassifierBlock extends ExtendableBlock{
         return null;
     }
 
+    @Override
+    boolean isNextBlockConnectable(Block block) {
+        return (block instanceof ModelBlock);
+    }
+
+    @Override
+    boolean isPreviousBlockConnectable(Block block) {
+        return (block instanceof DenseBlock);
+
     public Block getxPartBlock() {
         return xPartBlock;
     }
@@ -31,5 +40,6 @@ public class ClassifierBlock extends ExtendableBlock{
 
     public void setyPartBlock(Block yPartBlock) {
         this.yPartBlock = yPartBlock;
+
     }
 }
