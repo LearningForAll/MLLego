@@ -4,6 +4,7 @@ import Const.Classifier;
 import Models.Coords;
 
 import javax.swing.*;
+import java.awt.event.MouseEvent;
 
 public class ClassifierBlock extends ExtendableBlock{
     private Block xPartBlock,yPartBlock;
@@ -25,6 +26,7 @@ public class ClassifierBlock extends ExtendableBlock{
     @Override
     boolean isPreviousBlockConnectable(Block block) {
         return (block instanceof DenseBlock);
+    }
 
     public Block getxPartBlock() {
         return xPartBlock;
@@ -42,4 +44,5 @@ public class ClassifierBlock extends ExtendableBlock{
         this.yPartBlock = yPartBlock;
 
     }
+
 }
