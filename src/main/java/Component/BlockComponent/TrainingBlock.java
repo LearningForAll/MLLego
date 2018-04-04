@@ -51,9 +51,9 @@ public class TrainingBlock extends Block {
 
 
     public ClassifierBlock getClassifierBlock(){
-        if (beforeBlocks == null || beforeBlocks.length<1){
+        if (previousBlocks == null || previousBlocks.size()<1){
             return null;
         }
-        return (ClassifierBlock)beforeBlocks[0];
+        return (ClassifierBlock)previousBlocks.get(0);
     }
 }
