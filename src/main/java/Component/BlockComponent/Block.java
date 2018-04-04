@@ -43,9 +43,7 @@ public abstract class Block extends JPanel{
                 this.previousBlocks.add(block);
                 block.nextBlocks.add(this);
             }else {
-                throw new BlockException(block.getClass().getSimpleName() + "is not connectable Next block for" + this.getClass().getSimpleName());
-
-            }
+                throw new BlockException(block.getClass().getSimpleName() + "is not connectable Next block for" + this.getClass().getSimpleName());}
         }else{
             throw new BlockException(block.getClass().getSimpleName() + "is not connectable Previous block for" + this.getClass().getSimpleName());
 
