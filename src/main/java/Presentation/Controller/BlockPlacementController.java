@@ -46,7 +46,8 @@ public class BlockPlacementController implements BlockObserver {
     // 블록이 눌렸을때 이벤트
     @Override
     public void update(Block block) {
-      
+
+
 
 
     }
