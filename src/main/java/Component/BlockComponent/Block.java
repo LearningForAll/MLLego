@@ -13,12 +13,9 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     private boolean isDragged = false;
     private List<Block> previousBlocks;
     private List<Block> nextBlocks;
-    // 좌표
-    private Point point;
+    private JComponent topComponent,bottomComponent;
     abstract String getBlockAttrStr();
 
-
-    // TODO 두개를 하나로 합치는 것 생각해봅시다.
     // 인자로 들어온 블록이 현재 블록의 다음 블록으로 연결 될 수 있는지 확인하는 메소드
     abstract boolean isNextBlockConnectable(Block block);
     // 인자로 들어온 블록이 현재 블록의 이전 블록으로 연결 될 수 있는지 확인하는 메소드
@@ -27,7 +24,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public Block(){
         nextBlocks = new ArrayList<>();
         previousBlocks = new ArrayList<>();
-        point = new Point();
     }
 
     //TODO boolean을 return 하거나 Exception 으로 Handle할수 있게
@@ -50,8 +46,26 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         }
     }
 
-    public Point getPoint(){
-        return this.point;
+    /**
+     * 블록의 하단을 반짝거리기 /  취소 하는 함수
+     * @return
+     * true : 블록 반짝임
+     * false : 반짝임 취소
+     */
+    public boolean blinkBottom(){
+        bottomComponent.setOpaque(!isOpaque());
+        return bottomComponent.isOpaque();
+    }
+
+    /**
+     * 블록의 상단을 반짝거리기 /  취소 하는 함수
+     * @return
+     * true : 블록 반짝임
+     * false : 반짝임 취소
+     */
+    public boolean blinkTop(){
+        topComponent.setOpaque(!isOpaque());
+        return topComponent.isOpaque();
     }
 
     @Override
@@ -63,7 +77,16 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
         }
     }
-
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        int x = 0;
+        int y = 0;
+        if (isDragged) {
+            x = e.getX()+getLocation().x-offX;
+            y = e.getY()+getLocation().y-offY;
+            setLocation(x,y);
+        }
+    }
     @Override
     public void mouseReleased(MouseEvent e) {
         isDragged = false;
@@ -84,10 +107,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     }
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
 
-    }
 
     @Override
     public void mouseMoved(MouseEvent e) {
