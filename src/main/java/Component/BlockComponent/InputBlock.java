@@ -60,8 +60,12 @@ public class InputBlock extends Block{
 
     @Override
     boolean isNextBlockConnectable(Block block) {
-
-        return (block instanceof PreprocessorBlock || block instanceof ConvolutionLayerBlock);
+        // 블록이 연결되어 있을 경우
+        if (nextBlocks.size() > 0){
+            return false;
+        }else{
+            return (block instanceof PreprocessorBlock || block instanceof ConvolutionLayerBlock);
+        }
     }
 
     //시작 블록
