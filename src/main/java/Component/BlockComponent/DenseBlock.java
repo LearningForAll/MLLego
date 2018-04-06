@@ -17,7 +17,6 @@ public class DenseBlock extends LayerBlock {
         outputDimensionTextField = new NumberOnlyTextField(inputDimension, 1, 1000);
     }
 
-
     @Override
     String getBlockAttrStr() {
         return null;
