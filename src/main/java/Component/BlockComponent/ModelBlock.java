@@ -11,17 +11,23 @@ public class ModelBlock extends Block {
 
 
     @Override
-    boolean isNextBlockConnectable(Block block) {
+    public boolean isNextBlockConnectable(Block block) {
         // 최종 Output 블록
         return false;
     }
 
     @Override
-    boolean isPreviousBlockConnectable(Block block) {
-        if(previousBlocks.size() > 0){
-            return false;
-        }else{
-            return (block instanceof TrainingBlock);
-        }
+    public boolean isPreviousBlockConnectable(Block block) {
+        return (block instanceof TrainingBlock);
+    }
+
+    @Override
+    public boolean isNextBlockConnected() {
+        return false;
+    }
+
+    @Override
+    public boolean isPreviousBlockConnected() {
+        return false;
     }
 }

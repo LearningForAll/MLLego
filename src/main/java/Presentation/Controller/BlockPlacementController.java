@@ -16,39 +16,52 @@ public class BlockPlacementController implements BlockObserver {
     BlockPlacementPanel panel;
     List<Block> blocks;
 
-    public BlockPlacementController(BlockPlacementPanel panel){
+    public BlockPlacementController(BlockPlacementPanel panel) {
         blocks = new ArrayList<>();
         this.panel = panel;
         // 만약 패널에 블록 리스트를 가지고 있으면
 
     }
 
-    public void blinkComponent(){
-        while(true){
+    public void blinkComponent() {
+        while (true) {
 
 
         }
     }
 
     //리스트에 블록을 추가함과 동시에
-    public void addBlock(Block block){
+    public void addBlock(Block block) {
 
         blocks.add(block);
         //항상 스택처럼 쌓일테니까 마지막블록에 등록해줌
         blocks.get(blocks.size() - 1).setObserver(this);
         // 패널에도 블록 추가
     }
-    public void removeBlock(Block block){
+
+    public void removeBlock(Block block) {
         blocks.remove(block);
         // 패널에도 블록 삭제
     }
 
-    // 블록이 눌렸을때 이벤트
+
     @Override
-    public void update(Block block) {
+    public void blinkBlock(Block block) {
+        for (Block block1 : blocks) {
+            // update의 인자로 들어온 블록이 다른 블록들의
+            if (block.isNextBlockConnectable(block1) && !block1.isPreviousBlockConnected()) {
+                block1.blinkBottom();
+            }
+            if (block.isPreviousBlockConnectable(block1) && !block1.isNextBlockConnected()) {
+                block1.blinkTop();
+            }
+        }
+    }
 
-
-
-
+    // 구분하기 위해 메소드를 하나 더 만듬
+    @Override
+    public void revertBlock(Block block) {
+        //다시 revert
+        blinkBlock(block);
     }
 }

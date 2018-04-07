@@ -24,13 +24,23 @@ public class DenseBlock extends LayerBlock {
 
 
     @Override
-    boolean isNextBlockConnectable(Block block) {
+    public boolean isNextBlockConnectable(Block block) {
         return (block instanceof LayerBlock);
     }
 
     @Override
-    boolean isPreviousBlockConnectable(Block block) {
+    public boolean isPreviousBlockConnectable(Block block) {
         return (block instanceof  InputBlock || block instanceof LayerBlock);
+    }
+
+    @Override
+    public boolean isNextBlockConnected() {
+        return false;
+    }
+
+    @Override
+    public boolean isPreviousBlockConnected() {
+        return false;
     }
 
 }
