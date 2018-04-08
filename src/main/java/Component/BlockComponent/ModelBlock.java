@@ -32,6 +32,10 @@ public class ModelBlock extends Block {
 
     @Override
     boolean isPreviousBlockConnectable(Block block) {
-        return (block instanceof TrainingBlock);
+        if(previousBlocks.size() > 0){
+            return false;
+        }else{
+            return (block instanceof TrainingBlock);
+        }
     }
 }

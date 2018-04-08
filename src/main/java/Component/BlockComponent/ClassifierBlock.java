@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class ClassifierBlock extends ExtendableBlock{
     private Block xPartBlock,yPartBlock;
@@ -63,4 +64,5 @@ public class ClassifierBlock extends ExtendableBlock{
     public Dimension getPreferredSize() {
         return new Dimension(200,70);
     }
+
 }

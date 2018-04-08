@@ -71,11 +71,19 @@ public class TrainingBlock extends Block {
 
     @Override
     boolean isNextBlockConnectable(Block block) {
-        return (block instanceof ClassifierBlock);
+        if(nextBlocks.size() > 0){
+            return false;
+        }else{
+            return (block instanceof ClassifierBlock);
+        }
     }
 
     @Override
     boolean isPreviousBlockConnectable(Block block) {
+        // 이미 연결되어있을 경우
+        if(previousBlocks.size() > 0){
+            return false;
+        }
         return (block instanceof ModelBlock);
     }
 

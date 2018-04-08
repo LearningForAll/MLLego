@@ -46,7 +46,6 @@ public class DenseBlock extends LayerBlock {
         setVisible(true);
     }
 
-
     @Override
     String getBlockAttrStr() {
         return null;
