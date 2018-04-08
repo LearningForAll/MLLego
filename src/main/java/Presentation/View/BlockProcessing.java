@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 
 //처리와 관련된 블록들이 오는 패널
+//Classifier, Training, Model이 온다.
 public class BlockProcessing extends JPanel{
     ClassifierBlock classifierBlock;
     TrainingBlock trainingBlock;
