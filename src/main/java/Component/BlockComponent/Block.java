@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Block extends JPanel{
-    private List<Block> previousBlocks;
-    private List<Block> nextBlocks;
+    protected List<Block> previousBlocks;
+    protected List<Block> nextBlocks;
     // 좌표
     private Point point;
     abstract String getBlockAttrStr();
@@ -48,5 +48,8 @@ public abstract class Block extends JPanel{
         return this.point;
     }
 
+    //블록 크기 정해주는 함수
+    //@Override
+    //public Dimension getPreferredSize() { return new Dimension(300,100); }
 
 }

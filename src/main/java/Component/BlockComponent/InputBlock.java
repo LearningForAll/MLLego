@@ -1,7 +1,10 @@
 package Component.BlockComponent;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,6 +22,18 @@ public class InputBlock extends Block{
         filePathTextField = new JTextField();
         // 파일패스를 직접 설정하지 못하게..
         filePathTextField.setEditable(false);
+
+        JLabel nameLabel=new JLabel("Input Block");
+        nameLabel.setForeground(Color.white);
+        TitledBorder line=new TitledBorder(new LineBorder(Color.black));
+        GridLayout layout=new GridLayout(3,1);
+        setLayout(layout);
+        setBorder(line);
+        add(nameLabel);
+        add(openFileExploreButton);
+        add(filePathTextField);
+        setBackground(new Color(243, 115, 50));
+        setVisible(true);
 
     }
 

@@ -11,20 +11,15 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout());
 
         TopMenuPanel topMenuPanel=new TopMenuPanel();
-        BlockPlacementPanel blockPlacementPanel =new BlockPlacementPanel();
-        ModelTestPanel modelTestPanel=new ModelTestPanel();
+        BlockPlacementDefault blockPlacementDefault =new BlockPlacementDefault();
         BlockListPanel blockListPanel=new BlockListPanel();
-        MyModelPanel myModelPanel=new MyModelPanel();
-        TemplatePanel templatePanel=new TemplatePanel();
-        ResultPanel resultPanel=new ResultPanel();
-        ProceedPanel proceedPanel=new ProceedPanel();
-
+        MyModelDefault myModelDefault=new MyModelDefault();
 
         setSize(1700,1000);
         add(topMenuPanel, BorderLayout.NORTH);
-        add(blockPlacementPanel, BorderLayout.CENTER);
+        add(blockPlacementDefault, BorderLayout.CENTER);
         add(blockListPanel, BorderLayout.EAST);
-        add(myModelPanel, BorderLayout.SOUTH);
+        add(myModelDefault, BorderLayout.SOUTH);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 

@@ -6,26 +6,25 @@ import java.awt.*;
 /**
  * Created by LG on 2018-03-26.
  */
+
+//BlockLayer, BlockPentagon, BlockHexagon, BlockRhombus가 패널로 들어간 탭패널
 public class BlockListPanel extends JTabbedPane {
 
-    BlockSquare blocksquare=new BlockSquare();
-    BlockPentagon blockpentagon=new BlockPentagon();
-    BlockHexagon blockhexagon=new BlockHexagon();
-    BlockRhombus blockrhombus=new BlockRhombus();
-
+    BlockLayer blockLayer=new BlockLayer();
+    BlockProcessing blockProcessing=new BlockProcessing();
+    BlockInput blockInput=new BlockInput();
 
     BlockListPanel(){
+        add("Input", blockInput);
+        add("Layer", blockLayer);
+        add("Processing", blockProcessing);
 
-        add("square", blocksquare);
-        add("hexagon", blockhexagon);
-        add("pentagon", blockpentagon);
-        add("rhombus", blockrhombus);
-
-        setBackground(Color.LIGHT_GRAY);
         setVisible(true);
     }
+
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(500,600);
     }
+
 }
