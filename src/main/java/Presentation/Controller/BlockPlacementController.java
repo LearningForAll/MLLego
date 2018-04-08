@@ -12,24 +12,22 @@ import java.util.List;
  */
 public class BlockPlacementController implements BlockObserver {
 
+    // singleton pattern
+    private static BlockPlacementController instance = new BlockPlacementController();
     // 패널을 가지고 있음 컨트롤러니까
     BlockPlacementPanel panel;
     List<Block> blocks;
 
-    public BlockPlacementController(BlockPlacementPanel panel) {
-        blocks = new ArrayList<>();
+    private BlockPlacementController(){
+
+    }
+    public static BlockPlacementController getInstance(){
+        return instance;
+    }
+
+    public void setPanel(BlockPlacementPanel panel){
         this.panel = panel;
-        // 만약 패널에 블록 리스트를 가지고 있으면
-
     }
-
-    public void blinkComponent() {
-        while (true) {
-
-
-        }
-    }
-
     //리스트에 블록을 추가함과 동시에
     public void addBlock(Block block) {
 
