@@ -3,6 +3,9 @@ package Component.BlockComponent;
 import Component.NumberOnlyTextField;
 import Const.ActivationFunc;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 
 public class ConvolutionLayerBlock extends LayerBlock {
     int convDimension = 2; // 1D or 2D for convolution
@@ -26,6 +29,41 @@ public class ConvolutionLayerBlock extends LayerBlock {
         kernelNumTextField = new NumberOnlyTextField(1, 1, 1000);
         horizontalKernelSize = new NumberOnlyTextField(2, 1, 1000);
         verticalKernelSize = new NumberOnlyTextField(2, 1, 1000);
+
+        JPanel flowPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,3,2));
+        JLabel multiplyLabel=new JLabel("X");
+        JLabel horizonLabel=new JLabel("Hor");
+        JLabel verticalLabel=new JLabel("Ver");
+        JLabel explainLabel=new JLabel("  Num kernel");
+        multiplyLabel.setFont(new Font("BOLD", Font.BOLD, 11));
+        horizonLabel.setFont(new Font("BOLD", Font.BOLD, 11));
+        verticalLabel.setFont(new Font("BOLD", Font.BOLD, 11));
+        explainLabel.setFont(new Font("BOLD", Font.BOLD, 11));
+        horizontalKernelSize.setPreferredSize(new Dimension(20,20));
+        verticalKernelSize.setPreferredSize(new Dimension(20,20));
+        kernelNumTextField.setPreferredSize(new Dimension(20,20));
+        flowPanel.add(horizonLabel);
+        flowPanel.add(horizontalKernelSize);
+        flowPanel.add(multiplyLabel);
+        flowPanel.add(verticalLabel);
+        flowPanel.add(verticalKernelSize);
+        flowPanel.add(explainLabel);
+        flowPanel.add(kernelNumTextField);
+
+        GridLayout layout=new GridLayout(4,1);
+        JLabel nameLabel=new JLabel("Convolution Block");
+        TitledBorder line=new TitledBorder(new LineBorder(Color.black));
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
+        setLayout(layout);
+        setBorder(line);
+        add(nameLabel, SwingConstants.CENTER);
+        add(keepprobJSlider);
+        add(activationFunctionCombobox);
+        add(flowPanel);
+        setBackground(new Color(150, 0, 205));
+        setVisible(true);
+
     }
 
 
