@@ -1,5 +1,7 @@
 package Component.BlockComponent;
 
+import javax.swing.*;
+import java.awt.*;
 import Const.FileType;
 
 import javax.swing.*;
@@ -16,8 +18,11 @@ public class PreprocessorBlock extends Block {
 
 
     public PreprocessorBlock(){
-
-
+        JLabel nameLabel=new JLabel("Preprocessor Block");
+        nameLabel.setForeground(Color.white);
+        add(nameLabel);
+        setBackground(new Color(243,115,50));
+        setVisible(true);
     }
     @Override
     String getBlockAttrStr() {
