@@ -1,6 +1,8 @@
 package Component.BlockComponent;
 
 import Component.BlockException.BlockException;
+import Component.BlockObserver.BlockObserver;
+import Component.BlockObserver.BlockPublisher;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,9 +12,12 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Block extends JPanel implements MouseListener, MouseMotionListener {
+// 관찰될 수 있는 객체
+public abstract class Block extends JPanel implements MouseListener, MouseMotionListener, BlockPublisher {
     private int offX, offY;
     private boolean isDragged = false;
+
+    private BlockObserver blockObserver;
     private List<Block> previousBlocks;
     private List<Block> nextBlocks;
     private JComponent topComponent,bottomComponent;
@@ -83,6 +88,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             offX = e.getX();
             offY = e.getY();
             isDragged = true;
+            blockObserver.update(this);
 
         }
     }
@@ -116,11 +122,14 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     }
 
-
-
     @Override
     public void mouseMoved(MouseEvent e) {
 
+    }
+
+    @Override
+    public void setObserver(BlockObserver observer){
+        this.blockObserver = observer;
     }
 
 }
