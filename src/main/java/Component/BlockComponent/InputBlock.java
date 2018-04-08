@@ -3,7 +3,10 @@ package Component.BlockComponent;
 import Const.FileType;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,6 +29,18 @@ public class InputBlock extends Block{
         filePathTextField.setEditable(false);
         endEliminationRadioButtion = new JRadioButton("맨 끝 제거");
         startEliminationRadioButton = new JRadioButton("시작 제거");
+
+        JLabel nameLabel=new JLabel("Input Block");
+        nameLabel.setForeground(Color.white);
+        TitledBorder line=new TitledBorder(new LineBorder(Color.black));
+        GridLayout layout=new GridLayout(3,1);
+        setLayout(layout);
+        setBorder(line);
+        add(nameLabel);
+        add(openFileExploreButton);
+        add(filePathTextField);
+        setBackground(new Color(243, 115, 50));
+        setVisible(true);
 
     }
 
