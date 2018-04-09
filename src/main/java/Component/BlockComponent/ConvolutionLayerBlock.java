@@ -2,6 +2,7 @@ package Component.BlockComponent;
 
 import Component.NumberOnlyTextField;
 import Const.ActivationFunc;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -9,8 +10,6 @@ import java.awt.*;
 
 public class ConvolutionLayerBlock extends LayerBlock {
     int convDimension = 2; // 1D or 2D for convolution
-
-    ActivationFunc activationFunc;
 
     // 드롭아웃 레이트를 조정할 수 있는 JSlider
     JSlider keepprobJSlider;
@@ -24,7 +23,6 @@ public class ConvolutionLayerBlock extends LayerBlock {
         keepprobJSlider = new JSlider();
         // Enum으로 값 ㅁ만듬
         activationFunctionCombobox = new JComboBox<>(ActivationFunc.values());
-
         // 커널 갯수 default 는 1 최소값도 1 max는 1000 유동적으로 조정
         kernelNumTextField = new NumberOnlyTextField(1, 1, 1000);
         horizontalKernelSize = new NumberOnlyTextField(2, 1, 1000);
@@ -61,11 +59,11 @@ public class ConvolutionLayerBlock extends LayerBlock {
         add(keepprobJSlider);
         add(activationFunctionCombobox);
         add(flowPanel);
+
         setBackground(new Color(150, 0, 205));
         setVisible(true);
 
     }
-
 
     @Override
     String getBlockAttrStr() {
@@ -83,8 +81,24 @@ public class ConvolutionLayerBlock extends LayerBlock {
         return (block instanceof InputBlock || block instanceof LayerBlock);
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(200,105);
+    public int getKeepProb(){
+        return keepprobJSlider.getValue();
     }
+
+    public ActivationFunc getActivationFunction(){
+        return (ActivationFunc) activationFunctionCombobox.getSelectedItem();
+    }
+
+    public int getKernelNum(){
+        return (int)kernelNumTextField.getValue();
+    }
+
+    public int getHorizonKernelSize(){
+        return (int)horizontalKernelSize.getValue();
+    }
+
+    public int getVerticalKernelSize(){ return (int)verticalKernelSize.getValue(); }
+
+
 }
+

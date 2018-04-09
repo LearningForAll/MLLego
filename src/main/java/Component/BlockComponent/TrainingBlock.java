@@ -94,4 +94,15 @@ public class TrainingBlock extends Block {
         }
         return (ClassifierBlock)previousBlocks.get(0);
     }
+
+    public int getBatchSize(){
+        return (int)batchSizeTextField.getValue();
+    }
+
+    public int getEpoch(){
+        return (int)epochTextField.getValue();
+    }
+
+    public Optimizer getOptimizer(){ return (Optimizer) optimizerCombobox.getSelectedItem(); }
+
 }

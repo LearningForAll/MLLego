@@ -1,7 +1,10 @@
 package Presentation.View;
 
+import Component.BlockComponent.ConvolutionLayerBlock;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class MainFrame extends JFrame {
 

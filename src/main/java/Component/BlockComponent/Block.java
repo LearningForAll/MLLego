@@ -19,8 +19,8 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     private boolean isDragged = false;
 
     private BlockObserver blockObserver;
-    private List<Block> previousBlocks;
-    private List<Block> nextBlocks;
+    protected List<Block> previousBlocks;
+    protected List<Block> nextBlocks;
     private JComponent topComponent,bottomComponent;
     abstract String getBlockAttrStr();
 

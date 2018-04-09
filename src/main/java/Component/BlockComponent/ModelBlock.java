@@ -11,8 +11,6 @@ public class ModelBlock extends Block {
         JLabel nameLabel=new JLabel("Model Block");
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
-        //setLayout(layout);
-        //setBorder(line);
         add(nameLabel);
         setBackground(new Color(0, 0, 180));
         setVisible(true);

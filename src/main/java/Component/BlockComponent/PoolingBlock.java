@@ -78,8 +78,6 @@ public class PoolingBlock extends LayerBlock {
         return null;
     }
 
-
-
     @Override
     boolean isNextBlockConnectable(Block block) {
         return (block instanceof LayerBlock);
@@ -89,4 +87,23 @@ public class PoolingBlock extends LayerBlock {
     boolean isPreviousBlockConnectable(Block block) {
         return (block instanceof LayerBlock);
     }
+
+    public PaddingOption getPaddingOption(){ return (PaddingOption) paddingOptionCombobox.getSelectedItem(); }
+
+    public int getHorizonKernel(){
+        return (int)horizontalKernelSizeTextField.getValue();
+    }
+
+    public int getVerticalKernel(){
+        return (int)verticalKernelSizeTextField.getValue();
+    }
+
+    public int getHorizonStride(){
+        return (int)horizontalStrideTextField.getValue();
+    }
+
+    public int getVerticalStride(){
+        return (int)verticalStrideTextField.getValue();
+    }
+
 }

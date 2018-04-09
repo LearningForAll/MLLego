@@ -62,4 +62,13 @@ public class DenseBlock extends LayerBlock {
         return (block instanceof  InputBlock || block instanceof LayerBlock);
     }
 
+    public int getLayerNum(){
+        return (int)layerTextField.getValue();
+    }
+
+    public int getOutputDim(){
+        return (int)outputDimensionTextField.getValue();
+    }
+
+
 }

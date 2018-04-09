@@ -20,7 +20,7 @@ public class BlockProcessing extends JPanel{
     public BlockProcessing() {
         setLayout(null);
         modelBlock=new ModelBlock();
-        modelBlock.setSize(200,50);
+        modelBlock.setSize(200,40);
         modelBlock.setLocation(150,20);
         trainingBlock=new TrainingBlock();
         trainingBlock.setSize(200,75);
