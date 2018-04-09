@@ -21,13 +21,18 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     private BlockObserver blockObserver;
     protected List<Block> previousBlocks;
     protected List<Block> nextBlocks;
-    private JComponent topComponent,bottomComponent;
+    private JComponent topComponent, bottomComponent;
     abstract String getBlockAttrStr();
 
     // 인자로 들어온 블록이 현재 블록의 다음 블록으로 연결 될 수 있는지 확인하는 메소드
-    abstract boolean isNextBlockConnectable(Block block);
+    abstract public boolean isNextBlockConnectable(Block block);
     // 인자로 들어온 블록이 현재 블록의 이전 블록으로 연결 될 수 있는지 확인하는 메소드
-    abstract boolean isPreviousBlockConnectable(Block block);
+    abstract public boolean isPreviousBlockConnectable(Block block);
+    // 다음 블록과 연결되어 있는지 여부 연결되어있으면 true 리턴
+    abstract public boolean isNextBlockConnected();
+    // 이전 블록과 연결되어 있는지 여부
+    abstract public boolean isPreviousBlockConnected();
+
 
     public Block(){
         nextBlocks = new ArrayList<>();
@@ -89,7 +94,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             offX = e.getX();
             offY = e.getY();
             isDragged = true;
-            blockObserver.update(this);
+            blockObserver.blinkBlock(this);
 
         }
     }
@@ -106,6 +111,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     @Override
     public void mouseReleased(MouseEvent e) {
         isDragged = false;
+        blockObserver.revertBlock(this);
     }
 
     @Override

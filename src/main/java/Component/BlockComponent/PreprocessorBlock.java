@@ -66,17 +66,28 @@ public class PreprocessorBlock extends Block {
     }
 
     @Override
-    boolean isNextBlockConnectable(Block block) {
+    public boolean isNextBlockConnectable(Block block) {
         return (block instanceof LayerBlock);
     }
 
     @Override
-    boolean isPreviousBlockConnectable(Block block) {
+    public boolean isPreviousBlockConnectable(Block block) {
         if(block instanceof InputBlock){
             getFileType((InputBlock) block);
         }
         return (block instanceof InputBlock);
     }
+
+    @Override
+    public boolean isNextBlockConnected() {
+        return false;
+    }
+
+    @Override
+    public boolean isPreviousBlockConnected() {
+        return false;
+    }
+
     // Preprocessor랑 Input블록이 연결될때 무조건 호출해야하는 함수
     public void getFileType(InputBlock inputBlock){
         //이전 Input 블록에서 파일타입을 가져옴
@@ -86,7 +97,7 @@ public class PreprocessorBlock extends Block {
     //TODO : preprocessor 분기에 따라 활성화 시켜줄 요소들 보여주기
     public void activateElement(){
         if(fileType==FileType.TYPE_TEXT){
-            this.
+
         }
         if(fileType==FileType.TYPE_IMAGE){
 
