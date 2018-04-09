@@ -11,4 +11,13 @@ public abstract class ExtendableBlock extends Block {
         return new Dimension(200,70);
     }
 
+    @Override
+    public boolean isNextBlockConnected() {
+        return false;
+    }
+
+    @Override
+    public boolean isPreviousBlockConnected() {
+        return false;
+    }
 }

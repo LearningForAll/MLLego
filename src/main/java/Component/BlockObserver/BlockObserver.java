@@ -10,6 +10,7 @@ import java.util.Observer;
  */
 public interface BlockObserver {
 
-    void update(Block block);
+    void blinkBlock(Block block);
+    void revertBlock(Block block);
 
 }

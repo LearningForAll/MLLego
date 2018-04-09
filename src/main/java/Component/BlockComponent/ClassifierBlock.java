@@ -35,13 +35,23 @@ public class ClassifierBlock extends ExtendableBlock{
     }
 
     @Override
-    boolean isNextBlockConnectable(Block block) {
+    public boolean isNextBlockConnectable(Block block) {
         return (block instanceof ModelBlock);
     }
 
     @Override
-    boolean isPreviousBlockConnectable(Block block) {
+    public boolean isPreviousBlockConnectable(Block block) {
         return (block instanceof DenseBlock);
+    }
+
+    @Override
+    public boolean isNextBlockConnected() {
+        return false;
+    }
+
+    @Override
+    public boolean isPreviousBlockConnected() {
+        return false;
     }
 
     public Block getxPartBlock() {
