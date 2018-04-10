@@ -1,7 +1,6 @@
 package Presentation.Controller;
 
 import Component.BlockComponent.Block;
-import Component.BlockEventThread.BlockDragEventThread;
 import Component.BlockObserver.BlockObserver;
 import Presentation.View.BlockPlacementPanel;
 
@@ -50,28 +49,37 @@ public class BlockPlacementController implements BlockObserver {
 
     @Override
     public void blinkBlock(Block block) {
+        // 현재 드래그 되고있는 블록은 리스트에서 제거하기 위해..
+        List<Block> tempBlocks = this.blocks;
+        tempBlocks.remove(block);
 
-        BlockDragEventThread thread = new BlockDragEventThread();
-        thread.run(blocks, block);
-        // stop
-        if(!isBlockEventEvoked){
-            thread.triggerEvent();
+        for (Block block1 : tempBlocks) {
+            //TODO isNextBlockConnectable 함수의 로직이 완성되면 뒤에  && !block1.isNextBlockConnected() 붙임
+            if (checkCloseBlock(block, block1) && block1.isNextBlockConnectable(block)) {
+                block1.blinkBottom();
+                block.blinkTop();
+            }
+            if (checkCloseBlock(block1, block) && block1.isPreviousBlockConnectable(block)){
+                block1.blinkTop();
+                block.blinkBottom();
+            }
         }
 
 
     }
 
-    // 구분하기 위해 메소드를 하나 더 만듬
+    // 블록을 원래대로 되돌림
     @Override
     public void revertBlock(Block block) {
-        isBlockEventEvoked = false;
         for(Block block1 : blocks){
             block1.revertBlock();
         }
     }
     // block 을 기준으로 첫번째 인자가 기준블록이면 기준블록이 아래 그 반대의 경우는 인자 위치를 바꿔주면됌
     private boolean checkCloseBlock(Block block, Block block1){
-        return (block.getX() - block1.getX() > 100 && block.getX() - block1.getX() > -100 && block1.getY() - block.getY() > 100);
+        return (block.getX() - block1.getX() + block1.getWidth() < 100
+                && block.getX() + block.getWidth() - block1.getX() > -100
+                && block1.getHeight() + block1.getY() - block.getY() < 100);
     }
 
 

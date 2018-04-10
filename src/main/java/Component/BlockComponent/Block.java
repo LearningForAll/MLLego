@@ -92,10 +92,12 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             offX = e.getX();
             offY = e.getY();
             isDragged = true;
-            blockObserver.blinkBlock(this);
+
 
         }
     }
+
+    // Pressed 에서 Dragged로 블링크 블록을 옮김 실시간 좌표와 액션을 위해
     @Override
     public void mouseDragged(MouseEvent e) {
         int x = 0;
@@ -103,6 +105,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         if (isDragged) {
             x = e.getX()+getLocation().x-offX;
             y = e.getY()+getLocation().y-offY;
+            blockObserver.blinkBlock(this);
             setLocation(x,y);
         }
     }
