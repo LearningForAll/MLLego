@@ -3,7 +3,10 @@ package Component.BlockComponent;
 import Const.FileType;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,6 +29,18 @@ public class InputBlock extends Block{
         filePathTextField.setEditable(false);
         endEliminationRadioButtion = new JRadioButton("맨 끝 제거");
         startEliminationRadioButton = new JRadioButton("시작 제거");
+
+        JLabel nameLabel=new JLabel("Input Block");
+        nameLabel.setForeground(Color.white);
+        TitledBorder line=new TitledBorder(new LineBorder(Color.black));
+        GridLayout layout=new GridLayout(3,1);
+        setLayout(layout);
+        setBorder(line);
+        add(nameLabel);
+        add(openFileExploreButton);
+        add(filePathTextField);
+        setBackground(new Color(243, 115, 50));
+        setVisible(true);
 
     }
 
@@ -59,14 +74,25 @@ public class InputBlock extends Block{
     }
 
     @Override
-    boolean isNextBlockConnectable(Block block) {
-
+    public boolean isNextBlockConnectable(Block block) {
+        // 블록이 연결되어 있을 경우
         return (block instanceof PreprocessorBlock || block instanceof ConvolutionLayerBlock);
+
     }
 
     //시작 블록
     @Override
-    boolean isPreviousBlockConnectable(Block block) {
+    public boolean isPreviousBlockConnectable(Block block) {
+        return false;
+    }
+
+    @Override
+    public boolean isNextBlockConnected() {
+        return false;
+    }
+
+    @Override
+    public boolean isPreviousBlockConnected() {
         return false;
     }
 

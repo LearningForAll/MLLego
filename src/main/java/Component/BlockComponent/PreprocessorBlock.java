@@ -1,5 +1,7 @@
 package Component.BlockComponent;
 
+import javax.swing.*;
+import java.awt.*;
 import Const.FileType;
 
 import javax.swing.*;
@@ -16,8 +18,11 @@ public class PreprocessorBlock extends Block {
 
 
     public PreprocessorBlock(){
-
-
+        JLabel nameLabel=new JLabel("Preprocessor Block");
+        nameLabel.setForeground(Color.white);
+        add(nameLabel);
+        setBackground(new Color(243,115,50));
+        setVisible(true);
     }
     @Override
     String getBlockAttrStr() {
@@ -26,17 +31,28 @@ public class PreprocessorBlock extends Block {
 
 
     @Override
-    boolean isNextBlockConnectable(Block block) {
+    public boolean isNextBlockConnectable(Block block) {
         return (block instanceof LayerBlock);
     }
 
     @Override
-    boolean isPreviousBlockConnectable(Block block) {
+    public boolean isPreviousBlockConnectable(Block block) {
         if(block instanceof InputBlock){
             getFileType((InputBlock) block);
         }
         return (block instanceof InputBlock);
     }
+
+    @Override
+    public boolean isNextBlockConnected() {
+        return false;
+    }
+
+    @Override
+    public boolean isPreviousBlockConnected() {
+        return false;
+    }
+
     // Preprocessor랑 Input블록이 연결될때 무조건 호출해야하는 함수
     public void getFileType(InputBlock inputBlock){
         //이전 Input 블록에서 파일타입을 가져옴

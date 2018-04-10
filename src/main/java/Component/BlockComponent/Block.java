@@ -1,8 +1,11 @@
 package Component.BlockComponent;
 
 import Component.BlockException.BlockException;
+import Component.BlockObserver.BlockObserver;
+import Component.BlockObserver.BlockPublisher;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -10,22 +13,32 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Block extends JPanel implements MouseListener, MouseMotionListener {
+
+// 관찰될 수 있는 객체
+public abstract class Block extends JPanel implements MouseListener, MouseMotionListener, BlockPublisher {
     private int offX, offY;
     private boolean isDragged = false;
-    private List<Block> previousBlocks;
-    private List<Block> nextBlocks;
-    private JComponent topComponent,bottomComponent;
+    private int draggedX, draggedY;
+
+    private BlockObserver blockObserver;
+    protected List<Block> previousBlocks;
+    protected List<Block> nextBlocks;
     abstract String getBlockAttrStr();
 
     // 인자로 들어온 블록이 현재 블록의 다음 블록으로 연결 될 수 있는지 확인하는 메소드
-    abstract boolean isNextBlockConnectable(Block block);
+    abstract public boolean isNextBlockConnectable(Block block);
     // 인자로 들어온 블록이 현재 블록의 이전 블록으로 연결 될 수 있는지 확인하는 메소드
-    abstract boolean isPreviousBlockConnectable(Block block);
+    abstract public boolean isPreviousBlockConnectable(Block block);
+    // 다음 블록과 연결되어 있는지 여부 연결되어있으면 true 리턴
+    abstract public boolean isNextBlockConnected();
+    // 이전 블록과 연결되어 있는지 여부
+    abstract public boolean isPreviousBlockConnected();
+
 
     public Block(){
         nextBlocks = new ArrayList<>();
         previousBlocks = new ArrayList<>();
+        this.setBorder(null);
     }
 
     //TODO boolean을 return 하거나 Exception 으로 Handle할수 있게
@@ -56,25 +69,21 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         }
     }
     /**
-     * 블록의 하단을 반짝거리기 /  취소 하는 함수
-     * @return
-     * true : 블록 반짝임
-     * false : 반짝임 취소
+     *  보더를 셋해준다
      */
-    public boolean blinkBottom(){
-        bottomComponent.setOpaque(!isOpaque());
-        return bottomComponent.isOpaque();
+    public void blinkBottom(){
+        this.setBorder(new MatteBorder(0, 0, 5, 0, Color.CYAN));
     }
 
     /**
-     * 블록의 상단을 반짝거리기 /  취소 하는 함수
-     * @return
-     * true : 블록 반짝임
-     * false : 반짝임 취소
+     * 보더를 셋해준다.
      */
-    public boolean blinkTop(){
-        topComponent.setOpaque(!isOpaque());
-        return topComponent.isOpaque();
+    public void blinkTop(){
+        this.setBorder(new MatteBorder(5, 0, 0, 0, Color.CYAN));
+    }
+
+    public void revertBlock(){
+        this.setBorder(null);
     }
 
     @Override
@@ -84,8 +93,11 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             offY = e.getY();
             isDragged = true;
 
+
         }
     }
+
+    // Pressed 에서 Dragged로 블링크 블록을 옮김 실시간 좌표와 액션을 위해
     @Override
     public void mouseDragged(MouseEvent e) {
         int x = 0;
@@ -93,12 +105,14 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         if (isDragged) {
             x = e.getX()+getLocation().x-offX;
             y = e.getY()+getLocation().y-offY;
+            blockObserver.blinkBlock(this);
             setLocation(x,y);
         }
     }
     @Override
     public void mouseReleased(MouseEvent e) {
         isDragged = false;
+        blockObserver.revertBlock(this);
     }
 
     @Override
@@ -116,11 +130,14 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     }
 
-
-
     @Override
     public void mouseMoved(MouseEvent e) {
 
+    }
+
+    @Override
+    public void setObserver(BlockObserver observer){
+        this.blockObserver = observer;
     }
 
 }
