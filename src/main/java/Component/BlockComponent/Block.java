@@ -114,7 +114,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     @Override
     public void mouseReleased(MouseEvent e) {
         isDragged = false;
-        blockObserver.revertBlock(this);
+        blockObserver.revertOrConnectBlock(this);
     }
 
     @Override
