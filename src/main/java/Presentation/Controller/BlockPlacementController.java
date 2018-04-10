@@ -58,22 +58,52 @@ public class BlockPlacementController implements BlockObserver {
             if (checkCloseBlock(block, block1) && block1.isNextBlockConnectable(block)) {
                 block1.blinkBottom();
                 block.blinkTop();
+            }else{
+                // 거리에서 멀어진 블록들을 revert 시킨다.
+                block.revertBlock();
+                block1.revertBlock();
             }
             if (checkCloseBlock(block1, block) && block1.isPreviousBlockConnectable(block)){
                 block1.blinkTop();
                 block.blinkBottom();
+            }else{
+                block.revertBlock();
+                block1.revertBlock();
             }
         }
 
 
     }
 
-    // 블록을 원래대로 되돌림
+    // 드래그가 풀리면 블록을 원래대로 되돌리고
     @Override
-    public void revertBlock(Block block) {
-        for(Block block1 : blocks){
+    public void revertOrConnectBlock(Block block) {
+
+        List<Block> tempBlocks = this.blocks;
+        tempBlocks.remove(block);
+
+        if(block.checkBorder()){
+            if(block.checkTopBorder()){
+                for(Block block1 : tempBlocks){
+                    if(block1.checkBottomBorder()){
+                        block.registerNextBlock(block1);
+                        block1.registerPreviousBlock(block);
+                    }
+                }
+            }else{// bottom이 빛날때
+                for(Block block1 : tempBlocks){
+                    if(block1.checkTopBorder()){
+                        block.registerPreviousBlock(block1);
+                        block1.registerNextBlock(block);
+                    }
+                }
+            }
+
+        }
+        for (Block block1 : blocks) {
             block1.revertBlock();
         }
+
     }
     // block 을 기준으로 첫번째 인자가 기준블록이면 기준블록이 아래 그 반대의 경우는 인자 위치를 바꿔주면됌
     private boolean checkCloseBlock(Block block, Block block1){

@@ -82,6 +82,8 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         this.setBorder(new MatteBorder(5, 0, 0, 0, Color.CYAN));
     }
 
+
+    //TODO 여기도 생성자 기본 테두리가 나오면 null 부분에 기본 테두리가 들어감
     public void revertBlock(){
         this.setBorder(null);
     }
@@ -138,6 +140,42 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     @Override
     public void setObserver(BlockObserver observer){
         this.blockObserver = observer;
+    }
+
+
+    /**
+     *
+     * 블록 테두리가 기본 테두리면 return false;
+     * 이벤트에 의해 바뀐 테두리면 return true;l
+     *
+     * */
+    public boolean checkBorder(){
+
+        //TODO 블록 테두리 코드 받으면 null 부분대신 default 코드가 들어감
+        if (this.getBorder() == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    /**
+     * TopBorder가 event에 의해 Trigger되었는지 여부
+     * equals의 인자로 정의 해놓은 Border가 들어가야함
+     * */
+    public boolean checkTopBorder(){
+        if (this.getBorder().equals(new MatteBorder(5, 0, 0, 0, Color.cyan))){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public boolean checkBottomBorder(){
+        if (this.getBorder().equals(new MatteBorder(0, 0, 5, 0, Color.cyan))){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }
