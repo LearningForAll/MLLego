@@ -44,3 +44,5 @@ def make_placeholder_with_batch_space(data):
     param = [s for s in np.shape(np_data)[1:]]
     param.insert(0, None)
     return tf.placeholder(tf.float32, param)
+
+

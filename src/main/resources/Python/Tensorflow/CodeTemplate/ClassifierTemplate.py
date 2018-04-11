@@ -4,7 +4,6 @@ import tensorflow as tf
 import numpy as np
 from utils import BatchGenerator
 
-
 x_path = None
 y_path = None
 x_option = None
@@ -18,6 +17,7 @@ validation_ratio = None
 max_grad_norm = 5.0
 
 
+# END_SETTING
 class Classifier:
     def __init__(self):
         self.inferencer = Inferencer(x_path, y_path, x_option, y_option)
