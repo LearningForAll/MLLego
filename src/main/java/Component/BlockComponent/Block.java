@@ -48,6 +48,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     }
 
     public Block(String blockName){
+        this();
         this.blockName=blockName;
         setBorder(new TitledBorder(new LineBorder(Color.black)));
         nameLabel=new JLabel(blockName);
