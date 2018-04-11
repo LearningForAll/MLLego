@@ -19,13 +19,13 @@ public class BlockProcessing extends JPanel{
 
     public BlockProcessing() {
         setLayout(null);
-        modelBlock=new ModelBlock();
+        modelBlock=new ModelBlock("Model Block");
         modelBlock.setSize(200,40);
         modelBlock.setLocation(150,20);
-        trainingBlock=new TrainingBlock();
+        trainingBlock=new TrainingBlock("Training Block");
         trainingBlock.setSize(200,75);
         trainingBlock.setLocation(150,90);
-        classifierBlock = new ClassifierBlock();
+        classifierBlock = new ClassifierBlock("Classifier Block");
         classifierBlock.setSize(200,50);
         classifierBlock.setLocation(150,210);
 

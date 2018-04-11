@@ -23,7 +23,8 @@ public class InputBlock extends Block{
     private JRadioButton startEliminationRadioButton;
     private JComboBox<InputOption> inputOptionCombobox;
 
-    public InputBlock(){
+    public InputBlock(String blockName){
+        super(blockName);
         openFileExploreButton = new JButton("File");
         openFileExploreButton.addActionListener(new FileOpenListener());
         filePathTextField = new JTextField();
@@ -33,25 +34,20 @@ public class InputBlock extends Block{
         startEliminationRadioButton = new JRadioButton("Start");
         inputOptionCombobox = new JComboBox<>(InputOption.values());
 
-        JPanel flowPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,2,2));
+        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,2,2));
         openFileExploreButton.setPreferredSize(new Dimension(60,20));
         filePathTextField.setPreferredSize(new Dimension(134,20));
 
-        flowPanel.add(openFileExploreButton);
-        flowPanel.add(filePathTextField);
+        flowSubPanel.add(openFileExploreButton);
+        flowSubPanel.add(filePathTextField);
 
-        JLabel nameLabel=new JLabel("Input Block");
-        nameLabel.setForeground(Color.white);
-        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
-        TitledBorder line=new TitledBorder(new LineBorder(Color.black));
         GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
-        setBorder(line);
-        add(nameLabel);
         add(flowPanel);
+        add(flowSubPanel);
         add(inputOptionCombobox);
         inputOptionCombobox.setEnabled(false);
-        setBackground(new Color(243, 115, 50));
+        flowPanel.setBackground(new Color(243, 115, 50));
         setVisible(true);
     }
 
@@ -114,7 +110,6 @@ public class InputBlock extends Block{
     }
 
     //TODO :: 파일로 들어오는 것과 폴더로 들어올 때 분기해서 활성화처리 해주기
-
     public InputOption getInputOption(){
         //활성화된 radioButton 리턴
         return (InputOption)inputOptionCombobox.getSelectedItem();

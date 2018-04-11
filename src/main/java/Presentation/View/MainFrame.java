@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 
 public class MainFrame extends JFrame {
 
-    MainFrame(){
+    public MainFrame(){
 
         super("ML Lego");
         setLayout(new BorderLayout());

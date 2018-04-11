@@ -21,10 +21,10 @@ public class BlockLayer extends JPanel{
     //Convolution, Dense, LSTM, Pooling이 옴
     public BlockLayer(){
         setLayout(null);
-        convolutionLayerBlock=new ConvolutionLayerBlock();
-        denseBlock=new DenseBlock(2);
-        lstmBlock=new LstmBlock();
-        poolingBlock=new PoolingBlock();
+        convolutionLayerBlock=new ConvolutionLayerBlock("Convolution Layer");
+        denseBlock=new DenseBlock(2, "Dense Block");
+        lstmBlock=new LstmBlock("LSTM Block");
+        poolingBlock=new PoolingBlock("Pooling Block");
 
         convolutionLayerBlock.setSize(200,90);
         convolutionLayerBlock.setLocation(150,20);
@@ -40,6 +40,7 @@ public class BlockLayer extends JPanel{
         add(lstmBlock);
         add(poolingBlock);
         setVisible(true);
+
     }
 
 }

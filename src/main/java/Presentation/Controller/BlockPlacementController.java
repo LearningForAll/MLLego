@@ -34,6 +34,7 @@ public class BlockPlacementController implements BlockObserver {
         blocks.add(block);
         //항상 스택처럼 쌓일테니까 마지막블록에 등록해줌
         blocks.get(blocks.size() - 1).setObserver(this);
+        panel.addNewBlock(block);
         // 패널에도 블록 추가
     }
 

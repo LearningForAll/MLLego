@@ -1,5 +1,7 @@
 package Presentation.View;
 
+import Component.BlockComponent.Block;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,7 +11,18 @@ import java.awt.*;
 
 //블록 배치 패널
 public class BlockPlacementPanel extends JPanel {
-    BlockPlacementPanel() {
+    JScrollPane scroll;
+
+    public BlockPlacementPanel() {
+        setLayout(null);
+        scroll = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS) {
+            //this.add(scroll);
+            //setVisible(true);
+        };
+    }
+
+    public void addNewBlock(Block block){
+
     }
 }
 

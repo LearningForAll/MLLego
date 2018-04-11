@@ -1,6 +1,10 @@
 package Presentation.Controller;
 
+import Component.BlockComponent.Block;
 import Presentation.View.BlockListPanel;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by chaebyeonghun on 2018. 4. 8..
@@ -20,5 +24,12 @@ public class BlockListController {
 
     public static BlockListController getInstance() {
         return instance;
+    }
+
+    public class BlockListActionListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            BlockPlacementController.getInstance().addBlock((Block)e.getSource());
+        }
     }
 }

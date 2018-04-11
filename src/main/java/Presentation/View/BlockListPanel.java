@@ -14,7 +14,7 @@ public class BlockListPanel extends JTabbedPane {
     BlockProcessing blockProcessing=new BlockProcessing();
     BlockInput blockInput=new BlockInput();
 
-    BlockListPanel(){
+    public BlockListPanel(){
         add("Input", blockInput);
         add("Layer", blockLayer);
         add("Processing", blockProcessing);

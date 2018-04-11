@@ -1,5 +1,8 @@
+import Component.BlockComponent.Block;
 import Component.BlockComponent.ClassifierBlock;
 import Component.BlockComponent.ConvolutionLayerBlock;
+import Presentation.View.BlockPlacementDefault;
+import Presentation.View.BlockPlacementPanel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,37 +14,47 @@ import java.awt.*;
  */
 public class BlockComponent {
     JFrame blockTestFrame;
-    ClassifierBlock classifierBlock=new ClassifierBlock();
-    ConvolutionLayerBlock convolutionLayerBlock=new ConvolutionLayerBlock();
+    ClassifierBlock classifierBlock;
+    ConvolutionLayerBlock convolutionLayerBlock;
 
     @Before
     public void initFrame(){
         System.out.println("프레임초기화");
         blockTestFrame = new JFrame();
         blockTestFrame.setVisible(true);
-        blockTestFrame.setSize(500,500);
+        blockTestFrame.setSize(1300,700);
         blockTestFrame.setLayout(null);
     }
 
     @Test
     public void testClassifierBlock() throws InterruptedException {
-        classifierBlock = new ClassifierBlock();
-        convolutionLayerBlock=new ConvolutionLayerBlock();
+        classifierBlock = new ClassifierBlock("Classifier Block");
 
         classifierBlock.setSize(200,80);
         classifierBlock.setLocation(150,0);
         blockTestFrame.add(classifierBlock);
+        classifierBlock.setVisible(true);
+        blockTestFrame.validate();
+        Thread.sleep(5000);
+    }
+
+    @Test
+    public void testConvolutionBlock() throws InterruptedException{
+        convolutionLayerBlock=new ConvolutionLayerBlock("Convolution Block");
         convolutionLayerBlock.setSize(200,105);
         convolutionLayerBlock.setLocation(150,130);
-        //blockTestFrame.add(convolutionLayerBlock);
-        classifierBlock.setVisible(true);
         convolutionLayerBlock.setVisible(true);
         blockTestFrame.validate();
         Thread.sleep(5000);
     }
-    public static void main(String[] args){
-        //blockTestFrame.add(block);
-        //block.setVisible(true);
-        BlockComponent com=new BlockComponent();
+
+    @Test
+    public void simpletest() throws InterruptedException {
+        BlockPlacementPanel blockPlacementPanel;
+        blockPlacementPanel=new BlockPlacementPanel();
+        blockPlacementPanel.setVisible(true);
+        blockTestFrame.validate();
+        Thread.sleep(5000);
     }
+
 }

@@ -17,19 +17,14 @@ public class LstmBlock extends LayerBlock {
     JSlider keepProbJSlider;
 
 
-    public LstmBlock(){
-        keepProbJSlider = new JSlider();
+    public LstmBlock(String blockName){
+        super(blockName);
 
-        JLabel nameLabel=new JLabel("LSTM Block");
-        TitledBorder line=new TitledBorder(new LineBorder(Color.black));
+        keepProbJSlider = new JSlider();
         GridLayout layout=new GridLayout(2,1);
-        nameLabel.setForeground(Color.white);
-        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         setLayout(layout);
-        setBorder(line);
-        add(nameLabel);
+        add(flowPanel);
         add(keepProbJSlider);
-        setBackground(new Color(150, 0, 205));
         setVisible(true);
     }
 

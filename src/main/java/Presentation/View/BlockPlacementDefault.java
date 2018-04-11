@@ -3,7 +3,7 @@ package Presentation.View;
 /**
  * Created by LG on 2018-03-30.
  */
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 import java.awt.*;
 
 
@@ -12,7 +12,8 @@ public class BlockPlacementDefault extends JTabbedPane{
     BlockPlacementPanel blockPlacementPanel=new BlockPlacementPanel();
     ModelTestPanel modelTestPanel=new ModelTestPanel();
 
-    BlockPlacementDefault(){
+    public BlockPlacementDefault(){
+
         add("Block Placement", blockPlacementPanel);
         add("Model Test", modelTestPanel);
         setVisible(true);

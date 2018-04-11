@@ -24,7 +24,8 @@ public class TrainingBlock extends Block {
     private JComboBox<Optimizer> optimizerCombobox;
 
 
-    public TrainingBlock(){
+    public TrainingBlock(String blockName){
+        super(blockName);
 
         batchSizeTextField = new NumberOnlyTextField(1,1,100000);
         //TODO 소수도 지원 가능한걸로 교체
@@ -32,7 +33,7 @@ public class TrainingBlock extends Block {
         epochTextField = new NumberOnlyTextField(1,1,100000);
         optimizerCombobox = new JComboBox<>(Optimizer.values());
 
-        JPanel flowPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,7,2));
+        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,7,2));
         JLabel batchSizeLabel=new JLabel("Size");
         JLabel learningRateLabel=new JLabel("Rate");
         JLabel epochLabel=new JLabel("Epoch");
@@ -42,24 +43,19 @@ public class TrainingBlock extends Block {
         learningRateTextField.setPreferredSize(new Dimension(20,20));
         batchSizeTextField.setPreferredSize(new Dimension(20,20));
         epochTextField.setPreferredSize(new Dimension(20,20));
-        flowPanel.add(batchSizeLabel);
-        flowPanel.add(batchSizeTextField);
-        flowPanel.add(learningRateLabel);
-        flowPanel.add(learningRateTextField);
-        flowPanel.add(epochLabel);
-        flowPanel.add(epochTextField);
+        flowSubPanel.add(batchSizeLabel);
+        flowSubPanel.add(batchSizeTextField);
+        flowSubPanel.add(learningRateLabel);
+        flowSubPanel.add(learningRateTextField);
+        flowSubPanel.add(epochLabel);
+        flowSubPanel.add(epochTextField);
 
-        JLabel nameLabel=new JLabel("Training Block");
-        TitledBorder line=new TitledBorder(new LineBorder(Color.black));
         GridLayout layout=new GridLayout(3,1);
-        nameLabel.setForeground(Color.white);
-        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         setLayout(layout);
-        setBorder(line);
-        add(nameLabel);
         add(flowPanel);
+        add(flowSubPanel);
         add(optimizerCombobox);
-        setBackground(new Color(0,0,180));
+        flowPanel.setBackground(new Color(0,0,180));
         setVisible(true);
     }
 

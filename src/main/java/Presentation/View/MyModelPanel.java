@@ -8,7 +8,7 @@ import java.awt.*;
  */
 public class MyModelPanel extends JPanel {
 
-    MyModelPanel(){
+    public MyModelPanel(){
     }
 
 }
