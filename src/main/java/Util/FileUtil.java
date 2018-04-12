@@ -21,6 +21,16 @@ public class FileUtil {
             return null;
         }
     }
+    public static String getResourcePath(String resourcePath){
+        ClassLoader classLoader = FileUtil.class.getClassLoader();
+        try {
+            URI resourceURI =classLoader.getResource(resourcePath).toURI();
+            return Paths.get(resourceURI).toString();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public static void fileCopy(String inFileName, String outFileName) {
         fileCopy(new File(inFileName),outFileName);
     }

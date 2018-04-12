@@ -23,8 +23,8 @@ public class InputBlock extends Block{
     private JRadioButton startEliminationRadioButton;
     private JComboBox<InputOption> inputOptionCombobox;
 
-    public InputBlock(String blockName){
-        super(blockName);
+    public InputBlock(){
+        super("Input Block");
         openFileExploreButton = new JButton("File");
         openFileExploreButton.addActionListener(new FileOpenListener());
         filePathTextField = new JTextField();
@@ -43,6 +43,7 @@ public class InputBlock extends Block{
 
         GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
+        setSize(200,75);
         add(flowPanel);
         add(flowSubPanel);
         add(inputOptionCombobox);

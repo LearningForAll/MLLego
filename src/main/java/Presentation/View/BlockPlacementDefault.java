@@ -13,7 +13,6 @@ public class BlockPlacementDefault extends JTabbedPane{
     ModelTestPanel modelTestPanel=new ModelTestPanel();
 
     public BlockPlacementDefault(){
-
         add("Block Placement", blockPlacementPanel);
         add("Model Test", modelTestPanel);
         setVisible(true);
