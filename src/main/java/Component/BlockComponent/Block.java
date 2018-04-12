@@ -168,6 +168,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             return true;
         }else{
             return false;
+
         }
     }
     public boolean checkBottomBorder(){

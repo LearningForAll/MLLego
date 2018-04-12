@@ -72,9 +72,7 @@ public class BlockPlacementController implements BlockObserver {
             }
         }
 
-
     }
-
     // 드래그가 풀리면 블록을 원래대로 되돌리고
     @Override
     public void revertOrConnectBlock(Block block) {
