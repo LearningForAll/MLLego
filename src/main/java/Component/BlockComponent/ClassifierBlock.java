@@ -3,32 +3,28 @@ package Component.BlockComponent;
 import Const.Classifier;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
-public class ClassifierBlock extends ExtendableBlock{
+public class ClassifierBlock extends Block{
     private Block xPartBlock,yPartBlock;
 
     // 분류기 종류
     Classifier classifier;
-    JComboBox optimizerComboBox;
+    JComboBox <Classifier> classifierComboBox;
 
     public ClassifierBlock(){
-        //setLocation(1400,100);
-        optimizerComboBox = new JComboBox();
-        JLabel nameLabel=new JLabel("Classifier Block");
-        nameLabel.setForeground(Color.white);
-        TitledBorder line=new TitledBorder(new LineBorder(Color.black));
+        super("Classifier Block");
+        classifierComboBox = new JComboBox<>(Classifier.values());
         GridLayout layout=new GridLayout(2,1);
         setLayout(layout);
-        setBorder(line);
-        setBackground(new Color(0,0,180));
-        add(nameLabel);
-        add(optimizerComboBox);
+        flowPanel.setBackground(new Color(0,0,180));
+        add(flowPanel);
+        add(classifierComboBox);
         setVisible(true);
+        setSize(200,90);
     }
+
+
     @Override
     String getBlockAttrStr() {
         return null;
@@ -70,9 +66,9 @@ public class ClassifierBlock extends ExtendableBlock{
         this.yPartBlock = yPartBlock;
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(200,70);
+    public Classifier getClassifier(){
+        return (Classifier)classifierComboBox.getSelectedItem();
     }
+
 
 }

@@ -4,6 +4,8 @@ import Component.BlockException.BlockException;
 import Component.BlockObserver.BlockObserver;
 import Component.BlockObserver.BlockPublisher;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -34,12 +36,33 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     abstract public boolean isNextBlockConnected();
     // 이전 블록과 연결되어 있는지 여부
     abstract public boolean isPreviousBlockConnected();
-
+    JLabel nameLabel;
+    String blockName;
+    JPanel flowPanel;
+    JButton reductButton;
 
     public Block(){
         nextBlocks = new ArrayList<>();
         previousBlocks = new ArrayList<>();
-        this.setBorder(null);
+        addMouseListener(this);
+        addMouseMotionListener(this);
+    }
+
+    public Block(String blockName){
+        this();
+        this.blockName=blockName;
+        setBorder(new TitledBorder(new LineBorder(Color.black)));
+        nameLabel=new JLabel(blockName);
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
+        reductButton=new JButton(new ImageIcon("images/icon/minus.png"));
+        reductButton.addActionListener(new ReductionActionListener(this));
+        flowPanel=new JPanel(new FlowLayout());
+        reductButton.setPreferredSize(new Dimension(16,16));
+        flowPanel.add(reductButton);
+        flowPanel.add(nameLabel);
+        flowPanel.setBackground(new Color(150, 0, 205));
+        setVisible(true);
     }
 
     //TODO boolean을 return 하거나 Exception 으로 Handle할수 있게
@@ -67,6 +90,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             throw new BlockException(block.getClass().getSimpleName() + "is not connectable Previous block for" + this.getClass().getSimpleName());
         }
     }
+
     /**
      *  보더를 셋해준다
      */

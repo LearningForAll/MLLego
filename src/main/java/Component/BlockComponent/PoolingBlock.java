@@ -21,14 +21,15 @@ public class PoolingBlock extends LayerBlock {
 
     JComboBox<PaddingOption> paddingOptionCombobox;
 
-    public PoolingBlock(){
+    public PoolingBlock(String blockName){
+        super(blockName);
         paddingOptionCombobox = new JComboBox<>(PaddingOption.values());
         horizontalKernelSizeTextField  = new NumberOnlyTextField(2, 1, 10000);
         verticalKernelSizeTextField = new NumberOnlyTextField(2, 1, 10000);
         horizontalStrideTextField = new NumberOnlyTextField(1, 1, 10000);
         verticalStrideTextField = new NumberOnlyTextField(1, 1, 10000);
 
-        JPanel flowPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,1,2));
+        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,1,2));
         JLabel multiplyLabel=new JLabel("X");
         JLabel multiplyLabel2=new JLabel("X");
         JLabel horizonLabel=new JLabel("Hor");
@@ -45,30 +46,23 @@ public class PoolingBlock extends LayerBlock {
         verticalKernelSizeTextField.setPreferredSize(new Dimension(20,20));
         horizontalStrideTextField.setPreferredSize(new Dimension(20,20));
         verticalStrideTextField.setPreferredSize(new Dimension(20,20));
-        flowPanel.add(horizonLabel);
-        flowPanel.add(horizontalKernelSizeTextField);
-        flowPanel.add(multiplyLabel);
-        flowPanel.add(verticalLabel);
-        flowPanel.add(verticalKernelSizeTextField);
-        flowPanel.add(blankLabel);
-        flowPanel.add(horizonLabel2);
-        flowPanel.add(horizontalStrideTextField);
-        flowPanel.add(multiplyLabel2);
-        flowPanel.add(verticalLabel2);
-        flowPanel.add(verticalStrideTextField);
+        flowSubPanel.add(horizonLabel);
+        flowSubPanel.add(horizontalKernelSizeTextField);
+        flowSubPanel.add(multiplyLabel);
+        flowSubPanel.add(verticalLabel);
+        flowSubPanel.add(verticalKernelSizeTextField);
+        flowSubPanel.add(blankLabel);
+        flowSubPanel.add(horizonLabel2);
+        flowSubPanel.add(horizontalStrideTextField);
+        flowSubPanel.add(multiplyLabel2);
+        flowSubPanel.add(verticalLabel2);
+        flowSubPanel.add(verticalStrideTextField);
 
-
-        JLabel nameLabel=new JLabel("Pooling Block");
-        TitledBorder line=new TitledBorder(new LineBorder(Color.black));
         GridLayout layout=new GridLayout(3,1);
-        nameLabel.setForeground(Color.white);
-        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         setLayout(layout);
-        setBorder(line);
-        add(nameLabel);
-        add(paddingOptionCombobox);
         add(flowPanel);
-        setBackground(new Color(150, 0, 205));
+        add(paddingOptionCombobox);
+        add(flowSubPanel);
         setVisible(true);
 
     }
@@ -77,8 +71,6 @@ public class PoolingBlock extends LayerBlock {
     String getBlockAttrStr() {
         return null;
     }
-
-
 
     @Override
     public boolean isNextBlockConnectable(Block block) {
@@ -99,4 +91,23 @@ public class PoolingBlock extends LayerBlock {
     public boolean isPreviousBlockConnected() {
         return false;
     }
+
+    public PaddingOption getPaddingOption(){ return (PaddingOption) paddingOptionCombobox.getSelectedItem(); }
+
+    public int getHorizonKernel(){
+        return (int)horizontalKernelSizeTextField.getValue();
+    }
+
+    public int getVerticalKernel(){
+        return (int)verticalKernelSizeTextField.getValue();
+    }
+
+    public int getHorizonStride(){
+        return (int)horizontalStrideTextField.getValue();
+    }
+
+    public int getVerticalStride(){
+        return (int)verticalStrideTextField.getValue();
+    }
+
 }

@@ -1,5 +1,10 @@
 package Presentation.View;
 
+import Component.BlockComponent.Block;
+import Presentation.Controller.BlockListClickListener;
+import Presentation.Controller.BlockListController;
+import Util.ArrayUtil;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,11 +19,16 @@ public class BlockListPanel extends JTabbedPane {
     BlockProcessing blockProcessing=new BlockProcessing();
     BlockInput blockInput=new BlockInput();
 
-    BlockListPanel(){
+    public BlockListPanel(){
         add("Input", blockInput);
         add("Layer", blockLayer);
         add("Processing", blockProcessing);
 
+        Block[] allComponents = ArrayUtil.merge1(blockInput.getBlockComponents(),blockLayer.getBlockComponents(),blockProcessing.getBlockComponents());
+        for (Block mockBlock : allComponents){
+            mockBlock.removeMouseListener(mockBlock);
+            mockBlock.addMouseListener(new BlockListClickListener());
+        }
         setVisible(true);
     }
 

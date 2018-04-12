@@ -18,17 +18,19 @@ public class BlockInput extends JPanel {
 
     public BlockInput(){
         setLayout(null);
-        inputBlock=new InputBlock();
-        preprocessorBlock=new PreprocessorBlock();
-        inputBlock.setSize(200,80);
+        inputBlock=new InputBlock("Input Block");
+        preprocessorBlock=new PreprocessorBlock("Preprocessor Block");
+        inputBlock.setSize(200,75);
         inputBlock.setLocation(150,20);
         preprocessorBlock.setSize(200,50);
         preprocessorBlock.setLocation(150,120);
 
         add(inputBlock);
         add(preprocessorBlock);
-
         setVisible(true);
     }
 
+    public Block[] getBlockComponents() {
+        return new Block[]{inputBlock,preprocessorBlock};
+    }
 }

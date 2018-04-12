@@ -12,7 +12,7 @@ public class TopMenuPanel extends JPanel {
     JButton btn_save=new JButton(new ImageIcon("images/icon/save.png"));
     JButton btn_load=new JButton(new ImageIcon("images/icon/folder.png"));
 
-    TopMenuPanel(){
+    public TopMenuPanel(){
         btn_run.setBorderPainted(false);
         btn_run.setFocusPainted(false);
         btn_run.setContentAreaFilled(false);

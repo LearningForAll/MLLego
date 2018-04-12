@@ -12,25 +12,19 @@ import java.awt.*;
  */
 public class LstmBlock extends LayerBlock {
 
-
     NumberOnlyTextField stackSizeTextField;
     // 드롭아웃 레이트를 조정할 수 있는 JSlider
-    JSlider keepprobJSlider;
+    JSlider keepProbJSlider;
 
 
-    public LstmBlock(){
-        keepprobJSlider = new JSlider();
+    public LstmBlock(String blockName){
+        super(blockName);
 
-        JLabel nameLabel=new JLabel("LSTM Block");
-        TitledBorder line=new TitledBorder(new LineBorder(Color.black));
+        keepProbJSlider = new JSlider();
         GridLayout layout=new GridLayout(2,1);
-        nameLabel.setForeground(Color.white);
-        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         setLayout(layout);
-        setBorder(line);
-        add(nameLabel);
-        add(keepprobJSlider);
-        setBackground(new Color(150, 0, 205));
+        add(flowPanel);
+        add(keepProbJSlider);
         setVisible(true);
     }
 
@@ -38,9 +32,6 @@ public class LstmBlock extends LayerBlock {
     String getBlockAttrStr() {
         return null;
     }
-
-
-
 
     @Override
     public boolean isNextBlockConnectable(Block block) {
@@ -60,5 +51,9 @@ public class LstmBlock extends LayerBlock {
     @Override
     public boolean isPreviousBlockConnected() {
         return false;
+    }
+
+    public int getKeepProb() {
+        return keepProbJSlider.getValue();
     }
 }

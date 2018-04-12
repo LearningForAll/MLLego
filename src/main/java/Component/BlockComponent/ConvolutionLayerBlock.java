@@ -2,6 +2,7 @@ package Component.BlockComponent;
 
 import Component.NumberOnlyTextField;
 import Const.ActivationFunc;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -9,8 +10,6 @@ import java.awt.*;
 
 public class ConvolutionLayerBlock extends LayerBlock {
     int convDimension = 2; // 1D or 2D for convolution
-
-    ActivationFunc activationFunc;
 
     // 드롭아웃 레이트를 조정할 수 있는 JSlider
     JSlider keepprobJSlider;
@@ -20,7 +19,9 @@ public class ConvolutionLayerBlock extends LayerBlock {
     NumberOnlyTextField horizontalKernelSize;
     NumberOnlyTextField verticalKernelSize;
 
-    public ConvolutionLayerBlock(){
+    public ConvolutionLayerBlock(String blockName){
+        super(blockName);
+        this.blockName=blockName;
         keepprobJSlider = new JSlider();
         // Enum으로 값 ㅁ만듬
         activationFunctionCombobox = new JComboBox<>(ActivationFunc.values());
@@ -30,7 +31,7 @@ public class ConvolutionLayerBlock extends LayerBlock {
         horizontalKernelSize = new NumberOnlyTextField(2, 1, 1000);
         verticalKernelSize = new NumberOnlyTextField(2, 1, 1000);
 
-        JPanel flowPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,3,2));
+        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,3,2));
         JLabel multiplyLabel=new JLabel("X");
         JLabel horizonLabel=new JLabel("Hor");
         JLabel verticalLabel=new JLabel("Ver");
@@ -42,30 +43,22 @@ public class ConvolutionLayerBlock extends LayerBlock {
         horizontalKernelSize.setPreferredSize(new Dimension(20,20));
         verticalKernelSize.setPreferredSize(new Dimension(20,20));
         kernelNumTextField.setPreferredSize(new Dimension(20,20));
-        flowPanel.add(horizonLabel);
-        flowPanel.add(horizontalKernelSize);
-        flowPanel.add(multiplyLabel);
-        flowPanel.add(verticalLabel);
-        flowPanel.add(verticalKernelSize);
-        flowPanel.add(explainLabel);
-        flowPanel.add(kernelNumTextField);
+        flowSubPanel.add(horizonLabel);
+        flowSubPanel.add(horizontalKernelSize);
+        flowSubPanel.add(multiplyLabel);
+        flowSubPanel.add(verticalLabel);
+        flowSubPanel.add(verticalKernelSize);
+        flowSubPanel.add(explainLabel);
+        flowSubPanel.add(kernelNumTextField);
 
         GridLayout layout=new GridLayout(4,1);
-        JLabel nameLabel=new JLabel("Convolution Block");
-        TitledBorder line=new TitledBorder(new LineBorder(Color.black));
-        nameLabel.setForeground(Color.white);
-        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         setLayout(layout);
-        setBorder(line);
-        add(nameLabel, SwingConstants.CENTER);
+        add(flowPanel);
         add(keepprobJSlider);
         add(activationFunctionCombobox);
-        add(flowPanel);
-        setBackground(new Color(150, 0, 205));
+        add(flowSubPanel);
         setVisible(true);
-
     }
-
 
     @Override
     String getBlockAttrStr() {
@@ -92,4 +85,25 @@ public class ConvolutionLayerBlock extends LayerBlock {
     public boolean isPreviousBlockConnected() {
         return false;
     }
+
+    public int getKeepProb(){
+        return keepprobJSlider.getValue();
+    }
+
+    public ActivationFunc getActivationFunction() {
+        return (ActivationFunc) activationFunctionCombobox.getSelectedItem();
+    }
+
+    public int getKernelNum(){
+        return (int)kernelNumTextField.getValue();
+    }
+
+    public int getHorizonKernelSize(){
+        return (int)horizontalKernelSize.getValue();
+    }
+
+    public int getVerticalKernelSize(){ return (int)verticalKernelSize.getValue(); }
+
+
 }
+

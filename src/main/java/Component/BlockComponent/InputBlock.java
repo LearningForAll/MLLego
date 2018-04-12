@@ -1,6 +1,8 @@
 package Component.BlockComponent;
 
+import Const.ActivationFunc;
 import Const.FileType;
+import Const.InputOption;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -19,29 +21,34 @@ public class InputBlock extends Block{
     // csv파일이나 텍스트 파일의 경우 맨 끝의 데이터를 제거할 것인지 맨 처음의 데이터를 제거할 것인지의 옵션.
     private JRadioButton endEliminationRadioButtion;
     private JRadioButton startEliminationRadioButton;
+    private JComboBox<InputOption> inputOptionCombobox;
 
-
-    public InputBlock(){
-        openFileExploreButton = new JButton();
+    public InputBlock(String blockName){
+        super(blockName);
+        openFileExploreButton = new JButton("File");
         openFileExploreButton.addActionListener(new FileOpenListener());
         filePathTextField = new JTextField();
         // 파일패스를 직접 설정하지 못하게..
         filePathTextField.setEditable(false);
-        endEliminationRadioButtion = new JRadioButton("맨 끝 제거");
-        startEliminationRadioButton = new JRadioButton("시작 제거");
+        endEliminationRadioButtion = new JRadioButton("End");
+        startEliminationRadioButton = new JRadioButton("Start");
+        inputOptionCombobox = new JComboBox<>(InputOption.values());
 
-        JLabel nameLabel=new JLabel("Input Block");
-        nameLabel.setForeground(Color.white);
-        TitledBorder line=new TitledBorder(new LineBorder(Color.black));
+        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,2,2));
+        openFileExploreButton.setPreferredSize(new Dimension(60,20));
+        filePathTextField.setPreferredSize(new Dimension(134,20));
+
+        flowSubPanel.add(openFileExploreButton);
+        flowSubPanel.add(filePathTextField);
+
         GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
-        setBorder(line);
-        add(nameLabel);
-        add(openFileExploreButton);
-        add(filePathTextField);
-        setBackground(new Color(243, 115, 50));
+        add(flowPanel);
+        add(flowSubPanel);
+        add(inputOptionCombobox);
+        inputOptionCombobox.setEnabled(false);
+        flowPanel.setBackground(new Color(243, 115, 50));
         setVisible(true);
-
     }
 
     //이너 클래스로 재 정의
@@ -102,7 +109,10 @@ public class InputBlock extends Block{
         return FileType.TYPE_NUMBER;
     }
 
-
-
+    //TODO :: 파일로 들어오는 것과 폴더로 들어올 때 분기해서 활성화처리 해주기
+    public InputOption getInputOption(){
+        //활성화된 radioButton 리턴
+        return (InputOption)inputOptionCombobox.getSelectedItem();
+    }
 
 }

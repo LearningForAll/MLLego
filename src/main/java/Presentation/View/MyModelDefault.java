@@ -12,7 +12,7 @@ public class MyModelDefault extends JTabbedPane {
     ResultPanel resultPanel=new ResultPanel();
 
 
-    MyModelDefault(){
+    public MyModelDefault(){
         add("My Model", myModelPanel);
         add("Template", templatePanel);
         add("Result", resultPanel);
