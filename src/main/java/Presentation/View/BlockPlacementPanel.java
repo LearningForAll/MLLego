@@ -1,6 +1,7 @@
 package Presentation.View;
 
 import Component.BlockComponent.Block;
+import Const.Classifier;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +23,9 @@ public class BlockPlacementPanel extends JPanel {
     }
 
     public void addNewBlock(Block block){
-
+        System.out.print("추가 시도오오오!"+block.getSize().toString());
+        this.add(block);
+        revalidate();
     }
 }
 

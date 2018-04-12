@@ -29,7 +29,7 @@ public class BlockLayer extends JPanel{
         convolutionLayerBlock.removeMouseListener(convolutionLayerBlock);
         denseBlock.removeMouseListener(denseBlock);
 
-        convolutionLayerBlock.setSize(200,90);
+        //convolutionLayerBlock.setSize(200,90);
         convolutionLayerBlock.setLocation(150,20);
         denseBlock.setSize(200,50);
         denseBlock.setLocation(150, 145);
@@ -46,4 +46,7 @@ public class BlockLayer extends JPanel{
 
     }
 
+    public Block[] getBlockComponents() {
+        return new Block[]{convolutionLayerBlock,denseBlock,lstmBlock,poolingBlock};
+    }
 }

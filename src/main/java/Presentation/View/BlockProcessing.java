@@ -3,6 +3,7 @@ package Presentation.View;
 /**
  * Created by LG on 2018-03-30.
  */
+import Component.BlockComponent.Block;
 import Component.BlockComponent.ClassifierBlock;
 import Component.BlockComponent.ModelBlock;
 import Component.BlockComponent.TrainingBlock;
@@ -35,5 +36,9 @@ public class BlockProcessing extends JPanel{
 
         setVisible(true);
 
+    }
+
+    public Block[] getBlockComponents() {
+        return new Block[]{classifierBlock,trainingBlock,modelBlock};
     }
 }

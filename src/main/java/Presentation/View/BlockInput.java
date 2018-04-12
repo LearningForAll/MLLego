@@ -30,4 +30,7 @@ public class BlockInput extends JPanel {
         setVisible(true);
     }
 
+    public Block[] getBlockComponents() {
+        return new Block[]{inputBlock,preprocessorBlock};
+    }
 }

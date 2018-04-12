@@ -21,6 +21,7 @@ public class ClassifierBlock extends Block{
         add(flowPanel);
         add(classifierComboBox);
         setVisible(true);
+        setSize(200,90);
     }
 
 
