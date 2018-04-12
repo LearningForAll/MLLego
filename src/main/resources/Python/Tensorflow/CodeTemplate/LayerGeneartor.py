@@ -32,9 +32,11 @@ class LayerGenerator:
         return tf.nn.max_pool(input_tensor, [1, pool_size[0], pool_size[1], 1],  # default max
                               [1, stride_size[0], stride_size[1], 1], padding=padding)
 
-    def dropout(self, input_tensor, keep_prob, is_rnn=False):
+    def dropout(self, input_tensor, keep_prob, is_rnn=False,is_training=False):
+        if is_training is False:
+            keep_prob=1.0
         if is_rnn is False:
-            return tf.layers.dropout(input_tensor, rate=1 - keep_prob)
+            return tf.layers.dropout(input_tensor, rate=1 - keep_prob,training=is_training)
         else:
             return rnn.DropoutWrapper(input_tensor, output_keep_prob=keep_prob)
 
