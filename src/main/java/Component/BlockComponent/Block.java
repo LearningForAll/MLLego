@@ -24,6 +24,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     private BlockObserver blockObserver;
     protected List<Block> previousBlocks;
     protected List<Block> nextBlocks;
+    private LineBorder basicBorder = new LineBorder(Color.black);
     private MatteBorder topBorder = new MatteBorder(5, 0, 0, 0, Color.cyan);
     private MatteBorder bottomBorder = new MatteBorder(0, 0, 5, 0, Color.cyan);
     abstract String getBlockAttrStr();
@@ -51,7 +52,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public Block(String blockName){
         this();
         this.blockName=blockName;
-        setBorder(new TitledBorder(new LineBorder(Color.black)));
+        setBorder(basicBorder);
         nameLabel=new JLabel(blockName);
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
@@ -71,6 +72,8 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         if(isNextBlockConnectable(block)){
             if (block.isPreviousBlockConnectable(this)){
                 this.nextBlocks.add(block);
+                // 다음 블록으로 들어오는 블록의 location을 설정.
+                block.setLocation(this.getX(), this.getY() + this.getHeight());
             }else{
                 throw new BlockException(block.getClass().getSimpleName() + "is not connectable Previous block for" + this.getClass().getSimpleName());
             }
@@ -92,14 +95,14 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     }
 
     /**
-     *  보더를 셋해준다
+     *  아래쪽 보더를 셋해준다
      */
     public void blinkBottom(){
         this.setBorder(bottomBorder);
     }
 
     /**
-     * 보더를 셋해준다.
+     * 위쪽 보더를 셋해준다.
      */
     public void blinkTop(){
         this.setBorder(topBorder);
@@ -108,7 +111,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     //TODO 여기도 생성자 기본 테두리가 나오면 null 부분에 기본 테두리가 들어감
     public void revertBlock(){
-        this.setBorder(null);
+        this.setBorder(basicBorder);
     }
 
     @Override
@@ -117,7 +120,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             offX = e.getX();
             offY = e.getY();
             isDragged = true;
-
 
         }
     }
@@ -130,10 +132,32 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         if (isDragged) {
             x = e.getX()+getLocation().x-offX;
             y = e.getY()+getLocation().y-offY;
+
+            // 해당하는 블록이 첫번째 블록일때 뒤에 블록은 다 나를 따라와야한다.
+            if(isFirstBlock()){
+                int i = 1;
+                Block block = this;
+                while(block.isNextBlockConnected()){
+                    for(int k = 0; k < block.nextBlocks.size(); k++){
+                        block.nextBlocks.get(k).setLocation(x, y + i * this.getHeight());
+                        System.out.println("로케이션 되는중..");
+                    }
+                    //연결되어있으면
+                    if(block.isNextBlockConnected()){
+                        block = block.nextBlocks.get(0);
+                    }else{
+                        break;
+                    }
+                    i++;
+
+                }
+
+            }
             blockObserver.blinkBlock(this);
             setLocation(x,y);
         }
     }
+
     @Override
     public void mouseReleased(MouseEvent e) {
         isDragged = false;
@@ -175,7 +199,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public boolean checkBorder(){
 
         //TODO 블록 테두리 코드 받으면 null 부분대신 default 코드가 들어감
-        if (this.getBorder() == null){
+        if (this.getBorder() == basicBorder){
             return false;
         }else{
             return true;
@@ -184,11 +208,10 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     /**
      * TopBorder가 event에 의해 Trigger되었는지 여부
-     * equals의 인자로 정의 해놓은 Border가 들어가야함
      * */
     public boolean checkTopBorder(){
-        // 이런식으로 Inset으로 비교해서 들어가야함
-        if (this.getBorder().getBorderInsets(this).equals(new Insets(5, 0, 0, 0))){
+        // 자기 자신의 border가 topborder임을 체크
+        if (this.getBorder() == topBorder){
             return true;
         }else{
             return false;
@@ -196,12 +219,16 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         }
     }
     public boolean checkBottomBorder(){
-        // 마찬가지로 border의 inset을 구해서 들어간다
-        if (this.getBorder().getBorderInsets(this).equals(new Insets(0, 0, 5, 0))){
+        // 자기 자신의 border가 bottomBorder임을 체크
+        if (this.getBorder() == bottomBorder){
             return true;
         }else{
             return false;
         }
     }
+    public boolean isFirstBlock(){
+        return (this.previousBlocks.size() == 0);
+    }
+
 
 }

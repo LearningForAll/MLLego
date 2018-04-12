@@ -35,11 +35,12 @@ public class ModelBlock extends Block {
 
     @Override
     public boolean isNextBlockConnected() {
-        return false;
+        // 모델블록은 항상 마지막이므로 다음 블록이 올수 없다.
+        return true;
     }
 
     @Override
     public boolean isPreviousBlockConnected() {
-        return false;
+        return (previousBlocks.size() != 0);
     }
 }
