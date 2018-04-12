@@ -26,6 +26,9 @@ public class BlockLayer extends JPanel{
         lstmBlock=new LstmBlock("LSTM Block");
         poolingBlock=new PoolingBlock("Pooling Block");
 
+        convolutionLayerBlock.removeMouseListener(convolutionLayerBlock);
+        denseBlock.removeMouseListener(denseBlock);
+
         convolutionLayerBlock.setSize(200,90);
         convolutionLayerBlock.setLocation(150,20);
         denseBlock.setSize(200,50);

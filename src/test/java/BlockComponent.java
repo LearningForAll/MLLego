@@ -28,7 +28,7 @@ public class BlockComponent {
 
     @Test
     public void testClassifierBlock() throws InterruptedException {
-        classifierBlock = new ClassifierBlock("Classifier Block");
+        classifierBlock = new ClassifierBlock();
 
         classifierBlock.setSize(200,80);
         classifierBlock.setLocation(150,0);

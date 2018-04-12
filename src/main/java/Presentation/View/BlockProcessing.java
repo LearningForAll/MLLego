@@ -25,7 +25,7 @@ public class BlockProcessing extends JPanel{
         trainingBlock=new TrainingBlock("Training Block");
         trainingBlock.setSize(200,75);
         trainingBlock.setLocation(150,90);
-        classifierBlock = new ClassifierBlock("Classifier Block");
+        classifierBlock = new ClassifierBlock();
         classifierBlock.setSize(200,50);
         classifierBlock.setLocation(150,210);
 

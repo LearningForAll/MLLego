@@ -1,6 +1,8 @@
 package Presentation.Controller;
 
 import Component.BlockComponent.Block;
+import Component.BlockComponent.ClassifierBlock;
+import Const.Classifier;
 import Presentation.View.BlockListPanel;
 
 import java.awt.event.ActionEvent;
@@ -15,7 +17,7 @@ public class BlockListController {
     BlockListPanel panel;
 
     private BlockListController(){
-
+        
     }
 
     public void setPanel(BlockListPanel panel){
@@ -29,6 +31,12 @@ public class BlockListController {
     public class BlockListActionListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (e.getSource() instanceof ClassifierBlock){
+                BlockPlacementController.getInstance().addBlock(new ClassifierBlock());
+                System.out.print("됫지롱!");
+            }else{
+                System.out.print("안됫어여 ㅠㅠㅠ");
+            }
             BlockPlacementController.getInstance().addBlock((Block)e.getSource());
         }
     }

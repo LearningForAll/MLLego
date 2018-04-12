@@ -24,14 +24,10 @@ public class ReductionActionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (isReducted){
-            //TODO :: 축소되있으면 확장
             block.setLayout(beforeLayout);
             block.setSize(block.getWidth(),beforeHeight);
             isReducted = false;
         }else {
-            //TODO :: 확장되있으면 축소
-            //block.setPreferredSize(new Dimension(block.getWidth(), panelHeight));
-            //block.setVisible(true);
             beforeHeight = block.getHeight();
             beforeLayout = block.getLayout();
             block.setLayout(new BoxLayout(block,BoxLayout.Y_AXIS));

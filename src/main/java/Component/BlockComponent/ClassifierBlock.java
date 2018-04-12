@@ -12,8 +12,8 @@ public class ClassifierBlock extends Block{
     Classifier classifier;
     JComboBox <Classifier> classifierComboBox;
 
-    public ClassifierBlock(String blockName){
-        super(blockName);
+    public ClassifierBlock(){
+        super("Classifier Block");
         classifierComboBox = new JComboBox<>(Classifier.values());
         GridLayout layout=new GridLayout(2,1);
         setLayout(layout);
