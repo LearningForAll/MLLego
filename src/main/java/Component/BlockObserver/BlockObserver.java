@@ -11,6 +11,6 @@ import java.util.Observer;
 public interface BlockObserver {
 
     void blinkBlock(Block block);
-    void revertBlock(Block block);
+    void revertOrConnectBlock(Block block);
 
 }
