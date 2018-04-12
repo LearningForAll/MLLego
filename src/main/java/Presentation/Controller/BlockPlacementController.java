@@ -50,7 +50,9 @@ public class BlockPlacementController implements BlockObserver {
     @Override
     public void blinkBlock(Block block) {
         // 현재 드래그 되고있는 블록은 리스트에서 제거하기 위해..
-        List<Block> tempBlocks = this.blocks;
+        List<Block> tempBlocks = new ArrayList<>();
+        // Complete 복사를 위해서
+        tempBlocks.addAll(blocks);
         tempBlocks.remove(block);
 
         for (Block block1 : tempBlocks) {
@@ -77,37 +79,41 @@ public class BlockPlacementController implements BlockObserver {
     @Override
     public void revertOrConnectBlock(Block block) {
 
-        List<Block> tempBlocks = this.blocks;
+        List<Block> tempBlocks = new ArrayList<>();
+        tempBlocks.addAll(blocks);
         tempBlocks.remove(block);
-
         if(block.checkBorder()){
             if(block.checkTopBorder()){
                 for(Block block1 : tempBlocks){
                     if(block1.checkBottomBorder()){
-                        block.registerNextBlock(block1);
-                        block1.registerPreviousBlock(block);
+                        block.registerPreviousBlock(block1);
+                        block1.registerNextBlock(block);
                     }
                 }
             }else{// bottom이 빛날때
                 for(Block block1 : tempBlocks){
                     if(block1.checkTopBorder()){
-                        block.registerPreviousBlock(block1);
-                        block1.registerNextBlock(block);
+                        block.registerNextBlock(block1);
+                        block1.registerPreviousBlock(block);
                     }
                 }
             }
 
         }
-        for (Block block1 : blocks) {
+        for (Block block1 : tempBlocks) {
             block1.revertBlock();
         }
+        block.revertBlock();
 
     }
     // block 을 기준으로 첫번째 인자가 기준블록이면 기준블록이 아래 그 반대의 경우는 인자 위치를 바꿔주면됌
-    private boolean checkCloseBlock(Block block, Block block1){
-        return (block.getX() - block1.getX() + block1.getWidth() < 100
-                && block.getX() + block.getWidth() - block1.getX() > -100
-                && block1.getHeight() + block1.getY() - block.getY() < 100);
+
+    // TODO 논리 수정 필요 말이안됌
+   private boolean checkCloseBlock(Block block, Block block1){
+        return ((block.getX() - block1.getX() < 100)
+                && (block.getX() - block1.getX() > -100)
+                && (block1.getY() + block1.getY() - block.getY() < 100)
+                && (block1.getY() + block1.getY() - block.getY() > - 100));
     }
 
 
