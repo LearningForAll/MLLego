@@ -3,7 +3,6 @@ package Component.BlockComponent;
 import Component.BlockException.BlockException;
 import Component.BlockObserver.BlockObserver;
 import Component.BlockObserver.BlockPublisher;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -25,6 +24,8 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     private BlockObserver blockObserver;
     protected List<Block> previousBlocks;
     protected List<Block> nextBlocks;
+    private MatteBorder topBorder = new MatteBorder(5, 0, 0, 0, Color.cyan);
+    private MatteBorder bottomBorder = new MatteBorder(0, 0, 5, 0, Color.cyan);
     abstract String getBlockAttrStr();
 
     // 인자로 들어온 블록이 현재 블록의 다음 블록으로 연결 될 수 있는지 확인하는 메소드
@@ -70,7 +71,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         if(isNextBlockConnectable(block)){
             if (block.isPreviousBlockConnectable(this)){
                 this.nextBlocks.add(block);
-                block.previousBlocks.add(this);
             }else{
                 throw new BlockException(block.getClass().getSimpleName() + "is not connectable Previous block for" + this.getClass().getSimpleName());
             }
@@ -83,7 +83,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         if (isPreviousBlockConnectable(block)) {
             if (block.isNextBlockConnectable(this)) {
                 this.previousBlocks.add(block);
-                block.nextBlocks.add(this);
             } else {
                 throw new BlockException(block.getClass().getSimpleName() + "is not connectable Next block for" + this.getClass().getSimpleName());
             }
@@ -96,16 +95,18 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
      *  보더를 셋해준다
      */
     public void blinkBottom(){
-        this.setBorder(new MatteBorder(0, 0, 5, 0, Color.CYAN));
+        this.setBorder(bottomBorder);
     }
 
     /**
      * 보더를 셋해준다.
      */
     public void blinkTop(){
-        this.setBorder(new MatteBorder(5, 0, 0, 0, Color.CYAN));
+        this.setBorder(topBorder);
     }
 
+
+    //TODO 여기도 생성자 기본 테두리가 나오면 null 부분에 기본 테두리가 들어감
     public void revertBlock(){
         this.setBorder(null);
     }
@@ -136,7 +137,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     @Override
     public void mouseReleased(MouseEvent e) {
         isDragged = false;
-        blockObserver.revertBlock(this);
+        blockObserver.revertOrConnectBlock(this);
     }
 
     @Override
@@ -162,6 +163,45 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     @Override
     public void setObserver(BlockObserver observer){
         this.blockObserver = observer;
+    }
+
+
+    /**
+     *
+     * 블록 테두리가 기본 테두리면 return false;
+     * 이벤트에 의해 바뀐 테두리면 return true;l
+     *
+     * */
+    public boolean checkBorder(){
+
+        //TODO 블록 테두리 코드 받으면 null 부분대신 default 코드가 들어감
+        if (this.getBorder() == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    /**
+     * TopBorder가 event에 의해 Trigger되었는지 여부
+     * equals의 인자로 정의 해놓은 Border가 들어가야함
+     * */
+    public boolean checkTopBorder(){
+        // 이런식으로 Inset으로 비교해서 들어가야함
+        if (this.getBorder().getBorderInsets(this).equals(new Insets(5, 0, 0, 0))){
+            return true;
+        }else{
+            return false;
+
+        }
+    }
+    public boolean checkBottomBorder(){
+        // 마찬가지로 border의 inset을 구해서 들어간다
+        if (this.getBorder().getBorderInsets(this).equals(new Insets(0, 0, 5, 0))){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }
