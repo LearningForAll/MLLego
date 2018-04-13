@@ -148,11 +148,6 @@ public class BlockPlacementController implements BlockObserver {
 
    }
    public void loadBlockBatch(String filePath){
-
-        //TODO 만약 블록이 PlacementController에 있다면 그 배치를 저장하겠냐고 메시지를 띄운다.
-   }
-
-   private void loadData(String filePath){
        try{
            // 직렬화된 객체를 로드해옴.
            List<Block> blockList;
@@ -160,11 +155,21 @@ public class BlockPlacementController implements BlockObserver {
            blockList = (List<Block>)ois.readObject();
            ois.close();
 
+           // 패널의 모든 블록삭제
+           this.blocks.clear();
+           panel.deleteAllBlock();
+
+           this.blocks = blockList;
+
+           panel.addBlocks(this.blocks);
+
        }catch (Exception e){
            e.printStackTrace();
        }
-       //TODO 불러오고 그것을 배치시키는 로직이 필요함.
+
+       //TODO 만약 블록이 PlacementController에 있다면 그 배치를 저장하겠냐고 메시지를 띄운다.
    }
+
 
 
 }
