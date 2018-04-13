@@ -134,10 +134,9 @@ public class BlockPlacementController implements BlockObserver {
 
    public void saveBlockBatch(String name){
         // save 해야할 것
-       // 블록의 포지션
-       // 블록의 타입과 연결된 블록 이정도면 될거같은데?아니야 블록 객체를 저장해야해
+       // 블록 객체 자체를 직렬화 하여 저장..
        try {
-           //  "dg.ser"로 저장합니다.
+           //  ".block으로 저장
            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("sample.block"));
            oos.writeObject(blocks);
            oos.close();
@@ -150,6 +149,21 @@ public class BlockPlacementController implements BlockObserver {
    }
    public void loadBlockBatch(String filePath){
 
+        //TODO 만약 블록이 PlacementController에 있다면 그 배치를 저장하겠냐고 메시지를 띄운다.
+   }
+
+   private void loadData(String filePath){
+       try{
+           // 직렬화된 객체를 로드해옴.
+           List<Block> blockList;
+           ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath));
+           blockList = (List<Block>)ois.readObject();
+           ois.close();
+
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+       //TODO 불러오고 그것을 배치시키는 로직이 필요함.
    }
 
 
