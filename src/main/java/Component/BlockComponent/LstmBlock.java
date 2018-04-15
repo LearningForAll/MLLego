@@ -17,12 +17,13 @@ public class LstmBlock extends LayerBlock {
     JSlider keepProbJSlider;
 
 
-    public LstmBlock(String blockName){
-        super(blockName);
+    public LstmBlock(){
+        super("LSTM Block");
 
         keepProbJSlider = new JSlider();
         GridLayout layout=new GridLayout(2,1);
         setLayout(layout);
+        setSize(200,50);
         add(flowPanel);
         add(keepProbJSlider);
         setVisible(true);

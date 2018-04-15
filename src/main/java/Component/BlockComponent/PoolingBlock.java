@@ -21,8 +21,8 @@ public class PoolingBlock extends LayerBlock {
 
     JComboBox<PaddingOption> paddingOptionCombobox;
 
-    public PoolingBlock(String blockName){
-        super(blockName);
+    public PoolingBlock(){
+        super("Pooling Block");
         paddingOptionCombobox = new JComboBox<>(PaddingOption.values());
         horizontalKernelSizeTextField  = new NumberOnlyTextField(2, 1, 10000);
         verticalKernelSizeTextField = new NumberOnlyTextField(2, 1, 10000);
@@ -60,6 +60,7 @@ public class PoolingBlock extends LayerBlock {
 
         GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
+        setSize(200,75);
         add(flowPanel);
         add(paddingOptionCombobox);
         add(flowSubPanel);

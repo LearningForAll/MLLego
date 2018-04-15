@@ -6,6 +6,8 @@ import java.util.Arrays;
 /**
  * Created by LG on 2018-04-12.
  */
+
+//배열 합치기 위한 클래스
 public class ArrayUtil {
     public static <T> T[] merge1(T[]... arrays) {
         int length = Arrays.stream(arrays).mapToInt(a -> a.length).sum();

@@ -3,6 +3,7 @@ package Presentation.View;
 import Presentation.Controller.BlockPlacementController;
 import Presentation.Controller.TopmenuController;
 import Presentation.Observer.TopmenuPublisher;
+import Util.FileUtil;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -13,12 +14,11 @@ import java.awt.event.ActionListener;
 /**
  * Created by LG on 2018-03-26.
  */
-public class TopMenuPanel extends JPanel implements TopmenuPublisher {
-    JButton btn_run = new JButton(new ImageIcon("images/icon/start.png"));
-    JButton btn_pause = new JButton(new ImageIcon("images/icon/stop.png"));
-    JButton btn_save = new JButton(new ImageIcon("images/icon/save.png"));
-    JButton btn_load = new JButton(new ImageIcon("images/icon/folder.png"));
-    TopmenuController controller;
+public class TopMenuPanel extends JPanel {
+    JButton btn_run=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/start.png")));
+    JButton btn_pause=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/stop.png")));
+    JButton btn_save=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/save.png")));
+    JButton btn_load=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/folder.png")));
 
     public TopMenuPanel() {
         btn_run.setBorderPainted(false);

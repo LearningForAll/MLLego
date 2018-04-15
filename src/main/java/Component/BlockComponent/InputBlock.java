@@ -23,8 +23,8 @@ public class InputBlock extends Block{
     private JRadioButton startEliminationRadioButton;
     private JComboBox<InputOption> inputOptionCombobox;
 
-    public InputBlock(String blockName){
-        super(blockName);
+    public InputBlock(){
+        super("Input Block");
         openFileExploreButton = new JButton("File");
         openFileExploreButton.addActionListener(new FileOpenListener());
         filePathTextField = new JTextField();
@@ -43,6 +43,7 @@ public class InputBlock extends Block{
 
         GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
+        setSize(200,75);
         add(flowPanel);
         add(flowSubPanel);
         add(inputOptionCombobox);
@@ -108,12 +109,14 @@ public class InputBlock extends Block{
     public FileType getFileType(){
         //파일 타입을 판단하는 알고리즘 필요
 
+
         return FileType.TYPE_NUMBER;
     }
 
     //TODO :: 파일로 들어오는 것과 폴더로 들어올 때 분기해서 활성화처리 해주기
     public InputOption getInputOption(){
         //활성화된 radioButton 리턴
+        //if()
         return (InputOption)inputOptionCombobox.getSelectedItem();
     }
 
