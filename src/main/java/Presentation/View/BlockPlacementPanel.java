@@ -16,14 +16,17 @@ public class BlockPlacementPanel extends JPanel {
     //TODO::레이아웃이 null인 상태에서 스크롤 달기
     public BlockPlacementPanel() {
         setLayout(null);
-        /*scroll=new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS){
+        /*
+        scroll=new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS){
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(1180,630);
             }
         };
-        this.add(scroll);*/
-
+        this.add(scroll);
+        */
+        scroll=new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scroll.setViewportView(this);
         setVisible(true);
     }
 
