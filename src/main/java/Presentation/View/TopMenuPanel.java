@@ -1,5 +1,7 @@
 package Presentation.View;
 
+import Util.FileUtil;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,10 +9,10 @@ import java.awt.*;
  * Created by LG on 2018-03-26.
  */
 public class TopMenuPanel extends JPanel {
-    JButton btn_run=new JButton(new ImageIcon("images/icon/start.png"));
-    JButton btn_pause=new JButton(new ImageIcon("images/icon/stop.png"));
-    JButton btn_save=new JButton(new ImageIcon("images/icon/save.png"));
-    JButton btn_load=new JButton(new ImageIcon("images/icon/folder.png"));
+    JButton btn_run=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/start.png")));
+    JButton btn_pause=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/stop.png")));
+    JButton btn_save=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/save.png")));
+    JButton btn_load=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/folder.png")));
 
     public TopMenuPanel(){
         btn_run.setBorderPainted(false);

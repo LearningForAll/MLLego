@@ -29,7 +29,6 @@ public class BlockComponent {
     @Test
     public void testClassifierBlock() throws InterruptedException {
         classifierBlock = new ClassifierBlock();
-
         classifierBlock.setSize(200,80);
         classifierBlock.setLocation(150,0);
         blockTestFrame.add(classifierBlock);
@@ -40,9 +39,10 @@ public class BlockComponent {
 
     @Test
     public void testConvolutionBlock() throws InterruptedException{
-        convolutionLayerBlock=new ConvolutionLayerBlock("Convolution Block");
+        convolutionLayerBlock=new ConvolutionLayerBlock();
         convolutionLayerBlock.setSize(200,105);
         convolutionLayerBlock.setLocation(150,130);
+        blockTestFrame.add(convolutionLayerBlock);
         convolutionLayerBlock.setVisible(true);
         blockTestFrame.validate();
         Thread.sleep(5000);

@@ -7,10 +7,11 @@ import java.awt.*;
 
 public class ModelBlock extends Block {
 
-    public ModelBlock(String blockName){
-        super(blockName);
+    public ModelBlock(){
+        super("Model Block");
         GridLayout layout=new GridLayout(1, 1);
         setLayout(layout);
+        setSize(200,40);
         add(flowPanel);
         flowPanel.setBackground(new Color(0, 0, 180));
         setVisible(true);

@@ -3,6 +3,8 @@ package Component.BlockComponent;
 import Component.BlockException.BlockException;
 import Component.BlockObserver.BlockObserver;
 import Component.BlockObserver.BlockPublisher;
+import Util.FileUtil;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -55,7 +57,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         nameLabel=new JLabel(blockName);
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
-        reductButton=new JButton(new ImageIcon("images/icon/minus.png"));
+        reductButton=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/minus.png")));
         reductButton.addActionListener(new ReductionActionListener(this));
         flowPanel=new JPanel(new FlowLayout());
         reductButton.setPreferredSize(new Dimension(16,16));

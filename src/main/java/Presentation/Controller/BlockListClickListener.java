@@ -1,6 +1,6 @@
 package Presentation.Controller;
 
-import Component.BlockComponent.ClassifierBlock;
+import Component.BlockComponent.*;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -10,14 +10,27 @@ import java.awt.event.MouseListener;
  */
 public class BlockListClickListener implements MouseListener {
 
-
+    //BlockListPanel에 마우스 클릭 이벤트 들어오면 BlockPlacement 컨트롤러의 addBlock에 해당되는 블록 추가
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() instanceof ClassifierBlock){
             BlockPlacementController.getInstance().addBlock(new ClassifierBlock());
-            System.out.print("됫지롱!");
-        }else{
-            System.out.print("안됫어여 ㅠㅠㅠ");
+        } else if(e.getSource() instanceof ConvolutionLayerBlock){
+            BlockPlacementController.getInstance().addBlock(new ConvolutionLayerBlock());
+        } else if(e.getSource() instanceof InputBlock){
+            BlockPlacementController.getInstance().addBlock(new InputBlock());
+        }else if(e.getSource() instanceof PreprocessorBlock){
+            BlockPlacementController.getInstance().addBlock(new PreprocessorBlock());
+        }else if(e.getSource() instanceof LstmBlock){
+            BlockPlacementController.getInstance().addBlock(new LstmBlock());
+        }else if(e.getSource() instanceof PoolingBlock){
+            BlockPlacementController.getInstance().addBlock(new PoolingBlock());
+        }else if(e.getSource() instanceof DenseBlock){
+            BlockPlacementController.getInstance().addBlock(new DenseBlock(2));
+        }else if(e.getSource() instanceof ModelBlock){
+            BlockPlacementController.getInstance().addBlock(new ModelBlock());
+        }else if(e.getSource() instanceof TrainingBlock){
+            BlockPlacementController.getInstance().addBlock(new TrainingBlock());
         }
     }
 
