@@ -52,12 +52,12 @@ public class PreprocessorBlock extends Block {
 
     @Override
     public boolean isNextBlockConnected() {
-        return false;
+        return (nextBlocks.size() != 0);
     }
 
     @Override
     public boolean isPreviousBlockConnected() {
-        return false;
+        return (previousBlocks.size() != 0);
     }
 
     // Preprocessor랑 Input블록이 연결될때 무조건 호출해야하는 함수

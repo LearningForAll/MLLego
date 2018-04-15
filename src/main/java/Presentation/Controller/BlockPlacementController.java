@@ -4,6 +4,10 @@ import Component.BlockComponent.Block;
 import Component.BlockObserver.BlockObserver;
 import Presentation.View.BlockPlacementPanel;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,24 +60,35 @@ public class BlockPlacementController implements BlockObserver {
         tempBlocks.addAll(blocks);
         tempBlocks.remove(block);
 
-        for (Block block1 : tempBlocks) {
-            //TODO isNextBlockConnectable 함수의 로직이 완성되면 뒤에  && !block1.isNextBlockConnected() 붙임
-            if (checkCloseBlock(block, block1) && block1.isNextBlockConnectable(block)) {
-                block1.blinkBottom();
-                block.blinkTop();
-            }else{
-                // 거리에서 멀어진 블록들을 revert 시킨다.
-                block.revertBlock();
-                block1.revertBlock();
+        if(block.isPreviousBlockConnected()){
+            // 연결이 끊긴 상태
+            System.out.println("연결이 끊겼다!!");
+            if(!block.checkTopBorder()){
+
+                //블록 삭
+                block.disconnectBlock();
             }
-            if (checkCloseBlock(block1, block) && block1.isPreviousBlockConnectable(block)){
-                block1.blinkTop();
-                block.blinkBottom();
-            }else{
-                block.revertBlock();
-                block1.revertBlock();
+        }else{
+            for (Block block1 : tempBlocks) {
+                //TODO isNextBlockConnectable 함수의 로직이 완성되면 뒤에  && !block1.isNextBlockConnected() 붙임
+                if (checkCloseBlock(block, block1) && block1.isNextBlockConnectable(block) && block1.isNextBlockConnected()) {
+                    block1.blinkBottom();
+                    block.blinkTop();
+                }else{
+                    // 거리에서 멀어진 블록들을 revert 시킨다.
+                    block.revertBlock();
+                    block1.revertBlock();
+                }
+                if (checkCloseBlock(block1, block) && block1.isPreviousBlockConnectable(block)){
+                    block1.blinkTop();
+                    block.blinkBottom();
+                }else{
+                    block.revertBlock();
+                    block1.revertBlock();
+                }
             }
         }
+
 
     }
     // 드래그가 풀리면 블록을 원래대로 되돌리고
@@ -115,7 +130,46 @@ public class BlockPlacementController implements BlockObserver {
                 && (block.getX() - block1.getX() > -100)
                 && (block1.getY() + block1.getY() - block.getY() < 100)
                 && (block1.getY() + block1.getY() - block.getY() > - 100));
-    }
+   }
+
+   public void saveBlockBatch(String name){
+        // save 해야할 것
+       // 블록 객체 자체를 직렬화 하여 저장..
+       try {
+           //  ".block으로 저장
+           ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("sample.block"));
+           oos.writeObject(blocks);
+           oos.close();
+
+       } catch (Exception e) {
+           // TODO: handle exception
+           e.printStackTrace();
+       }
+
+   }
+   public void loadBlockBatch(String filePath){
+       try{
+           // 직렬화된 객체를 로드해옴.
+           List<Block> blockList;
+           ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath));
+           blockList = (List<Block>)ois.readObject();
+           ois.close();
+
+           // 패널의 모든 블록삭제
+           this.blocks.clear();
+           panel.deleteAllBlock();
+
+           this.blocks = blockList;
+
+           panel.addBlocks(this.blocks);
+
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+
+       //TODO 만약 블록이 PlacementController에 있다면 그 배치를 저장하겠냐고 메시지를 띄운다.
+   }
+
 
 
 }

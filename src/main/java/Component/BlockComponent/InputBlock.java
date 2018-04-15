@@ -96,12 +96,14 @@ public class InputBlock extends Block{
 
     @Override
     public boolean isNextBlockConnected() {
-        return false;
+        return (nextBlocks.size() != 0);
     }
 
     @Override
     public boolean isPreviousBlockConnected() {
-        return false;
+
+        //인풋은 무조건 시작 블록...
+        return true;
     }
 
     public FileType getFileType(){
