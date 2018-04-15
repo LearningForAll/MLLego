@@ -25,7 +25,7 @@ public class BlockListPanel extends JTabbedPane {
         add("Processing", blockProcessing);
 
         Block[] allComponents = ArrayUtil.merge1(blockInput.getBlockComponents(),blockLayer.getBlockComponents(),blockProcessing.getBlockComponents());
-        //BlockListPanel에 있는 블록들에는 마우스클릭만 가능하게
+        //BlockListPanel에 있는 블록들에는 드래그 안되고 마우스 클릭만 가능하게 함
         for (Block mockBlock : allComponents){
             mockBlock.removeMouseListener(mockBlock);
             mockBlock.addMouseListener(new BlockListClickListener());
