@@ -24,19 +24,21 @@ public class BlockPlacementController implements BlockObserver {
     List<Block> blocks;
 
 
-    private BlockPlacementController(){
+    private BlockPlacementController() {
         blocks = new ArrayList<>();
     }
-    public static BlockPlacementController getInstance(){
+
+    public static BlockPlacementController getInstance() {
         return instance;
     }
 
-    public void setPanel(BlockPlacementPanel panel){
+    public void setPanel(BlockPlacementPanel panel) {
         this.panel = panel;
     }
+
     /**
      * 이 함수로 블록 BlockPlacementController에 블록 추가
-    * **/
+     **/
     public void addBlock(Block block) {
 
         blocks.add(block);
@@ -60,37 +62,37 @@ public class BlockPlacementController implements BlockObserver {
         tempBlocks.addAll(blocks);
         tempBlocks.remove(block);
 
-        if(block.isPreviousBlockConnected()){
-            // 연결이 끊긴 상태
-            System.out.println("연결이 끊겼다!!");
-            if(!block.checkTopBorder()){
 
-                //블록 삭
-                block.disconnectBlock();
+        //TODO 로직이 잘못됬음
+
+        for (Block block1 : tempBlocks) {
+            //TODO isNextBlockConnectable 함수의 로직이 완성되면 뒤에  && !block1.isNextBlockConnected() 붙임
+            if (checkTopCloseBlock(block, block1) && block1.isNextBlockConnectable(block) && !block1.isNextBlockConnected() && block.isPreviousBlockConnectable(block1)) {
+                block1.blinkBottom();
+                block.blinkTop();
+            } else {
+                // 거리에서 멀어진 블록들을 revert 시킨다.
+                System.out.println("로직1"+String.valueOf(checkTopCloseBlock(block, block1)) + block1.isNextBlockConnectable(block) + !block1.isNextBlockConnected() + block.isPreviousBlockConnectable(block1));
+                System.out.println("왜안되는거야");
+                block.revertBlock();
+                block1.revertBlock();
             }
-        }else{
-            for (Block block1 : tempBlocks) {
-                //TODO isNextBlockConnectable 함수의 로직이 완성되면 뒤에  && !block1.isNextBlockConnected() 붙임
-                if (checkCloseBlock(block, block1) && block1.isNextBlockConnectable(block) && block1.isNextBlockConnected()) {
-                    block1.blinkBottom();
-                    block.blinkTop();
-                }else{
-                    // 거리에서 멀어진 블록들을 revert 시킨다.
-                    block.revertBlock();
-                    block1.revertBlock();
-                }
-                if (checkCloseBlock(block1, block) && block1.isPreviousBlockConnectable(block)){
-                    block1.blinkTop();
-                    block.blinkBottom();
-                }else{
-                    block.revertBlock();
-                    block1.revertBlock();
-                }
+            System.out.println("로직2"+String.valueOf(checkBottomCloseBlock(block1, block)) + block1.isPreviousBlockConnectable(block) + !block1.isPreviousBlockConnected() + block.isNextBlockConnectable(block1));
+            if (checkBottomCloseBlock(block1, block) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)) {
+                System.out.println("BLINK");
+                block1.blinkTop();
+                block.blinkBottom();
+            } else {
+
+                System.out.println("하하시발..");
+                block.revertBlock();
+                block1.revertBlock();
             }
         }
 
 
     }
+
     // 드래그가 풀리면 블록을 원래대로 되돌리고
     @Override
     public void revertOrConnectBlock(Block block) {
@@ -98,17 +100,17 @@ public class BlockPlacementController implements BlockObserver {
         List<Block> tempBlocks = new ArrayList<>();
         tempBlocks.addAll(blocks);
         tempBlocks.remove(block);
-        if(block.checkBorder()){
-            if(block.checkTopBorder()){
-                for(Block block1 : tempBlocks){
-                    if(block1.checkBottomBorder()){
+        if (block.checkBorder()) {
+            if (block.checkTopBorder()) {
+                for (Block block1 : tempBlocks) {
+                    if (block1.checkBottomBorder()) {
                         block.registerPreviousBlock(block1);
                         block1.registerNextBlock(block);
                     }
                 }
-            }else{// bottom이 빛날때
-                for(Block block1 : tempBlocks){
-                    if(block1.checkTopBorder()){
+            } else {// bottom이 빛날때
+                for (Block block1 : tempBlocks) {
+                    if (block1.checkTopBorder()) {
                         block.registerNextBlock(block1);
                         block1.registerPreviousBlock(block);
                     }
@@ -125,51 +127,62 @@ public class BlockPlacementController implements BlockObserver {
     // block 을 기준으로 첫번째 인자가 기준블록이면 기준블록이 아래 그 반대의 경우는 인자 위치를 바꿔주면됌
 
     // TODO 논리 수정 필요 말이안됌
-   private boolean checkCloseBlock(Block block, Block block1){
+    private boolean checkTopCloseBlock(Block block, Block block1){
         return ((block.getX() - block1.getX() < 100)
                 && (block.getX() - block1.getX() > -100)
-                && (block1.getY() + block1.getY() - block.getY() < 100)
-                && (block1.getY() + block1.getY() - block.getY() > - 100));
-   }
+                && (block1.getY() + block1.getHeight() - block.getY() < 150)
+                && (block1.getY() + block1.getHeight() - block.getY() > 0));
+    }
+    private boolean checkBottomCloseBlock(Block block, Block block1){
+        System.out.println(block.getX()+"/"+block.getY()+"/"+block1.getX()+"/"+block1.getY()+"/"+block.getHeight());
+        System.out.println(((block.getX() - block1.getX() < 100)
+                && (block.getX() - block1.getX() > -100)
+                && (block.getY() + block.getHeight() - block1.getY() < 150)
+                && (block.getY() + block.getHeight() - block1.getY() > 0)));
+        return ((block.getX() - block1.getX() < 100)
+                && (block.getX() - block1.getX() > -100)
+                && (block.getY() + block.getHeight() - block1.getY() < 150)
+                && (block.getY() + block.getHeight() - block1.getY() > 0));
+    }
 
-   public void saveBlockBatch(String name){
+    public void saveBlockBatch(String name) {
         // save 해야할 것
-       // 블록 객체 자체를 직렬화 하여 저장..
-       try {
-           //  ".block으로 저장
-           ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("sample.block"));
-           oos.writeObject(blocks);
-           oos.close();
+        // 블록 객체 자체를 직렬화 하여 저장..
+        try {
+            //  ".block으로 저장
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("sample.block"));
+            oos.writeObject(blocks);
+            oos.close();
 
-       } catch (Exception e) {
-           // TODO: handle exception
-           e.printStackTrace();
-       }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
 
-   }
-   public void loadBlockBatch(String filePath){
-       try{
-           // 직렬화된 객체를 로드해옴.
-           List<Block> blockList;
-           ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath));
-           blockList = (List<Block>)ois.readObject();
-           ois.close();
+    }
 
-           // 패널의 모든 블록삭제
-           this.blocks.clear();
-           panel.deleteAllBlock();
+    public void loadBlockBatch(String filePath) {
+        try {
+            // 직렬화된 객체를 로드해옴.
+            List<Block> blockList;
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath));
+            blockList = (List<Block>) ois.readObject();
+            ois.close();
 
-           this.blocks = blockList;
+            // 패널의 모든 블록삭제
+            this.blocks.clear();
+            panel.deleteAllBlock();
 
-           panel.addBlocks(this.blocks);
+            this.blocks = blockList;
 
-       }catch (Exception e){
-           e.printStackTrace();
-       }
+            panel.addBlocks(this.blocks);
 
-       //TODO 만약 블록이 PlacementController에 있다면 그 배치를 저장하겠냐고 메시지를 띄운다.
-   }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        //TODO 만약 블록이 PlacementController에 있다면 그 배치를 저장하겠냐고 메시지를 띄운다.
+    }
 
 
 }

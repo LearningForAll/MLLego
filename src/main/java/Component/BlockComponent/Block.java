@@ -80,7 +80,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                 throw new BlockException(block.getClass().getSimpleName() + "is not connectable Previous block for" + this.getClass().getSimpleName());
             }
         }else{
-            throw new BlockException(block.getClass().getSimpleName() + "is not connectable Next block for" + this.getClass().getSimpleName());
+            throw new BlockException(block.getClass().getSimpleName() + " is not connectable Next block for" + this.getClass().getSimpleName());
         }
     }
     // 인자로 넘어온 블록을 이전 블록으로 등록하는 함수
