@@ -234,14 +234,14 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
 
     public void disconnectBlock(){
-        this.nextBlocks.get(0).disconnectPreviousBlock();
-        this.disconnectNextBlock();
+        this.previousBlocks.get(0).disconnectNextBlock();
+        this.disconnectPreviousBlock();
 
     }
     private void disconnectNextBlock(){
         this.nextBlocks.clear();
     }
     private void disconnectPreviousBlock(){
-        this.nextBlocks.get(0).previousBlocks.clear();
+        this.previousBlocks.clear();
     }
 }
