@@ -79,18 +79,15 @@ public class BlockPlacementController implements BlockObserver {
                 } else {
                     // 거리에서 멀어진 블록들을 revert 시킨다.
                     System.out.println("로직1"+String.valueOf(checkTopCloseBlock(block, block1)) + block1.isNextBlockConnectable(block) + !block1.isNextBlockConnected() + block.isPreviousBlockConnectable(block1));
-                    System.out.println("왜안되는거야");
                     block.revertBlock();
                     block1.revertBlock();
                 }
                 System.out.println("로직2"+String.valueOf(checkBottomCloseBlock(block1, block)) + block1.isPreviousBlockConnectable(block) + !block1.isPreviousBlockConnected() + block.isNextBlockConnectable(block1));
                 if (checkBottomCloseBlock(block1, block) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)) {
-                    System.out.println("BLINK");
+
                     block1.blinkTop();
                     block.blinkBottom();
                 } else {
-
-                    System.out.println("하하시발..");
                     block.revertBlock();
                     block1.revertBlock();
                 }
