@@ -72,25 +72,18 @@ public class BlockPlacementController implements BlockObserver {
             }
         }else{
             for (Block block1 : tempBlocks) {
-                //TODO isNextBlockConnectable 함수의 로직이 완성되면 뒤에  && !block1.isNextBlockConnected() 붙임
-                if (checkTopCloseBlock(block, block1) && block1.isNextBlockConnectable(block) && !block1.isNextBlockConnected() && block.isPreviousBlockConnectable(block1)) {
-                    block1.blinkBottom();
-                    block.blinkTop();
-                } else {
-                    // 거리에서 멀어진 블록들을 revert 시킨다.
-                    System.out.println("로직1"+String.valueOf(checkTopCloseBlock(block, block1)) + block1.isNextBlockConnectable(block) + !block1.isNextBlockConnected() + block.isPreviousBlockConnectable(block1));
-                    block.revertBlock();
-                    block1.revertBlock();
-                }
-                System.out.println("로직2"+String.valueOf(checkBottomCloseBlock(block1, block)) + block1.isPreviousBlockConnectable(block) + !block1.isPreviousBlockConnected() + block.isNextBlockConnectable(block1));
-                if (checkBottomCloseBlock(block1, block) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)) {
 
+                if (checkTopCloseBlock(block1, block) && block1.isNextBlockConnectable(block) && !block1.isNextBlockConnected() && block.isPreviousBlockConnectable(block1)) {
+                    block.blinkTop();
+                    block1.blinkBottom();
+                }else if(checkBottomCloseBlock(block1, block) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)){
                     block1.blinkTop();
                     block.blinkBottom();
-                } else {
+                }else{
                     block.revertBlock();
                     block1.revertBlock();
                 }
+
             }
         }
 
@@ -134,17 +127,20 @@ public class BlockPlacementController implements BlockObserver {
 
     // TODO 논리 수정 필요 말이안됌
     private boolean checkTopCloseBlock(Block block, Block block1){
+        System.out.println("TOP CLOSE CHECK");
+        System.out.println(block.getClass().toString() + "/" + block1.getClass().toString());
+        System.out.println(block.getX()+"/"+block.getY()+"/"+block1.getX()+"/"+block1.getY()+"/"+block.getHeight());
+        System.out.println(((block.getX() - block1.getX() < 100)
+                && (block.getX() - block1.getX() > -100)
+                && (block1.getY() - block1.getHeight() - block.getY() < 150)
+                && (block1.getY() - block1.getHeight() - block.getY() > 0)));
         return ((block.getX() - block1.getX() < 100)
                 && (block.getX() - block1.getX() > -100)
                 && (block1.getY() + block1.getHeight() - block.getY() < 150)
                 && (block1.getY() + block1.getHeight() - block.getY() > 0));
     }
     private boolean checkBottomCloseBlock(Block block, Block block1){
-        System.out.println(block.getX()+"/"+block.getY()+"/"+block1.getX()+"/"+block1.getY()+"/"+block.getHeight());
-        System.out.println(((block.getX() - block1.getX() < 100)
-                && (block.getX() - block1.getX() > -100)
-                && (block.getY() + block.getHeight() - block1.getY() < 150)
-                && (block.getY() + block.getHeight() - block1.getY() > 0)));
+
         return ((block.getX() - block1.getX() < 100)
                 && (block.getX() - block1.getX() > -100)
                 && (block.getY() + block.getHeight() - block1.getY() < 150)
