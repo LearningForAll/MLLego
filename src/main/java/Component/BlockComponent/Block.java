@@ -54,7 +54,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public Block(String blockName){
         this();
         this.blockName=blockName;
-        setBorder(basicBorder);
         nameLabel=new JLabel(blockName);
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
@@ -65,6 +64,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         flowPanel.add(reductButton);
         flowPanel.add(nameLabel);
         flowPanel.setBackground(new Color(150, 0, 205));
+        this.setBorder(basicBorder);
         setVisible(true);
     }
 
@@ -80,7 +80,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                 throw new BlockException(block.getClass().getSimpleName() + "is not connectable Previous block for" + this.getClass().getSimpleName());
             }
         }else{
-            throw new BlockException(block.getClass().getSimpleName() + "is not connectable Next block for" + this.getClass().getSimpleName());
+            throw new BlockException(block.getClass().getSimpleName() + " is not connectable Next block for" + this.getClass().getSimpleName());
         }
     }
     // 인자로 넘어온 블록을 이전 블록으로 등록하는 함수
@@ -100,6 +100,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
      *  아래쪽 보더를 셋해준다
      */
     public void blinkBottom(){
+        System.out.println("바텀이 반짝!");
         this.setBorder(bottomBorder);
     }
 
@@ -107,6 +108,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
      * 위쪽 보더를 셋해준다.
      */
     public void blinkTop(){
+        System.out.println("탑이 반짝!");
         this.setBorder(topBorder);
     }
 
@@ -234,14 +236,14 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
 
     public void disconnectBlock(){
-        this.nextBlocks.get(0).disconnectPreviousBlock();
-        this.disconnectNextBlock();
+        this.previousBlocks.get(0).disconnectNextBlock();
+        this.disconnectPreviousBlock();
 
     }
     private void disconnectNextBlock(){
         this.nextBlocks.clear();
     }
     private void disconnectPreviousBlock(){
-        this.nextBlocks.get(0).previousBlocks.clear();
+        this.previousBlocks.clear();
     }
 }

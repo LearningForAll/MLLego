@@ -102,8 +102,8 @@ public class InputBlock extends Block{
     @Override
     public boolean isPreviousBlockConnected() {
 
-        //인풋은 무조건 시작 블록...
-        return true;
+        // 시작블록이지만 전 블록이랑 연결된 것은 아니기 때문에 로직 변경
+        return false;
     }
 
     public FileType getFileType(){

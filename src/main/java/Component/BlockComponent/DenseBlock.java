@@ -55,7 +55,7 @@ public class DenseBlock extends LayerBlock {
 
     @Override
     public boolean isPreviousBlockConnectable(Block block) {
-        return (block instanceof  InputBlock || block instanceof LayerBlock);
+        return (block instanceof InputBlock || block instanceof LayerBlock);
     }
 
     @Override

@@ -68,13 +68,13 @@ public class TrainingBlock extends Block {
 
     @Override
     public boolean isNextBlockConnectable(Block block) {
-        return (block instanceof ClassifierBlock);
+        return (block instanceof ModelBlock);
     }
 
     @Override
     public boolean isPreviousBlockConnectable(Block block) {
 
-        return (block instanceof ModelBlock);
+        return (block instanceof ClassifierBlock);
     }
 
     @Override
