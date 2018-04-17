@@ -59,11 +59,11 @@ public class BlockPlacementController implements BlockObserver {
         // 현재 드래그 되고있는 블록은 리스트에서 제거하기 위해..
         List<Block> tempBlocks = new ArrayList<>();
         // Complete 복사를 위해서
+        //TODO 연결된 블록도 같이 해야함
         tempBlocks.addAll(blocks);
         tempBlocks.remove(block);
 
 
-        //TODO 로직이 잘못됬음
         if(block.isPreviousBlockConnected()){
 
             System.out.println("연결이 끊겼다!!");
@@ -73,12 +73,18 @@ public class BlockPlacementController implements BlockObserver {
         }else{
             for (Block block1 : tempBlocks) {
 
-                if (checkTopCloseBlock(block1, block) && block1.isNextBlockConnectable(block) && !block1.isNextBlockConnected() && block.isPreviousBlockConnectable(block1)) {
+                if (checkTopCloseBlock(block, block1) && block1.isNextBlockConnectable(block) && !block1.isNextBlockConnected() && block.isPreviousBlockConnectable(block1)) {
+                    System.out.println("탑이 빛날");
                     block.blinkTop();
                     block1.blinkBottom();
-                }else if(checkBottomCloseBlock(block1, block) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)){
-                    block1.blinkTop();
+                }else{
+                    block.revertBlock();
+                    block1.revertBlock();
+                }
+                if(checkBottomCloseBlock(block, block1) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)){
+                    System.out.println("바텀이 빛날때");
                     block.blinkBottom();
+                    block1.blinkTop();
                 }else{
                     block.revertBlock();
                     block1.revertBlock();
@@ -127,24 +133,26 @@ public class BlockPlacementController implements BlockObserver {
 
     // TODO 논리 수정 필요 말이안됌
     private boolean checkTopCloseBlock(Block block, Block block1){
+        //내가드래그 하는 블록이 아래쪽에서 위쪽으로 접근할
         System.out.println("TOP CLOSE CHECK");
         System.out.println(block.getClass().toString() + "/" + block1.getClass().toString());
-        System.out.println(block.getX()+"/"+block.getY()+"/"+block1.getX()+"/"+block1.getY()+"/"+block.getHeight());
-        System.out.println(((block.getX() - block1.getX() < 100)
+        System.out.println("/"+block.getY()+"/"+block1.getY()+"/"+block.getHeight());
+        System.out.println((((block.getX() - block1.getX() < 100)
                 && (block.getX() - block1.getX() > -100)
-                && (block1.getY() - block1.getHeight() - block.getY() < 150)
-                && (block1.getY() - block1.getHeight() - block.getY() > 0)));
+                && (block.getY() + block.getHeight() - block1.getY() > -150)
+                && (block.getY() + block.getHeight() - block1.getY() < 0))));
         return ((block.getX() - block1.getX() < 100)
                 && (block.getX() - block1.getX() > -100)
                 && (block1.getY() + block1.getHeight() - block.getY() < 150)
                 && (block1.getY() + block1.getHeight() - block.getY() > 0));
     }
     private boolean checkBottomCloseBlock(Block block, Block block1){
+        System.out.println("Bottom Close Check");
 
         return ((block.getX() - block1.getX() < 100)
                 && (block.getX() - block1.getX() > -100)
-                && (block.getY() + block.getHeight() - block1.getY() < 150)
-                && (block.getY() + block.getHeight() - block1.getY() > 0));
+                && (block1.getY() + block1.getHeight() - block.getY() < 150)
+                && (block1.getY() + block1.getHeight() - block.getY() > 0));
     }
 
     public void saveBlockBatch(String name) {
