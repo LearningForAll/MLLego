@@ -1,5 +1,7 @@
 package Component.BlockComponent;
 
+import Util.FileUtil;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,7 +14,7 @@ public abstract class ExtendableBlock extends Block {
 
     public ExtendableBlock(String name){
         super(name);
-        extendButton=new JButton(new ImageIcon("images/icon/plus.png"));
+        extendButton=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/plus.png")));
         extendButton.setPreferredSize(new Dimension(16, 16));
         flowPanel.add(extendButton);
         setVisible(true);

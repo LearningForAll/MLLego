@@ -17,8 +17,8 @@ public class DenseBlock extends LayerBlock {
     // 인풋 디멘션과 default로 같다 값이.
     NumberOnlyTextField outputDimensionTextField;
 
-    public DenseBlock(int inputDimension, String blockName){
-        super(blockName);
+    public DenseBlock(int inputDimension){
+        super("Dense Block");
         layerTextField = new NumberOnlyTextField(1, 1, 50);
         outputDimensionTextField = new NumberOnlyTextField(inputDimension, 1, 1000);
 
@@ -36,6 +36,7 @@ public class DenseBlock extends LayerBlock {
 
         GridLayout layout=new GridLayout(2,1);
         setLayout(layout);
+        setSize(200,50);
         add(flowPanel);
         add(flowSubPanel);
         setVisible(true);
@@ -54,17 +55,17 @@ public class DenseBlock extends LayerBlock {
 
     @Override
     public boolean isPreviousBlockConnectable(Block block) {
-        return (block instanceof  InputBlock || block instanceof LayerBlock);
+        return (block instanceof InputBlock || block instanceof LayerBlock);
     }
 
     @Override
     public boolean isNextBlockConnected() {
-        return false;
+        return (nextBlocks.size() != 0);
     }
 
     @Override
     public boolean isPreviousBlockConnected() {
-        return false;
+        return (previousBlocks.size() != 0);
     }
 
     public int getLayerNum(){

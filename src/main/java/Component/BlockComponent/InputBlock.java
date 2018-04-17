@@ -21,8 +21,8 @@ public class InputBlock extends Block{
     private JComboBox<InputOption> inputOptionCombobox;
     private int inputFileDim = 0;
 
-    public InputBlock(String blockName){
-        super(blockName);
+    public InputBlock(){
+        super("Input Block");
         openFileExploreButton = new JButton("File");
         openFileExploreButton.addActionListener(new FileOpenListener());
         filePathTextField = new JTextField();
@@ -41,6 +41,7 @@ public class InputBlock extends Block{
 
         GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
+        setSize(200,75);
         add(flowPanel);
         add(flowSubPanel);
         add(inputOptionCombobox);
@@ -111,16 +112,19 @@ public class InputBlock extends Block{
 
     @Override
     public boolean isNextBlockConnected() {
-        return false;
+        return (nextBlocks.size() != 0);
     }
 
     @Override
     public boolean isPreviousBlockConnected() {
+
+        // 시작블록이지만 전 블록이랑 연결된 것은 아니기 때문에 로직 변경
         return false;
     }
 
     public FileType getFileType(){
         //파일 타입을 판단하는 알고리즘 필요
+
 
         return FileType.TYPE_NUMBER;
     }
@@ -128,6 +132,7 @@ public class InputBlock extends Block{
     //TODO :: 파일로 들어오는 것과 폴더로 들어올 때 분기해서 활성화처리 해주기
     public InputOption getInputOption(){
         //활성화된 radioButton 리턴
+        //if()
         return (InputOption)inputOptionCombobox.getSelectedItem();
     }
 

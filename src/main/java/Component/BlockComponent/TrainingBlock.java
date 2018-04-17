@@ -24,8 +24,8 @@ public class TrainingBlock extends Block {
     private JComboBox<Optimizer> optimizerCombobox;
 
 
-    public TrainingBlock(String blockName){
-        super(blockName);
+    public TrainingBlock(){
+        super("Training Block");
 
         batchSizeTextField = new NumberOnlyTextField(1,1,100000);
         //TODO 소수도 지원 가능한걸로 교체
@@ -52,6 +52,7 @@ public class TrainingBlock extends Block {
 
         GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
+        setSize(200,75);
         add(flowPanel);
         add(flowSubPanel);
         add(optimizerCombobox);
@@ -67,23 +68,23 @@ public class TrainingBlock extends Block {
 
     @Override
     public boolean isNextBlockConnectable(Block block) {
-        return (block instanceof ClassifierBlock);
+        return (block instanceof ModelBlock);
     }
 
     @Override
     public boolean isPreviousBlockConnectable(Block block) {
 
-        return (block instanceof ModelBlock);
+        return (block instanceof ClassifierBlock);
     }
 
     @Override
     public boolean isNextBlockConnected() {
-        return false;
+        return (nextBlocks.size() != 0);
     }
 
     @Override
     public boolean isPreviousBlockConnected() {
-        return false;
+        return (previousBlocks.size() != 0);
     }
 
 

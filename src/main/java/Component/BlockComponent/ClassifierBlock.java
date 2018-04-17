@@ -17,11 +17,11 @@ public class ClassifierBlock extends Block{
         classifierComboBox = new JComboBox<>(Classifier.values());
         GridLayout layout=new GridLayout(2,1);
         setLayout(layout);
+        setSize(200,50);
         flowPanel.setBackground(new Color(0,0,180));
         add(flowPanel);
         add(classifierComboBox);
         setVisible(true);
-        setSize(200,90);
     }
 
 
@@ -42,12 +42,12 @@ public class ClassifierBlock extends Block{
 
     @Override
     public boolean isNextBlockConnected() {
-        return false;
+        return (nextBlocks.size() != 0);
     }
 
     @Override
     public boolean isPreviousBlockConnected() {
-        return false;
+        return (previousBlocks.size() != 0);
     }
 
     public Block getxPartBlock() {

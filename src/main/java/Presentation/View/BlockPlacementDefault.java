@@ -11,6 +11,7 @@ import java.awt.*;
 public class BlockPlacementDefault extends JTabbedPane{
     BlockPlacementPanel blockPlacementPanel=new BlockPlacementPanel();
     ModelTestPanel modelTestPanel=new ModelTestPanel();
+    JScrollPane scroll;
 
     public BlockPlacementDefault(){
 

@@ -19,9 +19,8 @@ public class ConvolutionLayerBlock extends LayerBlock {
     NumberOnlyTextField horizontalKernelSize;
     NumberOnlyTextField verticalKernelSize;
 
-    public ConvolutionLayerBlock(String blockName){
-        super(blockName);
-        this.blockName=blockName;
+    public ConvolutionLayerBlock(){
+        super("Convolution Block");
         keepprobJSlider = new JSlider();
         // Enum으로 값 ㅁ만듬
         activationFunctionCombobox = new JComboBox<>(ActivationFunc.values());
@@ -53,6 +52,7 @@ public class ConvolutionLayerBlock extends LayerBlock {
 
         GridLayout layout=new GridLayout(4,1);
         setLayout(layout);
+        setSize(200,100);
         add(flowPanel);
         add(keepprobJSlider);
         add(activationFunctionCombobox);
@@ -78,12 +78,12 @@ public class ConvolutionLayerBlock extends LayerBlock {
 
     @Override
     public boolean isNextBlockConnected() {
-        return false;
+        return (nextBlocks.size() != 0);
     }
 
     @Override
     public boolean isPreviousBlockConnected() {
-        return false;
+        return (previousBlocks.size() != 0);
     }
 
     public int getKeepProb(){

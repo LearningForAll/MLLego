@@ -12,7 +12,7 @@ import java.awt.*;
  * Created by LG on 2018-03-26.
  */
 
-//BlockLayer, BlockPentagon, BlockHexagon, BlockRhombus가 패널로 들어간 탭패널
+//blockLayer, blockPrecossing, blockInput이 패널로 들어간 탭패널
 public class BlockListPanel extends JTabbedPane {
 
     BlockLayer blockLayer=new BlockLayer();
@@ -25,6 +25,7 @@ public class BlockListPanel extends JTabbedPane {
         add("Processing", blockProcessing);
 
         Block[] allComponents = ArrayUtil.merge1(blockInput.getBlockComponents(),blockLayer.getBlockComponents(),blockProcessing.getBlockComponents());
+        //BlockListPanel에 있는 블록들에는 드래그 안되고 마우스 클릭만 가능하게 함
         for (Block mockBlock : allComponents){
             mockBlock.removeMouseListener(mockBlock);
             mockBlock.addMouseListener(new BlockListClickListener());

@@ -17,12 +17,13 @@ public class LstmBlock extends LayerBlock {
     JSlider keepProbJSlider;
 
 
-    public LstmBlock(String blockName){
-        super(blockName);
+    public LstmBlock(){
+        super("LSTM Block");
 
         keepProbJSlider = new JSlider();
         GridLayout layout=new GridLayout(2,1);
         setLayout(layout);
+        setSize(200,50);
         add(flowPanel);
         add(keepProbJSlider);
         setVisible(true);
@@ -45,12 +46,12 @@ public class LstmBlock extends LayerBlock {
 
     @Override
     public boolean isNextBlockConnected() {
-        return false;
+        return (nextBlocks.size() != 0);
     }
 
     @Override
     public boolean isPreviousBlockConnected() {
-        return false;
+        return (previousBlocks.size() != 0);
     }
 
     public int getKeepProb() {

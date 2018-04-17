@@ -7,10 +7,11 @@ import java.awt.*;
 
 public class ModelBlock extends Block {
 
-    public ModelBlock(String blockName){
-        super(blockName);
+    public ModelBlock(){
+        super("Model Block");
         GridLayout layout=new GridLayout(1, 1);
         setLayout(layout);
+        setSize(200,40);
         add(flowPanel);
         flowPanel.setBackground(new Color(0, 0, 180));
         setVisible(true);
@@ -35,11 +36,12 @@ public class ModelBlock extends Block {
 
     @Override
     public boolean isNextBlockConnected() {
+        // 모델블록은 항상 마지막이므로 다음 블록이 올수 없다.
         return false;
     }
 
     @Override
     public boolean isPreviousBlockConnected() {
-        return false;
+        return (previousBlocks.size() != 0);
     }
 }
