@@ -2,6 +2,7 @@ package Component.BlockComponent;
 
 import Component.NumberOnlyTextField;
 import Const.PaddingOption;
+import jdk.internal.util.xml.impl.Input;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -75,12 +76,12 @@ public class PoolingBlock extends LayerBlock {
 
     @Override
     public boolean isNextBlockConnectable(Block block) {
-        return (block instanceof LayerBlock);
+        return (block instanceof LayerBlock || block instanceof ClassifierBlock);
     }
 
     @Override
     public boolean isPreviousBlockConnectable(Block block) {
-        return (block instanceof LayerBlock);
+        return (block instanceof InputBlock || block instanceof LayerBlock);
     }
 
     @Override

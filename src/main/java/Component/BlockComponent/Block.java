@@ -21,7 +21,6 @@ import java.util.List;
 public abstract class Block extends JPanel implements MouseListener, MouseMotionListener, BlockPublisher {
     private int offX, offY;
     private boolean isDragged = false;
-    private int draggedX, draggedY;
 
     private BlockObserver blockObserver;
     protected List<Block> previousBlocks;
@@ -100,16 +99,16 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
      *  아래쪽 보더를 셋해준다
      */
     public void blinkBottom(){
-        System.out.println("바텀이 반짝!");
         this.setBorder(bottomBorder);
+        System.out.println(this.getBorder().toString());
     }
 
     /**
      * 위쪽 보더를 셋해준다.
      */
     public void blinkTop(){
-        System.out.println("탑이 반짝!");
         this.setBorder(topBorder);
+        System.out.println(this.getBorder().toString());
     }
 
 

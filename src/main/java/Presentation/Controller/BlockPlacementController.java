@@ -71,25 +71,21 @@ public class BlockPlacementController implements BlockObserver {
                 block.disconnectBlock();
             }
         }else{
-            for (Block block1 : tempBlocks) {
 
+            for (Block block1 : tempBlocks) {
                 if (checkTopCloseBlock(block, block1) && block1.isNextBlockConnectable(block) && !block1.isNextBlockConnected() && block.isPreviousBlockConnectable(block1)) {
                     System.out.println("탑이 빛날");
                     block.blinkTop();
                     block1.blinkBottom();
-                }else{
-                    block.revertBlock();
-                    block1.revertBlock();
-                }
-                if(checkBottomCloseBlock(block, block1) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)){
+                }else if(checkBottomCloseBlock(block, block1) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)){
                     System.out.println("바텀이 빛날때");
                     block.blinkBottom();
                     block1.blinkTop();
-                }else{
+                }
+                else{
                     block.revertBlock();
                     block1.revertBlock();
                 }
-
             }
         }
 
@@ -111,6 +107,8 @@ public class BlockPlacementController implements BlockObserver {
                     if (block1.checkBottomBorder()) {
                         block.registerPreviousBlock(block1);
                         block1.registerNextBlock(block);
+                        System.out.println(block.isPreviousBlockConnected());
+                        System.out.println(block1.isNextBlockConnected());
                     }
                 }
             } else {// bottom이 빛날때
@@ -143,12 +141,12 @@ public class BlockPlacementController implements BlockObserver {
                 && (block.getY() + block.getHeight() - block1.getY() < 0))));
         return ((block.getX() - block1.getX() < 100)
                 && (block.getX() - block1.getX() > -100)
-                && (block1.getY() + block1.getHeight() - block.getY() < 150)
-                && (block1.getY() + block1.getHeight() - block.getY() > 0));
+                && (block1.getY() + block1.getHeight() - block.getY() > -50)
+                && (block1.getY() + block1.getHeight() - block.getY() < 0));
     }
     private boolean checkBottomCloseBlock(Block block, Block block1){
         System.out.println("Bottom Close Check");
-
+        System.out.println();
         return ((block.getX() - block1.getX() < 100)
                 && (block.getX() - block1.getX() > -100)
                 && (block1.getY() + block1.getHeight() - block.getY() < 150)

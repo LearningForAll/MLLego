@@ -36,12 +36,12 @@ public class LstmBlock extends LayerBlock {
 
     @Override
     public boolean isNextBlockConnectable(Block block) {
-        return (block instanceof LayerBlock);
+        return (block instanceof LayerBlock || block instanceof ClassifierBlock);
     }
 
     @Override
     public boolean isPreviousBlockConnectable(Block block) {
-        return (block instanceof InputBlock || block instanceof LayerBlock);
+        return (block instanceof InputBlock || block instanceof PreprocessorBlock|| block instanceof LayerBlock);
     }
 
     @Override
