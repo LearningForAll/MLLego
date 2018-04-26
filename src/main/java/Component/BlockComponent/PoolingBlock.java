@@ -2,11 +2,7 @@ package Component.BlockComponent;
 
 import Component.NumberOnlyTextField;
 import Const.PaddingOption;
-import jdk.internal.util.xml.impl.Input;
-
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 /**

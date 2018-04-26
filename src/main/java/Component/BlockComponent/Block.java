@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockException.BlockException;
 import Component.BlockObserver.BlockObserver;
 import Component.BlockObserver.BlockPublisher;
@@ -7,7 +8,6 @@ import Util.FileUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -39,13 +39,14 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     // 이전 블록과 연결되어 있는지 여부
     abstract public boolean isPreviousBlockConnected();
     JLabel nameLabel;
-    String blockName;
-    JPanel flowPanel;
+    public String blockName;
+    public JPanel flowPanel;
     JButton reductButton;
 
     public Block(){
         nextBlocks = new ArrayList<>();
         previousBlocks = new ArrayList<>();
+        this.setBorder(basicBorder);
         addMouseListener(this);
         addMouseMotionListener(this);
     }
@@ -53,6 +54,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public Block(String blockName){
         this();
         this.blockName=blockName;
+        this.setBorder(basicBorder);
         nameLabel=new JLabel(blockName);
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
@@ -63,7 +65,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         flowPanel.add(reductButton);
         flowPanel.add(nameLabel);
         flowPanel.setBackground(new Color(150, 0, 205));
-        this.setBorder(basicBorder);
+
         setVisible(true);
     }
 
@@ -100,7 +102,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
      */
     public void blinkBottom(){
         this.setBorder(bottomBorder);
-        System.out.println(this.getBorder().toString());
     }
 
     /**
@@ -108,7 +109,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
      */
     public void blinkTop(){
         this.setBorder(topBorder);
-        System.out.println(this.getBorder().toString());
     }
 
 
@@ -138,11 +138,15 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
             // 해당하는 블록이 첫번째 블록일때 뒤에 블록은 다 나를 따라와야한다.
             if(isFirstBlock()){
-                int i = 1;
+                int cumulativeY = 0;
                 Block block = this;
                 while(block.isNextBlockConnected()){
+                    System.out.println(this.getClass().getSimpleName());
                     for(int k = 0; k < block.nextBlocks.size(); k++){
-                        block.nextBlocks.get(k).setLocation(x, y + i * this.getHeight());
+                        //이전꺼까지 다 더해줘야함...
+                        cumulativeY += block.getHeight();
+                        block.nextBlocks.get(k).setLocation(x, y + cumulativeY);
+                        System.out.println(x+ "/"+ (y + block.getHeight()));
                         System.out.println("로케이션 되는중..");
                     }
                     //연결되어있으면
@@ -151,7 +155,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                     }else{
                         break;
                     }
-                    i++;
+
 
                 }
 
@@ -237,8 +241,48 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public void disconnectBlock(){
         this.previousBlocks.get(0).disconnectNextBlock();
         this.disconnectPreviousBlock();
+    }
+    public void setFollowBlockPosition(boolean isReducted){
+
+        Block block = this;
+        if(isReducted){
+            // 줄어든 상황
+            while(block.isNextBlockConnected()){
+                System.out.println("블록들..");
+                for(int k = 0; k < block.nextBlocks.size(); k++){
+                    block.nextBlocks.get(k).setLocation(this.getX(), block.nextBlocks.get(k).getY() + (this.getHeight() - flowPanel.getHeight()));
+                    System.out.println("하위 블록들의 위치 조정..");
+                }
+                //연결되어있으면
+                if(block.isNextBlockConnected()){
+                    block = block.nextBlocks.get(0);
+                }else{
+                    break;
+                }
+
+            }
+
+        }else{
+            // 아직 줄어들지 않은 상황
+            while(block.isNextBlockConnected()){
+                System.out.println("블록들..");
+                for(int k = 0; k < block.nextBlocks.size(); k++){
+                    block.nextBlocks.get(k).setLocation(this.getX(), block.nextBlocks.get(k).getY() - (this.getHeight() - flowPanel.getHeight()));
+                    System.out.println("하위 블록들의 위치 조정..");
+                }
+                //연결되어있으면
+                if(block.isNextBlockConnected()){
+                    block = block.nextBlocks.get(0);
+                }else{
+                    break;
+                }
+
+            }
+        }
 
     }
+
+
     private void disconnectNextBlock(){
         this.nextBlocks.clear();
     }

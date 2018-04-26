@@ -1,4 +1,6 @@
-package Component.BlockComponent;
+package Component.BlockActionListener;
+
+import Component.BlockComponent.Block;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,16 +25,20 @@ public class ReductionActionListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         if (isReducted){
+            block.setFollowBlockPosition(isReducted);
             block.setLayout(beforeLayout);
             block.setSize(block.getWidth(),beforeHeight);
             isReducted = false;
         }else {
+            block.setFollowBlockPosition(isReducted);
             beforeHeight = block.getHeight();
             beforeLayout = block.getLayout();
             block.setLayout(new BoxLayout(block,BoxLayout.Y_AXIS));
             block.setSize(block.getWidth(),block.flowPanel.getHeight());
             isReducted = true;
         }
+
     }
 }
