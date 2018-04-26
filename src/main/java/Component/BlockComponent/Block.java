@@ -101,19 +101,35 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
      *  아래쪽 보더를 셋해준다
      */
     public void blinkBottom(){
-        this.setBorder(bottomBorder);
+        System.out.println(this.getBorder());
+        try{
+            this.setBorder(null);
+            this.setBorder(bottomBorder);
+            System.out.println(this.getBorder());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
      * 위쪽 보더를 셋해준다.
      */
     public void blinkTop(){
-        this.setBorder(topBorder);
+        System.out.println(this.getBorder());
+        try{
+            this.setBorder(null);
+            this.setBorder(topBorder);
+            System.out.println(this.getBorder());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 
     //TODO 여기도 생성자 기본 테두리가 나오면 null 부분에 기본 테두리가 들어감
     public void revertBlock(){
+        this.setBorder(null);
         this.setBorder(basicBorder);
     }
 

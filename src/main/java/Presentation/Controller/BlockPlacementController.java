@@ -62,10 +62,10 @@ public class BlockPlacementController implements BlockObserver {
         //TODO 연결된 블록도 같이 해야함
         tempBlocks.addAll(blocks);
         tempBlocks.remove(block);
+        System.out.println(blocks.size());
 
 
         if(block.isPreviousBlockConnected()){
-
 
             if(!block.checkTopBorder()){
                 System.out.println("연결이 끊겼다!!");
@@ -106,17 +106,20 @@ public class BlockPlacementController implements BlockObserver {
         tempBlocks.remove(block);
         if (block.checkBorder()) {
             if (block.checkTopBorder()) {
+                System.out.println(block.getBorder());
                 for (Block block1 : tempBlocks) {
+                    System.out.println("탑볼더들.."+block1.getBorder());
                     if (block1.checkBottomBorder()) {
+                        System.out.println("바텀 등록");
                         block.registerPreviousBlock(block1);
                         block1.registerNextBlock(block);
-                        System.out.println(block.isPreviousBlockConnected());
-                        System.out.println(block1.isNextBlockConnected());
                     }
                 }
             } else {// bottom이 빛날때
                 for (Block block1 : tempBlocks) {
+                    System.out.println("바텀볼덜들.."+block1.getBorder());
                     if (block1.checkTopBorder()) {
+                        System.out.println("탑 등록");
                         block.registerNextBlock(block1);
                         block1.registerPreviousBlock(block);
                     }
@@ -124,7 +127,7 @@ public class BlockPlacementController implements BlockObserver {
             }
 
         }
-        for (Block block1 : tempBlocks) {
+        for (Block block1 : blocks) {
             block1.revertBlock();
         }
         block.revertBlock();

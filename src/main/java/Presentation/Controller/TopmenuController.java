@@ -18,6 +18,7 @@ public class TopmenuController implements TopmenuObserver{
     }
     public void setPanel(TopMenuPanel panel){
         this.panel = panel;
+        panel.setObserver(this);
     }
 
     public static TopmenuController getInstance() {
