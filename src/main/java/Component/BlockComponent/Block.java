@@ -101,11 +101,11 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
      *  아래쪽 보더를 셋해준다
      */
     public void blinkBottom(){
-        System.out.println(this.getBorder());
+
         try{
             this.setBorder(null);
             this.setBorder(bottomBorder);
-            System.out.println(this.getBorder());
+            this.updateUI();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -115,11 +115,10 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
      * 위쪽 보더를 셋해준다.
      */
     public void blinkTop(){
-        System.out.println(this.getBorder());
         try{
             this.setBorder(null);
             this.setBorder(topBorder);
-            System.out.println(this.getBorder());
+            this.updateUI();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -131,6 +130,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public void revertBlock(){
         this.setBorder(null);
         this.setBorder(basicBorder);
+        this.updateUI();
     }
 
     @Override
@@ -176,13 +176,14 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                 }
 
             }
-            blockObserver.blinkBlock(this);
             setLocation(x,y);
+            blockObserver.blinkBlock(this);
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        System.out.println("마우스를 놓는 순간의 블록의 보더" + this.getBorder());
         isDragged = false;
         blockObserver.revertOrConnectBlock(this);
     }

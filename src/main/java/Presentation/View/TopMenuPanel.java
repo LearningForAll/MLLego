@@ -53,6 +53,7 @@ public class TopMenuPanel extends JPanel implements TopmenuPublisher{
         add(btn_load);
 
         btn_load.addActionListener(new LoadButtonListener());
+        btn_save.addActionListener(new SaveButtonListener());
 
         setVisible(true);
     }
