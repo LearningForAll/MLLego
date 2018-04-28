@@ -37,10 +37,11 @@ public class TopmenuController implements TopmenuObserver{
         int ret = jFileChooser.showOpenDialog(null);
         if(ret != JFileChooser.APPROVE_OPTION){
             JOptionPane.showMessageDialog(null, "파일을 선택하지 않았습니다.","경고", JOptionPane.WARNING_MESSAGE);
+        }else{
+            String filePath = jFileChooser.getSelectedFile().getPath();
+            BlockPlacementController.getInstance().loadBlockBatch(filePath);
         }
 
-        String filePath = jFileChooser.getSelectedFile().getPath();
-        BlockPlacementController.getInstance().loadBlockBatch(filePath);
     }
 
     @Override

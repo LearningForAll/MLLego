@@ -63,44 +63,56 @@ public class BlockPlacementController implements BlockObserver {
         tempBlocks.addAll(blocks);
         tempBlocks.remove(block);
 
-
-        if(block.isPreviousBlockConnected()){
-
-            if(!block.checkTopBorder()){
-                System.out.println("연결이 끊겼다!!");
-                block.disconnectBlock();
-            }
-        }else{
+        if (block.isNextBlockConnected() && !block.isPreviousBlockConnected()) {
+            //다음 블록이 있을때..
+            //LOGIC 가장 최 하단의 블록을 구해서 조건을 걸어야함
 
             for (Block block1 : tempBlocks) {
                 if (checkTopCloseBlock(block, block1) && block1.isNextBlockConnectable(block) && !block1.isNextBlockConnected() && block.isPreviousBlockConnectable(block1)) {
-                    System.out.println("탑이 빛날때");
-                    System.out.println(block.getClass().getSimpleName()+"/"+block1.getClass().getSimpleName());
-                    System.out.println("드래그 되고있는 블록의 border:"+block.getBorder());
                     block.blinkTop();
-                    System.out.println("드래그 되고 탑이 반짝거려야하는 블록의 border:"+block.getBorder());
-                    System.out.println("End");
                     block1.blinkBottom();
                     break;
-                }else if(checkBottomCloseBlock(block, block1) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)){
-                    System.out.println(block.getClass().getSimpleName()+"/"+block1.getClass().getSimpleName());
-                    System.out.println("바텀이 빛날때");
+                } else if (checkBottomCloseBlock(block, block1) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)) {
+
+                    block = block.getLastConnectedBlock();
                     block.blinkBottom();
                     block1.blinkTop();
                     break;
-                }else{
+                } else {
                     //TODO 오류 찾음 여기서 아마 배열순서때문에 오류가 발생했을 가능성이 농후
-
-                    System.out.println(block.getClass().getSimpleName() + "블록이 왜 원래대로 언제 돌아오는거지");
-                    System.out.println(block1.getClass().getSimpleName() + "블록이 원래대로 돌아온다");
                     block.revertBlock();
                     block1.revertBlock();
                 }
             }
+
+
+        } else {
+            if (block.isPreviousBlockConnected()) {
+
+                if (!block.checkTopBorder()) {
+                    //블록이 끊길때
+                    block.disconnectBlock();
+                }
+            } else {
+
+                for (Block block1 : tempBlocks) {
+                    if (checkTopCloseBlock(block, block1) && block1.isNextBlockConnectable(block) && !block1.isNextBlockConnected() && block.isPreviousBlockConnectable(block1)) {
+                        block.blinkTop();
+                        block1.blinkBottom();
+                        break;
+                    } else if (checkBottomCloseBlock(block, block1) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)) {
+
+                        block.blinkBottom();
+                        block1.blinkTop();
+                        break;
+                    } else {
+                        //TODO 오류 찾음 여기서 아마 배열순서때문에 오류가 발생했을 가능성이 농후
+                        block.revertBlock();
+                        block1.revertBlock();
+                    }
+                }
+            }
         }
-
-
-
 
     }
 
@@ -114,9 +126,9 @@ public class BlockPlacementController implements BlockObserver {
         System.out.println("드래그되다가 순간 놓는 불록의 보더" + block.getBorder());
         if (block.checkBorder()) {// 먼저 현재 블록의 Border을 체크
             if (block.checkTopBorder()) {// 그다음 위에가 활성화 되었는지 체크
-                System.out.println("드래고 되고있는 블록의 border"+block.getBorder());
+                System.out.println("드래고 되고있는 블록의 border" + block.getBorder());
                 for (Block block1 : tempBlocks) {// 모든 블록을 검사하면서 바텀이 빛나는 블록이있는지 체크
-                    System.out.println("탑볼더들.."+block1.getBorder());
+                    System.out.println("탑볼더들.." + block1.getBorder());
                     if (block1.checkBottomBorder()) {
                         System.out.println("바텀 등록");
                         block.registerPreviousBlock(block1);
@@ -127,7 +139,7 @@ public class BlockPlacementController implements BlockObserver {
                 }
             } else {// bottom이 빛날때
                 for (Block block1 : tempBlocks) {
-                    System.out.println("바텀볼덜들.."+block1.getBorder());
+                    System.out.println("바텀볼덜들.." + block1.getBorder());
                     if (block1.checkTopBorder()) {
                         System.out.println("탑 등록");
                         block.registerNextBlock(block1);
@@ -140,7 +152,7 @@ public class BlockPlacementController implements BlockObserver {
             for (Block block1 : blocks) {
                 block1.revertBlock();
             }
-        }else{
+        } else {
             // 아니면 블록을 리셋시킨다..
             for (Block block1 : blocks) {
                 block1.revertBlock();
@@ -153,20 +165,22 @@ public class BlockPlacementController implements BlockObserver {
     // block 을 기준으로 첫번째 인자가 기준블록이면 기준블록이 아래 그 반대의 경우는 인자 위치를 바꿔주면됌
 
     // TODO 논리 수정 필요 말이안됌
-    private boolean checkTopCloseBlock(Block block, Block block1){
+    private boolean checkTopCloseBlock(Block block, Block block1) {
         //내가드래그 하는 블록이 아래쪽에서 위쪽으로 접근할
         return ((block.getX() - block1.getX() < 50)
                 && (block.getX() - block1.getX() > -50)
                 && (block1.getY() + block1.getHeight() - block.getY() > -30)
                 && (block1.getY() + block1.getHeight() - block.getY() < 0));
     }
-    private boolean checkBottomCloseBlock(Block block, Block block1){
+
+    private boolean checkBottomCloseBlock(Block block, Block block1) {
 
         return ((block.getX() - block1.getX() < 50)
                 && (block.getX() - block1.getX() > -50)
                 && (block.getY() + block.getHeight() - block1.getY() > -30)
                 && (block.getY() + block.getHeight() - block1.getY() < 0));
     }
+
 
     public void saveBlockBatch(String name) {
         // save 해야할 것
