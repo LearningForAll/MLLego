@@ -263,13 +263,19 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
         Block block = this;
         if(isReducted){
-            // 줄어든 상황
+            // 줄어든 상황에서 늘어나야함
             while(block.isNextBlockConnected()){
-                System.out.println("블록들..");
+                System.out.println("블록들이 늘어날때..");
+                System.out.println("블록들의 y위치ㅣ"+block.getY());
+                System.out.println("다음 블록의 y위치"+ nextBlocks.get(0).getY());
+
                 for(int k = 0; k < block.nextBlocks.size(); k++){
-                    block.nextBlocks.get(k).setLocation(this.getX(), block.nextBlocks.get(k).getY() + (this.getHeight() - flowPanel.getHeight()));
+                    block.nextBlocks.get(k).setLocation(this.getX(), block.nextBlocks.get(k).getY() + (getHeight()) - flowPanel.getHeight());
                     System.out.println("하위 블록들의 위치 조정..");
+
                 }
+                System.out.println("블록들이 다시 늘어난 후 y위치:" + block.getY());
+                System.out.println("다음 블록의 y위치"+ nextBlocks.get(0).getY());
                 //연결되어있으면
                 if(block.isNextBlockConnected()){
                     block = block.nextBlocks.get(0);
@@ -280,13 +286,17 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             }
 
         }else{
-            // 아직 줄어들지 않은 상황
+            // 아직 줄어들지 않은 상황에서
             while(block.isNextBlockConnected()){
-                System.out.println("블록들..");
+                System.out.println("블록들이 줄어들떄..");
+                System.out.println("블록들의 y위치:" + block.getY());
+                System.out.println("다음 블록의 y위치"+ nextBlocks.get(0).getY());
                 for(int k = 0; k < block.nextBlocks.size(); k++){
-                    block.nextBlocks.get(k).setLocation(this.getX(), block.nextBlocks.get(k).getY() - (this.getHeight() - flowPanel.getHeight()));
+                    block.nextBlocks.get(k).setLocation(this.getX(), block.nextBlocks.get(k).getY() - (getHeight() - flowPanel.getHeight()));
                     System.out.println("하위 블록들의 위치 조정..");
                 }
+                System.out.println("블록들의 줄어든 후 위치:" + block.getY());
+                System.out.println("다음 블록의 y위치"+ nextBlocks.get(0).getY());
                 //연결되어있으면
                 if(block.isNextBlockConnected()){
                     block = block.nextBlocks.get(0);

@@ -62,7 +62,6 @@ public class BlockPlacementController implements BlockObserver {
         //TODO 연결된 블록도 같이 해야함
         tempBlocks.addAll(blocks);
         tempBlocks.remove(block);
-        System.out.println(blocks.size());
 
 
         if(block.isPreviousBlockConnected()){
