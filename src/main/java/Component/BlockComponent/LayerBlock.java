@@ -6,7 +6,7 @@ public abstract class LayerBlock extends ExtendableBlock{
 
     @Override
     public boolean isNextBlockConnected() {
-        return false;
+        return (nextBlocks.size() != 0);
     }
     public LayerBlock(String name){
         super(name);
@@ -17,7 +17,7 @@ public abstract class LayerBlock extends ExtendableBlock{
     }
     @Override
     public boolean isPreviousBlockConnected() {
-        return false;
+        return (previousBlocks.size() != 0);
     }
 
 }

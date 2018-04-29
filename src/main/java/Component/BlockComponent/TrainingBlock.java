@@ -2,31 +2,31 @@ package Component.BlockComponent;
 
 import Component.NumberOnlyTextField;
 import Const.Optimizer;
-import Models.Coords;
+
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class TrainingBlock extends Block {
 
     // 트레이닝 블록에서 epoch, batch_size, learning_rate 설정
-    private float learningRate;
     //private String optimizer;
     //Combobox에 들어갈 optimizer
     private Optimizer optimizers;
 
     // epoch, batch, learning rate를 설정할수 있는 필드
-    private NumberOnlyTextField batchSizeTextField;
+    public NumberOnlyTextField batchSizeTextField;
     // TODO 소수도 지원가능한 텍스트필드 설정
-    private JTextField learningRateTextField;
-    private NumberOnlyTextField epochTextField;
-    private JComboBox<Optimizer> optimizerCombobox;
+    public JTextField learningRateTextField;
+    public NumberOnlyTextField epochTextField;
+    public JComboBox<Optimizer> optimizerCombobox;
+
+    //todo valid ratio 넣기
+    public NumberOnlyTextField validRatioTextField;
 
 
     public TrainingBlock(){
         super("Training Block");
-
+        validRatioTextField = new NumberOnlyTextField(0.1,0.1,0.5);
         batchSizeTextField = new NumberOnlyTextField(1,1,100000);
         //TODO 소수도 지원 가능한걸로 교체
         learningRateTextField = new JTextField();
@@ -68,23 +68,23 @@ public class TrainingBlock extends Block {
 
     @Override
     public boolean isNextBlockConnectable(Block block) {
-        return (block instanceof ClassifierBlock);
+        return (block instanceof ModelBlock);
     }
 
     @Override
     public boolean isPreviousBlockConnectable(Block block) {
 
-        return (block instanceof ModelBlock);
+        return (block instanceof ClassifierBlock);
     }
 
     @Override
     public boolean isNextBlockConnected() {
-        return false;
+        return (nextBlocks.size() != 0);
     }
 
     @Override
     public boolean isPreviousBlockConnected() {
-        return false;
+        return (previousBlocks.size() != 0);
     }
 
 
@@ -105,4 +105,11 @@ public class TrainingBlock extends Block {
 
     public Optimizer getOptimizer(){ return (Optimizer) optimizerCombobox.getSelectedItem(); }
 
+    public float getLearningRate() {
+        return Float.valueOf(learningRateTextField.getText());
+    }
+
+    public float getValidRatio() {
+        return Float.valueOf(validRatioTextField.getText());
+    }
 }

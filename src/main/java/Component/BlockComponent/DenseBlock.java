@@ -1,10 +1,9 @@
 package Component.BlockComponent;
 
 import Component.NumberOnlyTextField;
+import Const.ActivationFunc;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 /**
@@ -16,11 +15,13 @@ public class DenseBlock extends LayerBlock {
     NumberOnlyTextField layerTextField;
     // 인풋 디멘션과 default로 같다 값이.
     NumberOnlyTextField outputDimensionTextField;
-
+    // todo Activation 배치해야함
+    public JComboBox<ActivationFunc> activationFunctionCombobox;
     public DenseBlock(int inputDimension){
         super("Dense Block");
         layerTextField = new NumberOnlyTextField(1, 1, 50);
         outputDimensionTextField = new NumberOnlyTextField(inputDimension, 1, 1000);
+        activationFunctionCombobox = new JComboBox<>(ActivationFunc.values());
 
         JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,6,2));
         JLabel layerNumLabel=new JLabel("Num layer");
@@ -50,22 +51,22 @@ public class DenseBlock extends LayerBlock {
 
     @Override
     public boolean isNextBlockConnectable(Block block) {
-        return (block instanceof LayerBlock);
+        return (block instanceof LayerBlock || block instanceof ClassifierBlock);
     }
 
     @Override
     public boolean isPreviousBlockConnectable(Block block) {
-        return (block instanceof  InputBlock || block instanceof LayerBlock);
+        return (block instanceof InputBlock || block instanceof PreprocessorBlock|| block instanceof LayerBlock);
     }
 
     @Override
     public boolean isNextBlockConnected() {
-        return false;
+        return (nextBlocks.size() != 0);
     }
 
     @Override
     public boolean isPreviousBlockConnected() {
-        return false;
+        return (previousBlocks.size() != 0);
     }
 
     public int getLayerNum(){
@@ -76,5 +77,8 @@ public class DenseBlock extends LayerBlock {
         return (int)outputDimensionTextField.getValue();
     }
 
+    public ActivationFunc getActivationFunction() {
+        return (ActivationFunc) activationFunctionCombobox.getSelectedItem();
+    }
 
 }

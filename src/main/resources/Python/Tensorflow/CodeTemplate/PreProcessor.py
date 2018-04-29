@@ -26,10 +26,11 @@ def one_hot_encoding(source):
     onehot_encoder = preprocessing.OneHotEncoder()
     label_result = label_encoder.fit_transform(source)
     onehot_result = onehot_encoder.fit_transform(label_result.reshape(-1, 1)).toarray()
-    return onehot_result, np.shape(onehot_result)[-1]
+    return onehot_result
 
 
 def dimension_reduction():
+
     pass
 
 

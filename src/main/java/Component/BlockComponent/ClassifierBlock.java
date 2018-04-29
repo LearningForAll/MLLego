@@ -32,22 +32,22 @@ public class ClassifierBlock extends Block{
 
     @Override
     public boolean isNextBlockConnectable(Block block) {
-        return (block instanceof ModelBlock);
+        return (block instanceof TrainingBlock);
     }
 
     @Override
     public boolean isPreviousBlockConnectable(Block block) {
-        return (block instanceof DenseBlock);
+        return (block instanceof LayerBlock);
     }
 
     @Override
     public boolean isNextBlockConnected() {
-        return false;
+        return (nextBlocks.size() != 0);
     }
 
     @Override
     public boolean isPreviousBlockConnected() {
-        return false;
+        return (previousBlocks.size() != 0);
     }
 
     public Block getxPartBlock() {
