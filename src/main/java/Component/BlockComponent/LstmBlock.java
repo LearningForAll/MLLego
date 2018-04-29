@@ -1,10 +1,9 @@
 package Component.BlockComponent;
 
 import Component.NumberOnlyTextField;
+import Const.RnnOutputOption;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 /**
@@ -16,6 +15,10 @@ public class LstmBlock extends LayerBlock {
     // 드롭아웃 레이트를 조정할 수 있는 JSlider
     JSlider keepProbJSlider;
 
+    //todo cell size (output)
+    NumberOnlyTextField cellSizeTextField;
+    //todo rnn output type
+    JComboBox<RnnOutputOption> rnnOutputOption;
 
     public LstmBlock(){
         super("LSTM Block");
@@ -56,5 +59,17 @@ public class LstmBlock extends LayerBlock {
 
     public int getKeepProb() {
         return keepProbJSlider.getValue();
+    }
+
+    public int getStackSize(){
+        return Integer.valueOf(stackSizeTextField.getText());
+    }
+
+    public int getCellSize(){
+        return Integer.valueOf(cellSizeTextField.getText());
+    }
+
+    public RnnOutputOption getOutputOption(){
+        return (RnnOutputOption)rnnOutputOption.getSelectedItem();
     }
 }

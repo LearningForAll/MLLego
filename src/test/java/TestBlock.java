@@ -11,8 +11,8 @@ import javax.swing.*;
 public class TestBlock {
     @Test
     public void testCodeGeneration(){
-        InputBlock xInputBlock = new InputBlock("inputBlock");
-        InputBlock yInputBlock = new InputBlock("inputBlock");
+        InputBlock xInputBlock = new InputBlock();
+        InputBlock yInputBlock = new InputBlock();
         TFBuilder tfBuilder = new TFBuilder();
 
     }

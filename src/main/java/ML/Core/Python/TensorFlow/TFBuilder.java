@@ -1,23 +1,26 @@
 package ML.Core.Python.TensorFlow;
 
-import Component.BlockComponent.Block;
-import Component.BlockComponent.ClassifierBlock;
-import Component.BlockComponent.TrainingBlock;
+import Component.BlockComponent.*;
 import Const.Classifier;
 import Const.FileOption;
 import Const.Optimizer;
+import Const.RnnOutputOption;
 import ML.Core.Exception.IncompleteBlockException;
 import ML.Core.Exception.NoClassificationException;
 import ML.Core.MLBuilder;
 import ML.Core.ProcessListener;
 import Util.FileUtil;
 import Util.StringUtil;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TFBuilder implements MLBuilder {
     ProcessListener processListener = null;
     String recentGenerateTrainingCodeURL = null;
+    public List<String> codeList = new ArrayList<>();
 
     @Override
     public void setProcessListener(ProcessListener processListener) {
@@ -65,21 +68,38 @@ public class TFBuilder implements MLBuilder {
         if (xPartBlock == null || yPartBlock == null) throw new IncompleteBlockException("x 또는 y 파트의 블록이 존재하지않습니다");
 
 
-
         // TODO :: classifier option is mocked.
-        ClassifierOption classifierOption = new ClassifierOption("xpath","ypath", FileOption.ALL,FileOption.ALL,
-                Classifier.SOFTMAX_CLASSIFIER,4,10,
-                0.001, Optimizer.OPTIMIZER_ADAM,0.1);
+        ClassifierOption classifierOption = new ClassifierOption("xpath", "ypath", FileOption.ALL, FileOption.ALL,
+                Classifier.SOFTMAX_CLASSIFIER, 4, 10,
+                0.001, Optimizer.OPTIMIZER_ADAM, 0.1);
         // generate classifier
-        generateClassifier(classifierOption,classifierTemplateFile,curProjectDir+"/"+classifierTemplateFile.getName());
+        generateClassifier(classifierOption, classifierTemplateFile, curProjectDir + "/" + classifierTemplateFile.getName());
 
         ///copying files
         FileUtil.fileCopy(utilsFile, curProjectDir + "/" + utilsFile.getName());
-        FileUtil.fileCopy(preProcessorFile,curProjectDir+"/"+preProcessorFile.getName());
-        FileUtil.fileCopy(layerGeneratorFile,curProjectDir+"/"+layerGeneratorFile.getName());
-        FileUtil.fileCopy(fileReaderFile,curProjectDir+"/"+fileReaderFile.getName());
-
+        FileUtil.fileCopy(preProcessorFile, curProjectDir + "/" + preProcessorFile.getName());
+        FileUtil.fileCopy(layerGeneratorFile, curProjectDir + "/" + layerGeneratorFile.getName());
+        FileUtil.fileCopy(fileReaderFile, curProjectDir + "/" + fileReaderFile.getName());
+        FileUtil.fileCopy(inferenceTemplateFile,curProjectDir+"/"+inferenceTemplateFile.getName());
+        generateCodeRecursive(xPartBlock);
+        generateCodeRecursive(yPartBlock);
+        codeList.add("return "+xPartBlock.getUid());
+        generateInferenceFile(codeList,curProjectDir+"/"+inferenceTemplateFile.getName());
         return false;
+    }
+
+    private void generateInferenceFile(List<String> codeList,String inferenceFilePath) {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(inferenceFilePath,true));
+            for (String code : codeList){
+                bw.write("        "+code);
+                bw.newLine();
+            }
+            bw.flush();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /*
@@ -93,22 +113,18 @@ public class TFBuilder implements MLBuilder {
     }
 
 
-    public static void main(String[] args) {
-
-    }
-
-    private void generateClassifier(ClassifierOption classifierOption, File resourceFile, String outputFileName){
+    private void generateClassifier(ClassifierOption classifierOption, File resourceFile, String outputFileName) {
         String[] optionPy = ClassifierOption.getPythonOptionStrings();
         boolean isCheckFinish = false;
         try {
             String line;
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(resourceFile)));
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFileName)));
-            while((line = br.readLine())!=null) {
+            while ((line = br.readLine()) != null) {
                 String checkOption;
                 if (line.contains("END_SETTING")) isCheckFinish = true;
-                if(!isCheckFinish && (checkOption=StringUtil.stringContainsItemFromList(line,optionPy))!=null){
-                    line = line.replace("None",classifierOption.getClassifierOption(checkOption));
+                if (!isCheckFinish && (checkOption = StringUtil.stringContainsItemFromList(line, optionPy)) != null) {
+                    line = line.replace("None", classifierOption.getClassifierOption(checkOption));
                 }
                 bw.write(line);
                 bw.newLine();
@@ -116,9 +132,191 @@ public class TFBuilder implements MLBuilder {
             }
             br.close();
             bw.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+
+    private String generatePreprocessCode(PreprocessorBlock preprocessorBlock, boolean isDataX) {
+        String dataType = "";
+        if (isDataX) dataType = "x";
+        else dataType = "y";
+        String funcStr = "self.data_" + dataType + " = ";
+        switch (preprocessorBlock.getPreprocessorType()) {
+            case RGB:
+                funcStr += "pp.image_to_vector(self.data_" + dataType + ")";
+                break;
+            case BLACK_WHITE:
+                funcStr += "pp.image_to_vector(self.data_" + dataType + ",option=\"BW\")";
+                break;
+            case ONE_HOT_ENCODING:
+                funcStr += "pp.one_hot_encoding(self.data_" + dataType + ")";
+                break;
+            case DIMENSION_REDUCTION:
+                throw new NotImplementedException();
+            default:
+        }
+        return funcStr;
+    }
+
+    private String[] generateTensorWhenPreprocessFinish() {
+        String[] strings = new String[2];
+        strings[0] = "self.tensor_x = pp.make_placeholder_with_batch_space(self.data_x)";
+        strings[1] = "self.tensor_y = pp.make_placeholder(self.data_y)";
+        return strings;
+    }
+
+    private String generateConvolutionCode(ConvolutionLayerBlock block, Block beforeBlock) {
+        String funcStr = block.getUid();
+
+        String beforeUid = "";
+        if (beforeBlock == null) throw new IllegalArgumentException("이전 블록이 없는데 conv 를 만드려함");
+        if (beforeBlock instanceof PreprocessorBlock) {
+            beforeUid = "self.tensor_x";
+        } else {
+            beforeUid = beforeBlock.getUid();
+        }
+        funcStr += "=lg.conv2d(" + beforeUid + "," + block.getKernelNum() + ",[" + block.getHorizonKernelSize() + "," + block.getVerticalKernelSize() + "]," +
+                block.getActivationFunction().toString() + ",[1,1]," + "\"VALID\")";
+        return funcStr;
+    }
+
+    private String generateDenseCode(DenseBlock block, Block beforeBlock) {
+        String funcStr = block.getUid();
+
+        String beforeUid = "";
+        if (beforeBlock instanceof PreprocessorBlock) {
+            beforeUid = "self.tensor_x";
+        } else {
+            beforeUid = beforeBlock.getUid();
+        }
+        funcStr += "=lg.linear(" + beforeUid + "," + block.getOutputDim() + "," + block.getActivationFunction().toString() + ")";
+        return funcStr;
+    }
+
+    private String generatePoolCode(PoolingBlock block, Block beforeBlock) {
+        String funcStr = block.getUid();
+
+        String beforeUid = "";
+        if (beforeBlock instanceof PreprocessorBlock) {
+            beforeUid = "self.tensor_x";
+        } else {
+            beforeUid = beforeBlock.getUid();
+        }
+        funcStr += "=lg.pool(" + beforeUid + "," + block.getPoolingType().toString() + ",[" + block.getHorizonKernel() + "," + block.getVerticalKernel() + "],["
+                + block.getHorizonStride() + "," + block.getVerticalStride() + "]," + block.getPaddingOption().toString() + ")";
+        return funcStr;
+    }
+
+    private String generateRnnCode(LstmBlock block, Block beforeBlock) {
+        String funcStr = block.getUid();
+
+        String beforeUid = "";
+        if (beforeBlock instanceof PreprocessorBlock) {
+            beforeUid = "self.tensor_x";
+        } else {
+            beforeUid = beforeBlock.getUid();
+        }
+        funcStr += "=lg.create_stack_rnn(" + beforeUid + "," + block.getCellSize() + "," + block.getStackSize() + ",";
+        if (block.getOutputOption().equals(RnnOutputOption.ONLY_END)) {
+            funcStr += "True)";
+        } else {
+            funcStr += "False)";
+        }
+        return funcStr;
+    }
+
+    private void generateCodeRecursive(Block block) {
+        List<Block> previousBlocks = block.getPreviousBlocks();
+        String previousUid = null;
+        if (previousBlocks.size() > 1) {
+            String concatCode = block.getUid() + "concat = tf.concat([";
+            for (Block mBlock : previousBlocks) {
+                generateCodeRecursive(mBlock);
+                concatCode += mBlock.getUid() + ",";
+            }
+            concatCode = concatCode.subSequence(0, concatCode.length() - 1).toString();
+            concatCode += "],axis=1)";
+            //mblock 들 정보 이용해서 dim 합쳐서 block에 잇기
+            previousUid = block.getUid() + "concat";
+            codeList.add(concatCode);
+        }
+        if (block.isFirstBlock() && !(block instanceof InputBlock))
+            throw new IllegalStateException("맨 첫 블록이 input블록이 아님");
+        else if (block.isFirstBlock()) {
+            if (block.getNextBlocks().get(0) instanceof ClassifierBlock){
+                if (block instanceof InputBlock)
+                    if (((InputBlock) block).isXInput())
+                        codeList.add(generateTensorWhenPreprocessFinish()[0]);
+                    else
+                        codeList.add(generateTensorWhenPreprocessFinish()[1]);
+
+                if (block instanceof PreprocessorBlock)
+                    if (((PreprocessorBlock) block).isXData())
+                        codeList.add(generateTensorWhenPreprocessFinish()[0]);
+                    else
+                        codeList.add(generateTensorWhenPreprocessFinish()[1]);
+            }
+            return;
+        }
+        if (block.isPreviousBlockConnected())
+            generateCodeRecursive(block.getPreviousBlocks().get(0));
+        Block previousBlock;
+        if (previousUid == null) {
+            previousBlock = previousBlocks.get(0);
+        } else {
+            ConcatBlock concatBlock = new ConcatBlock();
+            concatBlock.setUid(previousUid);
+            previousBlock = concatBlock;
+        }
+        if ((previousBlock instanceof PreprocessorBlock || previousBlock instanceof InputBlock) && !(block instanceof PreprocessorBlock)) {
+            if (previousBlock instanceof InputBlock) {
+                if (((InputBlock) previousBlock).isXInput()){
+                    codeList.add(generateTensorWhenPreprocessFinish()[0]);
+                    previousBlock.setUid("self.tensor_x");
+                }
+                else{
+                    codeList.add(generateTensorWhenPreprocessFinish()[1]);
+                    previousBlock.setUid("self.tensor_y");
+                }
+            }else{ // previous 가 pre processor 임
+                if (((PreprocessorBlock) previousBlock).isXData()){
+                    codeList.add(generateTensorWhenPreprocessFinish()[0]);
+                    previousBlock.setUid("self.tensor_x");
+                }
+                else{
+                    codeList.add(generateTensorWhenPreprocessFinish()[1]);
+                    previousBlock.setUid("self.tensor_y");
+
+                }
+            }
+
+        }
+        // 블록코드생성 switch
+        if (block instanceof ConvolutionLayerBlock) {
+            codeList.add(generateConvolutionCode((ConvolutionLayerBlock) block, previousBlock));
+        } else if (block instanceof DenseBlock) {
+            codeList.add(generateDenseCode((DenseBlock) block, previousBlock));
+        } else if (block instanceof LstmBlock) {
+            codeList.add(generateRnnCode((LstmBlock) block, previousBlock));
+        } else if (block instanceof PoolingBlock) {
+            codeList.add(generatePoolCode((PoolingBlock) block, previousBlock));
+        } else if (block instanceof PreprocessorBlock) {
+            if (previousBlock instanceof PreprocessorBlock) {
+                ((PreprocessorBlock) block).setXData(((PreprocessorBlock) previousBlock).isXData());
+            } else if (previousBlock instanceof InputBlock) {
+                ((PreprocessorBlock) block).setXData(((InputBlock) previousBlock).isXInput());
+            }
+            codeList.add(generatePreprocessCode((PreprocessorBlock) block, ((PreprocessorBlock) block).isXData()));
+        }
+
+        if ((previousBlock instanceof PreprocessorBlock || previousBlock instanceof InputBlock) && block.getNextBlocks().get(0) instanceof ClassifierBlock && block instanceof PreprocessorBlock){
+            if (((PreprocessorBlock) block).isXData())
+                codeList.add(generateTensorWhenPreprocessFinish()[0]);
+            else
+                codeList.add(generateTensorWhenPreprocessFinish()[1]);
+        }
+    }
+
 }

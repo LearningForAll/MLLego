@@ -2,7 +2,7 @@ import codecs
 from sklearn import preprocessing
 import numpy as np
 import os
-import LayerGeneartor as lg
+from LayerGeneartor import LayerGenerator as lg
 import PreProcessor as pp
 import FileReader as fr
 
@@ -31,4 +31,3 @@ class Inferencer:
 
     def get_logit(self):
         # below here, MLLego will generate source code.
-        pass
