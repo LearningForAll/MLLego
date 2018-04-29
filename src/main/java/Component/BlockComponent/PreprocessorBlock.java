@@ -5,10 +5,6 @@ import java.awt.*;
 import Const.FileType;
 import Const.PreprocessorType;
 
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
-
 /**
  * Created by chaebyeonghun on 2018. 3. 27..
  */

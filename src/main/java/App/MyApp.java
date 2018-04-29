@@ -2,6 +2,7 @@ package App;
 
 import Presentation.View.MainFrame;
 
+
 public class MyApp {
     public static String projectTitle = "untitled";
     public static ClassLoader classLoader;
