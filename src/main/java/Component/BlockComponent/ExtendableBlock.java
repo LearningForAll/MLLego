@@ -15,6 +15,7 @@ public abstract class ExtendableBlock extends Block {
     public ExtendableBlock(String name){
         super(name);
         extendButton=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/plus.png")));
+        extendButton.addActionListener(new ExtendActionListener(this));
         extendButton.setPreferredSize(new Dimension(16, 16));
         flowPanel.add(extendButton);
         setVisible(true);
