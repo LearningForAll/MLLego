@@ -69,19 +69,21 @@ public class BlockPlacementController implements BlockObserver {
 
             for (Block block1 : tempBlocks) {
                 if (checkTopCloseBlock(block, block1) && block1.isNextBlockConnectable(block) && !block1.isNextBlockConnected() && block.isPreviousBlockConnectable(block1)) {
+                    //만약 아래에서 위로 갔을 경우 즉 드래그 되는 블록이 탑에서 반짝거릴 경우
                     block.blinkTop();
                     block1.blinkBottom();
                     break;
-                } else if (checkBottomCloseBlock(block, block1) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)) {
-
-                    block = block.getLastConnectedBlock();
-                    block.blinkBottom();
-                    block1.blinkTop();
-                    break;
                 } else {
-                    //TODO 오류 찾음 여기서 아마 배열순서때문에 오류가 발생했을 가능성이 농후
-                    block.revertBlock();
-                    block1.revertBlock();
+                    // 위에서 아래로 갔을 경우
+                    if (checkBottomCloseBlock(block.getLastConnectedBlock(), block1) && block1.isPreviousBlockConnectable(block.getLastConnectedBlock()) && !block1.isPreviousBlockConnected() && block.getLastConnectedBlock().isNextBlockConnectable(block1)) {
+                        block.getLastConnectedBlock().blinkBottom();
+                        block1.blinkTop();
+                        break;
+                    }else{
+                        block.revertBlock();
+                        block.getLastConnectedBlock().revertBlock();
+                        block1.revertBlock();
+                    }
                 }
             }
 
@@ -123,14 +125,11 @@ public class BlockPlacementController implements BlockObserver {
         List<Block> tempBlocks = new ArrayList<>();
         tempBlocks.addAll(blocks);
         tempBlocks.remove(block);
-        System.out.println("드래그되다가 순간 놓는 불록의 보더" + block.getBorder());
+        //TODO 만약 최하단의 블록이 조건이라면 그에맞는 분기도 필요
         if (block.checkBorder()) {// 먼저 현재 블록의 Border을 체크
             if (block.checkTopBorder()) {// 그다음 위에가 활성화 되었는지 체크
-                System.out.println("드래고 되고있는 블록의 border" + block.getBorder());
                 for (Block block1 : tempBlocks) {// 모든 블록을 검사하면서 바텀이 빛나는 블록이있는지 체크
-                    System.out.println("탑볼더들.." + block1.getBorder());
                     if (block1.checkBottomBorder()) {
-                        System.out.println("바텀 등록");
                         block.registerPreviousBlock(block1);
                         block1.registerNextBlock(block);
                         // 등록하면 종료
@@ -139,21 +138,31 @@ public class BlockPlacementController implements BlockObserver {
                 }
             } else {// bottom이 빛날때
                 for (Block block1 : tempBlocks) {
-                    System.out.println("바텀볼덜들.." + block1.getBorder());
                     if (block1.checkTopBorder()) {
-                        System.out.println("탑 등록");
                         block.registerNextBlock(block1);
                         block1.registerPreviousBlock(block);
                         break;
                     }
                 }
             }
-
+            //블록 원상태로 복구
             for (Block block1 : blocks) {
                 block1.revertBlock();
             }
         } else {
-            // 아니면 블록을 리셋시킨다..
+            //드래그 되고있는 블록에 대해 연결된 블록중 마지막 블록이 빛나는지 체크
+            if(block.getLastConnectedBlock().checkBorder()){
+                if(!block.checkTopBorder()) {// bottom이 빛날때
+                    for (Block block1 : tempBlocks) {
+                        if (block1.checkTopBorder()) {
+                            block.getLastConnectedBlock().registerNextBlock(block1);
+                            block1.registerPreviousBlock(block.getLastConnectedBlock());
+                            break;
+                        }
+                    }
+                }
+            }
+            //블록 원상태로 복구.
             for (Block block1 : blocks) {
                 block1.revertBlock();
             }
