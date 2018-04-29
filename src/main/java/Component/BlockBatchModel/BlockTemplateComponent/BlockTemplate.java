@@ -1,11 +1,12 @@
 package Component.BlockBatchModel.BlockTemplateComponent;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by chaebyeonghun on 2018. 4. 29..
  */
-public abstract class BlockTemplate {
+public abstract class BlockTemplate implements Serializable {
 
     int positionX;
     int positionY;

@@ -9,7 +9,11 @@ public class LstmBlockTemplate extends BlockTemplate {
 
     int keepProb;
     int stackSize;
-    public LstmBlockTemplate(int positionX, int positionY, String blockType, List<BlockTemplate> previousBlocks, List<BlockTemplate> nextBlocks) {
+    public LstmBlockTemplate(int positionX, int positionY, String blockType,
+                             List<BlockTemplate> previousBlocks, List<BlockTemplate> nextBlocks,
+                             int keepProb, int stackSize) {
         super(positionX, positionY, blockType, previousBlocks, nextBlocks);
+        this.keepProb = keepProb;
+        this.stackSize = stackSize;
     }
 }
