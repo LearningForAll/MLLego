@@ -17,6 +17,7 @@ public class MainFrame extends JFrame {
 
         super("ML Lego");
         setLayout(new BorderLayout());
+        setDefaultLookAndFeelDecorated(true);
 
         topMenuPanel=new TopMenuPanel();
         blockPlacementDefault =new BlockPlacementDefault();
@@ -25,10 +26,12 @@ public class MainFrame extends JFrame {
         BlockPlacementController.getInstance().setPanel(blockPlacementDefault.blockPlacementPanel);
         BlockListController.getInstance().setPanel(blockListPanel);
         setSize(1700,1000);
+        //setContentPane(blockPlacementDefault.blockPlacementPanel.scroll);
         add(topMenuPanel, BorderLayout.NORTH);
         add(blockPlacementDefault, BorderLayout.CENTER);
         add(blockListPanel, BorderLayout.EAST);
         add(myModelDefault, BorderLayout.SOUTH);
+        //getContentPane().add(blockPlacementDefault.blockPlacementPanel.scroll);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 

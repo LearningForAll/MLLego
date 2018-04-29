@@ -9,14 +9,17 @@ import java.awt.*;
 
 //블록배치창의 탭패널이고 여기에 BlockPlacementPanel이랑 ModelTestPanel이 패널로 들어감.
 public class BlockPlacementDefault extends JTabbedPane{
-    BlockPlacementPanel blockPlacementPanel=new BlockPlacementPanel();
-    ModelTestPanel modelTestPanel=new ModelTestPanel();
-    JScrollPane scroll;
+
+    BlockPlacementPanel blockPlacementPanel;
+    ModelTestPanel modelTestPanel;
 
     public BlockPlacementDefault(){
 
+        blockPlacementPanel=new BlockPlacementPanel();
+        modelTestPanel=new ModelTestPanel();
         add("Block Placement", blockPlacementPanel);
         add("Model Test", modelTestPanel);
+        //add(blockPlacementPanel.scroll);
         setVisible(true);
     }
     @Override
