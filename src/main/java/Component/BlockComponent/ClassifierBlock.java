@@ -32,12 +32,12 @@ public class ClassifierBlock extends Block{
 
     @Override
     public boolean isNextBlockConnectable(Block block) {
-        return (block instanceof ModelBlock);
+        return (block instanceof TrainingBlock);
     }
 
     @Override
     public boolean isPreviousBlockConnectable(Block block) {
-        return (block instanceof DenseBlock);
+        return (block instanceof LayerBlock);
     }
 
     @Override

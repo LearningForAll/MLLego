@@ -2,7 +2,6 @@ package Component.BlockComponent;
 
 import Const.FileType;
 import Const.PreprocessorType;
-
 import javax.swing.*;
 import java.awt.*;
 

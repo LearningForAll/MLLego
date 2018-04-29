@@ -100,7 +100,7 @@ public class InputBlock extends Block{
     @Override
     public boolean isNextBlockConnectable(Block block) {
         // 블록이 연결되어 있을 경우
-        return (block instanceof PreprocessorBlock || block instanceof ConvolutionLayerBlock);
+        return (block instanceof PreprocessorBlock || block instanceof LayerBlock);
 
     }
 

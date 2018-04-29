@@ -67,13 +67,13 @@ public class ConvolutionLayerBlock extends LayerBlock {
 
     @Override
     public boolean isNextBlockConnectable(Block block) {
-        return (block instanceof LayerBlock);
+        return (block instanceof LayerBlock || block instanceof ClassifierBlock);
     }
 
     @Override
     public boolean isPreviousBlockConnectable(Block block) {
         // InputBlock, PoolingBlock, 그리고 같은 ConvolutionLayerBlock을 이전 블록으로 받을 수 있음.
-        return (block instanceof InputBlock || block instanceof LayerBlock);
+        return (block instanceof InputBlock || block instanceof PreprocessorBlock|| block instanceof LayerBlock);
     }
 
     @Override
