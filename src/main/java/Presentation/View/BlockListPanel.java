@@ -35,7 +35,7 @@ public class BlockListPanel extends JTabbedPane {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(500,600);
+        return new Dimension(300,600);
     }
 
 }

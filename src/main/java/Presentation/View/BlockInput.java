@@ -20,8 +20,8 @@ public class BlockInput extends JPanel {
         setLayout(null);
         inputBlock=new InputBlock();
         preprocessorBlock=new PreprocessorBlock();
-        inputBlock.setLocation(150,20);
-        preprocessorBlock.setLocation(150,120);
+        inputBlock.setLocation(50,20);
+        preprocessorBlock.setLocation(50,120);
 
         add(inputBlock);
         add(preprocessorBlock);

@@ -22,9 +22,5 @@ public class BlockPlacementDefault extends JTabbedPane{
         //add(blockPlacementPanel.scroll);
         setVisible(true);
     }
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(1200,600);
-    }
 
 }

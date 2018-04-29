@@ -4,6 +4,7 @@ import Component.BlockComponent.Block;
 import Const.Classifier;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -22,9 +23,6 @@ public class BlockPlacementPanel extends JScrollPane {
         workspacePanel.setPreferredSize(new Dimension(3000,1500));
         setViewportView(workspacePanel);
 
-        //scroll=new JScrollPane(this, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        //scroll.setPreferredSize(new Dimension(300,300));
-        //add(scroll);
         setVisible(true);
         revalidate();
     }

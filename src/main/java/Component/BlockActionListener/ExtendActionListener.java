@@ -1,4 +1,6 @@
-package Component.BlockComponent;
+package Component.BlockActionListener;
+
+import Component.BlockComponent.Block;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,25 +15,22 @@ public class ExtendActionListener implements ActionListener{
     Block block;
     String blockName;
 
-    //boolean isExtended = false;
     int beforeWidth;
-    int originalWidth;
     int beforeHeight;
+
     LayoutManager beforeLayout;
 
     public ExtendActionListener(Block block) {
         this.block = block;
         this.blockName=block.blockName;
-        this.originalWidth=block.flowPanel.getWidth();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        block.setLayout(beforeLayout);
-        block.setLayout(new BoxLayout(block,BoxLayout.Y_AXIS));
         beforeWidth=block.getWidth();
         beforeHeight=block.getHeight();
-        block.setSize(beforeWidth+originalWidth, beforeHeight);
+        block.setSize(beforeWidth+200, beforeHeight);
+        block.revalidate();
 
     }
 }
