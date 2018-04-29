@@ -2,6 +2,7 @@ package Component.BlockComponent;
 
 import Component.NumberOnlyTextField;
 import Const.PaddingOption;
+import Const.PoolingType;
 import javax.swing.*;
 import java.awt.*;
 
@@ -17,6 +18,9 @@ public class PoolingBlock extends LayerBlock {
     NumberOnlyTextField verticalKernelSizeTextField;
 
     JComboBox<PaddingOption> paddingOptionCombobox;
+
+    // todo pool 옵션 지정할 수 있게끔
+    JComboBox<PoolingType> poolOptionCombobox;
 
     public PoolingBlock(){
         super("Pooling Block");
@@ -108,4 +112,7 @@ public class PoolingBlock extends LayerBlock {
         return (int)verticalStrideTextField.getValue();
     }
 
+    public PoolingType getPoolingType(){
+        return (PoolingType)poolOptionCombobox.getSelectedItem();
+    }
 }

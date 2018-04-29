@@ -5,6 +5,7 @@ import Component.BlockException.BlockException;
 import Component.BlockObserver.BlockObserver;
 import Component.BlockObserver.BlockPublisher;
 import Util.FileUtil;
+import Util.UidGenerator;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -22,6 +23,8 @@ import java.util.List;
 public abstract class Block extends JPanel implements MouseListener, MouseMotionListener, BlockPublisher, Serializable {
     private int offX, offY;
     private boolean isDragged = false;
+    private int draggedX, draggedY;
+    private String uid;
 
     private BlockObserver blockObserver;
     protected List<Block> previousBlocks;
@@ -55,6 +58,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         this.setBorder(basicBorder);
         addMouseListener(this);
         addMouseMotionListener(this);
+        uid = UidGenerator.generateUid();
     }
 
     public Block(String blockName) {
@@ -350,5 +354,19 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     private void disconnectPreviousBlock() {
         this.previousBlocks.clear();
+    }
+    public String getUid(){
+        return uid;
+    }
+    public void setUid(String uid){
+        this.uid = uid;
+    }
+
+    public List<Block> getPreviousBlocks(){
+        return previousBlocks;
+    }
+
+    public List<Block> getNextBlocks(){
+        return nextBlocks;
     }
 }

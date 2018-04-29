@@ -1,16 +1,13 @@
 package Component.BlockComponent;
 
-import Const.ActivationFunc;
 import Const.FileType;
 import Const.InputOption;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 
 public class InputBlock extends Block{
 
@@ -22,7 +19,8 @@ public class InputBlock extends Block{
     private JRadioButton endEliminationRadioButtion;
     private JRadioButton startEliminationRadioButton;
     private JComboBox<InputOption> inputOptionCombobox;
-
+    private int inputFileDim = 0;
+    private boolean isXInput;
     public InputBlock(){
         super("Input Block");
         openFileExploreButton = new JButton("File");
@@ -74,6 +72,24 @@ public class InputBlock extends Block{
             String filePath = jFileChooser.getSelectedFile().getPath();
             filePathTextField.setText(filePath);
 
+            // dim 설정
+            // TODO 텍스트파일 이미지폴더 구분
+            try {
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filePath))));
+                String firstLine = br.readLine();
+                inputFileDim = firstLine.split(",").length;
+                switch (getInputOption()){
+                    case ONLY_START:
+                    case ONLY_END:
+                        inputFileDim = 1;
+                        break;
+                    case REMOVE_THE_END:
+                    case REMOVE_THE_START:
+                        inputFileDim -=1;
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         }
     }
     @Override
@@ -120,4 +136,20 @@ public class InputBlock extends Block{
         return (InputOption)inputOptionCombobox.getSelectedItem();
     }
 
+    //todo x와 y구분해서 경로 리턴하기. 어떤 object에서도 같은값을 return 하기위해서 / Class로도 값을 얻을수 있게 하기 위해서 static으로 처리
+    public static String getXPath(){
+        return "Empty";
+    }
+
+    public static String getYPath(){
+        return "Empty";
+    }
+
+    public boolean isXInput(){
+        return isXInput;
+    }
+
+    public void setXInput(boolean XInput) {
+        isXInput = XInput;
+    }
 }

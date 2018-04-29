@@ -1,24 +1,19 @@
-import Component.*;
+import Component.BlockComponent.InputBlock;
 import Component.BlockComponent.ModelBlock;
+import Component.NumberOnlyTextField;
 import Const.Classifier;
 import ML.Core.ProcessListener;
 import ML.Core.Python.TensorFlow.TFBuilder;
 import org.junit.Test;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.text.NumberFormatter;
-import java.awt.*;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 
 public class TestBlock {
     @Test
-    public void testa(){
-
-
+    public void testCodeGeneration(){
+        InputBlock xInputBlock = new InputBlock();
+        InputBlock yInputBlock = new InputBlock();
+        TFBuilder tfBuilder = new TFBuilder();
 
     }
 
