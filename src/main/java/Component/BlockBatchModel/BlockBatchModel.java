@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class BlockBatchModel {
 
-    //TODO 좌표 값도 기억해야하지만 블록간 연결 여부도 생각해 봐야함.
+
     private List<Block> blocks;
 
     public void addBlock(Block block){
