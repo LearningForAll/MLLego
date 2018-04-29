@@ -1,9 +1,7 @@
 package ML.Core.Python.TensorFlow;
 
 import Component.BlockComponent.*;
-import Const.Classifier;
 import Const.FileOption;
-import Const.Optimizer;
 import Const.RnnOutputOption;
 import ML.Core.Exception.IncompleteBlockException;
 import ML.Core.Exception.NoClassificationException;
@@ -51,12 +49,16 @@ public class TFBuilder implements MLBuilder {
         File layerGeneratorFile = FileUtil.resourceLoad("Python/Tensorflow/CodeTemplate/LayerGenerator.py");
         File preProcessorFile = FileUtil.resourceLoad("Python/Tensorflow/CodeTemplate/PreProcessor.py");
         File utilsFile = FileUtil.resourceLoad("Python/Tensorflow/CodeTemplate/Utils.py");
+        File trainerFile = FileUtil.resourceLoad("Python/Tensorflow/CodeTemplate/Trainer.py");
+        File initFile = FileUtil.resourceLoad("Python/Tensorflow/CodeTemplate/__init__.py");
         if (classifierTemplateFile == null
                 || fileReaderFile == null
                 || inferenceTemplateFile == null
                 || layerGeneratorFile == null
                 || preProcessorFile == null
-                || utilsFile == null)
+                || utilsFile == null
+                || trainerFile == null
+                || initFile == null)
             throw new RuntimeException("필수 리소스 존재 X");
 
         //read training block
@@ -69,9 +71,9 @@ public class TFBuilder implements MLBuilder {
 
 
         // TODO :: classifier option is mocked.
-        ClassifierOption classifierOption = new ClassifierOption("xpath", "ypath", FileOption.ALL, FileOption.ALL,
-                Classifier.SOFTMAX_CLASSIFIER, 4, 10,
-                0.001, Optimizer.OPTIMIZER_ADAM, 0.1);
+        ClassifierOption classifierOption = new ClassifierOption(InputBlock.getXPath(), InputBlock.getYPath(), FileOption.ALL, FileOption.ALL,
+                classifierBlock.getClassifier(), trainingBlock.getBatchSize(), trainingBlock.getEpoch(),
+                trainingBlock.getLearningRate(), trainingBlock.getOptimizer(), trainingBlock.getValidRatio());
         // generate classifier
         generateClassifier(classifierOption, classifierTemplateFile, curProjectDir + "/" + classifierTemplateFile.getName());
 
@@ -81,8 +83,10 @@ public class TFBuilder implements MLBuilder {
         FileUtil.fileCopy(layerGeneratorFile, curProjectDir + "/" + layerGeneratorFile.getName());
         FileUtil.fileCopy(fileReaderFile, curProjectDir + "/" + fileReaderFile.getName());
         FileUtil.fileCopy(inferenceTemplateFile,curProjectDir+"/"+inferenceTemplateFile.getName());
-        generateCodeRecursive(xPartBlock);
+        FileUtil.fileCopy(trainerFile,curProjectDir+"/"+trainerFile.getName());
+        FileUtil.fileCopy(initFile,curProjectDir+"/"+initFile.getName());
         generateCodeRecursive(yPartBlock);
+        generateCodeRecursive(xPartBlock);
         codeList.add("return "+xPartBlock.getUid());
         generateInferenceFile(codeList,curProjectDir+"/"+inferenceTemplateFile.getName());
         return false;
@@ -91,6 +95,7 @@ public class TFBuilder implements MLBuilder {
     private void generateInferenceFile(List<String> codeList,String inferenceFilePath) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(inferenceFilePath,true));
+            bw.newLine();
             for (String code : codeList){
                 bw.write("        "+code);
                 bw.newLine();
@@ -163,13 +168,12 @@ public class TFBuilder implements MLBuilder {
     private String[] generateTensorWhenPreprocessFinish() {
         String[] strings = new String[2];
         strings[0] = "self.tensor_x = pp.make_placeholder_with_batch_space(self.data_x)";
-        strings[1] = "self.tensor_y = pp.make_placeholder(self.data_y)";
+        strings[1] = "self.tensor_y = pp.make_placeholder_with_batch_space(self.data_y)";
         return strings;
     }
 
     private String generateConvolutionCode(ConvolutionLayerBlock block, Block beforeBlock) {
         String funcStr = block.getUid();
-
         String beforeUid = "";
         if (beforeBlock == null) throw new IllegalArgumentException("이전 블록이 없는데 conv 를 만드려함");
         if (beforeBlock instanceof PreprocessorBlock) {
@@ -177,8 +181,8 @@ public class TFBuilder implements MLBuilder {
         } else {
             beforeUid = beforeBlock.getUid();
         }
-        funcStr += "=lg.conv2d(" + beforeUid + "," + block.getKernelNum() + ",[" + block.getHorizonKernelSize() + "," + block.getVerticalKernelSize() + "]," +
-                block.getActivationFunction().toString() + ",[1,1]," + "\"VALID\")";
+        funcStr += "=lg.conv2d(" + beforeUid + "," + block.getKernelNum() + ",[" + block.getHorizonKernelSize() + "," + block.getVerticalKernelSize() + "],\"" +
+                block.getActivationFunction().toString() + "\",[1,1]," + "\'VALID\'"+"\',scope=\'"+block.getUid()+"\')";
         return funcStr;
     }
 
@@ -191,7 +195,12 @@ public class TFBuilder implements MLBuilder {
         } else {
             beforeUid = beforeBlock.getUid();
         }
-        funcStr += "=lg.linear(" + beforeUid + "," + block.getOutputDim() + "," + block.getActivationFunction().toString() + ")";
+        if (block.getNextBlocks().get(0) instanceof ClassifierBlock) {
+            //todo 이게맞을까? ui 단에서 강제하는건 어떤가?
+            funcStr +="=lg.linear(" + beforeUid + ",np.shape(self.data_y)[1],\"" + block.getActivationFunction().toString() + "\",scope=\'" + block.getUid() + "\')";
+        }else {
+            funcStr += "=lg.linear(" + beforeUid + "," + block.getOutputDim() + ",\"" + block.getActivationFunction().toString() + "\",scope=\'" + block.getUid() + "\')";
+        }
         return funcStr;
     }
 
@@ -205,7 +214,7 @@ public class TFBuilder implements MLBuilder {
             beforeUid = beforeBlock.getUid();
         }
         funcStr += "=lg.pool(" + beforeUid + "," + block.getPoolingType().toString() + ",[" + block.getHorizonKernel() + "," + block.getVerticalKernel() + "],["
-                + block.getHorizonStride() + "," + block.getVerticalStride() + "]," + block.getPaddingOption().toString() + ")";
+                + block.getHorizonStride() + "," + block.getVerticalStride() + "],\'" + block.getPaddingOption().toString() + "\',scope=\'"+block.getUid()+"\')";
         return funcStr;
     }
 
@@ -220,9 +229,9 @@ public class TFBuilder implements MLBuilder {
         }
         funcStr += "=lg.create_stack_rnn(" + beforeUid + "," + block.getCellSize() + "," + block.getStackSize() + ",";
         if (block.getOutputOption().equals(RnnOutputOption.ONLY_END)) {
-            funcStr += "True)";
+            funcStr += "True"+"\',scope=\'"+block.getUid()+"\')";;
         } else {
-            funcStr += "False)";
+            funcStr += "False"+"\',scope=\'"+block.getUid()+"\')";;
         }
         return funcStr;
     }

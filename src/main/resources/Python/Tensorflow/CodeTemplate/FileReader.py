@@ -12,7 +12,7 @@ def read_file(x_file_path, y_file_path, x_using_option="ALL", y_using_option="AL
                 data_x_list.append("%s/%s" % (path, filename))
     else:
         text_file = open(x_file_path, 'r')
-        file_lines = text_file.readlines()
+        file_lines = text_file.read().splitlines()
         for line in file_lines:
             vect_element = line.split(",")
             vect = list()
@@ -39,8 +39,8 @@ def read_file(x_file_path, y_file_path, x_using_option="ALL", y_using_option="AL
             for _ in range(len(files)):
                 data_y_list.append(name)
     else:
-        text_file = open(x_file_path, 'r')
-        file_lines = text_file.readlines()
+        text_file = open(y_file_path, 'r')
+        file_lines = text_file.read().splitlines()
         for line in file_lines:
             vect_element = line.split(",")
             vect = list()
@@ -54,6 +54,7 @@ def read_file(x_file_path, y_file_path, x_using_option="ALL", y_using_option="AL
             else:  # default : ALL
                 for element in vect_element:
                     vect.append(element)
+            data_y_list.append(vect)
     if len(data_x_list) != len(data_y_list):
         raise ValueError("x 데이터와 y 데이터의 크기가 맞지않습니다")
     return data_x_list, data_y_list

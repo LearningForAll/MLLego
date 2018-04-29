@@ -21,6 +21,9 @@ public class CodeGeneratorTest {
         DenseBlock xDenseBlock = new DenseBlock(50);
         xDenseBlock.activationFunctionCombobox.setSelectedItem(ActivationFunc.ACTIVATION_RELU);
 
+        trainingBlock.learningRateTextField.setText("0.001");
+        trainingBlock.validRatioTextField.setText("0.3");
+
 
         //연결
         trainingBlock.getPreviousBlocks().add(classifierBlock);
