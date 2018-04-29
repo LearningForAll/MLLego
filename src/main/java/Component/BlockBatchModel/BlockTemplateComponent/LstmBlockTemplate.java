@@ -8,6 +8,7 @@ import java.util.List;
 public class LstmBlockTemplate extends BlockTemplate {
 
     int keepProb;
+    int stackSize;
     public LstmBlockTemplate(int positionX, int positionY, String blockType, List<BlockTemplate> previousBlocks, List<BlockTemplate> nextBlocks) {
         super(positionX, positionY, blockType, previousBlocks, nextBlocks);
     }
