@@ -13,12 +13,13 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 // 관찰될 수 있는 객체
-public abstract class Block extends JPanel implements MouseListener, MouseMotionListener, BlockPublisher {
+public abstract class Block extends JPanel implements MouseListener, MouseMotionListener, BlockPublisher, Serializable {
     private int offX, offY;
     private boolean isDragged = false;
 

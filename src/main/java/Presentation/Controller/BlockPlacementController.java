@@ -1,13 +1,11 @@
 package Presentation.Controller;
 
+import App.MyApp;
 import Component.BlockComponent.Block;
 import Component.BlockObserver.BlockObserver;
 import Presentation.View.BlockPlacementPanel;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -196,9 +194,13 @@ public class BlockPlacementController implements BlockObserver {
         // 블록 객체 자체를 직렬화 하여 저장..
         try {
             //  ".block으로 저장
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("sample.block"));
-            oos.writeObject(blocks);
-            oos.close();
+            try{
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(getStorePath(name)));
+                oos.writeObject(blocks);
+                oos.close();
+            }catch (FileNotFoundException e){
+                e.printStackTrace();
+            }
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -220,7 +222,6 @@ public class BlockPlacementController implements BlockObserver {
             panel.deleteAllBlock();
 
             this.blocks = blockList;
-
             panel.addBlocks(this.blocks);
 
         } catch (Exception e) {
@@ -230,5 +231,11 @@ public class BlockPlacementController implements BlockObserver {
         //TODO 만약 블록이 PlacementController에 있다면 그 배치를 저장하겠냐고 메시지를 띄운다.
     }
 
+    public String getStorePath(String name){
 
+        //파일 이름을 받아서 파일 전체 저장 경로를 구하는 함수
+        File file = new File("");
+        System.out.println(file.getAbsolutePath() + "/bin/" + MyApp.projectTitle+ "/" + name + ".block");
+        return file.getAbsolutePath() + "/bin/" + MyApp.projectTitle +"/"+ name + ".block";
+    }
 }
