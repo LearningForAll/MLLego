@@ -5,6 +5,7 @@
 # For Tensorflow Pycharm .idea
 src/main/java/ML/Core/Python/TensorFlow/CodeTemplate/.idea/
 src/main/resources/Python/Tensorflow/CodeTemplate/.idea/
+bin/
 # Ignore Gradle Presentation.View config
 gradle-app.setting
 

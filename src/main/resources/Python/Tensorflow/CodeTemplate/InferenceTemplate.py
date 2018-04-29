@@ -2,9 +2,10 @@ import codecs
 from sklearn import preprocessing
 import numpy as np
 import os
-import LayerGeneartor as lg
+import LayerGenerator
 import PreProcessor as pp
 import FileReader as fr
+import tensorflow as tf
 
 
 class Inferencer:
@@ -16,6 +17,7 @@ class Inferencer:
         self.data_x = self.raw_x  #  raw_x를 가공하면 data_x에 저장
         self.data_y = self.raw_y  #  raw_y를 가공하면 data_y에 저장
         self.is_training = False
+        self.dropout_keep_prob = tf.placeholder(tf.float32)
 
     def get_tensor_x(self):
         return self.tensor_x
@@ -30,5 +32,5 @@ class Inferencer:
         return self.data_y
 
     def get_logit(self):
+        lg = LayerGenerator.LayerGenerator()
         # below here, MLLego will generate source code.
-        pass
