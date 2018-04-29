@@ -1,5 +1,7 @@
 package Component.BlockBatchModel.BlockTemplateComponent;
 
+import Component.BlockComponent.Block;
+import Component.BlockComponent.InputBlock;
 import Const.InputOption;
 
 import java.util.List;
@@ -15,8 +17,14 @@ public class InputBlockTemplate extends BlockTemplate {
     public InputBlockTemplate(int positionX, int positionY, String blockType,
                               List<BlockTemplate> previousBlocks, List<BlockTemplate> nextBlocks,
                               String filePath, InputOption inputOption) {
-        super(positionX, positionY, blockType, previousBlocks, nextBlocks);
+        super(positionX, positionY, blockType);
         this.filePath = filePath;
         this.inputOption = inputOption;
+    }
+    public InputBlockTemplate(Block block){
+        super(block.getX(), block.getY(), block.getClass().getSimpleName());
+        //this.filePath = ((InputBlock)block).getpath();
+        this.inputOption = ((InputBlock)block).getInputOption();
+
     }
 }

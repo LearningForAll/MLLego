@@ -1,7 +1,11 @@
 package Presentation.Controller;
 
 import App.MyApp;
+import Component.BlockBatchModel.BlockTemplateComponent.BlockTemplate;
+import Component.BlockBatchModel.BlockTemplateComponent.ClassifierBlockTemplate;
+import Component.BlockBatchModel.BlockTemplateComponent.ConvolutionLayerBlockTemplate;
 import Component.BlockComponent.Block;
+import Component.BlockComponent.ClassifierBlock;
 import Component.BlockObserver.BlockObserver;
 import Presentation.View.BlockPlacementPanel;
 
@@ -77,7 +81,7 @@ public class BlockPlacementController implements BlockObserver {
                         block.getLastConnectedBlock().blinkBottom();
                         block1.blinkTop();
                         break;
-                    }else{
+                    } else {
                         block.revertBlock();
                         block.getLastConnectedBlock().revertBlock();
                         block1.revertBlock();
@@ -149,8 +153,8 @@ public class BlockPlacementController implements BlockObserver {
             }
         } else {
             //드래그 되고있는 블록에 대해 연결된 블록중 마지막 블록이 빛나는지 체크
-            if(block.getLastConnectedBlock().checkBorder()){
-                if(!block.checkTopBorder()) {// bottom이 빛날때
+            if (block.getLastConnectedBlock().checkBorder()) {
+                if (!block.checkTopBorder()) {// bottom이 빛날때
                     for (Block block1 : tempBlocks) {
                         if (block1.checkTopBorder()) {
                             block.getLastConnectedBlock().registerNextBlock(block1);
@@ -194,11 +198,11 @@ public class BlockPlacementController implements BlockObserver {
         // 블록 객체 자체를 직렬화 하여 저장..
         try {
             //  ".block으로 저장
-            try{
+            try {
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(getStorePath(name)));
                 oos.writeObject(blocks);
                 oos.close();
-            }catch (FileNotFoundException e){
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
 
@@ -231,11 +235,94 @@ public class BlockPlacementController implements BlockObserver {
         //TODO 만약 블록이 PlacementController에 있다면 그 배치를 저장하겠냐고 메시지를 띄운다.
     }
 
-    public String getStorePath(String name){
+    public String getStorePath(String name) {
 
         //파일 이름을 받아서 파일 전체 저장 경로를 구하는 함수
         File file = new File("");
-        System.out.println(file.getAbsolutePath() + "/bin/" + MyApp.projectTitle+ "/" + name + ".block");
-        return file.getAbsolutePath() + "/bin/" + MyApp.projectTitle +"/"+ name + ".block";
+        System.out.println(file.getAbsolutePath() + "/bin/" + MyApp.projectTitle + "/" + name + ".block");
+        return file.getAbsolutePath() + "/bin/" + MyApp.projectTitle + "/" + name + ".block";
+    }
+
+    private List<BlockTemplate> convertBlockToBlockTemplate(List<Block> blocks) {
+        List<BlockTemplate> blockTemplates = new ArrayList();
+
+        for (Block block : blocks) {
+            switch (block.getClass().getSimpleName()) {
+                case "ClassifierBlock":
+                    block = (ClassifierBlock) block;
+                    // blockTemplates.add(new ClassifierBlockTemplate(block.getX(), block.getY(), block.getClass().getSimpleName(),
+                    // block.getPreviousBlocks(), block.getNextBlocks(), ((ClassifierBlock) block).getClassifier());
+                    break;
+                case "ConvolutionLayerBlock":
+                   // blockTemplates.add(new ConvolutionLayerBlockTemplate(new ConvolutionLayerBlockTemplate(block.getX(), block.getY(),
+                         //   block.getClass().getSimpleName(), block.getPreviousBlocks(), block.getNextb)))
+                    break;
+                case "DenseBlock":
+
+                    break;
+                case "InputBlock":
+
+                    break;
+                case "LstmBlock":
+
+                    break;
+                case "ModelBlock":
+
+                    break;
+                case "PreprocessorBlock":
+
+                    break;
+                case "PoolingBlock":
+
+                    break;
+                case "TrainingBlock":
+
+                    break;
+
+
+            }
+        }
+
+
+        return blockTemplates;
+    }
+
+    private List<BlockTemplate> convertOnceBlockToTemplate(List<Block> blocks) {
+        List<BlockTemplate> blockTemplates = new ArrayList();
+
+        for (Block block : blocks) {
+            switch (block.getClass().getSimpleName()) {
+                case "ClassifierBlock":
+                    blockTemplates.add(new ClassifierBlockTemplate(block));
+                    break;
+                case "ConvolutionLayerBlock":
+
+                    break;
+                case "DenseBlock":
+
+                    break;
+                case "InputBlock":
+
+                    break;
+                case "LstmBlock":
+
+                    break;
+                case "ModelBlock":
+
+                    break;
+                case "PreprocessorBlock":
+
+                    break;
+                case "PoolingBlock":
+
+                    break;
+                case "TrainingBlock":
+
+                    break;
+
+
+            }
+        }
+        return blockTemplates;
     }
 }

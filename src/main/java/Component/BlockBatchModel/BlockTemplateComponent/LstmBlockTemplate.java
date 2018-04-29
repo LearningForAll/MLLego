@@ -1,5 +1,8 @@
 package Component.BlockBatchModel.BlockTemplateComponent;
 
+import Component.BlockComponent.Block;
+import Component.BlockComponent.LstmBlock;
+
 import java.util.List;
 
 /**
@@ -12,8 +15,13 @@ public class LstmBlockTemplate extends BlockTemplate {
     public LstmBlockTemplate(int positionX, int positionY, String blockType,
                              List<BlockTemplate> previousBlocks, List<BlockTemplate> nextBlocks,
                              int keepProb, int stackSize) {
-        super(positionX, positionY, blockType, previousBlocks, nextBlocks);
+        super(positionX, positionY, blockType);
         this.keepProb = keepProb;
         this.stackSize = stackSize;
+    }
+    public LstmBlockTemplate(Block block){
+        super(block.getX(), block.getY(), block.getClass().getSimpleName());
+        this.stackSize = ((LstmBlock)block).getStackSize();
+        this.keepProb = ((LstmBlock)block).getKeepProb();
     }
 }

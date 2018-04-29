@@ -14,14 +14,14 @@ public class TrainingBlock extends Block {
     private Optimizer optimizers;
 
     // epoch, batch, learning rate를 설정할수 있는 필드
-    public NumberOnlyTextField batchSizeTextField;
+    private NumberOnlyTextField batchSizeTextField;
     // TODO 소수도 지원가능한 텍스트필드 설정
-    public JTextField learningRateTextField;
-    public NumberOnlyTextField epochTextField;
-    public JComboBox<Optimizer> optimizerCombobox;
+    private JTextField learningRateTextField;
+    private NumberOnlyTextField epochTextField;
+    private JComboBox<Optimizer> optimizerCombobox;
 
     //todo valid ratio 넣기
-    public NumberOnlyTextField validRatioTextField;
+    private NumberOnlyTextField validRatioTextField;
 
 
     public TrainingBlock(){
