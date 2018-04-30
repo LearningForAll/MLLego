@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.ConvolutionLayerBlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.ActivationFunc;
 
@@ -58,6 +59,15 @@ public class ConvolutionLayerBlock extends LayerBlock {
         add(activationFunctionCombobox);
         add(flowSubPanel);
         setVisible(true);
+    }
+    public ConvolutionLayerBlock(ConvolutionLayerBlockTemplate template){
+        this();
+        activationFunctionCombobox.setSelectedItem(template.getFunc());
+        keepprobJSlider.setValue(template.getKeepProb());
+        kernelNumTextField.setValue(template.getKernelSize());
+        verticalKernelSize.setValue(template.getVerticalKernelSize());
+        horizontalKernelSize.setValue(template.getHorizontalKernelSize());
+
     }
 
     @Override

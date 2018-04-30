@@ -1,12 +1,11 @@
 package Presentation.Controller;
 
 import App.MyApp;
-import Component.BlockBatchModel.BlockTemplateComponent.BlockTemplate;
-import Component.BlockBatchModel.BlockTemplateComponent.ClassifierBlockTemplate;
-import Component.BlockBatchModel.BlockTemplateComponent.ConvolutionLayerBlockTemplate;
+import Component.BlockBatchModel.BlockTemplateComponent.*;
 import Component.BlockComponent.Block;
 import Component.BlockComponent.ClassifierBlock;
 import Component.BlockObserver.BlockObserver;
+import Const.Classifier;
 import Presentation.View.BlockPlacementPanel;
 
 import java.io.*;
@@ -200,7 +199,10 @@ public class BlockPlacementController implements BlockObserver {
             //  ".block으로 저장
             try {
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(getStorePath(name)));
-                oos.writeObject(blocks);
+                List<BlockTemplate> blockTemplates = convertBlocksToTemplate(blocks);
+                updateConnectionInfo(blockTemplates, blocks);
+
+                oos.writeObject(blockTemplates);
                 oos.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -216,16 +218,18 @@ public class BlockPlacementController implements BlockObserver {
     public void loadBlockBatch(String filePath) {
         try {
             // 직렬화된 객체를 로드해옴.
-            List<Block> blockList;
+            List<BlockTemplate> blockList;
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath));
-            blockList = (List<Block>) ois.readObject();
+            blockList = (List<BlockTemplate>) ois.readObject();
             ois.close();
+
+
 
             // 패널의 모든 블록삭제
             this.blocks.clear();
             panel.deleteAllBlock();
 
-            this.blocks = blockList;
+            //this.blocks = blockList;
             panel.addBlocks(this.blocks);
 
         } catch (Exception e) {
@@ -243,51 +247,8 @@ public class BlockPlacementController implements BlockObserver {
         return file.getAbsolutePath() + "/bin/" + MyApp.projectTitle + "/" + name + ".block";
     }
 
-    private List<BlockTemplate> convertBlockToBlockTemplate(List<Block> blocks) {
-        List<BlockTemplate> blockTemplates = new ArrayList();
 
-        for (Block block : blocks) {
-            switch (block.getClass().getSimpleName()) {
-                case "ClassifierBlock":
-                    block = (ClassifierBlock) block;
-                    // blockTemplates.add(new ClassifierBlockTemplate(block.getX(), block.getY(), block.getClass().getSimpleName(),
-                    // block.getPreviousBlocks(), block.getNextBlocks(), ((ClassifierBlock) block).getClassifier());
-                    break;
-                case "ConvolutionLayerBlock":
-                   // blockTemplates.add(new ConvolutionLayerBlockTemplate(new ConvolutionLayerBlockTemplate(block.getX(), block.getY(),
-                         //   block.getClass().getSimpleName(), block.getPreviousBlocks(), block.getNextb)))
-                    break;
-                case "DenseBlock":
-
-                    break;
-                case "InputBlock":
-
-                    break;
-                case "LstmBlock":
-
-                    break;
-                case "ModelBlock":
-
-                    break;
-                case "PreprocessorBlock":
-
-                    break;
-                case "PoolingBlock":
-
-                    break;
-                case "TrainingBlock":
-
-                    break;
-
-
-            }
-        }
-
-
-        return blockTemplates;
-    }
-
-    private List<BlockTemplate> convertOnceBlockToTemplate(List<Block> blocks) {
+    private List<BlockTemplate> convertBlocksToTemplate(List<Block> blocks) {
         List<BlockTemplate> blockTemplates = new ArrayList();
 
         for (Block block : blocks) {
@@ -296,33 +257,109 @@ public class BlockPlacementController implements BlockObserver {
                     blockTemplates.add(new ClassifierBlockTemplate(block));
                     break;
                 case "ConvolutionLayerBlock":
-
+                    blockTemplates.add(new ConvolutionLayerBlockTemplate(block));
                     break;
                 case "DenseBlock":
-
+                    blockTemplates.add(new DenseBlockTemplate(block));
                     break;
                 case "InputBlock":
-
+                    blockTemplates.add(new InputBlockTemplate(block));
                     break;
                 case "LstmBlock":
-
+                    blockTemplates.add(new LstmBlockTemplate(block));
                     break;
                 case "ModelBlock":
-
+                    blockTemplates.add(new ModelBlockTemplate(block));
                     break;
                 case "PreprocessorBlock":
-
+                    blockTemplates.add(new PreprocessorBlockTemplate(block));
                     break;
                 case "PoolingBlock":
-
+                    blockTemplates.add(new PoolingBlockTemplate(block));
                     break;
                 case "TrainingBlock":
-
+                    blockTemplates.add(new TrainingBlockTemplate(block));
                     break;
-
-
             }
         }
         return blockTemplates;
+    }
+    public BlockTemplate convertOneBlockToTemplate(Block block){
+        switch (block.getClass().getSimpleName()) {
+            case "ClassifierBlock":
+                return (new ClassifierBlockTemplate(block));
+            case "ConvolutionLayerBlock":
+                return (new ConvolutionLayerBlockTemplate(block));
+            case "DenseBlock":
+                return (new DenseBlockTemplate(block));
+            case "InputBlock":
+                return (new InputBlockTemplate(block));
+            case "LstmBlock":
+                return (new LstmBlockTemplate(block));
+            case "ModelBlock":
+                return (new ModelBlockTemplate(block));
+            case "PreprocessorBlock":
+                return (new PreprocessorBlockTemplate(block));
+            case "PoolingBlock":
+                return (new PoolingBlockTemplate(block));
+            case "TrainingBlock":
+                return (new TrainingBlockTemplate(block));
+        }
+        return null;
+    }
+    private void updateConnectionInfo(List<BlockTemplate> blockTemplates, List<Block> blocks){
+        for(int i = 0; i < blocks.size(); i++){
+            if(blocks.get(i).isNextBlockConnected()){
+                for(int j = 0; j < blockTemplates.size(); j++){
+                    // 어차피 다음 블록은 하나만 오기때문에 상관없음..
+                    if(blockTemplates.get(j) == convertOneBlockToTemplate(blocks.get(i).getNextBlocks().get(0))){
+                        System.out.println("엥 같은 블록이군!!");
+                        blockTemplates.get(j).setNextBlocks(convertBlocksToTemplate(blocks.get(i).getNextBlocks()));
+                    }
+                }
+            }
+            if(blocks.get(i).isPreviousBlockConnected()){
+                for(int j = 0; j < blockTemplates.size(); j++){
+                    for(int k = 0; k < blocks.get(i).getPreviousBlocks().size(); k++){
+                        if(blockTemplates.get(j) == convertOneBlockToTemplate(blocks.get(i).getPreviousBlocks().get(k))){
+                            blockTemplates.get(j).setPreviousBlocks(convertBlocksToTemplate(blocks.get(i).getPreviousBlocks()));
+                            break;
+                        }
+                    }
+                }
+            }
+            //TODO Classifier xpart, ypart 추가해야함
+            /*if(blocks.get(i).getClass().getSimpleName().equals("ClassifierBlock")){
+                if (((ClassifierBlock)blocks.get(i)).getxPartBlock() != null){
+                    ((ClassifierBlockTemplate)blockTemplates.get(i)).setxPartBlock(convertOneBlockToTemplate();
+                }
+            }*/
+        }
+    }
+
+    private void blockTemplateToBlock(List<BlockTemplate> blockTemplates){
+        for (BlockTemplate blockTemplate : blockTemplates){
+
+        }
+       /* switch (blockTemplates.getClass().getSimpleName()) {
+            case "ClassifierBlock":
+                return (new ClassifierBlock(blockTemplates));
+            case "ConvolutionLayerBlock":
+                return (new ConvolutionLayerBlockTemplate(block));
+            case "DenseBlock":
+                return (new DenseBlockTemplate(block));
+            case "InputBlock":
+                return (new InputBlockTemplate(block));
+            case "LstmBlock":
+                return (new LstmBlockTemplate(block));
+            case "ModelBlock":
+                return (new ModelBlockTemplate(block));
+            case "PreprocessorBlock":
+                return (new PreprocessorBlockTemplate(block));
+            case "PoolingBlock":
+                return (new PoolingBlockTemplate(block));
+            case "TrainingBlock":
+                return (new TrainingBlockTemplate(block));
+        }*/
     }
 }

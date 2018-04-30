@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.TrainingBlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.Optimizer;
 
@@ -11,7 +12,6 @@ public class TrainingBlock extends Block {
     // 트레이닝 블록에서 epoch, batch_size, learning_rate 설정
     //private String optimizer;
     //Combobox에 들어갈 optimizer
-    private Optimizer optimizers;
 
     // epoch, batch, learning rate를 설정할수 있는 필드
     private NumberOnlyTextField batchSizeTextField;
@@ -22,7 +22,6 @@ public class TrainingBlock extends Block {
 
     //todo valid ratio 넣기
     private NumberOnlyTextField validRatioTextField;
-
 
     public TrainingBlock(){
         super("Training Block");
@@ -58,6 +57,16 @@ public class TrainingBlock extends Block {
         add(optimizerCombobox);
         flowPanel.setBackground(new Color(0,0,180));
         setVisible(true);
+    }
+    public TrainingBlock(TrainingBlockTemplate template){
+        this();
+        optimizerCombobox.setSelectedItem(template.getOptimizer());
+        learningRateTextField.setText(String.valueOf(template.getLearningRate()));
+        batchSizeTextField.setText(String.valueOf(template.getBatchSize()));
+        epochTextField.setText(String.valueOf(template.getEpochSize()));
+        //TODO 주석제거
+        //validRatioTextField.setText(String.valueOf(template.getValidRatio()));
+
     }
 
     @Override

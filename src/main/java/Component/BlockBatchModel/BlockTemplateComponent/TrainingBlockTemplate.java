@@ -18,8 +18,48 @@ public class TrainingBlockTemplate extends BlockTemplate{
     float learningRate;
     float validRatio;
 
+    public int getBatchSize() {
+        return batchSize;
+    }
+
+    public void setBatchSize(int batchSize) {
+        this.batchSize = batchSize;
+    }
+
+    public int getEpochSize() {
+        return epochSize;
+    }
+
+    public void setEpochSize(int epochSize) {
+        this.epochSize = epochSize;
+    }
+
+    public Optimizer getOptimizer() {
+        return optimizer;
+    }
+
+    public void setOptimizer(Optimizer optimizer) {
+        this.optimizer = optimizer;
+    }
+
+    public float getLearningRate() {
+        return learningRate;
+    }
+
+    public void setLearningRate(float learningRate) {
+        this.learningRate = learningRate;
+    }
+
+    public float getValidRatio() {
+        return validRatio;
+    }
+
+    public void setValidRatio(float validRatio) {
+        this.validRatio = validRatio;
+    }
+
     public TrainingBlockTemplate(int positionX, int positionY, String blockType,
-                                 List<BlockTemplate> previousBlocks, List<BlockTemplate> nextBlocks,
+
                                  int batchSize, int epochSize, Optimizer optimizer, float learningRate, float validRatio) {
         super(positionX, positionY, blockType);
         this.batchSize = batchSize;

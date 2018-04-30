@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.ClassifierBlockTemplate;
 import Const.Classifier;
 
 import javax.swing.*;
@@ -22,6 +23,10 @@ public class ClassifierBlock extends Block{
         add(flowPanel);
         add(classifierComboBox);
         setVisible(true);
+    }
+    public ClassifierBlock(ClassifierBlockTemplate template){
+        this();
+        classifier = template.getClassifier();
     }
 
 
@@ -69,6 +74,7 @@ public class ClassifierBlock extends Block{
     public Classifier getClassifier(){
         return (Classifier)classifierComboBox.getSelectedItem();
     }
+
 
 
 }

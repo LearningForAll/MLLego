@@ -15,7 +15,6 @@ public class InputBlockTemplate extends BlockTemplate {
     InputOption inputOption;
 
     public InputBlockTemplate(int positionX, int positionY, String blockType,
-                              List<BlockTemplate> previousBlocks, List<BlockTemplate> nextBlocks,
                               String filePath, InputOption inputOption) {
         super(positionX, positionY, blockType);
         this.filePath = filePath;
@@ -26,5 +25,21 @@ public class InputBlockTemplate extends BlockTemplate {
         //this.filePath = ((InputBlock)block).getpath();
         this.inputOption = ((InputBlock)block).getInputOption();
 
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public InputOption getInputOption() {
+        return inputOption;
+    }
+
+    public void setInputOption(InputOption inputOption) {
+        this.inputOption = inputOption;
     }
 }

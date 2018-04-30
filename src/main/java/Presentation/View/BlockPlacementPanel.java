@@ -38,7 +38,7 @@ public class BlockPlacementPanel extends JScrollPane {
 
     public void addBlocks(List<Block> blockList){
         for(Block block : blockList){
-            this.add(block);
+            workspacePanel.add(block);
         }
         revalidate();
     }
@@ -46,7 +46,7 @@ public class BlockPlacementPanel extends JScrollPane {
 
     public void deleteAllBlock(){
         System.out.println("모든 블록 삭제");
-        this.removeAll();
+        workspacePanel.removeAll();
         revalidate();
     }
 }

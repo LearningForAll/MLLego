@@ -19,7 +19,6 @@ public class ConvolutionLayerBlockTemplate extends BlockTemplate{
     ActivationFunc func;
 
     public ConvolutionLayerBlockTemplate(int positionX, int positionY, String blockType,
-                                         List<BlockTemplate> previousBlocks, List<BlockTemplate> nextBlocks,
                                          int kernelSize, int horizontalKernelSize, int verticalKernelSize,
                                          int keepProb, ActivationFunc func) {
         super(positionX, positionY, blockType);
@@ -36,5 +35,25 @@ public class ConvolutionLayerBlockTemplate extends BlockTemplate{
         this.horizontalKernelSize = ((ConvolutionLayerBlock)block).getHorizonKernelSize();
         this.verticalKernelSize = ((ConvolutionLayerBlock)block).getVerticalKernelSize();
         this.func = ((ConvolutionLayerBlock)block).getActivationFunction();
+    }
+
+    public ActivationFunc getFunc() {
+        return func;
+    }
+
+    public int getHorizontalKernelSize() {
+        return horizontalKernelSize;
+    }
+
+    public int getKeepProb() {
+        return keepProb;
+    }
+
+    public int getKernelSize() {
+        return kernelSize;
+    }
+
+    public int getVerticalKernelSize() {
+        return verticalKernelSize;
     }
 }

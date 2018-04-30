@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.PreprocessorBlockTemplate;
 import Const.FileType;
 import Const.PreprocessorType;
 import javax.swing.*;
@@ -28,6 +29,10 @@ public class PreprocessorBlock extends Block {
 
         flowPanel.setBackground(new Color(243,115,50));
         setVisible(true);
+    }
+    public PreprocessorBlock(PreprocessorBlockTemplate blockTemplate){
+        this();
+        preprocessorTypeCombobox.setSelectedItem(blockTemplate.getPreprocessorType());
     }
     @Override
     String getBlockAttrStr() {

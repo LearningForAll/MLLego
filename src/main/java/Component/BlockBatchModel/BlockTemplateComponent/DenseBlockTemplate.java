@@ -15,7 +15,6 @@ public class DenseBlockTemplate extends BlockTemplate {
     int outputDim;
     ActivationFunc activationFunc;
     public DenseBlockTemplate(int positionX, int positionY, String blockType,
-                              List<BlockTemplate> previousBlocks, List<BlockTemplate> nextBlocks,
                               int layerNum, int outputDim, ActivationFunc activationFunc) {
         super(positionX, positionY, blockType);
         this.layerNum = layerNum;
@@ -28,4 +27,32 @@ public class DenseBlockTemplate extends BlockTemplate {
         this.outputDim = ((DenseBlock)block).getOutputDim();
         this.activationFunc = ((DenseBlock)block).getActivationFunction();
     }
+
+    public int getOutputDim() {
+        return outputDim;
+    }
+
+    public void setOutputDim(int outputDim) {
+        this.outputDim = outputDim;
+    }
+
+    public ActivationFunc getActivationFunc() {
+        return activationFunc;
+    }
+
+    public void setActivationFunc(ActivationFunc activationFunc) {
+        this.activationFunc = activationFunc;
+    }
+
+    public int getLayerNum() {
+        return layerNum;
+    }
+
+    public void setLayerNum(int layerNum) {
+        this.layerNum = layerNum;
+    }
+
+
+
+
 }

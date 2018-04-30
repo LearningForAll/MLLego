@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.BlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.ActivationFunc;
 
@@ -41,6 +42,9 @@ public class DenseBlock extends LayerBlock {
         add(flowPanel);
         add(flowSubPanel);
         setVisible(true);
+    }
+    public DenseBlock(BlockTemplate blockTemplate){
+
     }
 
     @Override

@@ -17,7 +17,7 @@ public class ClassifierBlockTemplate extends BlockTemplate{
 
 
     public ClassifierBlockTemplate(int positionX, int positionY, String blockType,
-                                   Classifier classifier, BlockTemplate xPartBlock, BlockTemplate yPartBlock) {
+                                   Classifier classifier) {
         super(positionX, positionY, blockType);
         this.classifier = classifier;
         this.xPartBlock = xPartBlock;
@@ -35,5 +35,17 @@ public class ClassifierBlockTemplate extends BlockTemplate{
 
     public void setyPartBlock(BlockTemplate yPartBlock) {
         this.yPartBlock = yPartBlock;
+    }
+
+    public BlockTemplate getxPartBlock() {
+        return xPartBlock;
+    }
+
+    public BlockTemplate getyPartBlock() {
+        return yPartBlock;
+    }
+
+    public Classifier getClassifier() {
+        return classifier;
     }
 }

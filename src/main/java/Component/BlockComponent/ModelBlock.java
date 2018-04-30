@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.ModelBlockTemplate;
 import Models.Coords;
 
 import javax.swing.*;
@@ -15,6 +16,9 @@ public class ModelBlock extends Block {
         add(flowPanel);
         flowPanel.setBackground(new Color(0, 0, 180));
         setVisible(true);
+    }
+    public ModelBlock(ModelBlockTemplate template){
+        this();
     }
 
     @Override

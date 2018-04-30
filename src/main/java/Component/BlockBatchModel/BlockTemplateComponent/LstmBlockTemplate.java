@@ -13,15 +13,31 @@ public class LstmBlockTemplate extends BlockTemplate {
     int keepProb;
     int stackSize;
     public LstmBlockTemplate(int positionX, int positionY, String blockType,
-                             List<BlockTemplate> previousBlocks, List<BlockTemplate> nextBlocks,
                              int keepProb, int stackSize) {
         super(positionX, positionY, blockType);
         this.keepProb = keepProb;
         this.stackSize = stackSize;
     }
+
+    public int getKeepProb() {
+        return keepProb;
+    }
+
+    public void setKeepProb(int keepProb) {
+        this.keepProb = keepProb;
+    }
+
+    public int getStackSize() {
+        return stackSize;
+    }
+
+    public void setStackSize(int stackSize) {
+        this.stackSize = stackSize;
+    }
+
     public LstmBlockTemplate(Block block){
         super(block.getX(), block.getY(), block.getClass().getSimpleName());
-        this.stackSize = ((LstmBlock)block).getStackSize();
+       // this.stackSize = ((LstmBlock)block).getStackSize();
         this.keepProb = ((LstmBlock)block).getKeepProb();
     }
 }

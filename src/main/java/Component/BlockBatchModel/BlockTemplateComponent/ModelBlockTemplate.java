@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class ModelBlockTemplate extends BlockTemplate {
 
-     public ModelBlockTemplate(int positionX, int positionY, String blockType, List<BlockTemplate> previousBlocks, List<BlockTemplate> nextBlocks) {
+     public ModelBlockTemplate(int positionX, int positionY, String blockType) {
         super(positionX, positionY, blockType);
     }
     public ModelBlockTemplate(Block block){

@@ -2,6 +2,7 @@ package Component.BlockBatchModel.BlockTemplateComponent;
 
 import Component.BlockComponent.Block;
 import Component.BlockComponent.InputBlock;
+import Component.BlockComponent.PreprocessorBlock;
 import Const.FileType;
 import Const.InputOption;
 import Const.PreprocessorType;
@@ -11,24 +12,39 @@ import java.util.List;
 /**
  * Created by chaebyeonghun on 2018. 4. 29..
  */
-public class PreprocessorBlockTemplate extends BlockTemplate{
+public class PreprocessorBlockTemplate extends BlockTemplate {
 
     FileType fileType;
     PreprocessorType preprocessorType;
-    InputOption inputOption;
 
 
     public PreprocessorBlockTemplate(int positionX, int positionY, String blockType,
-                                     List<BlockTemplate> previousBlocks, List<BlockTemplate> nextBlocks,
                                      FileType fileType, PreprocessorType preprocessorType) {
         super(positionX, positionY, blockType);
         this.fileType = fileType;
         this.preprocessorType = preprocessorType;
     }
-    public PreprocessorBlockTemplate(Block block){
+
+    public FileType getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(FileType fileType) {
+        this.fileType = fileType;
+    }
+
+    public PreprocessorType getPreprocessorType() {
+        return preprocessorType;
+    }
+
+    public void setPreprocessorType(PreprocessorType preprocessorType) {
+        this.preprocessorType = preprocessorType;
+    }
+
+    public PreprocessorBlockTemplate(Block block) {
         super(block.getX(), block.getY(), block.getClass().getSimpleName());
-        this.fileType = ((InputBlock)block).getFileType();
-        this.inputOption = ((InputBlock)block).getInputOption();
+        //this.fileType = ((PreprocessorBlock)block).getFileType();
+        this.preprocessorType = ((PreprocessorBlock) block).getPreprocessorType();
 
     }
 }
