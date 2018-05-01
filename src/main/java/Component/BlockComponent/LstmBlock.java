@@ -36,6 +36,7 @@ public class LstmBlock extends LayerBlock {
         keepProbJSlider.setValue(template.getKeepProb());
         //TODO 주석풀어야함
         //stackSizeTextField.setValue(template.getStackSize());
+        setLocation(template.getPositionX(), template.getPositionY());
     }
 
     @Override

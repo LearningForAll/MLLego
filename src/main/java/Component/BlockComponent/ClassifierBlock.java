@@ -27,6 +27,8 @@ public class ClassifierBlock extends Block{
     public ClassifierBlock(ClassifierBlockTemplate template){
         this();
         classifier = template.getClassifier();
+        setLocation(template.getPositionX(), template.getPositionY());
+
     }
 
 

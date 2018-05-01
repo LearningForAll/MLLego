@@ -76,6 +76,7 @@ public class PoolingBlock extends LayerBlock {
         verticalStrideTextField.setText(String.valueOf(template.getVerticalStride()));
         horizontalKernelSizeTextField.setText(String.valueOf(template.getHorizontalKernelSize()));
         verticalKernelSizeTextField.setText(String.valueOf(template.getVerticalKernelSize()));
+        setLocation(template.getPositionX(), template.getPositionY());
     }
 
     @Override

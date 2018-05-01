@@ -19,6 +19,7 @@ public class ModelBlock extends Block {
     }
     public ModelBlock(ModelBlockTemplate template){
         this();
+        setLocation(template.getPositionX(), template.getPositionY());
     }
 
     @Override

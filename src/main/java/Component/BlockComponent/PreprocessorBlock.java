@@ -33,6 +33,7 @@ public class PreprocessorBlock extends Block {
     public PreprocessorBlock(PreprocessorBlockTemplate blockTemplate){
         this();
         preprocessorTypeCombobox.setSelectedItem(blockTemplate.getPreprocessorType());
+        setLocation(blockTemplate.getPositionX(), blockTemplate.getPositionY());
     }
     @Override
     String getBlockAttrStr() {

@@ -16,7 +16,7 @@ public class TrainingBlock extends Block {
     // epoch, batch, learning rate를 설정할수 있는 필드
     private NumberOnlyTextField batchSizeTextField;
     // TODO 소수도 지원가능한 텍스트필드 설정
-    private JTextField learningRateTextField;
+    private NumberOnlyTextField learningRateTextField;
     private NumberOnlyTextField epochTextField;
     private JComboBox<Optimizer> optimizerCombobox;
 
@@ -27,8 +27,8 @@ public class TrainingBlock extends Block {
         super("Training Block");
         validRatioTextField = new NumberOnlyTextField(0.1,0.1,0.5);
         batchSizeTextField = new NumberOnlyTextField(1,1,100000);
-        //TODO 소수도 지원 가능한걸로 교체
-        learningRateTextField = new JTextField();
+        //TODO 러닝레이트 값 조정해야함
+        learningRateTextField = new NumberOnlyTextField(0.1, 0.00001, 1);
         epochTextField = new NumberOnlyTextField(1,1,100000);
         optimizerCombobox = new JComboBox<>(Optimizer.values());
 
@@ -66,7 +66,7 @@ public class TrainingBlock extends Block {
         epochTextField.setText(String.valueOf(template.getEpochSize()));
         //TODO 주석제거
         //validRatioTextField.setText(String.valueOf(template.getValidRatio()));
-
+        setLocation(template.getPositionX(), template.getPositionY());
     }
 
     @Override

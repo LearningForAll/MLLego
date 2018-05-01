@@ -55,6 +55,7 @@ public class InputBlock extends Block{
         this();
         filePathTextField.setText(blockTemplate.getFilePath());
         inputOptionCombobox.setSelectedItem(blockTemplate.getInputOption());
+        setLocation(blockTemplate.getPositionX(), blockTemplate.getPositionY());
     }
 
     //이너 클래스로 재 정의

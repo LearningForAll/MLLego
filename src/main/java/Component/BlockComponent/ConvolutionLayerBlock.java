@@ -67,6 +67,7 @@ public class ConvolutionLayerBlock extends LayerBlock {
         kernelNumTextField.setValue(template.getKernelSize());
         verticalKernelSize.setValue(template.getVerticalKernelSize());
         horizontalKernelSize.setValue(template.getHorizontalKernelSize());
+        setLocation(template.getPositionX(), template.getPositionY());
 
     }
 

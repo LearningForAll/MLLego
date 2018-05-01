@@ -48,4 +48,9 @@ public class ClassifierBlockTemplate extends BlockTemplate{
     public Classifier getClassifier() {
         return classifier;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 }
