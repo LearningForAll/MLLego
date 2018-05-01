@@ -46,8 +46,10 @@ public class BlockPlacementController implements BlockObserver {
         // 패널에도 블록 추가
     }
 
+    //TODO::삭제 기능 구현하기
     public void removeBlock(Block block) {
         blocks.remove(block);
+        panel.deleteBlock(block);
         // 패널에도 블록 삭제
     }
 

@@ -18,8 +18,6 @@ public class ExtendActionListener implements ActionListener{
     int beforeWidth;
     int beforeHeight;
 
-    LayoutManager beforeLayout;
-
     public ExtendActionListener(Block block) {
         this.block = block;
         this.blockName=block.blockName;

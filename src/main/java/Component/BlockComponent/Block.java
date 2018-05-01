@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockActionListener.DeleteActionListener;
 import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockException.BlockException;
 import Component.BlockObserver.BlockObserver;
@@ -51,6 +52,8 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public String blockName;
     public JPanel flowPanel;
     JButton reductButton;
+    JPopupMenu popupMenu;
+    JMenuItem delete;
 
     public Block() {
         nextBlocks = new ArrayList<>();
@@ -59,8 +62,28 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         addMouseListener(this);
         addMouseMotionListener(this);
         uid = UidGenerator.generateUid();
+
+        this.blockName = "block";
+        this.setBorder(basicBorder);
+        //nameLabel = new JLabel(blockName);
+        //nameLabel.setForeground(Color.white);
+        //nameLabel.setHorizontalAlignment(nameLabel.CENTER);
+        reductButton = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/minus.png")));
+        reductButton.addActionListener(new ReductionActionListener(this));
+        flowPanel = new JPanel(new FlowLayout());
+        reductButton.setPreferredSize(new Dimension(16, 16));
+        flowPanel.add(reductButton);
+        //flowPanel.add(nameLabel);
+        flowPanel.setBackground(new Color(150, 0, 205));
+        popupMenu=new JPopupMenu();
+        delete=new JMenuItem("Delete");
+        popupMenu.add(delete);
+        //delete.addActionListener(new DeleteActionListener(this));
+
+        setVisible(true);
     }
 
+    /*
     public Block(String blockName) {
         this();
         this.blockName = blockName;
@@ -75,9 +98,14 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         flowPanel.add(reductButton);
         flowPanel.add(nameLabel);
         flowPanel.setBackground(new Color(150, 0, 205));
+        popupMenu=new JPopupMenu();
+        delete=new JMenuItem("Delete");
+        popupMenu.add(delete);
+        //delete.addActionListener(new DeleteActionListener(this));
 
         setVisible(true);
     }
+    */
 
     //TODO boolean을 return 하거나 Exception 으로 Handle할수 있게
     // 인자로 넘어온 블록을 다음 블록으로 등록하는 함수
@@ -214,6 +242,11 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if(e.getButton()==MouseEvent.BUTTON3){//오른쪽버튼 클릭시
+            popupMenu.show(Block.this, e.getX(), e.getY());
+            delete.addActionListener(new DeleteActionListener(this));
+        }
+
 
     }
 

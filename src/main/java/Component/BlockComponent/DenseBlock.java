@@ -18,7 +18,12 @@ public class DenseBlock extends LayerBlock {
     // todo Activation 배치해야함
     public JComboBox<ActivationFunc> activationFunctionCombobox;
     public DenseBlock(int inputDimension){
-        super("Dense Block");
+        //super("Dense Block");
+        super();
+        blockName="Dense Block";
+        nameLabel = new JLabel(blockName);
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         layerTextField = new NumberOnlyTextField(1, 1, 50);
         outputDimensionTextField = new NumberOnlyTextField(inputDimension, 1, 1000);
         activationFunctionCombobox = new JComboBox<>(ActivationFunc.values());
@@ -40,6 +45,7 @@ public class DenseBlock extends LayerBlock {
         setSize(200,50);
         add(flowPanel);
         add(flowSubPanel);
+        flowPanel.add(nameLabel);
         setVisible(true);
     }
 

@@ -25,7 +25,12 @@ public class TrainingBlock extends Block {
 
 
     public TrainingBlock(){
-        super("Training Block");
+        //super("Training Block");
+        super();
+        blockName="Training Block";
+        nameLabel = new JLabel(blockName);
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         validRatioTextField = new NumberOnlyTextField(0.1,0.1,0.5);
         batchSizeTextField = new NumberOnlyTextField(1,1,100000);
         //TODO 소수도 지원 가능한걸로 교체
@@ -56,6 +61,7 @@ public class TrainingBlock extends Block {
         add(flowPanel);
         add(flowSubPanel);
         add(optimizerCombobox);
+        flowPanel.add(nameLabel);
         flowPanel.setBackground(new Color(0,0,180));
         setVisible(true);
     }

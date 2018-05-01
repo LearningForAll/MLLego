@@ -1,5 +1,8 @@
 package Presentation.View;
 
+import Component.BlockActionListener.DeleteActionListener;
+import Component.BlockActionListener.ExtendActionListener;
+import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockComponent.Block;
 import Presentation.Controller.BlockListClickListener;
 import Presentation.Controller.BlockListController;
@@ -7,6 +10,7 @@ import Util.ArrayUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseListener;
 
 /**
  * Created by LG on 2018-03-26.
@@ -29,7 +33,10 @@ public class BlockListPanel extends JTabbedPane {
         for (Block mockBlock : allComponents){
             mockBlock.removeMouseListener(mockBlock);
             mockBlock.addMouseListener(new BlockListClickListener());
+            mockBlock.removeMouseListener((MouseListener) new ReductionActionListener(mockBlock));
+            mockBlock.removeMouseListener((MouseListener) new ExtendActionListener(mockBlock));
         }
+        revalidate();
         setVisible(true);
     }
 

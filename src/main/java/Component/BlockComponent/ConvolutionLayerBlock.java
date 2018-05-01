@@ -20,7 +20,12 @@ public class ConvolutionLayerBlock extends LayerBlock {
     NumberOnlyTextField verticalKernelSize;
 
     public ConvolutionLayerBlock(){
-        super("Convolution Block");
+        //super("Convolution Block");
+        super();
+        blockName="Convolution Block";
+        nameLabel = new JLabel(blockName);
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         keepprobJSlider = new JSlider();
         // Enum으로 값 ㅁ만듬
         activationFunctionCombobox = new JComboBox<>(ActivationFunc.values());
@@ -57,6 +62,7 @@ public class ConvolutionLayerBlock extends LayerBlock {
         add(keepprobJSlider);
         add(activationFunctionCombobox);
         add(flowSubPanel);
+        flowPanel.add(nameLabel);
         setVisible(true);
     }
 

@@ -40,10 +40,22 @@ public class BlockPlacementPanel extends JScrollPane {
         revalidate();
     }
 
-
     public void deleteAllBlock(){
         System.out.println("모든 블록 삭제");
         this.removeAll();
+        revalidate();
+    }
+
+    public void deleteBlock(Block block){
+        workspacePanel.remove(block);
+        workspacePanel.revalidate();
+        revalidate();
+    }
+
+    public void deleteBlocks(List<Block> blockList){
+        for(Block block : blockList){
+            this.remove(block);
+        }
         revalidate();
     }
 }

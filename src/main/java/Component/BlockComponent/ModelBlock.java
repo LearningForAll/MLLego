@@ -8,11 +8,17 @@ import java.awt.*;
 public class ModelBlock extends Block {
 
     public ModelBlock(){
-        super("Model Block");
+        //super("Model Block");
+        super();
+        blockName="Model Block";
+        nameLabel = new JLabel(blockName);
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         GridLayout layout=new GridLayout(1, 1);
         setLayout(layout);
         setSize(200,40);
         add(flowPanel);
+        flowPanel.add(nameLabel);
         flowPanel.setBackground(new Color(0, 0, 180));
         setVisible(true);
     }
