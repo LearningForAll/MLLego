@@ -23,7 +23,6 @@ public class PoolingBlock extends LayerBlock {
     JComboBox<PoolingType> poolOptionCombobox;
 
     public PoolingBlock(){
-        //super("Pooling Block");
         super();
         blockName="Pooling Block";
         nameLabel = new JLabel(blockName);

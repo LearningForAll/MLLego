@@ -17,7 +17,6 @@ public class PreprocessorBlock extends Block {
     boolean IsXData;
 
     public PreprocessorBlock(){
-        //super("Preprocessor Block");
         super();
         blockName="Preprocessor Block";
         nameLabel = new JLabel(blockName);

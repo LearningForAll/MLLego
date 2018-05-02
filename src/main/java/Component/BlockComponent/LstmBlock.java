@@ -21,7 +21,6 @@ public class LstmBlock extends LayerBlock {
     JComboBox<RnnOutputOption> rnnOutputOption;
 
     public LstmBlock(){
-        //super("LSTM Block");
         super();
         blockName="LSTM Block";
         nameLabel = new JLabel(blockName);

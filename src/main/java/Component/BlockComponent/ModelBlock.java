@@ -8,7 +8,6 @@ import java.awt.*;
 public class ModelBlock extends Block {
 
     public ModelBlock(){
-        //super("Model Block");
         super();
         blockName="Model Block";
         nameLabel = new JLabel(blockName);

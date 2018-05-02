@@ -8,11 +8,6 @@ public abstract class LayerBlock extends ExtendableBlock{
     public boolean isNextBlockConnected() {
         return (nextBlocks.size() != 0);
     }
-    /*
-    public LayerBlock(String name){
-        super(name);
-    }
-    */
 
     public LayerBlock(){
         super();

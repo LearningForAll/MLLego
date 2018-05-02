@@ -25,7 +25,6 @@ public class TrainingBlock extends Block {
 
 
     public TrainingBlock(){
-        //super("Training Block");
         super();
         blockName="Training Block";
         nameLabel = new JLabel(blockName);
