@@ -18,7 +18,6 @@ public class DenseBlock extends LayerBlock {
     // todo Activation 배치해야함
     public JComboBox<ActivationFunc> activationFunctionCombobox;
     public DenseBlock(int inputDimension){
-        //super("Dense Block");
         super();
         blockName="Dense Block";
         nameLabel = new JLabel(blockName);
