@@ -13,7 +13,7 @@ public class ClassifierBlock extends Block{
     JComboBox <Classifier> classifierComboBox;
 
     public ClassifierBlock(){
-        //super("Classifier Block");
+        super();
         blockName="Classifier Block";
         nameLabel = new JLabel(blockName);
         nameLabel.setForeground(Color.white);

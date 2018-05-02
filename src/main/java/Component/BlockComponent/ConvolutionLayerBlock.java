@@ -20,7 +20,6 @@ public class ConvolutionLayerBlock extends LayerBlock {
     NumberOnlyTextField verticalKernelSize;
 
     public ConvolutionLayerBlock(){
-        //super("Convolution Block");
         super();
         blockName="Convolution Block";
         nameLabel = new JLabel(blockName);

@@ -49,7 +49,7 @@ public class BlockPlacementPanel extends JScrollPane {
     public void deleteBlock(Block block){
         workspacePanel.remove(block);
         workspacePanel.revalidate();
-        revalidate();
+        repaint();
     }
 
     public void deleteBlocks(List<Block> blockList){

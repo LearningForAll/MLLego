@@ -65,20 +65,15 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
         this.blockName = "block";
         this.setBorder(basicBorder);
-        //nameLabel = new JLabel(blockName);
-        //nameLabel.setForeground(Color.white);
-        //nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         reductButton = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/minus.png")));
         reductButton.addActionListener(new ReductionActionListener(this));
         flowPanel = new JPanel(new FlowLayout());
         reductButton.setPreferredSize(new Dimension(16, 16));
         flowPanel.add(reductButton);
-        //flowPanel.add(nameLabel);
         flowPanel.setBackground(new Color(150, 0, 205));
         popupMenu=new JPopupMenu();
         delete=new JMenuItem("Delete");
         popupMenu.add(delete);
-        //delete.addActionListener(new DeleteActionListener(this));
 
         setVisible(true);
     }
@@ -240,6 +235,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         blockObserver.revertOrConnectBlock(this);
     }
 
+    //마우스 오른쪽 버튼을 누르면 delete가 팝업창으로 뜨면서 deleteActionListener 이벤트 발생
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getButton()==MouseEvent.BUTTON3){//오른쪽버튼 클릭시
