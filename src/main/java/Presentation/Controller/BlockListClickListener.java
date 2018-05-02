@@ -26,7 +26,7 @@ public class BlockListClickListener implements MouseListener {
         }else if(e.getSource() instanceof PoolingBlock){
             BlockPlacementController.getInstance().addBlock(new PoolingBlock());
         }else if(e.getSource() instanceof DenseBlock){
-            BlockPlacementController.getInstance().addBlock(new DenseBlock(2));
+            BlockPlacementController.getInstance().addBlock(new DenseBlock());
         }else if(e.getSource() instanceof ModelBlock){
             BlockPlacementController.getInstance().addBlock(new ModelBlock());
         }else if(e.getSource() instanceof TrainingBlock){

@@ -1,6 +1,7 @@
 package Component.BlockComponent;
 
 import Component.BlockActionListener.ReductionActionListener;
+import Component.BlockBatchModel.BlockTemplateComponent.BlockTemplate;
 import Component.BlockException.BlockException;
 import Component.BlockObserver.BlockObserver;
 import Component.BlockObserver.BlockPublisher;
@@ -77,6 +78,9 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         flowPanel.setBackground(new Color(150, 0, 205));
 
         setVisible(true);
+    }
+    public Block(BlockTemplate blockTemplate){
+        //TODO 완성해야함 좌표랑 다음블록 이전블록
     }
 
     //TODO boolean을 return 하거나 Exception 으로 Handle할수 있게

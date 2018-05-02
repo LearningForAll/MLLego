@@ -1,5 +1,7 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.BlockTemplate;
+import Component.BlockBatchModel.BlockTemplateComponent.DenseBlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.ActivationFunc;
 
@@ -17,10 +19,12 @@ public class DenseBlock extends LayerBlock {
     NumberOnlyTextField outputDimensionTextField;
     // todo Activation 배치해야함
     public JComboBox<ActivationFunc> activationFunctionCombobox;
-    public DenseBlock(int inputDimension){
+    public DenseBlock(){
         super("Dense Block");
         layerTextField = new NumberOnlyTextField(1, 1, 50);
-        outputDimensionTextField = new NumberOnlyTextField(inputDimension, 1, 1000);
+        //TODO inputDimentsion?
+        int tempInputDimension = 30;
+        outputDimensionTextField = new NumberOnlyTextField(tempInputDimension, 1, 1000);
         activationFunctionCombobox = new JComboBox<>(ActivationFunc.values());
 
         JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,6,2));
@@ -41,6 +45,13 @@ public class DenseBlock extends LayerBlock {
         add(flowPanel);
         add(flowSubPanel);
         setVisible(true);
+    }
+    public DenseBlock(DenseBlockTemplate blockTemplate){
+        this();
+        layerTextField.setText(String.valueOf(blockTemplate.getLayerNum()));
+        outputDimensionTextField.setText(String.valueOf(blockTemplate.getOutputDim()));
+        activationFunctionCombobox.setSelectedItem(blockTemplate.getActivationFunc());
+
     }
 
     @Override

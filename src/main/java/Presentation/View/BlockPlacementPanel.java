@@ -4,6 +4,7 @@ import Component.BlockComponent.Block;
 import Const.Classifier;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -35,17 +36,10 @@ public class BlockPlacementPanel extends JScrollPane {
         workspacePanel.revalidate();
     }
 
-    public void addBlocks(List<Block> blockList){
-        for(Block block : blockList){
-            this.add(block);
-        }
-        revalidate();
-    }
-
 
     public void deleteAllBlock(){
         System.out.println("모든 블록 삭제");
-        this.removeAll();
+        workspacePanel.removeAll();
         revalidate();
     }
 }
