@@ -1,6 +1,7 @@
 import Component.BlockComponent.Block;
 import Component.BlockComponent.ClassifierBlock;
 import Component.BlockComponent.ConvolutionLayerBlock;
+import Component.BlockComponent.InputBlock;
 import Presentation.View.BlockPlacementDefault;
 import Presentation.View.BlockPlacementPanel;
 import org.junit.Before;
@@ -16,6 +17,7 @@ public class BlockComponent {
     JFrame blockTestFrame;
     ClassifierBlock classifierBlock;
     ConvolutionLayerBlock convolutionLayerBlock;
+    InputBlock inputBlock;
 
     @Before
     public void initFrame(){
@@ -55,6 +57,17 @@ public class BlockComponent {
         blockPlacementPanel.setVisible(true);
         blockTestFrame.validate();
         Thread.sleep(5000);
+    }
+
+    @Test
+    public void testInputBlock() throws InterruptedException{
+        inputBlock=new InputBlock();
+        inputBlock.setSize(200,105);
+        inputBlock.setLocation(150,130);
+        blockTestFrame.add(inputBlock);
+        inputBlock.setVisible(true);
+        blockTestFrame.validate();
+        Thread.sleep(50000);
     }
 
 }

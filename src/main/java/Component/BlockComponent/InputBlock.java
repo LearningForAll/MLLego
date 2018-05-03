@@ -24,7 +24,12 @@ public class InputBlock extends Block{
     private int inputFileDim = 0;
     private boolean isXInput;
     public InputBlock(){
-        super("Input Block");
+        //super("Input Block");
+        super();
+        blockName="Input Block";
+        nameLabel = new JLabel(blockName);
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         openFileExploreButton = new JButton("File");
         openFileExploreButton.addActionListener(new FileOpenListener());
         filePathTextField = new JTextField();
@@ -47,6 +52,7 @@ public class InputBlock extends Block{
         add(flowPanel);
         add(flowSubPanel);
         add(inputOptionCombobox);
+        flowPanel.add(nameLabel);
         inputOptionCombobox.setEnabled(false);
         flowPanel.setBackground(new Color(243, 115, 50));
         setVisible(true);

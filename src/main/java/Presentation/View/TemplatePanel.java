@@ -12,11 +12,18 @@ import java.util.List;
  */
 public class TemplatePanel extends JPanel {
 
-    //파일을 읽어와서 파일리스트를 만듬
-    public TemplatePanel(){
+    JButton mnistCnn;
+    JButton xorDnn;
 
+    public TemplatePanel() {
+        mnistCnn = new JButton("MNist CNN");
+        xorDnn = new JButton("Xor-DNN");
+        add(mnistCnn);
+        add(xorDnn);
         List<String> fileNameList = getAllFileName();
+        setVisible(true);
     }
+
 
     private String getTemplateDirectory(){
         File file = new File("");

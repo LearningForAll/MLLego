@@ -14,7 +14,11 @@ public class ClassifierBlock extends Block{
     JComboBox <Classifier> classifierComboBox;
 
     public ClassifierBlock(){
-        super("Classifier Block");
+        super();
+        blockName="Classifier Block";
+        nameLabel = new JLabel(blockName);
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         classifierComboBox = new JComboBox<>(Classifier.values());
         GridLayout layout=new GridLayout(2,1);
         setLayout(layout);
@@ -22,6 +26,7 @@ public class ClassifierBlock extends Block{
         flowPanel.setBackground(new Color(0,0,180));
         add(flowPanel);
         add(classifierComboBox);
+        flowPanel.add(nameLabel);
         setVisible(true);
     }
     public ClassifierBlock(ClassifierBlockTemplate template){
