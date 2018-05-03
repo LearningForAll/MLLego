@@ -24,7 +24,7 @@ public interface ProcessListener {
      * 블록 훈련이 끝나면 도착하는 이벤트.
      *
      * @param modelBlock
-     * 트레이닝 모듈로부터 완성되어 도착한 ModelBlock 오브젝트
+     * 트레이닝 모듈로부터 완성되어 도착한 ModelBlockTemplate 오브젝트
      */
     void onFinish(ModelBlock modelBlock);
 }

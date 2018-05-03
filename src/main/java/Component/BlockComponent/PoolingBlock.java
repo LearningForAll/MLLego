@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.PoolingBlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.PaddingOption;
 import Const.PoolingType;
@@ -72,6 +73,15 @@ public class PoolingBlock extends LayerBlock {
         flowPanel.add(nameLabel);
         setVisible(true);
 
+    }
+    public PoolingBlock(PoolingBlockTemplate template){
+        this();
+        paddingOptionCombobox.setSelectedItem(template.getPaddingOption());
+        horizontalStrideTextField.setText(String.valueOf(template.getHorizontalStride()));
+        verticalStrideTextField.setText(String.valueOf(template.getVerticalStride()));
+        horizontalKernelSizeTextField.setText(String.valueOf(template.getHorizontalKernelSize()));
+        verticalKernelSizeTextField.setText(String.valueOf(template.getVerticalKernelSize()));
+        setLocation(template.getPositionX(), template.getPositionY());
     }
 
     @Override

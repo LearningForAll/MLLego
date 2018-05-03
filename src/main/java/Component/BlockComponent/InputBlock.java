@@ -1,5 +1,7 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.BlockTemplate;
+import Component.BlockBatchModel.BlockTemplateComponent.InputBlockTemplate;
 import Const.FileType;
 import Const.InputOption;
 
@@ -54,6 +56,12 @@ public class InputBlock extends Block{
         inputOptionCombobox.setEnabled(false);
         flowPanel.setBackground(new Color(243, 115, 50));
         setVisible(true);
+    }
+    public InputBlock(InputBlockTemplate blockTemplate){
+        this();
+        filePathTextField.setText(blockTemplate.getFilePath());
+        inputOptionCombobox.setSelectedItem(blockTemplate.getInputOption());
+        setLocation(blockTemplate.getPositionX(), blockTemplate.getPositionY());
     }
 
     //이너 클래스로 재 정의

@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.LstmBlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.RnnOutputOption;
 
@@ -27,13 +28,19 @@ public class LstmBlock extends LayerBlock {
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         keepProbJSlider = new JSlider();
-        GridLayout layout=new GridLayout(2,1);
+        GridLayout layout = new GridLayout(2,1);
         setLayout(layout);
         setSize(200,50);
         add(flowPanel);
         add(keepProbJSlider);
         flowPanel.add(nameLabel);
         setVisible(true);
+    }
+    public LstmBlock(LstmBlockTemplate template){
+        keepProbJSlider.setValue(template.getKeepProb());
+        //TODO 주석풀어야함
+        //stackSizeTextField.setValue(template.getStackSize());
+        setLocation(template.getPositionX(), template.getPositionY());
     }
 
     @Override

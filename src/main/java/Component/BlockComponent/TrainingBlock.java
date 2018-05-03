@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.TrainingBlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.Optimizer;
 
@@ -11,18 +12,16 @@ public class TrainingBlock extends Block {
     // 트레이닝 블록에서 epoch, batch_size, learning_rate 설정
     //private String optimizer;
     //Combobox에 들어갈 optimizer
-    private Optimizer optimizers;
 
     // epoch, batch, learning rate를 설정할수 있는 필드
-    public NumberOnlyTextField batchSizeTextField;
+    private NumberOnlyTextField batchSizeTextField;
     // TODO 소수도 지원가능한 텍스트필드 설정
-    public JTextField learningRateTextField;
-    public NumberOnlyTextField epochTextField;
-    public JComboBox<Optimizer> optimizerCombobox;
+    private NumberOnlyTextField learningRateTextField;
+    private NumberOnlyTextField epochTextField;
+    private JComboBox<Optimizer> optimizerCombobox;
 
     //todo valid ratio 넣기
-    public NumberOnlyTextField validRatioTextField;
-
+    private NumberOnlyTextField validRatioTextField;
 
     public TrainingBlock(){
         super();
@@ -32,8 +31,8 @@ public class TrainingBlock extends Block {
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         validRatioTextField = new NumberOnlyTextField(0.1,0.1,0.5);
         batchSizeTextField = new NumberOnlyTextField(1,1,100000);
-        //TODO 소수도 지원 가능한걸로 교체
-        learningRateTextField = new JTextField();
+        //TODO 러닝레이트 값 조정해야함
+        learningRateTextField = new NumberOnlyTextField(0.1, 0.00001, 1);
         epochTextField = new NumberOnlyTextField(1,1,100000);
         optimizerCombobox = new JComboBox<>(Optimizer.values());
 
@@ -63,6 +62,16 @@ public class TrainingBlock extends Block {
         flowPanel.add(nameLabel);
         flowPanel.setBackground(new Color(0,0,180));
         setVisible(true);
+    }
+    public TrainingBlock(TrainingBlockTemplate template){
+        this();
+        optimizerCombobox.setSelectedItem(template.getOptimizer());
+        learningRateTextField.setText(String.valueOf(template.getLearningRate()));
+        batchSizeTextField.setText(String.valueOf(template.getBatchSize()));
+        epochTextField.setText(String.valueOf(template.getEpochSize()));
+        //TODO 주석제거
+        //validRatioTextField.setText(String.valueOf(template.getValidRatio()));
+        setLocation(template.getPositionX(), template.getPositionY());
     }
 
     @Override

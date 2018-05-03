@@ -22,7 +22,7 @@ public class BlockLayer extends JPanel{
     public BlockLayer(){
         setLayout(null);
         convolutionLayerBlock=new ConvolutionLayerBlock();
-        denseBlock=new DenseBlock(2);
+        denseBlock=new DenseBlock();
         lstmBlock=new LstmBlock();
         poolingBlock=new PoolingBlock();
 
