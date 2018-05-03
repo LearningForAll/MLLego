@@ -47,13 +47,16 @@ public class BlockPlacementController implements BlockObserver {
         panel.addNewBlock(block);
         // 패널에도 블록 추가
     }
-    public void addAllBlock(){
-        for (Block block : blocks){
+
+    private void addAllBlock() {
+
+        for (Block block : this.blocks) {
             block.setObserver(this);
             panel.addNewBlock(block);
 
         }
     }
+
     public void removeBlock(Block block) {
         blocks.remove(block);
         // 패널에도 블록 삭제
@@ -62,6 +65,17 @@ public class BlockPlacementController implements BlockObserver {
     @Override
     public void blinkBlock(Block block) {
         // 현재 드래그 되고있는 블록은 리스트에서 제거하기 위해..
+
+        System.out.println(blocks);
+        for (Block blockTemp : blocks) {
+            if (blockTemp.isNextBlockConnected()) {
+
+                System.out.println(blockTemp.getNextBlocks().get(0));
+            }
+            if (blockTemp.isPreviousBlockConnected()) {
+                System.out.println(blockTemp.getPreviousBlocks().get(0));
+            }
+        }
         List<Block> tempBlocks = new ArrayList<>();
         // Complete 복사를 위해서
         //TODO 연결된 블록도 같이 해야함
@@ -122,6 +136,7 @@ public class BlockPlacementController implements BlockObserver {
         }
 
     }
+
     // 드래그가 풀리면 블록을 원래대로 되돌리고
     @Override
     public void revertOrConnectBlock(Block block) {
@@ -196,16 +211,13 @@ public class BlockPlacementController implements BlockObserver {
 
     public void saveBlockBatch(String name) {
         // save 해야할 것
-        // 블록 객체 자체를 직렬화 하여 저장..
         try {
             //  ".block으로 저장
             try {
 
-
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(getStorePath(name)));
                 List<BlockTemplate> blockTemplates = convertBlocksToTemplate(blocks);
-                updateConnectionInfo(blockTemplates, blocks);
-                System.out.println(blockTemplates);
+                updateTemplateConnectionInfo(blockTemplates, blocks);
 
                 oos.writeObject(blockTemplates);
                 oos.close();
@@ -226,20 +238,30 @@ public class BlockPlacementController implements BlockObserver {
             List<BlockTemplate> blockTemplateList;
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath));
             System.out.println(filePath);
-            blockTemplateList = (List<BlockTemplate>)ois.readObject();
+            blockTemplateList = (List<BlockTemplate>) ois.readObject();
             ois.close();
 
             // 패널의 모든 블록삭제
             this.blocks.clear();
             panel.deleteAllBlock();
+
             System.out.println(blockTemplateList.get(0));
             System.out.println(blockTemplateList.size());
-            this.blocks = blockTemplatesToBlocks(blockTemplateList);
+
+
+            List<Block> tempList = blockTemplatesToBlocks(blockTemplateList);
+            this.blocks.addAll(tempList);
+
             addAllBlock();
-            System.out.println(this.blocks.get(0).getNextBlocks().get(0));
-            System.out.println(this.blocks.get(1).getPreviousBlocks().get(0));
-            System.out.println(this.blocks.get(2).getNextBlocks().get(0));
-            System.out.println(this.blocks.get(3).getPreviousBlocks().get(0));
+            updateBlockConnectionInfo(blockTemplateList, this.blocks);
+            for (Block block : this.blocks) {
+                System.out.println("블록들" + block.getClass().getSimpleName());
+                if (block.isNextBlockConnected()) {
+                    System.out.println("블록" + block.getClass().getSimpleName());
+                    System.out.println("불러온 것의 다음 블록" + block.getNextBlocks().get(0).getClass().getSimpleName());
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -292,7 +314,8 @@ public class BlockPlacementController implements BlockObserver {
         }
         return blockTemplates;
     }
-    public BlockTemplate convertOneBlockToTemplate(Block block){
+
+    public BlockTemplate convertOneBlockToTemplate(Block block) {
         switch (block.getClass().getSimpleName()) {
             case "ClassifierBlock":
                 return (new ClassifierBlockTemplate(block));
@@ -315,30 +338,73 @@ public class BlockPlacementController implements BlockObserver {
         }
         return null;
     }
-    private void updateConnectionInfo(List<BlockTemplate> blockTemplates, List<Block> blocks){
-        for(int i = 0; i < blocks.size(); i++){
-            if(blocks.get(i).isNextBlockConnected()){
-                for(int j = 0; j < blockTemplates.size(); j++){
+
+    private void updateTemplateConnectionInfo(List<BlockTemplate> blockTemplates, List<Block> blocks) {
+        for (int i = 0; i < blocks.size(); i++) {
+            if (blocks.get(i).isNextBlockConnected()) {
+                for (int j = 0; j < blockTemplates.size(); j++) {
                     // 어차피 다음 블록은 하나만 오기때문에 상관없음..
-                    System.out.println(blockTemplates.get(j).getPositionX() + "//" + blockTemplates.get(j).getPositionY());
-                    System.out.println(convertOneBlockToTemplate(blocks.get(i).getNextBlocks().get(0)).getPositionX() +"//"+ convertOneBlockToTemplate(blocks.get(i).getNextBlocks().get(0)).getPositionY());
-                    if(blockTemplates.get(j).equals(convertOneBlockToTemplate(blocks.get(i).getNextBlocks().get(0)))){
-                        System.out.println("다음블록 등록!!");
+                    if (blockTemplates.get(j).equals(convertOneBlockToTemplate(blocks.get(i)))) {
                         blockTemplates.get(j).setNextBlocks(convertBlocksToTemplate(blocks.get(i).getNextBlocks()));
                     }
                 }
             }
-            if(blocks.get(i).isPreviousBlockConnected()){
-                for(int j = 0; j < blockTemplates.size(); j++){
-                    for(int k = 0; k < blocks.get(i).getPreviousBlocks().size(); k++){
-                        System.out.println("이전블록 등록");
-                        if(blockTemplates.get(j).equals(convertOneBlockToTemplate(blocks.get(i).getPreviousBlocks().get(k)))){
-                            blockTemplates.get(j).setPreviousBlocks(convertBlocksToTemplate(blocks.get(i).getPreviousBlocks()));
-                            break;
+
+            if (blocks.get(i).isPreviousBlockConnected()) {
+                for (int j = 0; j < blockTemplates.size(); j++) {
+
+                    if (blockTemplates.get(j).equals(convertOneBlockToTemplate(blocks.get(i)))) {
+                        //setNextBlock은 통째로 넘겨주기때문에 break;
+                        blockTemplates.get(j).setPreviousBlocks(convertBlocksToTemplate(blocks.get(i).getPreviousBlocks()));
+
+                    }
+
+                }
+            }
+            //TODO Classifier xpart, ypart 추가해야함
+
+            if (blocks.get(i).getClass().getSimpleName().equals("ClassifierBlock")) {
+                for (int j = 0; j < blockTemplates.size(); j++) {
+                    if (((ClassifierBlock)blocks.get(i)).getxPartBlock() != null){
+                        //해당 블록의 x
+                        if(compareBlock(((ClassifierBlock)blocks.get(i)).getxPartBlock(), blockTemplates.get(j))){
+                            ((ClassifierBlockTemplate)blockTemplates.get(i)).setxPartBlock(blockTemplates.get(j));
+                        }
+                    }
+                    if (((ClassifierBlock)blocks.get(i)).getyPartBlock() != null){
+                        if(compareBlock(((ClassifierBlock)blocks.get(i)).getyPartBlock(), blockTemplates.get(j))){
+                            ((ClassifierBlockTemplate)blockTemplates.get(i)).setyPartBlock(blockTemplates.get(j));
+                        }
+
+                    }
+                }
+            }
+
+        }
+    }
+
+    private void updateBlockConnectionInfo(List<BlockTemplate> blockTemplates, List<Block> blocks) {
+        for (int i = 0; i < blockTemplates.size(); i++) {
+            if (blockTemplates.get(i).isNextBlockTemplateConnected()) {
+                for (int j = 0; j < blocks.size(); j++) {
+                    // 어차피 다음 블록은 하나만 오기때문에 상관없음..
+                    if (compareBlock(blocks.get(i), blockTemplates.get(j))) {
+                        System.out.println("불러오면서 다음 블록 등록");
+                        blocks.get(i).registerInitialNextBlock(blocks.get(getIndexForBlockTemplates(blockTemplates, blockTemplates.get(j).getNextBlocks().get(0))));
+                    }
+                }
+            }
+            if (blockTemplates.get(i).isPreviousBlockTemplateConnected()) {
+                for (int j = 0; j < blocks.size(); j++) {
+                    if (compareBlock(blocks.get(i), blockTemplates.get(j))) {
+                        for (int k = 0; k < blockTemplates.get(j).getPreviousBlocks().size(); k++) {
+                            System.out.println("불러오면서 이전 블록 등록");
+                            blocks.get(i).registerPreviousBlock(blocks.get(getIndexForBlockTemplates(blockTemplates, blockTemplates.get(j).getPreviousBlocks().get(k))));
                         }
                     }
                 }
             }
+
             //TODO Classifier xpart, ypart 추가해야함
             /*if(blocks.get(i).getClass().getSimpleName().equals("ClassifierBlock")){
                 if (((ClassifierBlock)blocks.get(i)).getxPartBlock() != null){
@@ -346,19 +412,20 @@ public class BlockPlacementController implements BlockObserver {
                 }
             }*/
         }
+        System.out.println(blocks.get(0).getClass().getSimpleName() + "///" + blocks.get(0).getNextBlocks());
+        System.out.println(blocks.get(1).getClass().getSimpleName() + "///" + blocks.get(1).getPreviousBlocks());
     }
 
-    private List<Block> blockTemplatesToBlocks(List<BlockTemplate> blockTemplates){
+    private List<Block> blockTemplatesToBlocks(List<BlockTemplate> blockTemplates) {
         List<Block> tempBlocks = new ArrayList<>();
-        for (BlockTemplate blockTemplate : blockTemplates){
-            System.out.println("haha" + blockTemplate.getClass().getSimpleName());
+        for (BlockTemplate blockTemplate : blockTemplates) {
             String str = blockTemplate.getClass().getSimpleName();
             switch (str) {
                 case "ClassifierBlockTemplate":
-                    tempBlocks.add(new ClassifierBlock((ClassifierBlockTemplate)blockTemplate));
+                    tempBlocks.add(new ClassifierBlock((ClassifierBlockTemplate) blockTemplate));
                     break;
                 case "ConvolutionLayerBlockTemplate":
-                    tempBlocks.add(new ConvolutionLayerBlock((ConvolutionLayerBlockTemplate)blockTemplate));
+                    tempBlocks.add(new ConvolutionLayerBlock((ConvolutionLayerBlockTemplate) blockTemplate));
                     break;
                 case "DenseBlockTemplate":
                     tempBlocks.add(new DenseBlock((DenseBlockTemplate) blockTemplate));
@@ -376,26 +443,25 @@ public class BlockPlacementController implements BlockObserver {
                     tempBlocks.add(new PreprocessorBlock((PreprocessorBlockTemplate) blockTemplate));
                     break;
                 case "PoolingBlockTemplate":
-                    tempBlocks.add(new PoolingBlock((PoolingBlockTemplate)blockTemplate));
+                    tempBlocks.add(new PoolingBlock((PoolingBlockTemplate) blockTemplate));
                     break;
                 case "TrainingBlockTemplate":
-                    tempBlocks.add(new TrainingBlock((TrainingBlockTemplate)blockTemplate));
+                    tempBlocks.add(new TrainingBlock((TrainingBlockTemplate) blockTemplate));
                     break;
                 default:
                     break;
             }
         }
-        System.out.println(tempBlocks.get(0));
-        System.out.println(tempBlocks.size());
         return tempBlocks;
     }
-    private Block blockTemplateToBlock(BlockTemplate blockTemplate){
+
+    private Block blockTemplateToBlock(BlockTemplate blockTemplate) {
         String str = blockTemplate.getClass().getSimpleName();
         switch (str) {
             case "ClassifierBlockTemplate":
-                return (new ClassifierBlock((ClassifierBlockTemplate)blockTemplate));
+                return (new ClassifierBlock((ClassifierBlockTemplate) blockTemplate));
             case "ConvolutionLayerBlockTemplate":
-                return (new ConvolutionLayerBlock((ConvolutionLayerBlockTemplate)blockTemplate));
+                return (new ConvolutionLayerBlock((ConvolutionLayerBlockTemplate) blockTemplate));
 
             case "DenseBlockTemplate":
                 return new DenseBlock((DenseBlockTemplate) blockTemplate);
@@ -413,14 +479,27 @@ public class BlockPlacementController implements BlockObserver {
                 return new PreprocessorBlock((PreprocessorBlockTemplate) blockTemplate);
 
             case "PoolingBlockTemplate":
-                return new PoolingBlock((PoolingBlockTemplate)blockTemplate);
+                return new PoolingBlock((PoolingBlockTemplate) blockTemplate);
 
             case "TrainingBlockTemplate":
-                return new TrainingBlock((TrainingBlockTemplate)blockTemplate);
+                return new TrainingBlock((TrainingBlockTemplate) blockTemplate);
 
             default:
                 return null;
 
         }
+    }
+
+    private boolean compareBlock(Block block, BlockTemplate blockTemplate2) {
+
+        return (block.getX() == blockTemplate2.getPositionX() && block.getY() == blockTemplate2.getPositionY());
+    }
+
+    private int getIndexForBlockTemplates(List<BlockTemplate> blockTemplates, BlockTemplate blockTemplate) {
+        return blockTemplates.indexOf(blockTemplate);
+    }
+
+    private int getIndexForBlock(List<Block> blocks, Block block) {
+        return blocks.indexOf(block);
     }
 }

@@ -81,42 +81,10 @@ public abstract class BlockTemplate implements Serializable {
     public boolean equals(Object obj) {
         return(positionX == ((BlockTemplate)obj).getPositionX() && positionY ==  ((BlockTemplate)obj).getPositionY());
     }
-
-    /* public static List<BlockTemplate> parsingBlocksType(List<Block> blocks){
-        List<BlockTemplate> blockTemplates = new ArrayList<>();
-        for(Block block: blocks){
-            switch (block.getClass().getSimpleName()) {
-
-                case "ClassifierBlock":
-                    blockTemplates.add(new ClassifierBlockTemplate(block));
-                    break;
-                case "ConvolutionLayerBlock":
-                    blockTemplates.add(new ConvolutionLayerBlockTemplate(block));
-                    break;
-                case "DenseBlock":
-
-                    break;
-                case "InputBlock":
-
-                    break;
-                case "LstmBlock":
-
-                    break;
-                case "ModelBlock":
-
-                    break;
-                case "PreprocessorBlock":
-
-                    break;
-                case "PoolingBlock":
-
-                    break;
-                case "TrainingBlock":
-
-                    break;
-
-            }
-        }
-        return blockTemplates;
-    }*/
+    public boolean isNextBlockTemplateConnected(){
+        return (this.nextBlocks.size() != 0);
+    }
+    public boolean isPreviousBlockTemplateConnected(){
+        return (this.previousBlocks.size() != 0);
+    }
 }
