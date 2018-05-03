@@ -30,6 +30,7 @@ public class PoolingBlock extends LayerBlock {
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         paddingOptionCombobox = new JComboBox<>(PaddingOption.values());
+        poolOptionCombobox=new JComboBox<>(PoolingType.values());
         horizontalKernelSizeTextField  = new NumberOnlyTextField(2, 1, 10000);
         verticalKernelSizeTextField = new NumberOnlyTextField(2, 1, 10000);
         horizontalStrideTextField = new NumberOnlyTextField(1, 1, 10000);
@@ -64,12 +65,14 @@ public class PoolingBlock extends LayerBlock {
         flowSubPanel.add(verticalLabel2);
         flowSubPanel.add(verticalStrideTextField);
 
-        GridLayout layout=new GridLayout(3,1);
+        GridLayout layout=new GridLayout(4,1);
         setLayout(layout);
-        setSize(200,75);
+        setSize(200,100);
         add(flowPanel);
         add(paddingOptionCombobox);
+        add(poolOptionCombobox);
         add(flowSubPanel);
+
         flowPanel.add(nameLabel);
         setVisible(true);
 

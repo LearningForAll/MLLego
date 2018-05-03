@@ -29,7 +29,7 @@ public class BlockLayer extends JPanel{
         convolutionLayerBlock.setLocation(50,20);
         denseBlock.setLocation(50, 145);
         lstmBlock.setLocation(50, 245);
-        poolingBlock.setLocation(50, 335);
+        poolingBlock.setLocation(50, 370);
 
         add(convolutionLayerBlock);
         add(denseBlock);

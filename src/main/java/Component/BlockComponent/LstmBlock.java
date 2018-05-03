@@ -24,16 +24,33 @@ public class LstmBlock extends LayerBlock {
     public LstmBlock(){
         super();
         blockName="LSTM Block";
+        stackSizeTextField = new NumberOnlyTextField(1,1,10);
+        cellSizeTextField = new NumberOnlyTextField(1,1,10);
+        rnnOutputOption=new JComboBox<>(RnnOutputOption.values());
+        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,3,2));
         nameLabel = new JLabel(blockName);
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         keepProbJSlider = new JSlider();
-        GridLayout layout = new GridLayout(2,1);
+
+        stackSizeTextField.setPreferredSize(new Dimension(20,20));
+        cellSizeTextField.setPreferredSize(new Dimension(20,20));
+        JLabel stackLabel=new JLabel("stack");
+        JLabel cellLabel=new JLabel("cell");
+        stackLabel.setFont(new Font("BOLD", Font.BOLD, 11));
+        cellLabel.setFont(new Font("BOLD", Font.BOLD, 11));
+        GridLayout layout = new GridLayout(4,1);
         setLayout(layout);
-        setSize(200,50);
+        setSize(200,100);
         add(flowPanel);
         add(keepProbJSlider);
+        flowSubPanel.add(stackLabel);
+        flowSubPanel.add(stackSizeTextField);
+        flowSubPanel.add(cellLabel);
+        flowSubPanel.add(cellSizeTextField);
         flowPanel.add(nameLabel);
+        add(flowSubPanel);
+        add(rnnOutputOption);
         setVisible(true);
     }
     public LstmBlock(LstmBlockTemplate template){

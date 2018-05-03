@@ -34,12 +34,14 @@ public class TemplatePanel extends JPanel {
         List<String> returnFileList = new ArrayList<>();
         File file = new File(getTemplateDirectory());
         File []fileList = file.listFiles();
+        /*
         for(File tempFile : fileList) {
             String fileExtension = tempFile.getName().substring(tempFile.getName().lastIndexOf(".")+1,tempFile.getName().length());
             if(tempFile.isFile() && fileExtension.equals(".block")) {
                 returnFileList.add(tempFile.getParent());
             }
         }
+        */
         return returnFileList;
     }
 

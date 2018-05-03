@@ -40,18 +40,23 @@ public class TrainingBlock extends Block {
         JLabel batchSizeLabel=new JLabel("Size");
         JLabel learningRateLabel=new JLabel("Rate");
         JLabel epochLabel=new JLabel("Epoch");
+        JLabel ratioLabel=new JLabel("Ratio");
         batchSizeLabel.setFont(new Font("BOLD", Font.BOLD, 11));
         learningRateLabel.setFont(new Font("BOLD", Font.BOLD, 11));
         epochLabel.setFont(new Font("BOLD", Font.BOLD, 11));
+        ratioLabel.setFont(new Font("BOLD", Font.BOLD, 11));
         learningRateTextField.setPreferredSize(new Dimension(20,20));
         batchSizeTextField.setPreferredSize(new Dimension(20,20));
         epochTextField.setPreferredSize(new Dimension(20,20));
+        validRatioTextField.setPreferredSize(new Dimension(20,20));
         flowSubPanel.add(batchSizeLabel);
         flowSubPanel.add(batchSizeTextField);
         flowSubPanel.add(learningRateLabel);
         flowSubPanel.add(learningRateTextField);
         flowSubPanel.add(epochLabel);
         flowSubPanel.add(epochTextField);
+        flowSubPanel.add(ratioLabel);
+        flowSubPanel.add(validRatioTextField);
 
         GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
