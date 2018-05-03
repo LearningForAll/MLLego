@@ -111,6 +111,18 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             throw new BlockException(block.getClass().getSimpleName() + " is not connectable Next block for" + this.getClass().getSimpleName());
         }
     }
+    public void registerInitialNextBlock(Block block) throws BlockException{
+        if(isNextBlockConnectable(block)){
+            if (block.isPreviousBlockConnectable(this)){
+                this.nextBlocks.add(block);
+            }else{
+                throw new BlockException(block.getClass().getSimpleName() + "is not connectable Previous block for" + this.getClass().getSimpleName());
+            }
+        }else{
+            throw new BlockException(block.getClass().getSimpleName() + " is not connectable Next block for" + this.getClass().getSimpleName());
+
+        }
+    }
 
     // 인자로 넘어온 블록을 이전 블록으로 등록하는 함수
     public void registerPreviousBlock(Block block) throws BlockException {
@@ -185,13 +197,10 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                 int cumulativeY = 0;
                 Block block = this;
                 while (block.isNextBlockConnected()) {
-                    System.out.println(this.getClass().getSimpleName());
                     for (int k = 0; k < block.nextBlocks.size(); k++) {
                         //이전꺼까지 다 더해줘야함...
                         cumulativeY += block.getHeight();
                         block.nextBlocks.get(k).setLocation(x, y + cumulativeY);
-                        System.out.println(x + "/" + (y + block.getHeight()));
-                        System.out.println("로케이션 되는중..");
                     }
                     //연결되어있으면
                     if (block.isNextBlockConnected()) {
@@ -211,7 +220,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        System.out.println("마우스를 놓는 순간의 블록의 보더" + this.getBorder());
         isDragged = false;
         blockObserver.revertOrConnectBlock(this);
     }
@@ -300,17 +308,13 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         if (isReducted) {
             // 줄어든 상황에서 늘어나야함
             while (block.isNextBlockConnected()) {
-                System.out.println("블록들이 늘어날때..");
-                System.out.println("블록들의 y위치ㅣ" + block.getY());
-                System.out.println("다음 블록의 y위치" + nextBlocks.get(0).getY());
+
 
                 for (int k = 0; k < block.nextBlocks.size(); k++) {
                     block.nextBlocks.get(k).setLocation(this.getX(), block.nextBlocks.get(k).getY() + (getHeight()) - flowPanel.getHeight());
-                    System.out.println("하위 블록들의 위치 조정..");
+
 
                 }
-                System.out.println("블록들이 다시 늘어난 후 y위치:" + block.getY());
-                System.out.println("다음 블록의 y위치" + nextBlocks.get(0).getY());
                 //연결되어있으면
                 if (block.isNextBlockConnected()) {
                     block = block.nextBlocks.get(0);
@@ -323,16 +327,10 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         } else {
             // 아직 줄어들지 않은 상황에서
             while (block.isNextBlockConnected()) {
-                System.out.println("블록들이 줄어들떄..");
-                System.out.println("블록들의 y위치:" + block.getY());
-                System.out.println("다음 블록의 y위치" + nextBlocks.get(0).getY());
+
                 for (int k = 0; k < block.nextBlocks.size(); k++) {
                     block.nextBlocks.get(k).setLocation(this.getX(), block.nextBlocks.get(k).getY() - (getHeight() - flowPanel.getHeight()));
-                    System.out.println("하위 블록들의 위치 조정..");
                 }
-                System.out.println("블록들의 줄어든 후 위치:" + block.getY());
-                System.out.println("다음 블록의 y위치" + nextBlocks.get(0).getY());
-                //연결되어있으면
                 if (block.isNextBlockConnected()) {
                     block = block.nextBlocks.get(0);
                 } else {
