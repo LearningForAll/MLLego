@@ -52,7 +52,8 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     JLabel nameLabel;
     public String blockName;
     public JPanel flowPanel;
-    JButton reductButton;
+    public JButton reductButton;
+    public JButton extendButton;
     JPopupMenu popupMenu;
     JMenuItem delete;
 
@@ -68,6 +69,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         this.setBorder(basicBorder);
         reductButton = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/minus.png")));
         reductButton.addActionListener(new ReductionActionListener(this));
+        reductButton.setEnabled(false);
         flowPanel = new JPanel(new FlowLayout());
         reductButton.setPreferredSize(new Dimension(16, 16));
         flowPanel.add(reductButton);
@@ -82,6 +84,11 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         //TODO 완성해야함 좌표랑 다음블록 이전블록
     }
 
+    public void checkExtendBlock(Block block){
+        if(block.blockName=="Convolution Block" || block.blockName=="Dense Block" || block.blockName=="LSTM Block" || block.blockName=="Pooling Block"){
+            extendButton.setEnabled(true);
+        }
+    }
 
     //TODO boolean을 return 하거나 Exception 으로 Handle할수 있게
     // 인자로 넘어온 블록을 다음 블록으로 등록하는 함수
@@ -377,4 +384,5 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public List<Block> getNextBlocks(){
         return nextBlocks;
     }
+
 }

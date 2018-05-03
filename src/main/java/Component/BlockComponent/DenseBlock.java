@@ -51,6 +51,7 @@ public class DenseBlock extends LayerBlock {
         add(activationFunctionCombobox);
         add(flowSubPanel);
         flowPanel.add(nameLabel);
+        flowPanel.add(extendButton);
         setVisible(true);
     }
 

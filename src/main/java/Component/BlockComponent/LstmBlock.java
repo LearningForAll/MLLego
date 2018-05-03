@@ -49,6 +49,7 @@ public class LstmBlock extends LayerBlock {
         flowSubPanel.add(cellLabel);
         flowSubPanel.add(cellSizeTextField);
         flowPanel.add(nameLabel);
+        flowPanel.add(extendButton);
         add(flowSubPanel);
         add(rnnOutputOption);
         setVisible(true);

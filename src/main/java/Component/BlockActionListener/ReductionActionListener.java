@@ -26,17 +26,17 @@ public class ReductionActionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (isReducted){
+        if (isReducted) {
             block.setLayout(beforeLayout);
-            block.setSize(block.getWidth(),beforeHeight);
+            block.setSize(block.getWidth(), beforeHeight);
             block.setFollowBlockPosition(isReducted);
             isReducted = false;
-        }else {
+        } else {
             block.setFollowBlockPosition(isReducted);
             beforeHeight = block.getHeight();
             beforeLayout = block.getLayout();
-            block.setLayout(new BoxLayout(block,BoxLayout.Y_AXIS));
-            block.setSize(block.getWidth(),block.flowPanel.getHeight());
+            block.setLayout(new BoxLayout(block, BoxLayout.Y_AXIS));
+            block.setSize(block.getWidth(), block.flowPanel.getHeight());
             isReducted = true;
         }
 

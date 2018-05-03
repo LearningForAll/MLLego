@@ -74,6 +74,7 @@ public class PoolingBlock extends LayerBlock {
         add(flowSubPanel);
 
         flowPanel.add(nameLabel);
+        flowPanel.add(extendButton);
         setVisible(true);
 
     }

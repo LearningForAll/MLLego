@@ -63,6 +63,7 @@ public class ConvolutionLayerBlock extends LayerBlock {
         add(activationFunctionCombobox);
         add(flowSubPanel);
         flowPanel.add(nameLabel);
+        flowPanel.add(extendButton);
         setVisible(true);
     }
     public ConvolutionLayerBlock(ConvolutionLayerBlockTemplate template){
