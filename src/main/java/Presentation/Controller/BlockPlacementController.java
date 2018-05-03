@@ -55,6 +55,7 @@ public class BlockPlacementController implements BlockObserver {
         }
     }
 
+    //TODO :: 연결된 블록 중 중간 블록이 삭제 된 후의 연결 처리하기
     public void removeBlock(Block block) {
         blocks.remove(block);
         panel.deleteBlock(block);

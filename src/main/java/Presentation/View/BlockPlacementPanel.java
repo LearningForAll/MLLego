@@ -32,6 +32,7 @@ public class BlockPlacementPanel extends JScrollPane {
         workspacePanel.add(block);
         block.reductButton.setEnabled(true);
         block.checkExtendBlock(block);
+        workspacePanel.repaint();
         workspacePanel.revalidate();
     }
 
