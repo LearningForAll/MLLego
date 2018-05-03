@@ -41,7 +41,7 @@ public class LstmBlock extends LayerBlock {
         cellLabel.setFont(new Font("BOLD", Font.BOLD, 11));
         GridLayout layout = new GridLayout(4,1);
         setLayout(layout);
-        setSize(200,100);
+        setSize(200,99);
         add(flowPanel);
         add(keepProbJSlider);
         flowSubPanel.add(stackLabel);

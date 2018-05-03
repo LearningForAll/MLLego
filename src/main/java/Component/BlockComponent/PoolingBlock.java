@@ -67,7 +67,7 @@ public class PoolingBlock extends LayerBlock {
 
         GridLayout layout=new GridLayout(4,1);
         setLayout(layout);
-        setSize(200,100);
+        setSize(200,99);
         add(flowPanel);
         add(paddingOptionCombobox);
         add(poolOptionCombobox);
