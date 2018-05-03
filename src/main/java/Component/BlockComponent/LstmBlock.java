@@ -22,14 +22,18 @@ public class LstmBlock extends LayerBlock {
     JComboBox<RnnOutputOption> rnnOutputOption;
 
     public LstmBlock(){
-        super("LSTM Block");
-
+        super();
+        blockName="LSTM Block";
+        nameLabel = new JLabel(blockName);
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         keepProbJSlider = new JSlider();
         GridLayout layout = new GridLayout(2,1);
         setLayout(layout);
         setSize(200,50);
         add(flowPanel);
         add(keepProbJSlider);
+        flowPanel.add(nameLabel);
         setVisible(true);
     }
     public LstmBlock(LstmBlockTemplate template){

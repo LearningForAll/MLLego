@@ -59,7 +59,10 @@ public class BlockPlacementController implements BlockObserver {
 
     public void removeBlock(Block block) {
         blocks.remove(block);
+        panel.deleteBlock(block);
         // 패널에도 블록 삭제
+        block.disconnectNextBlock();
+        block.disconnectPreviousBlock();
     }
 
     @Override

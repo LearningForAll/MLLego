@@ -18,13 +18,18 @@ public class PreprocessorBlock extends Block {
     boolean IsXData;
 
     public PreprocessorBlock(){
-        super("Preprocessor Block");
+        super();
+        blockName="Preprocessor Block";
+        nameLabel = new JLabel(blockName);
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         preprocessorTypeCombobox = new JComboBox<>(PreprocessorType.values());
         GridLayout layout=new GridLayout(2,1);
         setLayout(layout);
         setSize(200,50);
         add(flowPanel);
         add(preprocessorTypeCombobox);
+        flowPanel.add(nameLabel);
         preprocessorTypeCombobox.setEnabled(false);
 
         flowPanel.setBackground(new Color(243,115,50));
