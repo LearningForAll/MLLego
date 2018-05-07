@@ -16,14 +16,19 @@ import java.awt.event.ActionListener;
  * Created by LG on 2018-03-26.
  */
 public class TopMenuPanel extends JPanel implements TopmenuPublisher{
-    JButton btn_run=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/start.png")));
-    JButton btn_pause=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/stop.png")));
-    JButton btn_save=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/save.png")));
-    JButton btn_load=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/folder.png")));
+    JButton btn_run;
+    JButton btn_pause;
+    JButton btn_save;
+    JButton btn_load;
     TopmenuController controller;
 
 
     public TopMenuPanel() {
+        btn_run=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/start.png")));
+        btn_pause=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/stop.png")));
+        btn_save=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/save.png")));
+        btn_load=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/folder.png")));
+
         btn_run.setBorderPainted(false);
         btn_run.setFocusPainted(false);
         btn_run.setContentAreaFilled(false);
