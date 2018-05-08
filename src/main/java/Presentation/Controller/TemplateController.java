@@ -28,4 +28,9 @@ public class TemplateController {
         this.panel = panel;
     }
 
+    //템플릿 창에 있는 MNist CNN, Xor-DNN 버튼을 누르면 버튼에 알맞는 파일을 바로 넘겨줌
+    public void LoadTemplateFile(File file) {
+
+    }
+
 }
