@@ -32,7 +32,9 @@ public class ReductionActionListener implements ActionListener {
             block.setLayout(beforeLayout);
             block.setSize(block.getWidth(), beforeHeight);
             block.setFollowBlockPosition(isReducted);
-            block.setLocation(block.getX(), block.getY()-block.getHeight()+block.flowPanel.getHeight());
+            block.setLocation(block.getX(), block.getY()-block.getHeight()+block.flowPanel.getHeight()+1);
+            System.out.println(block.getY());
+            System.out.println(block.getY()-block.getHeight()+block.flowPanel.getHeight());
             block.revalidate();
             block.repaint();
             isReducted = false;

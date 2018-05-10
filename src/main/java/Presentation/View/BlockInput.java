@@ -19,6 +19,8 @@ public class BlockInput extends JPanel {
 
     public BlockInput(){
         setLayout(null);
+        setBackground(Color.white);
+
         inputBlock=new InputBlock();
         preprocessorBlock=new PreprocessorBlock();
         inputBlock.setLocation(50,20);

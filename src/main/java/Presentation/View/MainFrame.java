@@ -20,6 +20,7 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout());
         setDefaultLookAndFeelDecorated(true);
 
+
         topMenuPanel=new TopMenuPanel();
         TopmenuController.getInstance().setPanel(topMenuPanel);
 

@@ -9,6 +9,7 @@ import Component.BlockComponent.ModelBlock;
 import Component.BlockComponent.TrainingBlock;
 
 import javax.swing.JPanel;
+import java.awt.*;
 
 
 //처리와 관련된 블록들이 오는 패널
@@ -20,6 +21,8 @@ public class BlockProcessing extends JPanel{
 
     public BlockProcessing() {
         setLayout(null);
+        setBackground(Color.white);
+        
         modelBlock=new ModelBlock();
         modelBlock.setLocation(50,20);
         trainingBlock=new TrainingBlock();

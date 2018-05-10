@@ -66,7 +66,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         uid = UidGenerator.generateUid();
 
         this.blockName = "block";
-        this.setBorder(basicBorder);
+        //this.setBorder(basicBorder);
         reductButton = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/minus.png")));
         reductButton.addActionListener(new ReductionActionListener(this));
         reductButton.setEnabled(false);

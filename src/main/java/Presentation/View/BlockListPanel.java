@@ -24,6 +24,7 @@ public class BlockListPanel extends JTabbedPane {
     BlockInput blockInput=new BlockInput();
 
     public BlockListPanel(){
+        setBackground(Color.white);
         add("Input", blockInput);
         add("Layer", blockLayer);
         add("Processing", blockProcessing);

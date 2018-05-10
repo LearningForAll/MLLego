@@ -20,7 +20,9 @@ public class BlockPlacementPanel extends JScrollPane {
     public BlockPlacementPanel() {
         super(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         setPreferredSize(new Dimension(1180,630));
+        setBackground(Color.white);
         workspacePanel.setPreferredSize(new Dimension(3000,1500));
+        workspacePanel.setBackground(Color.white);
         setViewportView(workspacePanel);
 
         setVisible(true);

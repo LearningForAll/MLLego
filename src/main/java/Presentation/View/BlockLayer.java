@@ -21,6 +21,8 @@ public class BlockLayer extends JPanel{
     //Convolution, Dense, LSTM, Pooling이 옴
     public BlockLayer(){
         setLayout(null);
+        setBackground(Color.white);
+
         convolutionLayerBlock=new ConvolutionLayerBlock();
         denseBlock=new DenseBlock();
         lstmBlock=new LstmBlock();

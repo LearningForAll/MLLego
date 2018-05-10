@@ -5,6 +5,7 @@ import Presentation.Controller.BlockPlacementController;
 import Presentation.Controller.TemplateController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -21,9 +22,10 @@ public class TemplatePanel extends JPanel {
     TemplateController templateController;
 
     public TemplatePanel() {
+        setBackground(Color.white);
         List<String> fileNameList = getAllFileName();
-        mnistCnn = new JButton("MNist CNN");
-        xorDnn = new JButton("Xor-DNN");
+        mnistCnn = new JButton("Mnist CNN");
+        xorDnn = new JButton("Xor DNN");
         add(mnistCnn);
         add(xorDnn);
         setVisible(true);
