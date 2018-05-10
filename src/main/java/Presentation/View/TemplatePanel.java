@@ -1,6 +1,7 @@
 package Presentation.View;
 
 import App.MyApp;
+import Presentation.Controller.BlockPlacementController;
 import Presentation.Controller.TemplateController;
 
 import javax.swing.*;
@@ -38,6 +39,7 @@ public class TemplatePanel extends JPanel {
         File file = new File(getTemplateDirectory());
         File []fileList = file.listFiles();
 
+        //오류나서 일단 주석처리 해놓음
         /*for(File tempFile : fileList) {
             String fileExtension = tempFile.getName().substring(tempFile.getName().lastIndexOf(".")+1,tempFile.getName().length());
             if(tempFile.isFile() && fileExtension.equals(".block")) {
@@ -49,11 +51,12 @@ public class TemplatePanel extends JPanel {
         return returnFileList;
     }
 
+    //각각의 템플릿 버튼 누르면 액션이벤트 발생하게 해서 해당되는 파일 보내기
     private class MnistCnnButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            //templateController.loadBatchModel();
+            BlockPlacementController.getInstance().loadBlockBatch("bin/inner/mnistCnn.block");
         }
     }
 
@@ -61,7 +64,7 @@ public class TemplatePanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            //templateController.loadBatchModel();
+            BlockPlacementController.getInstance().loadBlockBatch("bin/inner/xorDnn.block");
         }
     }
 
