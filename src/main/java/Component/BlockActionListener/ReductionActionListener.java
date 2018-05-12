@@ -17,6 +17,7 @@ public class ReductionActionListener implements ActionListener {
     String blockName;
     boolean isReducted = false;
     int beforeHeight;
+    int beforeFlowPanelHeight;
     LayoutManager beforeLayout;
     public ReductionActionListener(Block block) {
         this.block = block;
@@ -24,7 +25,7 @@ public class ReductionActionListener implements ActionListener {
     }
 
 
-    //TODO :: 블록들이 연결되어 있을 때 Reduct를 수행하면 일어나는 버그들 잡기 (블록 크기,블록 연결 부분이랑 같이 봐야할듯)
+    //TODO :: 블록들이 연결되어 있을 때 Reduct를 수행하면 일어나는 버그들 잡기(연결부분이랑 같이 보기)
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -32,15 +33,14 @@ public class ReductionActionListener implements ActionListener {
             block.setLayout(beforeLayout);
             block.setSize(block.getWidth(), beforeHeight);
             block.setFollowBlockPosition(isReducted);
-            block.setLocation(block.getX(), block.getY()-block.getHeight()+block.flowPanel.getHeight()+1);
-            System.out.println(block.getY());
-            System.out.println(block.getY()-block.getHeight()+block.flowPanel.getHeight());
+            block.setLocation(block.getX(), block.getY()-block.getHeight()+beforeFlowPanelHeight);
             block.revalidate();
             block.repaint();
             isReducted = false;
 
         } else {
-            block.setLocation(block.getX(), block.getY()+block.getHeight()-block.flowPanel.getHeight());
+            beforeFlowPanelHeight=block.flowPanel.getHeight();
+            block.setLocation(block.getX(), block.getY()+block.getHeight()-block.flowPanel.getHeight()); //얜 맞음
             block.setFollowBlockPosition(isReducted);
             beforeHeight = block.getHeight();
             beforeLayout = block.getLayout();

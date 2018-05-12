@@ -22,7 +22,7 @@ public class BlockProcessing extends JPanel{
     public BlockProcessing() {
         setLayout(null);
         setBackground(Color.white);
-        
+
         modelBlock=new ModelBlock();
         modelBlock.setLocation(50,20);
         trainingBlock=new TrainingBlock();
