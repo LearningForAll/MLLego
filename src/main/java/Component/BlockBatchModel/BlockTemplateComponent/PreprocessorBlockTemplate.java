@@ -16,6 +16,7 @@ public class PreprocessorBlockTemplate extends BlockTemplate {
 
     FileType fileType;
     PreprocessorType preprocessorType;
+    boolean isXdata;
 
 
     public PreprocessorBlockTemplate(int positionX, int positionY, String blockType,

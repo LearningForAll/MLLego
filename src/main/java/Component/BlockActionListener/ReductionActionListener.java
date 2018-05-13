@@ -31,9 +31,9 @@ public class ReductionActionListener implements ActionListener {
 
         if (isReducted) {
             System.out.println("isReducted(true) : block.flowPanel.getHeight()"+block.flowPanel.getHeight());
+            block.diff=block.flowPanel.getHeight()-beforeFlowPanelHeight;
             block.setLayout(beforeLayout);
             block.setSize(block.getWidth(), beforeHeight);
-            //block.flowPanel.setSize(block.flowPanel.getWidth(), block.getHeight());
             block.setFollowBlockPosition(isReducted);
             block.setLocation(block.getX(), block.getY()-beforeHeight+beforeFlowPanelHeight);
             block.revalidate();
@@ -41,14 +41,13 @@ public class ReductionActionListener implements ActionListener {
             isReducted = false;
 
         } else {
-            System.out.println(block.flowPanel.getHeight());
+            System.out.println("isReducted(false):" + block.flowPanel.getHeight());
             block.setLocation(block.getX(), block.getY()+block.getHeight()-block.flowPanel.getHeight()); //얜 맞음
             block.setFollowBlockPosition(isReducted);
             beforeHeight = block.getHeight();
             beforeFlowPanelHeight=block.flowPanel.getHeight();
             beforeLayout = block.getLayout();
             block.setLayout(new BoxLayout(block, BoxLayout.Y_AXIS));
-            System.out.println("isReducted(false) : block.flowPanel.getHeight()"+ block.flowPanel.getHeight());
             block.setSize(block.getWidth(), block.flowPanel.getHeight());
             block.revalidate();
             block.repaint();

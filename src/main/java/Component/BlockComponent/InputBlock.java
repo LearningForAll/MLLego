@@ -24,7 +24,6 @@ public class InputBlock extends Block{
     private int inputFileDim = 0;
     private boolean isXInput;
     public InputBlock(){
-        //super("Input Block");
         super();
         blockName="Input Block";
         nameLabel = new JLabel(blockName);

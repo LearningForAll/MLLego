@@ -2,6 +2,7 @@ package Component.BlockBatchModel.BlockTemplateComponent;
 
 import Component.BlockComponent.Block;
 import Component.BlockComponent.LstmBlock;
+import Const.RnnOutputOption;
 
 import java.util.List;
 
@@ -12,6 +13,9 @@ public class LstmBlockTemplate extends BlockTemplate {
 
     int keepProb;
     int stackSize;
+    int cellSize;
+    RnnOutputOption rnnOutputOption;
+
     public LstmBlockTemplate(int positionX, int positionY, String blockType,
                              int keepProb, int stackSize) {
         super(positionX, positionY, blockType);

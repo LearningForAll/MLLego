@@ -56,6 +56,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public JButton extendButton;
     public JPopupMenu popupMenu;
     public JMenuItem delete;
+    public int diff;
 
     public Block() {
         nextBlocks = new ArrayList<>();
@@ -316,13 +317,10 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         if (isReducted) {
             // 줄어든 상황에서 늘어나야함
             while (block.isPreviousBlockConnected()) {
-                /*
-                for (int k = 0; k < block.nextBlocks.size(); k++) {
-                    block.nextBlocks.get(k).setLocation(this.getX(), block.nextBlocks.get(k).getY() + (getHeight()) - flowPanel.getHeight());
-                }
-                */
+
                 for(int k=0; k<block.previousBlocks.size();k++ ){
-                    block.previousBlocks.get(k).setLocation(this.getX(), block.previousBlocks.get(k).getY()-(getHeight()-flowPanel.getHeight()));
+                    System.out.println(block.diff);
+                    block.previousBlocks.get(k).setLocation(this.getX(), block.previousBlocks.get(k).getY()-(getHeight()-flowPanel.getHeight())+block.diff);
                 }
 
                 //연결되어있으면
@@ -336,11 +334,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         } else {
             // 아직 줄어들지 않은 상황에서
             while (block.isPreviousBlockConnected()) {
-                /*
-                for (int k = 0; k < block.nextBlocks.size(); k++) {
-                    block.nextBlocks.get(k).setLocation(this.getX(), block.nextBlocks.get(k).getY() - (getHeight() - flowPanel.getHeight()));
-                }
-                */
                 for(int k=0; k<block.previousBlocks.size(); k++){
                     block.previousBlocks.get(k).setLocation(this.getX(), block.previousBlocks.get(k).getY()+(getHeight()-flowPanel.getHeight()));
                 }
