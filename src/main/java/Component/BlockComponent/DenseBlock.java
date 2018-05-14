@@ -22,8 +22,7 @@ public class DenseBlock extends LayerBlock {
 
     public DenseBlock(){
         super();
-        blockName="Dense Block";
-        nameLabel = new JLabel(blockName);
+        nameLabel = new JLabel(getClass().getSimpleName());
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         layerTextField = new NumberOnlyTextField(1, 1, 50);

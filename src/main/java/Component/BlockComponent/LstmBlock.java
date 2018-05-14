@@ -23,12 +23,11 @@ public class LstmBlock extends LayerBlock {
 
     public LstmBlock(){
         super();
-        blockName="LSTM Block";
         stackSizeTextField = new NumberOnlyTextField(1,1,10);
         cellSizeTextField = new NumberOnlyTextField(1,1,10);
         rnnOutputOption=new JComboBox<>(RnnOutputOption.values());
         JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,3,2));
-        nameLabel = new JLabel(blockName);
+        nameLabel = new JLabel(getClass().getSimpleName());
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         keepProbJSlider = new JSlider();

@@ -22,8 +22,7 @@ public class ConvolutionLayerBlock extends LayerBlock {
 
     public ConvolutionLayerBlock(){
         super();
-        blockName="Convolution Block";
-        nameLabel = new JLabel(blockName);
+        nameLabel = new JLabel(getClass().getSimpleName());
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         keepprobJSlider = new JSlider();
