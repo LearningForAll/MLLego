@@ -13,14 +13,11 @@ import java.awt.event.ActionListener;
 
 public class ExtendActionListener implements ActionListener{
     Block block;
-    String blockName;
-
     int beforeWidth;
     int beforeHeight;
 
     public ExtendActionListener(Block block) {
         this.block = block;
-        this.blockName=block.blockName;
     }
 
     @Override

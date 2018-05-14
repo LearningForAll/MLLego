@@ -10,8 +10,7 @@ public class ModelBlock extends Block {
 
     public ModelBlock(){
         super();
-        blockName="Model Block";
-        nameLabel = new JLabel(blockName);
+        nameLabel = new JLabel(getClass().getSimpleName());
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         GridLayout layout=new GridLayout(1, 1);
