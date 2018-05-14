@@ -1,6 +1,7 @@
 package Presentation.Controller;
 
 import App.MyApp;
+import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockBatchModel.BlockTemplateComponent.*;
 import Component.BlockComponent.*;
 import Component.BlockObserver.BlockObserver;
@@ -40,7 +41,6 @@ public class BlockPlacementController implements BlockObserver {
      * 이 함수로 블록 BlockPlacementController에 블록 추가
      **/
     public void addBlock(Block block) {
-
         blocks.add(block);
         //항상 스택처럼 쌓일테니까 마지막블록에 등록해줌
         block.setObserver(this);
@@ -49,14 +49,13 @@ public class BlockPlacementController implements BlockObserver {
     }
 
     private void addAllBlock() {
-
         for (Block block : this.blocks) {
             block.setObserver(this);
             panel.addNewBlock(block);
-
         }
     }
 
+    //TODO :: 연결된 블록 중 중간 블록이 삭제 된 후의 연결 처리하기
     public void removeBlock(Block block) {
         blocks.remove(block);
         panel.deleteBlock(block);

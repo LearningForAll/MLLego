@@ -9,6 +9,7 @@ import java.awt.*;
 public class MyModelPanel extends JPanel {
 
     public MyModelPanel(){
+        setBackground(Color.white);
     }
 
 }

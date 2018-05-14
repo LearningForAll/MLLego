@@ -13,6 +13,7 @@ public class MyModelDefault extends JTabbedPane {
 
 
     public MyModelDefault(){
+        setBackground(Color.white);
         add("My Model", myModelPanel);
         add("Template", templatePanel);
         add("Result", resultPanel);

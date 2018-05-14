@@ -14,7 +14,7 @@ public class BlockPlacementDefault extends JTabbedPane{
     ModelTestPanel modelTestPanel;
 
     public BlockPlacementDefault(){
-
+        setBackground(Color.white);
         blockPlacementPanel=new BlockPlacementPanel();
         modelTestPanel=new ModelTestPanel();
         add("Block Placement", blockPlacementPanel);

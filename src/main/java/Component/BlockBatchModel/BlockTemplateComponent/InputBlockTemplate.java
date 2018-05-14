@@ -13,6 +13,7 @@ public class InputBlockTemplate extends BlockTemplate {
 
     String filePath;
     InputOption inputOption;
+    boolean isXinput;
 
     public InputBlockTemplate(int positionX, int positionY, String blockType,
                               String filePath, InputOption inputOption) {
