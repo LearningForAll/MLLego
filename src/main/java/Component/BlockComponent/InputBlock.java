@@ -25,8 +25,7 @@ public class InputBlock extends Block{
     private boolean isXInput;
     public InputBlock(){
         super();
-        blockName="Input Block";
-        nameLabel = new JLabel(blockName);
+        nameLabel = new JLabel(getClass().getSimpleName());
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         openFileExploreButton = new JButton("File");

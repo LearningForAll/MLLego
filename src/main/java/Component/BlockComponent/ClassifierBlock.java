@@ -15,8 +15,7 @@ public class ClassifierBlock extends Block{
 
     public ClassifierBlock(){
         super();
-        blockName="Classifier Block";
-        nameLabel = new JLabel(blockName);
+        nameLabel = new JLabel(getClass().getSimpleName());
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         classifierComboBox = new JComboBox<>(Classifier.values());

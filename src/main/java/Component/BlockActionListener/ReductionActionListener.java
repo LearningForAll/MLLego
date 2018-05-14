@@ -14,14 +14,14 @@ import java.awt.event.ActionListener;
 // '- 버튼'을 눌렀을 때 블록의 이름만 보이게끔 설정
 public class ReductionActionListener implements ActionListener {
     Block block;
-    String blockName;
+    //String blockName;
     boolean isReducted = false;
     int beforeHeight;
     int beforeFlowPanelHeight;
     LayoutManager beforeLayout;
     public ReductionActionListener(Block block) {
         this.block = block;
-        this.blockName=block.blockName;
+        //this.blockName=block.getClass().getSimpleName();
     }
 
 

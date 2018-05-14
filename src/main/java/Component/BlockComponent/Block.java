@@ -50,7 +50,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     abstract public boolean isPreviousBlockConnected();
 
     public JLabel nameLabel;
-    public String blockName;
+    //public String blockName;
     public JPanel flowPanel;
     public JButton reductButton;
     public JButton extendButton;
@@ -66,7 +66,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         addMouseMotionListener(this);
         uid = UidGenerator.generateUid();
 
-        this.blockName = "block";
         this.setBorder(basicBorder);
         reductButton = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/minus.png")));
         reductButton.addActionListener(new ReductionActionListener(this));
@@ -86,7 +85,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     }
 
     public void checkExtendBlock(Block block){
-        if(block.blockName=="Convolution Block" || block.blockName=="Dense Block" || block.blockName=="L Block" || block.blockName=="Pooling Block"){
+        if(block instanceof ExtendableBlock){
             extendButton.setEnabled(true);
         }
     }

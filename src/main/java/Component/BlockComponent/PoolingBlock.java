@@ -25,8 +25,7 @@ public class PoolingBlock extends LayerBlock {
 
     public PoolingBlock(){
         super();
-        blockName="Pooling Block";
-        nameLabel = new JLabel(blockName);
+        nameLabel = new JLabel(getClass().getSimpleName());
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         paddingOptionCombobox = new JComboBox<>(PaddingOption.values());

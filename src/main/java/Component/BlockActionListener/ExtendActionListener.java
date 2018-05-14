@@ -20,7 +20,7 @@ public class ExtendActionListener implements ActionListener{
 
     public ExtendActionListener(Block block) {
         this.block = block;
-        this.blockName=block.blockName;
+        this.blockName=block.getClass().getSimpleName();
     }
 
     @Override

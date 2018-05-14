@@ -25,8 +25,7 @@ public class TrainingBlock extends Block {
 
     public TrainingBlock(){
         super();
-        blockName="Training Block";
-        nameLabel = new JLabel(blockName);
+        nameLabel = new JLabel(getClass().getSimpleName());
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         validRatioTextField = new NumberOnlyTextField(0.1,0.1,0.5);

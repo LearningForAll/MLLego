@@ -19,8 +19,7 @@ public class PreprocessorBlock extends Block {
 
     public PreprocessorBlock(){
         super();
-        blockName="Preprocessor Block";
-        nameLabel = new JLabel(blockName);
+        nameLabel = new JLabel(getClass().getSimpleName());
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         preprocessorTypeCombobox = new JComboBox<>(PreprocessorType.values());
