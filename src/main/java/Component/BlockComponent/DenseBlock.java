@@ -44,12 +44,14 @@ public class DenseBlock extends LayerBlock {
         flowSubPanel.add(outputDimLabel);
         flowSubPanel.add(outputDimensionTextField);
 
-        GridLayout layout=new GridLayout(2,1);
+        GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
-        setSize(200,50);
+        setSize(200,75);
         add(flowPanel);
+        add(activationFunctionCombobox);
         add(flowSubPanel);
         flowPanel.add(nameLabel);
+        flowPanel.add(extendButton);
         setVisible(true);
     }
 

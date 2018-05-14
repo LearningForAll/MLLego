@@ -4,6 +4,7 @@ import Component.BlockComponent.Block;
 import Component.BlockComponent.ClassifierBlock;
 import Const.Classifier;
 
+import javax.swing.border.LineBorder;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ public abstract class BlockTemplate implements Serializable {
     int positionX;
     int positionY;
     String blockType;
+    String uid;
+    LineBorder border;
     List<BlockTemplate> previousBlocks;
     List<BlockTemplate> nextBlocks;
 

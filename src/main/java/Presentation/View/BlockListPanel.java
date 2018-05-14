@@ -24,6 +24,7 @@ public class BlockListPanel extends JTabbedPane {
     BlockInput blockInput=new BlockInput();
 
     public BlockListPanel(){
+        setBackground(Color.white);
         add("Input", blockInput);
         add("Layer", blockLayer);
         add("Processing", blockProcessing);
@@ -33,8 +34,6 @@ public class BlockListPanel extends JTabbedPane {
         for (Block mockBlock : allComponents){
             mockBlock.removeMouseListener(mockBlock);
             mockBlock.addMouseListener(new BlockListClickListener());
-            //mockBlock.removeMouseListener((MouseListener) new ReductionActionListener(mockBlock));
-            //mockBlock.removeMouseListener((MouseListener) new ExtendActionListener(mockBlock));
         }
         revalidate();
         setVisible(true);

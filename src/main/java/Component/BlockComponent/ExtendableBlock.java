@@ -11,13 +11,14 @@ public abstract class ExtendableBlock extends Block {
     JButton extendButton;
 
     private int extendSize = 1;
+
     public ExtendableBlock(){
         super();
         extendButton=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/plus.png")));
         extendButton.addActionListener(new ExtendActionListener(this));
         extendButton.setPreferredSize(new Dimension(16, 16));
-        flowPanel.add(extendButton);
-        setVisible(true);
+        extendButton.setEnabled(false);
+
     }
 
     @Override

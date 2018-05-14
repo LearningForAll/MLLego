@@ -19,6 +19,7 @@ public class MainFrame extends JFrame {
         super("ML Lego");
         setLayout(new BorderLayout());
         setDefaultLookAndFeelDecorated(true);
+        setBackground(new Color(0, 71, 113));
 
         topMenuPanel=new TopMenuPanel();
         TopmenuController.getInstance().setPanel(topMenuPanel);

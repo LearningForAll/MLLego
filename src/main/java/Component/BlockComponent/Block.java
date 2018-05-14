@@ -49,12 +49,14 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     // 이전 블록과 연결되어 있는지 여부
     abstract public boolean isPreviousBlockConnected();
 
-    JLabel nameLabel;
+    public JLabel nameLabel;
     public String blockName;
     public JPanel flowPanel;
-    JButton reductButton;
-    JPopupMenu popupMenu;
-    JMenuItem delete;
+    public JButton reductButton;
+    public JButton extendButton;
+    public JPopupMenu popupMenu;
+    public JMenuItem delete;
+    public int diff;
 
     public Block() {
         nextBlocks = new ArrayList<>();
@@ -68,6 +70,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         this.setBorder(basicBorder);
         reductButton = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/minus.png")));
         reductButton.addActionListener(new ReductionActionListener(this));
+        reductButton.setEnabled(false);
         flowPanel = new JPanel(new FlowLayout());
         reductButton.setPreferredSize(new Dimension(16, 16));
         flowPanel.add(reductButton);
@@ -82,6 +85,11 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         //TODO 완성해야함 좌표랑 다음블록 이전블록
     }
 
+    public void checkExtendBlock(Block block){
+        if(block.blockName=="Convolution Block" || block.blockName=="Dense Block" || block.blockName=="L Block" || block.blockName=="Pooling Block"){
+            extendButton.setEnabled(true);
+        }
+    }
 
     //TODO boolean을 return 하거나 Exception 으로 Handle할수 있게
     // 인자로 넘어온 블록을 다음 블록으로 등록하는 함수
@@ -312,37 +320,36 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         this.disconnectPreviousBlock();
     }
 
+    //Reduction상태일때의 연결 변경되었으니 previous block들의 location이 바뀌는 걸로 수정
     public void setFollowBlockPosition(boolean isReducted) {
 
         Block block = this;
         if (isReducted) {
             // 줄어든 상황에서 늘어나야함
-            while (block.isNextBlockConnected()) {
+            while (block.isPreviousBlockConnected()) {
 
-
-                for (int k = 0; k < block.nextBlocks.size(); k++) {
-                    block.nextBlocks.get(k).setLocation(this.getX(), block.nextBlocks.get(k).getY() + (getHeight()) - flowPanel.getHeight());
-
-
+                for(int k=0; k<block.previousBlocks.size();k++ ){
+                    System.out.println(block.diff);
+                    block.previousBlocks.get(k).setLocation(this.getX(), block.previousBlocks.get(k).getY()-(getHeight()-flowPanel.getHeight())+block.diff);
                 }
+
                 //연결되어있으면
-                if (block.isNextBlockConnected()) {
-                    block = block.nextBlocks.get(0);
+                if (block.isPreviousBlockConnected()) {
+                    block = block.previousBlocks.get(0);
                 } else {
                     break;
                 }
-
             }
 
         } else {
             // 아직 줄어들지 않은 상황에서
-            while (block.isNextBlockConnected()) {
-
-                for (int k = 0; k < block.nextBlocks.size(); k++) {
-                    block.nextBlocks.get(k).setLocation(this.getX(), block.nextBlocks.get(k).getY() - (getHeight() - flowPanel.getHeight()));
+            while (block.isPreviousBlockConnected()) {
+                for(int k=0; k<block.previousBlocks.size(); k++){
+                    block.previousBlocks.get(k).setLocation(this.getX(), block.previousBlocks.get(k).getY()+(getHeight()-flowPanel.getHeight()));
                 }
-                if (block.isNextBlockConnected()) {
-                    block = block.nextBlocks.get(0);
+
+                if (block.isPreviousBlockConnected()) {
+                    block = block.previousBlocks.get(0);
                 } else {
                     break;
                 }
@@ -387,4 +394,5 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public List<Block> getNextBlocks(){
         return nextBlocks;
     }
+
 }

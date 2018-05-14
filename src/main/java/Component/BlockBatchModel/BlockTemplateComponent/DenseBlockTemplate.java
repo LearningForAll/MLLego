@@ -14,6 +14,7 @@ public class DenseBlockTemplate extends BlockTemplate {
     int layerNum;
     int outputDim;
     ActivationFunc activationFunc;
+
     public DenseBlockTemplate(int positionX, int positionY, String blockType,
                               int layerNum, int outputDim, ActivationFunc activationFunc) {
         super(positionX, positionY, blockType);

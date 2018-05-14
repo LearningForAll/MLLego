@@ -16,7 +16,7 @@ public class ModelBlock extends Block {
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         GridLayout layout=new GridLayout(1, 1);
         setLayout(layout);
-        setSize(200,40);
+        setSize(200,30);
         add(flowPanel);
         flowPanel.add(nameLabel);
         flowPanel.setBackground(new Color(0, 0, 180));

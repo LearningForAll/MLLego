@@ -16,6 +16,7 @@ public class ConvolutionLayerBlockTemplate extends BlockTemplate{
     int horizontalKernelSize;
     int verticalKernelSize;
     int keepProb;
+    int convDimension;
     ActivationFunc func;
 
     public ConvolutionLayerBlockTemplate(int positionX, int positionY, String blockType,

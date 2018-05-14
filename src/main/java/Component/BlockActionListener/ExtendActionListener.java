@@ -26,11 +26,11 @@ public class ExtendActionListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         beforeWidth=block.getWidth();
         beforeHeight=block.getHeight();
         block.setSize(beforeWidth+200, beforeHeight);
         ((ExtendableBlock)block).addExtendSize();
         block.revalidate();
-
     }
 }
