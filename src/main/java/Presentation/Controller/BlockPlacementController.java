@@ -68,17 +68,6 @@ public class BlockPlacementController implements BlockObserver {
     @Override
     public void blinkBlock(Block block) {
         // 현재 드래그 되고있는 블록은 리스트에서 제거하기 위해..
-
-        System.out.println(blocks);
-        for (Block blockTemp : blocks) {
-            if (blockTemp.isNextBlockConnected()) {
-
-                System.out.println(blockTemp.getNextBlocks().get(0));
-            }
-            if (blockTemp.isPreviousBlockConnected()) {
-                System.out.println(blockTemp.getPreviousBlocks().get(0));
-            }
-        }
         List<Block> tempBlocks = new ArrayList<>();
         // Complete 복사를 위해서
         //TODO 연결된 블록도 같이 해야함

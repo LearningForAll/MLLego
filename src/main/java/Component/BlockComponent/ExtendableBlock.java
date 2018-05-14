@@ -9,6 +9,8 @@ import java.awt.*;
 public abstract class ExtendableBlock extends Block {
 
     JButton extendButton;
+
+    private int extendSize = 1;
     public ExtendableBlock(){
         super();
         extendButton=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/plus.png")));
@@ -20,11 +22,20 @@ public abstract class ExtendableBlock extends Block {
 
     @Override
     public boolean isNextBlockConnected() {
-        return false;
+        // 연결되었지만 블록공간이 남을경우 nextBlock이 올수있음
+        return (extendSize - nextBlocks.size() == 0);
     }
 
     @Override
     public boolean isPreviousBlockConnected() {
-        return false;
+        return (extendSize - previousBlocks.size() == 0);
+    }
+
+    public int getExtendSize(){
+        return extendSize;
+    }
+    public int addExtendSize(){
+        extendSize++;
+        return extendSize;
     }
 }

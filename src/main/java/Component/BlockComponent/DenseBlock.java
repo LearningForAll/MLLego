@@ -77,15 +77,6 @@ public class DenseBlock extends LayerBlock {
         return (block instanceof InputBlock || block instanceof PreprocessorBlock|| block instanceof LayerBlock);
     }
 
-    @Override
-    public boolean isNextBlockConnected() {
-        return (nextBlocks.size() != 0);
-    }
-
-    @Override
-    public boolean isPreviousBlockConnected() {
-        return (previousBlocks.size() != 0);
-    }
 
     public int getLayerNum(){
         return (int)layerTextField.getValue();
