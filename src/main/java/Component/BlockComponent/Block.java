@@ -100,7 +100,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                 // 다음 블록으로 들어오는 블록의 location을 설정.
                 if(this instanceof ExtendableBlock){
                     if(this.nextBlocks.size() > 0){
-                        int plusWidth = this.getWidth() * ((this.nextBlocks.size() - 1) / ((ExtendableBlock)(block)).getExtendSize());
+                        int plusWidth = this.getWidth() * ((this.nextBlocks.size() - 1) / ((ExtendableBlock)(this)).getExtendSize());
                         block.setLocation(this.getX() + plusWidth, this.getY() + this.getHeight());
                     }else{
                         block.setLocation(this.getX(), this.getY() + this.getHeight());
