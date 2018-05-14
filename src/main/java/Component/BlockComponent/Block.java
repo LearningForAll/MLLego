@@ -238,8 +238,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             popupMenu.show(Block.this, e.getX(), e.getY());
             delete.addActionListener(new DeleteActionListener(this));
         }
-
-
     }
 
     @Override
@@ -318,8 +316,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             while (block.isPreviousBlockConnected()) {
 
                 for(int k=0; k<block.previousBlocks.size();k++ ){
-                    System.out.println(block.diff);
-                    block.previousBlocks.get(k).setLocation(this.getX(), block.previousBlocks.get(k).getY()-(getHeight()-flowPanel.getHeight())+block.diff);
+                    block.previousBlocks.get(k).setLocation(this.getX(), block.previousBlocks.get(k).getY()-(getHeight()-flowPanel.getHeight())-block.diff);
                 }
 
                 //연결되어있으면
