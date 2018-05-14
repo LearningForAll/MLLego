@@ -14,7 +14,7 @@ public abstract class ExtendableBlock extends Block {
 
     public ExtendableBlock(){
         super();
-        extendButton=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/plus.png")));
+        extendButton = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/plus.png")));
         extendButton.addActionListener(new ExtendActionListener(this));
         extendButton.setPreferredSize(new Dimension(16, 16));
         extendButton.setEnabled(false);
@@ -38,5 +38,8 @@ public abstract class ExtendableBlock extends Block {
     public int addExtendSize(){
         extendSize++;
         return extendSize;
+    }
+    public JButton getExtendButton(){
+        return this.extendButton;
     }
 }

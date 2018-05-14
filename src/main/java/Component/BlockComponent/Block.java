@@ -53,7 +53,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     //public String blockName;
     public JPanel flowPanel;
     public JButton reductButton;
-    public JButton extendButton;
     public JPopupMenu popupMenu;
     public JMenuItem delete;
     public int diff;
@@ -86,7 +85,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     public void checkExtendBlock(Block block){
         if(block instanceof ExtendableBlock){
-            extendButton.setEnabled(true);
+            ((ExtendableBlock)block).getExtendButton().setEnabled(true);
         }
     }
 
