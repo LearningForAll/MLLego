@@ -92,12 +92,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         }
     }
 
-    public void checkRevertExtendBlock(Block block){
-        if(block instanceof ExtendableBlock){
-            revertExtendButton.setEnabled(true);
-        }
-    }
-
     //TODO boolean을 return 하거나 Exception 으로 Handle할수 있게
     // 인자로 넘어온 블록을 다음 블록으로 등록하는 함수
     public void registerNextBlock(Block block) throws BlockException {
@@ -313,6 +307,13 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public void disconnectBlock() {
         this.previousBlocks.get(0).disconnectNextBlock();
         this.disconnectPreviousBlock();
+    }
+
+    public void disconnectForBlock(){
+        this.previousBlocks.get(0).disconnectNextBlock();
+        this.disconnectPreviousBlock();
+        this.nextBlocks.get(0).disconnectPreviousBlock();
+        this.disconnectNextBlock();
     }
 
     //Reduction상태일때의 연결 변경되었으니 previous block들의 location이 바뀌는 걸로 수정
