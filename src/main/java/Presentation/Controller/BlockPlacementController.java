@@ -61,9 +61,6 @@ public class BlockPlacementController implements BlockObserver {
         panel.deleteBlock(block);
         // 패널에도 블록 삭제
         block.disconnectForBlock();
-        //block.getNextBlocks();
-        //block.disconnectNextBlock();
-        //block.disconnectPreviousBlock();
     }
 
     @Override
