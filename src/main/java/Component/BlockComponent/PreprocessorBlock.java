@@ -26,6 +26,7 @@ public class PreprocessorBlock extends Block {
         GridLayout layout=new GridLayout(2,1);
         setLayout(layout);
         setSize(200,50);
+        width=getWidth();
         add(flowPanel);
         add(preprocessorTypeCombobox);
         flowPanel.add(nameLabel);

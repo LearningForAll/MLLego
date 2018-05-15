@@ -53,9 +53,12 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     //public String blockName;
     public JPanel flowPanel;
     public JButton reductButton;
+    public JButton extendButton;
+    public JButton revertExtendButton;
     public JPopupMenu popupMenu;
     public JMenuItem delete;
     public int diff;
+    public int width;
 
     public Block() {
         nextBlocks = new ArrayList<>();
@@ -302,6 +305,13 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             this.previousBlocks.get(i).disconnectNextBlock();
         }
         this.disconnectPreviousBlock();
+    }
+
+    public void disconnectForBlock(){
+        this.previousBlocks.get(0).disconnectNextBlock();
+        this.disconnectPreviousBlock();
+        this.nextBlocks.get(0).disconnectPreviousBlock();
+        this.disconnectNextBlock();
     }
 
     //Reduction상태일때의 연결 변경되었으니 previous block들의 location이 바뀌는 걸로 수정

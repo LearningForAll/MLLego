@@ -27,7 +27,14 @@ public class ExtendActionListener implements ActionListener{
         beforeWidth=block.getWidth();
         beforeHeight=block.getHeight();
         block.setSize(beforeWidth+200, beforeHeight);
-        ((ExtendableBlock)block).addExtendSize();
+       
+        beforeHeight = block.getHeight();
+        beforeWidth=block.getWidth();
+        block.setSize(beforeWidth+block.width, beforeHeight);
+        ((ExtendableBlock)block).addExtendSize();  
+        block.revertExtendButton.setEnabled(true);
+
         block.revalidate();
     }
+
 }

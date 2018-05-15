@@ -1,6 +1,7 @@
 package Component.BlockComponent;
 
 import Component.BlockActionListener.ExtendActionListener;
+import Component.BlockActionListener.RevertExtendActionListener;
 import Util.FileUtil;
 
 import javax.swing.*;
@@ -20,6 +21,10 @@ public abstract class ExtendableBlock extends Block {
         extendButton.setPreferredSize(new Dimension(16, 16));
         extendButton.setEnabled(false);
 
+        revertExtendButton=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/undo.png")));
+        revertExtendButton.addActionListener(new RevertExtendActionListener(this));
+        revertExtendButton.setPreferredSize(new Dimension(16, 16));
+        revertExtendButton.setEnabled(false);
     }
     public boolean isBlockExtended(){
         return extendSize != 1;

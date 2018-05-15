@@ -46,11 +46,13 @@ public class DenseBlock extends LayerBlock {
         GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
         setSize(200,75);
+        width=getWidth();
         add(flowPanel);
         add(activationFunctionCombobox);
         add(flowSubPanel);
         flowPanel.add(nameLabel);
         flowPanel.add(extendButton);
+        flowPanel.add(revertExtendButton);
         setVisible(true);
     }
 
@@ -90,5 +92,4 @@ public class DenseBlock extends LayerBlock {
     public ActivationFunc getActivationFunction() {
         return (ActivationFunc) activationFunctionCombobox.getSelectedItem();
     }
-
 }
