@@ -54,9 +54,11 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public JPanel flowPanel;
     public JButton reductButton;
     public JButton extendButton;
+    public JButton revertExtendButton;
     public JPopupMenu popupMenu;
     public JMenuItem delete;
     public int diff;
+    public int width;
 
     public Block() {
         nextBlocks = new ArrayList<>();
@@ -87,6 +89,12 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public void checkExtendBlock(Block block){
         if(block instanceof ExtendableBlock){
             extendButton.setEnabled(true);
+        }
+    }
+
+    public void checkRevertExtendBlock(Block block){
+        if(block instanceof ExtendableBlock){
+            revertExtendButton.setEnabled(true);
         }
     }
 
@@ -380,5 +388,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public List<Block> getNextBlocks(){
         return nextBlocks;
     }
+
 
 }

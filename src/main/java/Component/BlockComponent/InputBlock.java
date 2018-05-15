@@ -47,6 +47,7 @@ public class InputBlock extends Block{
         GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
         setSize(200,75);
+        width=getWidth();
         add(flowPanel);
         add(flowSubPanel);
         add(inputOptionCombobox);

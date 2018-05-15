@@ -16,6 +16,7 @@ public class ModelBlock extends Block {
         GridLayout layout=new GridLayout(1, 1);
         setLayout(layout);
         setSize(200,30);
+        width=getWidth();
         add(flowPanel);
         flowPanel.add(nameLabel);
         flowPanel.setBackground(new Color(0, 0, 180));
@@ -53,4 +54,5 @@ public class ModelBlock extends Block {
     public boolean isPreviousBlockConnected() {
         return (previousBlocks.size() != 0);
     }
+
 }

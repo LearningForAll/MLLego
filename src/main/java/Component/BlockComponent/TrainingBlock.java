@@ -60,6 +60,7 @@ public class TrainingBlock extends Block {
         GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
         setSize(200,75);
+        width=getWidth();
         add(flowPanel);
         add(flowSubPanel);
         add(optimizerCombobox);
@@ -124,8 +125,7 @@ public class TrainingBlock extends Block {
     public Optimizer getOptimizer(){ return (Optimizer) optimizerCombobox.getSelectedItem(); }
 
     public float getLearningRate() {
-        return Float.valueOf(learningRateTextField.getText());
-    }
+        return Float.valueOf(learningRateTextField.getText());}
 
     public float getValidRatio() {
         return Float.valueOf(validRatioTextField.getText());
