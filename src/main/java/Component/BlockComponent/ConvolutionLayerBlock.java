@@ -57,12 +57,14 @@ public class ConvolutionLayerBlock extends LayerBlock {
         GridLayout layout=new GridLayout(4,1);
         setLayout(layout);
         setSize(200,99);
+        width=getWidth();
         add(flowPanel);
         add(keepprobJSlider);
         add(activationFunctionCombobox);
         add(flowSubPanel);
         flowPanel.add(nameLabel);
         flowPanel.add(extendButton);
+        flowPanel.add(revertExtendButton);
         setVisible(true);
     }
     public ConvolutionLayerBlock(ConvolutionLayerBlockTemplate template){
@@ -119,7 +121,6 @@ public class ConvolutionLayerBlock extends LayerBlock {
     }
 
     public int getVerticalKernelSize(){ return (int)verticalKernelSize.getValue(); }
-
 
 }
 

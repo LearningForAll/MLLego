@@ -41,6 +41,7 @@ public class LstmBlock extends LayerBlock {
         GridLayout layout = new GridLayout(4,1);
         setLayout(layout);
         setSize(200,99);
+        width=getWidth();
         add(flowPanel);
         add(keepProbJSlider);
         flowSubPanel.add(stackLabel);
@@ -49,6 +50,7 @@ public class LstmBlock extends LayerBlock {
         flowSubPanel.add(cellSizeTextField);
         flowPanel.add(nameLabel);
         flowPanel.add(extendButton);
+        flowPanel.add(revertExtendButton);
         add(flowSubPanel);
         add(rnnOutputOption);
         setVisible(true);
@@ -100,4 +102,5 @@ public class LstmBlock extends LayerBlock {
     public RnnOutputOption getOutputOption(){
         return (RnnOutputOption)rnnOutputOption.getSelectedItem();
     }
+
 }
