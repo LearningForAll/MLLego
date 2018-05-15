@@ -69,17 +69,6 @@ public class BlockPlacementController implements BlockObserver {
     @Override
     public void blinkBlock(Block block) {
         // 현재 드래그 되고있는 블록은 리스트에서 제거하기 위해..
-
-        System.out.println(blocks);
-        for (Block blockTemp : blocks) {
-            if (blockTemp.isNextBlockConnected()) {
-
-                System.out.println(blockTemp.getNextBlocks().get(0));
-            }
-            if (blockTemp.isPreviousBlockConnected()) {
-                System.out.println(blockTemp.getPreviousBlocks().get(0));
-            }
-        }
         List<Block> tempBlocks = new ArrayList<>();
         // Complete 복사를 위해서
         //TODO 연결된 블록도 같이 해야함
@@ -122,10 +111,11 @@ public class BlockPlacementController implements BlockObserver {
 
                 for (Block block1 : tempBlocks) {
                     if (checkTopCloseBlock(block, block1) && block1.isNextBlockConnectable(block) && !block1.isNextBlockConnected() && block.isPreviousBlockConnectable(block1)) {
+
                         block.blinkTop();
                         block1.blinkBottom();
                         break;
-                    } else if (checkBottomCloseBlock(block, block1) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)) {
+                    } else if (checkBottomCloseBlock(block.getLastConnectedBlock(), block1) && block1.isPreviousBlockConnectable(block.getLastConnectedBlock()) && !block1.isPreviousBlockConnected() && block.getLastConnectedBlock().isNextBlockConnectable(block1)) {
 
                         block.blinkBottom();
                         block1.blinkTop();
@@ -199,18 +189,62 @@ public class BlockPlacementController implements BlockObserver {
     // TODO 논리 수정 필요 말이안됌
     private boolean checkTopCloseBlock(Block block, Block block1) {
         //내가드래그 하는 블록이 아래쪽에서 위쪽으로 접근할
-        return ((block.getX() - block1.getX() < 50)
-                && (block.getX() - block1.getX() > -50)
-                && (block1.getY() + block1.getHeight() - block.getY() > -30)
-                && (block1.getY() + block1.getHeight() - block.getY() < 0));
+
+        if (block1.getX() > block.getX()){
+            return ((block1.getX() - block.getX() < 50)
+                    && (block1.getX() - block.getX() > 0)
+                    && (block1.getY() + block1.getHeight() - block.getY() > -30)
+                    && (block1.getY() + block1.getHeight() - block.getY() < 0));
+        }else{
+            return ((block.getX() - block1.getX() >= 0)
+                    && (block.getX() - block1.getX() < 50)
+                    && (block1.getY() + block1.getHeight() - block.getY() > -30)
+                    && (block1.getY() + block1.getHeight() - block.getY() < 0));
+        }
+
     }
 
     private boolean checkBottomCloseBlock(Block block, Block block1) {
 
-        return ((block.getX() - block1.getX() < 50)
-                && (block.getX() - block1.getX() > -50)
-                && (block.getY() + block.getHeight() - block1.getY() > -30)
-                && (block.getY() + block.getHeight() - block1.getY() < 0));
+        if(block1 instanceof ExtendableBlock){
+            if (((ExtendableBlock) block1).isBlockExtended()){
+                if(block1.getX() > block.getX()){
+                    return ((block1.getX() - block.getX() < 50)
+                            && (block1.getX() - block.getX() > 0)
+                            && (block.getY() + block.getHeight() - block1.getY() > -30)
+                            && (block.getY() + block.getHeight() - block1.getY() < 0));
+                }else{
+                    return ((block.getX() - block1.getX() > 0)
+                            && (block.getX() - block1.getX() < block1.getWidth() - block.getWidth() + 50)
+                            && (block.getY() + block.getHeight() - block1.getY() > -30)
+                            && (block.getY() + block.getHeight() - block1.getY() < 0));
+                }
+            }else{
+                if (block1.getX() > block.getX()){
+                    return ((block1.getX() - block.getX() < 50)
+                            && (block1.getX() - block.getX() > 0)
+                            && (block.getY() + block.getHeight() - block1.getY() > -30)
+                            && (block.getY() + block.getHeight() - block1.getY() < 0));
+                }else{
+                    return ((block.getX() - block1.getX() >= 0)
+                            && (block.getX() - block1.getX() < 50)
+                            && (block.getY() + block.getHeight() - block1.getY() > -30)
+                            && (block.getY() + block.getHeight() - block1.getY() < 0));
+                }
+            }
+        }
+        if (block1.getX() > block.getX()){
+            return ((block1.getX() - block.getX() < 50)
+                    && (block1.getX() - block.getX() > 0)
+                    && (block.getY() + block.getHeight() - block1.getY() > -30)
+                    && (block.getY() + block.getHeight() - block1.getY() < 0));
+        }else{
+            return ((block.getX() - block1.getX() >= 0)
+                    && (block.getX() - block1.getX() < 50)
+                    && (block.getY() + block.getHeight() - block1.getY() > -30)
+                    && (block.getY() + block.getHeight() - block1.getY() < 0));
+        }
+
     }
 
     public void saveBlockBatch(String name) {
