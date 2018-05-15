@@ -88,30 +88,35 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     public void checkExtendBlock(Block block){
         if(block instanceof ExtendableBlock){
-            extendButton.setEnabled(true);
+            ((ExtendableBlock)block).getExtendButton().setEnabled(true);
         }
     }
 
     //TODO boolean을 return 하거나 Exception 으로 Handle할수 있게
     // 인자로 넘어온 블록을 다음 블록으로 등록하는 함수
     public void registerNextBlock(Block block) throws BlockException {
+
         if (isNextBlockConnectable(block)) {
             if (block.isPreviousBlockConnectable(this)) {
-                this.nextBlocks.add(block);
+
                 // 다음 블록으로 들어오는 블록의 location을 설정.
-                block.setLocation(this.getX(), this.getY() + this.getHeight());
-                //여러 블록이 연결되어있다면 그 해당하는 블록들의 위치도 신경써줘야한다.
-                int cumulativeY = this.getHeight();
-                while (block.isNextBlockConnected()) {
-                    cumulativeY += block.getHeight();
-                    block.nextBlocks.get(0).setLocation(this.getX(), this.getY() + cumulativeY);
-                    //연결되어있으면
-                    if (block.isNextBlockConnected()) {
-                        block = block.nextBlocks.get(0);
-                    } else {
-                        break;
+                if(block instanceof ExtendableBlock){
+                    // 블록이 확장되어있는지 검사
+                    if(((ExtendableBlock) block).isBlockExtended() && !((ExtendableBlock) block).isFull()){
+                        float plusWidth = block.getWidth() * ((float)(((ExtendableBlock) block).getConnectedSize()) / ((ExtendableBlock)(block)).getExtendSize());
+                        this.nextBlocks.add(block);
+                        if(this instanceof ExtendableBlock){
+                            ((ExtendableBlock) block).addConnectedSize(((ExtendableBlock)this).getExtendSize());
+                        }
+                        this.setLocation(block.getX() + (int)plusWidth, block.getY() - this.getHeight());
+                    }else{
+                        this.setLocation(block.getX(), block.getY() - this.getHeight());
                     }
+                }else{
+                    this.setLocation(block.getX(), block.getY() + this.getHeight());
+                    this.nextBlocks.add(block);
                 }
+
 
             } else {
                 throw new BlockException(block.getClass().getSimpleName() + "is not connectable Previous block for" + this.getClass().getSimpleName());
@@ -203,26 +208,17 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
             // 해당하는 블록이 첫번째 블록일때 뒤에 블록은 다 나를 따라와야한다.
             if (isFirstBlock()) {
-                int cumulativeY = 0;
-                Block block = this;
-                while (block.isNextBlockConnected()) {
-                    for (int k = 0; k < block.nextBlocks.size(); k++) {
-                        //이전꺼까지 다 더해줘야함...
-                        cumulativeY += block.getHeight();
-                        block.nextBlocks.get(k).setLocation(x, y + cumulativeY);
-                    }
-                    //연결되어있으면
-                    if (block.isNextBlockConnected()) {
-                        block = block.nextBlocks.get(0);
-                    } else {
-                        break;
-                    }
 
+                List<Block> allConnectedBlock = this.getAllConnectedBlock();
 
+                for (Block block : allConnectedBlock){
+
+                    block.setLocation(e.getX() + block.getLocation().x - offX, e.getY() + block.getLocation().y - offY);
                 }
+                this.setLocation(x, y);
+
 
             }
-            setLocation(x, y);
             blockObserver.blinkBlock(this);
         }
     }
@@ -306,7 +302,9 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
 
     public void disconnectBlock() {
-        this.previousBlocks.get(0).disconnectNextBlock();
+        for (int i = 0; i < this.previousBlocks.size(); i++){
+            this.previousBlocks.get(i).disconnectNextBlock();
+        }
         this.disconnectPreviousBlock();
     }
 
@@ -372,6 +370,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
 
     public void disconnectNextBlock() {
+
         this.nextBlocks.clear();
     }
 
@@ -393,5 +392,50 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         return nextBlocks;
     }
 
+    public List<Block> getAllConnectedBlock(){
+
+        List<Block> allConnectedBlock = new ArrayList<>();
+
+        Block block = this;
+        while (block.isNextBlockConnected()) {
+
+            if(block.nextBlocks.get(0) instanceof ExtendableBlock){
+                if (((ExtendableBlock) block.nextBlocks.get(0)).isBlockExtended()){
+                    int blockIndex = ((ExtendableBlock) block.nextBlocks.get(0)).getBlockIndex(block);
+                    for (int i = 0; i < ((ExtendableBlock) block.nextBlocks.get(0)).previousBlocks.size(); i++){
+                        if (i != blockIndex){
+                            allConnectedBlock.addAll(((ExtendableBlock) block.nextBlocks.get(0)).previousBlocks.get(i).getAllPreviousBlocks());
+                        }
+                    }
+                }
+            }
+            //연결되어있으면
+            if (block.isNextBlockConnected()) {
+                allConnectedBlock.add(block.nextBlocks.get(0));
+                block = block.nextBlocks.get(0);
+            } else {
+                break;
+            }
+
+        }
+        return allConnectedBlock;
+
+
+    }
+    private List<Block> getAllPreviousBlocks(){
+        List<Block> allPreviousBlock = new ArrayList<>();
+        Block block = this;
+        allPreviousBlock.add(block);
+        while(block.isPreviousBlockConnected()){
+
+            if(block.isPreviousBlockConnected()){
+                allPreviousBlock.add(block.previousBlocks.get(0));
+            }
+
+            block = block.previousBlocks.get(0);
+        }
+
+        return allPreviousBlock;
+    }
 
 }

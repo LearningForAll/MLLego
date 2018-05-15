@@ -1,6 +1,7 @@
 package Component.BlockActionListener;
 
 import Component.BlockComponent.Block;
+import Component.BlockComponent.ExtendableBlock;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,15 +17,21 @@ public class ExtendActionListener implements ActionListener{
     int beforeWidth;
     int beforeHeight;
 
-    public ExtendActionListener(Block block) {
+    public ExtendActionListener(ExtendableBlock block) {
         this.block = block;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        beforeWidth=block.getWidth();
+        beforeHeight=block.getHeight();
+        block.setSize(beforeWidth+200, beforeHeight);
+       
         beforeHeight = block.getHeight();
         beforeWidth=block.getWidth();
         block.setSize(beforeWidth+block.width, beforeHeight);
+        ((ExtendableBlock)block).addExtendSize();  
         block.revertExtendButton.setEnabled(true);
 
         block.revalidate();
