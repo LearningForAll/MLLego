@@ -26,7 +26,6 @@ public class ResultPanel extends JPanel {
     {
         txtLog.append(result+ "\n");  // 로그 내용을 JTextArea 위에 붙여주고
         txtLog.setCaretPosition(txtLog.getDocument().getLength());  // 맨아래로 스크롤한다.
-
     }
 
 }

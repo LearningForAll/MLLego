@@ -19,12 +19,11 @@ public class BlockPlacementPanel extends JScrollPane {
     public BlockPlacementPanel() {
         super(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         setPreferredSize(new Dimension(1180,630));
+        setBackground(Color.white);
         workspacePanel.setPreferredSize(new Dimension(3000,1500));
+        workspacePanel.setBackground(Color.white);
         setViewportView(workspacePanel);
 
-        //scroll=new JScrollPane(this, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        //scroll.setPreferredSize(new Dimension(300,300));
-        //add(scroll);
         setVisible(true);
         revalidate();
     }
@@ -32,6 +31,9 @@ public class BlockPlacementPanel extends JScrollPane {
 
     public void addNewBlock(Block block){
         workspacePanel.add(block);
+        block.reductButton.setEnabled(true);
+        block.checkExtendBlock(block);
+        workspacePanel.repaint();
         workspacePanel.revalidate();
     }
 
@@ -42,10 +44,22 @@ public class BlockPlacementPanel extends JScrollPane {
         revalidate();
     }
 
-
     public void deleteAllBlock(){
         System.out.println("모든 블록 삭제");
-        this.removeAll();
+        workspacePanel.removeAll();
+        revalidate();
+    }
+
+    public void deleteBlock(Block block){
+        workspacePanel.remove(block);
+        workspacePanel.revalidate();
+        repaint();
+    }
+
+    public void deleteBlocks(List<Block> blockList){
+        for(Block block : blockList){
+            this.remove(block);
+        }
         revalidate();
     }
 }

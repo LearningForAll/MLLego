@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.PoolingBlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.PaddingOption;
 import Const.PoolingType;
@@ -23,8 +24,12 @@ public class PoolingBlock extends LayerBlock {
     JComboBox<PoolingType> poolOptionCombobox;
 
     public PoolingBlock(){
-        super("Pooling Block");
+        super();
+        nameLabel = new JLabel(getClass().getSimpleName());
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         paddingOptionCombobox = new JComboBox<>(PaddingOption.values());
+        poolOptionCombobox=new JComboBox<>(PoolingType.values());
         horizontalKernelSizeTextField  = new NumberOnlyTextField(2, 1, 10000);
         verticalKernelSizeTextField = new NumberOnlyTextField(2, 1, 10000);
         horizontalStrideTextField = new NumberOnlyTextField(1, 1, 10000);
@@ -59,14 +64,29 @@ public class PoolingBlock extends LayerBlock {
         flowSubPanel.add(verticalLabel2);
         flowSubPanel.add(verticalStrideTextField);
 
-        GridLayout layout=new GridLayout(3,1);
+        GridLayout layout=new GridLayout(4,1);
         setLayout(layout);
-        setSize(200,75);
+        setSize(200,99);
+        width=getWidth();
         add(flowPanel);
         add(paddingOptionCombobox);
+        add(poolOptionCombobox);
         add(flowSubPanel);
+
+        flowPanel.add(nameLabel);
+        flowPanel.add(extendButton);
+        flowPanel.add(revertExtendButton);
         setVisible(true);
 
+    }
+    public PoolingBlock(PoolingBlockTemplate template){
+        this();
+        paddingOptionCombobox.setSelectedItem(template.getPaddingOption());
+        horizontalStrideTextField.setText(String.valueOf(template.getHorizontalStride()));
+        verticalStrideTextField.setText(String.valueOf(template.getVerticalStride()));
+        horizontalKernelSizeTextField.setText(String.valueOf(template.getHorizontalKernelSize()));
+        verticalKernelSizeTextField.setText(String.valueOf(template.getVerticalKernelSize()));
+        setLocation(template.getPositionX(), template.getPositionY());
     }
 
     @Override
@@ -84,15 +104,6 @@ public class PoolingBlock extends LayerBlock {
         return (block instanceof InputBlock || block instanceof LayerBlock);
     }
 
-    @Override
-    public boolean isNextBlockConnected() {
-        return (nextBlocks.size() != 0);
-    }
-
-    @Override
-    public boolean isPreviousBlockConnected() {
-        return (previousBlocks.size() != 0);
-    }
 
     public PaddingOption getPaddingOption(){ return (PaddingOption) paddingOptionCombobox.getSelectedItem(); }
 

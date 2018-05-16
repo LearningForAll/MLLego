@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.ClassifierBlockTemplate;
 import Const.Classifier;
 
 import javax.swing.*;
@@ -13,15 +14,27 @@ public class ClassifierBlock extends Block{
     JComboBox <Classifier> classifierComboBox;
 
     public ClassifierBlock(){
-        super("Classifier Block");
+        super();
+        nameLabel = new JLabel(getClass().getSimpleName());
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         classifierComboBox = new JComboBox<>(Classifier.values());
         GridLayout layout=new GridLayout(2,1);
         setLayout(layout);
-        setSize(200,50);
+        setSize(400,50);
         flowPanel.setBackground(new Color(0,0,180));
         add(flowPanel);
         add(classifierComboBox);
+        flowPanel.add(nameLabel);
+        width=getWidth();
+
         setVisible(true);
+    }
+    public ClassifierBlock(ClassifierBlockTemplate template){
+        this();
+        classifier = template.getClassifier();
+        setLocation(template.getPositionX(), template.getPositionY());
+
     }
 
 
@@ -69,6 +82,5 @@ public class ClassifierBlock extends Block{
     public Classifier getClassifier(){
         return (Classifier)classifierComboBox.getSelectedItem();
     }
-
 
 }

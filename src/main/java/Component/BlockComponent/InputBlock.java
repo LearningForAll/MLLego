@@ -1,5 +1,7 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.BlockTemplate;
+import Component.BlockBatchModel.BlockTemplateComponent.InputBlockTemplate;
 import Const.FileType;
 import Const.InputOption;
 
@@ -22,7 +24,10 @@ public class InputBlock extends Block{
     private int inputFileDim = 0;
     private boolean isXInput;
     public InputBlock(){
-        super("Input Block");
+        super();
+        nameLabel = new JLabel(getClass().getSimpleName());
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         openFileExploreButton = new JButton("File");
         openFileExploreButton.addActionListener(new FileOpenListener());
         filePathTextField = new JTextField();
@@ -42,12 +47,20 @@ public class InputBlock extends Block{
         GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
         setSize(200,75);
+        width=getWidth();
         add(flowPanel);
         add(flowSubPanel);
         add(inputOptionCombobox);
+        flowPanel.add(nameLabel);
         inputOptionCombobox.setEnabled(false);
         flowPanel.setBackground(new Color(243, 115, 50));
         setVisible(true);
+    }
+    public InputBlock(InputBlockTemplate blockTemplate){
+        this();
+        filePathTextField.setText(blockTemplate.getFilePath());
+        inputOptionCombobox.setSelectedItem(blockTemplate.getInputOption());
+        setLocation(blockTemplate.getPositionX(), blockTemplate.getPositionY());
     }
 
     //이너 클래스로 재 정의

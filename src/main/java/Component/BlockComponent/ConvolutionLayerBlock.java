@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.ConvolutionLayerBlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.ActivationFunc;
 
@@ -20,7 +21,10 @@ public class ConvolutionLayerBlock extends LayerBlock {
     NumberOnlyTextField verticalKernelSize;
 
     public ConvolutionLayerBlock(){
-        super("Convolution Block");
+        super();
+        nameLabel = new JLabel(getClass().getSimpleName());
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         keepprobJSlider = new JSlider();
         // Enum으로 값 ㅁ만듬
         activationFunctionCombobox = new JComboBox<>(ActivationFunc.values());
@@ -52,12 +56,26 @@ public class ConvolutionLayerBlock extends LayerBlock {
 
         GridLayout layout=new GridLayout(4,1);
         setLayout(layout);
-        setSize(200,100);
+        setSize(200,99);
+        width=getWidth();
         add(flowPanel);
         add(keepprobJSlider);
         add(activationFunctionCombobox);
         add(flowSubPanel);
+        flowPanel.add(nameLabel);
+        flowPanel.add(extendButton);
+        flowPanel.add(revertExtendButton);
         setVisible(true);
+    }
+    public ConvolutionLayerBlock(ConvolutionLayerBlockTemplate template){
+        this();
+        activationFunctionCombobox.setSelectedItem(template.getFunc());
+        keepprobJSlider.setValue(template.getKeepProb());
+        kernelNumTextField.setValue(template.getKernelSize());
+        verticalKernelSize.setValue(template.getVerticalKernelSize());
+        horizontalKernelSize.setValue(template.getHorizontalKernelSize());
+        setLocation(template.getPositionX(), template.getPositionY());
+
     }
 
     @Override
@@ -76,15 +94,6 @@ public class ConvolutionLayerBlock extends LayerBlock {
         return (block instanceof InputBlock || block instanceof PreprocessorBlock|| block instanceof LayerBlock);
     }
 
-    @Override
-    public boolean isNextBlockConnected() {
-        return (nextBlocks.size() != 0);
-    }
-
-    @Override
-    public boolean isPreviousBlockConnected() {
-        return (previousBlocks.size() != 0);
-    }
 
     public int getKeepProb(){
         return keepprobJSlider.getValue();
@@ -103,7 +112,6 @@ public class ConvolutionLayerBlock extends LayerBlock {
     }
 
     public int getVerticalKernelSize(){ return (int)verticalKernelSize.getValue(); }
-
 
 }
 

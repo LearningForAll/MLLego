@@ -1,5 +1,7 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.BlockTemplate;
+import Component.BlockBatchModel.BlockTemplateComponent.DenseBlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.ActivationFunc;
 
@@ -17,10 +19,16 @@ public class DenseBlock extends LayerBlock {
     NumberOnlyTextField outputDimensionTextField;
     // todo Activation 배치해야함
     public JComboBox<ActivationFunc> activationFunctionCombobox;
-    public DenseBlock(int inputDimension){
-        super("Dense Block");
+
+    public DenseBlock(){
+        super();
+        nameLabel = new JLabel(getClass().getSimpleName());
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         layerTextField = new NumberOnlyTextField(1, 1, 50);
-        outputDimensionTextField = new NumberOnlyTextField(inputDimension, 1, 1000);
+        //TODO inputDimentsion?
+        int tempInputDimension = 30;
+        outputDimensionTextField = new NumberOnlyTextField(tempInputDimension, 1, 1000);
         activationFunctionCombobox = new JComboBox<>(ActivationFunc.values());
 
         JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,6,2));
@@ -35,12 +43,25 @@ public class DenseBlock extends LayerBlock {
         flowSubPanel.add(outputDimLabel);
         flowSubPanel.add(outputDimensionTextField);
 
-        GridLayout layout=new GridLayout(2,1);
+        GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
-        setSize(200,50);
+        setSize(200,75);
+        width=getWidth();
         add(flowPanel);
+        add(activationFunctionCombobox);
         add(flowSubPanel);
+        flowPanel.add(nameLabel);
+        flowPanel.add(extendButton);
+        flowPanel.add(revertExtendButton);
         setVisible(true);
+    }
+
+    public DenseBlock(DenseBlockTemplate blockTemplate){
+        this();
+        layerTextField.setText(String.valueOf(blockTemplate.getLayerNum()));
+        outputDimensionTextField.setText(String.valueOf(blockTemplate.getOutputDim()));
+        activationFunctionCombobox.setSelectedItem(blockTemplate.getActivationFunc());
+
     }
 
     @Override
@@ -59,15 +80,6 @@ public class DenseBlock extends LayerBlock {
         return (block instanceof InputBlock || block instanceof PreprocessorBlock|| block instanceof LayerBlock);
     }
 
-    @Override
-    public boolean isNextBlockConnected() {
-        return (nextBlocks.size() != 0);
-    }
-
-    @Override
-    public boolean isPreviousBlockConnected() {
-        return (previousBlocks.size() != 0);
-    }
 
     public int getLayerNum(){
         return (int)layerTextField.getValue();
@@ -80,5 +92,4 @@ public class DenseBlock extends LayerBlock {
     public ActivationFunc getActivationFunction() {
         return (ActivationFunc) activationFunctionCombobox.getSelectedItem();
     }
-
 }

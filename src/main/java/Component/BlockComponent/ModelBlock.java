@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockBatchModel.BlockTemplateComponent.ModelBlockTemplate;
 import Models.Coords;
 
 import javax.swing.*;
@@ -8,13 +9,22 @@ import java.awt.*;
 public class ModelBlock extends Block {
 
     public ModelBlock(){
-        super("Model Block");
+        super();
+        nameLabel = new JLabel(getClass().getSimpleName());
+        nameLabel.setForeground(Color.white);
+        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         GridLayout layout=new GridLayout(1, 1);
         setLayout(layout);
-        setSize(200,40);
+        setSize(200,30);
+        width=getWidth();
         add(flowPanel);
+        flowPanel.add(nameLabel);
         flowPanel.setBackground(new Color(0, 0, 180));
         setVisible(true);
+    }
+    public ModelBlock(ModelBlockTemplate template){
+        this();
+        setLocation(template.getPositionX(), template.getPositionY());
     }
 
     @Override
@@ -44,4 +54,5 @@ public class ModelBlock extends Block {
     public boolean isPreviousBlockConnected() {
         return (previousBlocks.size() != 0);
     }
+
 }

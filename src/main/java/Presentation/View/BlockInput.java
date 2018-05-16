@@ -10,6 +10,7 @@ import java.awt.*;
  */
 
 //인풋과 관련된 블록들이 오는 패널
+
 //Preprocessor, input이 옴
 public class BlockInput extends JPanel {
 
@@ -18,10 +19,12 @@ public class BlockInput extends JPanel {
 
     public BlockInput(){
         setLayout(null);
+        setBackground(Color.white);
+
         inputBlock=new InputBlock();
         preprocessorBlock=new PreprocessorBlock();
-        inputBlock.setLocation(150,20);
-        preprocessorBlock.setLocation(150,120);
+        inputBlock.setLocation(50,20);
+        preprocessorBlock.setLocation(50,120);
 
         add(inputBlock);
         add(preprocessorBlock);

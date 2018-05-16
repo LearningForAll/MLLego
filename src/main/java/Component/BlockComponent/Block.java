@@ -1,6 +1,8 @@
 package Component.BlockComponent;
 
+import Component.BlockActionListener.DeleteActionListener;
 import Component.BlockActionListener.ReductionActionListener;
+import Component.BlockBatchModel.BlockTemplateComponent.BlockTemplate;
 import Component.BlockException.BlockException;
 import Component.BlockObserver.BlockObserver;
 import Component.BlockObserver.BlockPublisher;
@@ -47,10 +49,16 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     // 이전 블록과 연결되어 있는지 여부
     abstract public boolean isPreviousBlockConnected();
 
-    JLabel nameLabel;
-    public String blockName;
+    public JLabel nameLabel;
+    //public String blockName;
     public JPanel flowPanel;
-    JButton reductButton;
+    public JButton reductButton;
+    public JButton extendButton;
+    public JButton revertExtendButton;
+    public JPopupMenu popupMenu;
+    public JMenuItem delete;
+    public int diff;
+    public int width;
 
     public Block() {
         nextBlocks = new ArrayList<>();
@@ -59,52 +67,74 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         addMouseListener(this);
         addMouseMotionListener(this);
         uid = UidGenerator.generateUid();
-    }
 
-    public Block(String blockName) {
-        this();
-        this.blockName = blockName;
         this.setBorder(basicBorder);
-        nameLabel = new JLabel(blockName);
-        nameLabel.setForeground(Color.white);
-        nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         reductButton = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/minus.png")));
         reductButton.addActionListener(new ReductionActionListener(this));
+        reductButton.setEnabled(false);
         flowPanel = new JPanel(new FlowLayout());
         reductButton.setPreferredSize(new Dimension(16, 16));
         flowPanel.add(reductButton);
-        flowPanel.add(nameLabel);
         flowPanel.setBackground(new Color(150, 0, 205));
+        popupMenu=new JPopupMenu();
+        delete=new JMenuItem("Delete");
+        popupMenu.add(delete);
 
         setVisible(true);
+    }
+    public Block(BlockTemplate blockTemplate){
+        //TODO 완성해야함 좌표랑 다음블록 이전블록
+    }
+
+    public void checkExtendBlock(Block block){
+        if(block instanceof ExtendableBlock){
+            ((ExtendableBlock)block).getExtendButton().setEnabled(true);
+        }
     }
 
     //TODO boolean을 return 하거나 Exception 으로 Handle할수 있게
     // 인자로 넘어온 블록을 다음 블록으로 등록하는 함수
     public void registerNextBlock(Block block) throws BlockException {
+
         if (isNextBlockConnectable(block)) {
             if (block.isPreviousBlockConnectable(this)) {
-                this.nextBlocks.add(block);
+
                 // 다음 블록으로 들어오는 블록의 location을 설정.
-                block.setLocation(this.getX(), this.getY() + this.getHeight());
-                //여러 블록이 연결되어있다면 그 해당하는 블록들의 위치도 신경써줘야한다.
-                int cumulativeY = this.getHeight();
-                while (block.isNextBlockConnected()) {
-                    cumulativeY += block.getHeight();
-                    block.nextBlocks.get(0).setLocation(this.getX(), this.getY() + cumulativeY);
-                    //연결되어있으면
-                    if (block.isNextBlockConnected()) {
-                        block = block.nextBlocks.get(0);
-                    } else {
-                        break;
+                if(block instanceof ExtendableBlock){
+                    // 블록이 확장되어있는지 검사
+                    if(((ExtendableBlock) block).isBlockExtended() && !((ExtendableBlock) block).isFull()){
+                        float plusWidth = block.getWidth() * ((float)(((ExtendableBlock) block).getConnectedSize()) / ((ExtendableBlock)(block)).getExtendSize());
+                        this.nextBlocks.add(block);
+                        if(this instanceof ExtendableBlock){
+                            ((ExtendableBlock) block).addConnectedSize(((ExtendableBlock)this).getExtendSize());
+                        }
+                        this.setLocation(block.getX() + (int)plusWidth, block.getY() - this.getHeight());
+                    }else{
+                        this.setLocation(block.getX(), block.getY() - this.getHeight());
                     }
+                }else{
+                    this.setLocation(block.getX(), block.getY() + this.getHeight());
+                    this.nextBlocks.add(block);
                 }
+
 
             } else {
                 throw new BlockException(block.getClass().getSimpleName() + "is not connectable Previous block for" + this.getClass().getSimpleName());
             }
         } else {
             throw new BlockException(block.getClass().getSimpleName() + " is not connectable Next block for" + this.getClass().getSimpleName());
+        }
+    }
+    public void registerInitialNextBlock(Block block) throws BlockException{
+        if(isNextBlockConnectable(block)){
+            if (block.isPreviousBlockConnectable(this)){
+                this.nextBlocks.add(block);
+            }else{
+                throw new BlockException(block.getClass().getSimpleName() + "is not connectable Previous block for" + this.getClass().getSimpleName());
+            }
+        }else{
+            throw new BlockException(block.getClass().getSimpleName() + " is not connectable Next block for" + this.getClass().getSimpleName());
+
         }
     }
 
@@ -178,43 +208,34 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
             // 해당하는 블록이 첫번째 블록일때 뒤에 블록은 다 나를 따라와야한다.
             if (isFirstBlock()) {
-                int cumulativeY = 0;
-                Block block = this;
-                while (block.isNextBlockConnected()) {
-                    System.out.println(this.getClass().getSimpleName());
-                    for (int k = 0; k < block.nextBlocks.size(); k++) {
-                        //이전꺼까지 다 더해줘야함...
-                        cumulativeY += block.getHeight();
-                        block.nextBlocks.get(k).setLocation(x, y + cumulativeY);
-                        System.out.println(x + "/" + (y + block.getHeight()));
-                        System.out.println("로케이션 되는중..");
-                    }
-                    //연결되어있으면
-                    if (block.isNextBlockConnected()) {
-                        block = block.nextBlocks.get(0);
-                    } else {
-                        break;
-                    }
 
+                List<Block> allConnectedBlock = this.getAllConnectedBlock();
 
+                for (Block block : allConnectedBlock){
+
+                    block.setLocation(e.getX() + block.getLocation().x - offX, e.getY() + block.getLocation().y - offY);
                 }
+                this.setLocation(x, y);
+
 
             }
-            setLocation(x, y);
             blockObserver.blinkBlock(this);
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        System.out.println("마우스를 놓는 순간의 블록의 보더" + this.getBorder());
         isDragged = false;
         blockObserver.revertOrConnectBlock(this);
     }
 
+    //마우스 오른쪽 버튼을 누르면 delete가 팝업창으로 뜨면서 deleteActionListener 이벤트 발생
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        if(e.getButton()==MouseEvent.BUTTON3){//오른쪽버튼 클릭시
+            popupMenu.show(Block.this, e.getX(), e.getY());
+            delete.addActionListener(new DeleteActionListener(this));
+        }
     }
 
     @Override
@@ -280,51 +301,48 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
 
     public void disconnectBlock() {
-        this.previousBlocks.get(0).disconnectNextBlock();
+        for (int i = 0; i < this.previousBlocks.size(); i++){
+            this.previousBlocks.get(i).disconnectNextBlock();
+        }
         this.disconnectPreviousBlock();
     }
 
+    public void disconnectForBlock(){
+        this.previousBlocks.get(0).disconnectNextBlock();
+        this.disconnectPreviousBlock();
+        this.nextBlocks.get(0).disconnectPreviousBlock();
+        this.disconnectNextBlock();
+    }
+
+    //Reduction상태일때의 연결 변경되었으니 previous block들의 location이 바뀌는 걸로 수정
     public void setFollowBlockPosition(boolean isReducted) {
 
         Block block = this;
         if (isReducted) {
             // 줄어든 상황에서 늘어나야함
-            while (block.isNextBlockConnected()) {
-                System.out.println("블록들이 늘어날때..");
-                System.out.println("블록들의 y위치ㅣ" + block.getY());
-                System.out.println("다음 블록의 y위치" + nextBlocks.get(0).getY());
+            while (block.isPreviousBlockConnected()) {
 
-                for (int k = 0; k < block.nextBlocks.size(); k++) {
-                    block.nextBlocks.get(k).setLocation(this.getX(), block.nextBlocks.get(k).getY() + (getHeight()) - flowPanel.getHeight());
-                    System.out.println("하위 블록들의 위치 조정..");
-
+                for(int k=0; k<block.previousBlocks.size();k++ ){
+                    block.previousBlocks.get(k).setLocation(this.getX(), block.previousBlocks.get(k).getY()-(getHeight()-flowPanel.getHeight())-block.diff);
                 }
-                System.out.println("블록들이 다시 늘어난 후 y위치:" + block.getY());
-                System.out.println("다음 블록의 y위치" + nextBlocks.get(0).getY());
+
                 //연결되어있으면
-                if (block.isNextBlockConnected()) {
-                    block = block.nextBlocks.get(0);
+                if (block.isPreviousBlockConnected()) {
+                    block = block.previousBlocks.get(0);
                 } else {
                     break;
                 }
-
             }
 
         } else {
             // 아직 줄어들지 않은 상황에서
-            while (block.isNextBlockConnected()) {
-                System.out.println("블록들이 줄어들떄..");
-                System.out.println("블록들의 y위치:" + block.getY());
-                System.out.println("다음 블록의 y위치" + nextBlocks.get(0).getY());
-                for (int k = 0; k < block.nextBlocks.size(); k++) {
-                    block.nextBlocks.get(k).setLocation(this.getX(), block.nextBlocks.get(k).getY() - (getHeight() - flowPanel.getHeight()));
-                    System.out.println("하위 블록들의 위치 조정..");
+            while (block.isPreviousBlockConnected()) {
+                for(int k=0; k<block.previousBlocks.size(); k++){
+                    block.previousBlocks.get(k).setLocation(this.getX(), block.previousBlocks.get(k).getY()+(getHeight()-flowPanel.getHeight()));
                 }
-                System.out.println("블록들의 줄어든 후 위치:" + block.getY());
-                System.out.println("다음 블록의 y위치" + nextBlocks.get(0).getY());
-                //연결되어있으면
-                if (block.isNextBlockConnected()) {
-                    block = block.nextBlocks.get(0);
+
+                if (block.isPreviousBlockConnected()) {
+                    block = block.previousBlocks.get(0);
                 } else {
                     break;
                 }
@@ -348,11 +366,12 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     }
 
 
-    private void disconnectNextBlock() {
+    public void disconnectNextBlock() {
+
         this.nextBlocks.clear();
     }
 
-    private void disconnectPreviousBlock() {
+    public void disconnectPreviousBlock() {
         this.previousBlocks.clear();
     }
     public String getUid(){
@@ -369,4 +388,51 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public List<Block> getNextBlocks(){
         return nextBlocks;
     }
+
+    public List<Block> getAllConnectedBlock(){
+
+        List<Block> allConnectedBlock = new ArrayList<>();
+
+        Block block = this;
+        while (block.isNextBlockConnected()) {
+
+            if(block.nextBlocks.get(0) instanceof ExtendableBlock){
+                if (((ExtendableBlock) block.nextBlocks.get(0)).isBlockExtended()){
+                    int blockIndex = ((ExtendableBlock) block.nextBlocks.get(0)).getBlockIndex(block);
+                    for (int i = 0; i < ((ExtendableBlock) block.nextBlocks.get(0)).previousBlocks.size(); i++){
+                        if (i != blockIndex){
+                            allConnectedBlock.addAll(((ExtendableBlock) block.nextBlocks.get(0)).previousBlocks.get(i).getAllPreviousBlocks());
+                        }
+                    }
+                }
+            }
+            //연결되어있으면
+            if (block.isNextBlockConnected()) {
+                allConnectedBlock.add(block.nextBlocks.get(0));
+                block = block.nextBlocks.get(0);
+            } else {
+                break;
+            }
+
+        }
+        return allConnectedBlock;
+
+
+    }
+    private List<Block> getAllPreviousBlocks(){
+        List<Block> allPreviousBlock = new ArrayList<>();
+        Block block = this;
+        allPreviousBlock.add(block);
+        while(block.isPreviousBlockConnected()){
+
+            if(block.isPreviousBlockConnected()){
+                allPreviousBlock.add(block.previousBlocks.get(0));
+            }
+
+            block = block.previousBlocks.get(0);
+        }
+
+        return allPreviousBlock;
+    }
+
 }
