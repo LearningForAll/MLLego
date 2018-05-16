@@ -104,16 +104,24 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                     // 블록이 확장되어있는지 검사
                     if(((ExtendableBlock) block).isBlockExtended() && !((ExtendableBlock) block).isFull()){
                         float plusWidth = block.getWidth() * ((float)(((ExtendableBlock) block).getConnectedSize()) / ((ExtendableBlock)(block)).getExtendSize());
-                        this.nextBlocks.add(block);
+
                         if(this instanceof ExtendableBlock){
                             ((ExtendableBlock) block).addConnectedSize(((ExtendableBlock)this).getExtendSize());
                         }
                         this.setLocation(block.getX() + (int)plusWidth, block.getY() - this.getHeight());
                     }else{
-                        this.setLocation(block.getX(), block.getY() - this.getHeight());
+                        int cumulative_y = 0;
+                        this.nextBlocks.add(block);
+                        for(Block block1 : getAllPreviousBlocks()){
+                            cumulative_y = cumulative_y + block1.getHeight();
+                            block1.setLocation(block.getX(), block.getY() - cumulative_y);
+                        }
                     }
                 }else{
-                    this.setLocation(block.getX(), block.getY() + this.getHeight());
+                    for(Block block1 : getAllPreviousBlocks()){
+                        block1.setLocation(block.getX(), block.getY() - block1.getHeight());
+                    }
+                    this.setLocation(block.getX(), block.getY() - this.getHeight());
                     this.nextBlocks.add(block);
                 }
 
@@ -195,6 +203,17 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             isDragged = true;
 
         }
+        if (isFirstBlock()) {
+
+            List<Block> allConnectedBlock = this.getAllConnectedBlock();
+
+            for(int i = 0; i < allConnectedBlock.size(); i++){
+                System.out.println("눌릴때");
+                System.out.println("e.getx" + e.getX() + "getlocationX().x" + getLocation().x + "offset x" + offX);
+                System.out.println(i + "번쨰 블록" + allConnectedBlock.get(i).getLocation().getX() + "//" + allConnectedBlock.get(i).getLocation().getY());
+                }
+
+        }
     }
 
     // Pressed 에서 Dragged로 블링크 블록을 옮김 실시간 좌표와 액션을 위해
@@ -209,13 +228,16 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             // 해당하는 블록이 첫번째 블록일때 뒤에 블록은 다 나를 따라와야한다.
             if (isFirstBlock()) {
 
+                this.setLocation(x, y);
                 List<Block> allConnectedBlock = this.getAllConnectedBlock();
 
-                for (Block block : allConnectedBlock){
-
-                    block.setLocation(e.getX() + block.getLocation().x - offX, e.getY() + block.getLocation().y - offY);
+                for(int i = 0; i < allConnectedBlock.size(); i++){
+                    System.out.println("드래그 되는중");
+                    System.out.println("e.getx" + e.getX() + "getlocationX().x" + getLocation().x + "offset x" + offX);
+                    System.out.println(i + "번쨰 블록" + allConnectedBlock.get(i).getLocation().getX() + "//" + allConnectedBlock.get(i).getLocation().getY());
+                    allConnectedBlock.get(i).setLocation(e.getX() + (int)allConnectedBlock.get(i).getLocation().getX() - offX, e.getY() + (int)allConnectedBlock.get(i).getLocation().getY() - offY);
                 }
-                this.setLocation(x, y);
+
 
 
             }
@@ -307,11 +329,17 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         this.disconnectPreviousBlock();
     }
 
-    public void disconnectForBlock(){
-        this.previousBlocks.get(0).disconnectNextBlock();
-        this.disconnectPreviousBlock();
-        this.nextBlocks.get(0).disconnectPreviousBlock();
-        this.disconnectNextBlock();
+    public void disconnectForBlock() {
+        if (this.isPreviousBlockConnected()) {
+            for (int i = 0; i < previousBlocks.size(); i++) {
+                this.previousBlocks.get(i).disconnectNextBlock();
+            }
+            this.disconnectPreviousBlock();
+            if (this.isNextBlockConnected()) {
+                this.nextBlocks.get(0).disconnectPreviousBlock();
+            }
+            this.disconnectNextBlock();
+        }
     }
 
     //Reduction상태일때의 연결 변경되었으니 previous block들의 location이 바뀌는 걸로 수정
@@ -411,6 +439,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                 allConnectedBlock.add(block.nextBlocks.get(0));
                 block = block.nextBlocks.get(0);
             } else {
+                allConnectedBlock.add(block);
                 break;
             }
 
