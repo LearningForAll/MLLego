@@ -168,8 +168,8 @@ public class BlockPlacementController implements BlockObserver {
                 if (!block.checkTopBorder()) {// bottom이 빛날때
                     for (Block block1 : tempBlocks) {
                         if (block1.checkTopBorder()) {
-                            block.getLastConnectedBlock().registerNextBlock(block1);
                             block1.registerPreviousBlock(block.getLastConnectedBlock());
+                            block.getLastConnectedBlock().registerNextBlock(block1);
                             break;
                         }
                     }

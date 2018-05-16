@@ -107,8 +107,16 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
                         if(this instanceof ExtendableBlock){
                             ((ExtendableBlock) block).addConnectedSize(((ExtendableBlock)this).getExtendSize());
+                        }else{
+                            ((ExtendableBlock) block).addConnectedSize(1);
                         }
-                        this.setLocation(block.getX() + (int)plusWidth, block.getY() - this.getHeight());
+                        this.nextBlocks.add(block);
+                        int cumulative_y = 0;
+                        for(Block block1 : getAllPreviousBlocks()){
+                            cumulative_y = cumulative_y + block1.getHeight();
+                            block1.setLocation(block.getX() + (int)plusWidth, block.getY() - cumulative_y);
+                        }
+
                     }else{
                         int cumulative_y = 0;
                         this.nextBlocks.add(block);
@@ -237,9 +245,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                     System.out.println(i + "번쨰 블록" + allConnectedBlock.get(i).getLocation().getX() + "//" + allConnectedBlock.get(i).getLocation().getY());
                     allConnectedBlock.get(i).setLocation(e.getX() + (int)allConnectedBlock.get(i).getLocation().getX() - offX, e.getY() + (int)allConnectedBlock.get(i).getLocation().getY() - offY);
                 }
-
-
-
             }
             blockObserver.blinkBlock(this);
         }
@@ -449,6 +454,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     }
     private List<Block> getAllPreviousBlocks(){
+        // 자기 자신을 포함한 모든 이전블록을 리턴
         List<Block> allPreviousBlock = new ArrayList<>();
         Block block = this;
         allPreviousBlock.add(block);

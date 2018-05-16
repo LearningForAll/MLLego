@@ -3,9 +3,11 @@ package Component.BlockComponent;
 import Component.BlockActionListener.ExtendActionListener;
 import Component.BlockActionListener.RevertExtendActionListener;
 import Util.FileUtil;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
+
 
 public abstract class ExtendableBlock extends Block {
 
@@ -65,6 +67,34 @@ public abstract class ExtendableBlock extends Block {
     }
     public int getConnectedSize(){
         return connectedSize;
+    }
+
+    private List<Block> getAllPreviousBlocksForExtendableBlock(){
+        List<Block> allPreviousBlock = new ArrayList<>();
+        Block block = this;
+
+        for (int i = 0; i < this.previousBlocks.size(); i++){
+            // Extendable 블록은 previousBlock이 여러개 있기 때문에..
+            allPreviousBlock.addAll(((ExtendableBlock)block.previousBlocks.get(i)).getAllPreviousBlocks());
+        }
+
+        return allPreviousBlock;
+    }
+    private List<Block> getAllPreviousBlocks(){
+        // 자기 자신을 제외한 블록의 이전블록들을 구함.
+        List<Block> allPreviousBlock = new ArrayList<>();
+        Block block = this;
+        //allPreviousBlock.add(block);
+        while(block.isPreviousBlockConnected()){
+
+            if(block.isPreviousBlockConnected()){
+                allPreviousBlock.add(block.previousBlocks.get(0));
+            }
+
+            block = block.previousBlocks.get(0);
+        }
+
+        return allPreviousBlock;
     }
 
 }
