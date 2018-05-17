@@ -1,11 +1,9 @@
 package Presentation.Controller;
 
 import App.MyApp;
-import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockBatchModel.BlockTemplateComponent.*;
 import Component.BlockComponent.*;
 import Component.BlockObserver.BlockObserver;
-import Const.Classifier;
 import Presentation.View.BlockPlacementPanel;
 
 import java.io.*;
@@ -190,12 +188,12 @@ public class BlockPlacementController implements BlockObserver {
     private boolean checkTopCloseBlock(Block block, Block block1) {
         //내가드래그 하는 블록이 아래쪽에서 위쪽으로 접근할
 
-        if (block1.getX() > block.getX()){
+        if (block1.getX() > block.getX()) {
             return ((block1.getX() - block.getX() < 50)
                     && (block1.getX() - block.getX() > 0)
                     && (block1.getY() + block1.getHeight() - block.getY() > -30)
                     && (block1.getY() + block1.getHeight() - block.getY() < 0));
-        }else{
+        } else {
             return ((block.getX() - block1.getX() >= 0)
                     && (block.getX() - block1.getX() < 50)
                     && (block1.getY() + block1.getHeight() - block.getY() > -30)
@@ -206,26 +204,26 @@ public class BlockPlacementController implements BlockObserver {
 
     private boolean checkBottomCloseBlock(Block block, Block block1) {
 
-        if(block1 instanceof ExtendableBlock){
-            if (((ExtendableBlock) block1).isBlockExtended()){
-                if(block1.getX() > block.getX()){
+        if (block1 instanceof ExtendableBlock) {
+            if (((ExtendableBlock) block1).isBlockExtended()) {
+                if (block1.getX() > block.getX()) {
                     return ((block1.getX() - block.getX() < 50)
                             && (block1.getX() - block.getX() > 0)
                             && (block.getY() + block.getHeight() - block1.getY() > -30)
                             && (block.getY() + block.getHeight() - block1.getY() < 0));
-                }else{
+                } else {
                     return ((block.getX() - block1.getX() > 0)
                             && (block.getX() - block1.getX() < block1.getWidth() - block.getWidth() + 50)
                             && (block.getY() + block.getHeight() - block1.getY() > -30)
                             && (block.getY() + block.getHeight() - block1.getY() < 0));
                 }
-            }else{
-                if (block1.getX() > block.getX()){
+            } else {
+                if (block1.getX() > block.getX()) {
                     return ((block1.getX() - block.getX() < 50)
                             && (block1.getX() - block.getX() > 0)
                             && (block.getY() + block.getHeight() - block1.getY() > -30)
                             && (block.getY() + block.getHeight() - block1.getY() < 0));
-                }else{
+                } else {
                     return ((block.getX() - block1.getX() >= 0)
                             && (block.getX() - block1.getX() < 50)
                             && (block.getY() + block.getHeight() - block1.getY() > -30)
@@ -233,12 +231,12 @@ public class BlockPlacementController implements BlockObserver {
                 }
             }
         }
-        if (block1.getX() > block.getX()){
+        if (block1.getX() > block.getX()) {
             return ((block1.getX() - block.getX() < 50)
                     && (block1.getX() - block.getX() > 0)
                     && (block.getY() + block.getHeight() - block1.getY() > -30)
                     && (block.getY() + block.getHeight() - block1.getY() < 0));
-        }else{
+        } else {
             return ((block.getX() - block1.getX() >= 0)
                     && (block.getX() - block1.getX() < 50)
                     && (block.getY() + block.getHeight() - block1.getY() > -30)
@@ -330,7 +328,8 @@ public class BlockPlacementController implements BlockObserver {
                 case "DenseBlock":
                     blockTemplates.add(new DenseBlockTemplate(block));
                     break;
-                case "InputBlock":
+                case "XInputBlock":
+                case "YInputBlock":
                     blockTemplates.add(new InputBlockTemplate(block));
                     break;
                 case "LstmBlock":
@@ -403,15 +402,15 @@ public class BlockPlacementController implements BlockObserver {
 
             if (blocks.get(i).getClass().getSimpleName().equals("ClassifierBlock")) {
                 for (int j = 0; j < blockTemplates.size(); j++) {
-                    if (((ClassifierBlock)blocks.get(i)).getxPartBlock() != null){
+                    if (((ClassifierBlock) blocks.get(i)).getxPartBlock() != null) {
                         //해당 블록의 x
-                        if(compareBlock(((ClassifierBlock)blocks.get(i)).getxPartBlock(), blockTemplates.get(j))){
-                            ((ClassifierBlockTemplate)blockTemplates.get(i)).setxPartBlock(blockTemplates.get(j));
+                        if (compareBlock(((ClassifierBlock) blocks.get(i)).getxPartBlock(), blockTemplates.get(j))) {
+                            ((ClassifierBlockTemplate) blockTemplates.get(i)).setxPartBlock(blockTemplates.get(j));
                         }
                     }
-                    if (((ClassifierBlock)blocks.get(i)).getyPartBlock() != null){
-                        if(compareBlock(((ClassifierBlock)blocks.get(i)).getyPartBlock(), blockTemplates.get(j))){
-                            ((ClassifierBlockTemplate)blockTemplates.get(i)).setyPartBlock(blockTemplates.get(j));
+                    if (((ClassifierBlock) blocks.get(i)).getyPartBlock() != null) {
+                        if (compareBlock(((ClassifierBlock) blocks.get(i)).getyPartBlock(), blockTemplates.get(j))) {
+                            ((ClassifierBlockTemplate) blockTemplates.get(i)).setyPartBlock(blockTemplates.get(j));
                         }
 
                     }
@@ -469,7 +468,12 @@ public class BlockPlacementController implements BlockObserver {
                     tempBlocks.add(new DenseBlock((DenseBlockTemplate) blockTemplate));
                     break;
                 case "InputBlockTemplate":
-                    tempBlocks.add(new InputBlock((InputBlockTemplate) blockTemplate));
+                    if (blockTemplate.getBlockType().equals("XInputBlock")) {
+                        tempBlocks.add(new XInputBlock((InputBlockTemplate) blockTemplate));
+                    } else {
+                        tempBlocks.add(new YInputBlock((InputBlockTemplate) blockTemplate));
+                    }
+
                     break;
                 case "LstmBlockTemplate":
                     tempBlocks.add(new LstmBlock((LstmBlockTemplate) blockTemplate));
@@ -505,8 +509,11 @@ public class BlockPlacementController implements BlockObserver {
                 return new DenseBlock((DenseBlockTemplate) blockTemplate);
 
             case "InputBlockTemplate":
-                return new InputBlock((InputBlockTemplate) blockTemplate);
-
+                if (blockTemplate.getBlockType().equals("XInputBlock")) {
+                    return new XInputBlock((InputBlockTemplate) blockTemplate);
+                } else {
+                    return new YInputBlock((InputBlockTemplate) blockTemplate);
+                }
             case "LstmBlockTemplate":
                 return new LstmBlock((LstmBlockTemplate) blockTemplate);
 

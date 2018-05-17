@@ -17,8 +17,14 @@ public class BlockListClickListener implements MouseListener {
             BlockPlacementController.getInstance().addBlock(new ClassifierBlock());
         } else if(e.getSource() instanceof ConvolutionLayerBlock){
             BlockPlacementController.getInstance().addBlock(new ConvolutionLayerBlock());
-        } else if(e.getSource() instanceof InputBlock){
-            BlockPlacementController.getInstance().addBlock(new InputBlock());
+        } else if(e.getSource() instanceof XInputBlock) {
+            XInputBlock xinput = new XInputBlock();
+            xinput.setViewerMode();
+            BlockPlacementController.getInstance().addBlock(xinput);
+        }else if(e.getSource() instanceof YInputBlock){
+            YInputBlock yinput = new YInputBlock();
+            yinput.setViewerMode();
+            BlockPlacementController.getInstance().addBlock(yinput);
         }else if(e.getSource() instanceof PreprocessorBlock){
             BlockPlacementController.getInstance().addBlock(new PreprocessorBlock());
         }else if(e.getSource() instanceof LstmBlock){
