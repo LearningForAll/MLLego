@@ -71,7 +71,7 @@ public class TFBuilder implements MLBuilder {
 
 
         // TODO :: classifier option is mocked.
-        ClassifierOption classifierOption = new ClassifierOption(InputBlock.getXPath(), InputBlock.getYPath(), FileOption.ALL, FileOption.ALL,
+        ClassifierOption classifierOption = new ClassifierOption(XInputBlock.getXPath(), YInputBlock.getYPath(), FileOption.ALL, FileOption.ALL,
                 classifierBlock.getClassifier(), trainingBlock.getBatchSize(), trainingBlock.getEpoch(),
                 trainingBlock.getLearningRate(), trainingBlock.getOptimizer(), trainingBlock.getValidRatio());
         // generate classifier
@@ -82,22 +82,22 @@ public class TFBuilder implements MLBuilder {
         FileUtil.fileCopy(preProcessorFile, curProjectDir + "/" + preProcessorFile.getName());
         FileUtil.fileCopy(layerGeneratorFile, curProjectDir + "/" + layerGeneratorFile.getName());
         FileUtil.fileCopy(fileReaderFile, curProjectDir + "/" + fileReaderFile.getName());
-        FileUtil.fileCopy(inferenceTemplateFile,curProjectDir+"/"+inferenceTemplateFile.getName());
-        FileUtil.fileCopy(trainerFile,curProjectDir+"/"+trainerFile.getName());
-        FileUtil.fileCopy(initFile,curProjectDir+"/"+initFile.getName());
+        FileUtil.fileCopy(inferenceTemplateFile, curProjectDir + "/" + inferenceTemplateFile.getName());
+        FileUtil.fileCopy(trainerFile, curProjectDir + "/" + trainerFile.getName());
+        FileUtil.fileCopy(initFile, curProjectDir + "/" + initFile.getName());
         generateCodeRecursive(yPartBlock);
         generateCodeRecursive(xPartBlock);
-        codeList.add("return "+xPartBlock.getUid());
-        generateInferenceFile(codeList,curProjectDir+"/"+inferenceTemplateFile.getName());
+        codeList.add("return " + xPartBlock.getUid());
+        generateInferenceFile(codeList, curProjectDir + "/" + inferenceTemplateFile.getName());
         return false;
     }
 
-    private void generateInferenceFile(List<String> codeList,String inferenceFilePath) {
+    private void generateInferenceFile(List<String> codeList, String inferenceFilePath) {
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(inferenceFilePath,true));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(inferenceFilePath, true));
             bw.newLine();
-            for (String code : codeList){
-                bw.write("        "+code);
+            for (String code : codeList) {
+                bw.write("        " + code);
                 bw.newLine();
             }
             bw.flush();
@@ -182,7 +182,7 @@ public class TFBuilder implements MLBuilder {
             beforeUid = beforeBlock.getUid();
         }
         funcStr += "=lg.conv2d(" + beforeUid + "," + block.getKernelNum() + ",[" + block.getHorizonKernelSize() + "," + block.getVerticalKernelSize() + "],\"" +
-                block.getActivationFunction().toString() + "\",[1,1]," + "\'VALID\'"+"\',scope=\'"+block.getUid()+"\')";
+                block.getActivationFunction().toString() + "\",[1,1]," + "\'VALID\'" + "\',scope=\'" + block.getUid() + "\')";
         return funcStr;
     }
 
@@ -197,8 +197,8 @@ public class TFBuilder implements MLBuilder {
         }
         if (block.getNextBlocks().get(0) instanceof ClassifierBlock) {
             //todo 이게맞을까? ui 단에서 강제하는건 어떤가?
-            funcStr +="=lg.linear(" + beforeUid + ",np.shape(self.data_y)[1],\"" + block.getActivationFunction().toString() + "\",scope=\'" + block.getUid() + "\')";
-        }else {
+            funcStr += "=lg.linear(" + beforeUid + ",np.shape(self.data_y)[1],\"" + block.getActivationFunction().toString() + "\",scope=\'" + block.getUid() + "\')";
+        } else {
             funcStr += "=lg.linear(" + beforeUid + "," + block.getOutputDim() + ",\"" + block.getActivationFunction().toString() + "\",scope=\'" + block.getUid() + "\')";
         }
         return funcStr;
@@ -214,7 +214,7 @@ public class TFBuilder implements MLBuilder {
             beforeUid = beforeBlock.getUid();
         }
         funcStr += "=lg.pool(" + beforeUid + "," + block.getPoolingType().toString() + ",[" + block.getHorizonKernel() + "," + block.getVerticalKernel() + "],["
-                + block.getHorizonStride() + "," + block.getVerticalStride() + "],\'" + block.getPaddingOption().toString() + "\',scope=\'"+block.getUid()+"\')";
+                + block.getHorizonStride() + "," + block.getVerticalStride() + "],\'" + block.getPaddingOption().toString() + "\',scope=\'" + block.getUid() + "\')";
         return funcStr;
     }
 
@@ -229,9 +229,11 @@ public class TFBuilder implements MLBuilder {
         }
         funcStr += "=lg.create_stack_rnn(" + beforeUid + "," + block.getCellSize() + "," + block.getStackSize() + ",";
         if (block.getOutputOption().equals(RnnOutputOption.ONLY_END)) {
-            funcStr += "True"+"\',scope=\'"+block.getUid()+"\')";;
+            funcStr += "True" + "\',scope=\'" + block.getUid() + "\')";
+            ;
         } else {
-            funcStr += "False"+"\',scope=\'"+block.getUid()+"\')";;
+            funcStr += "False" + "\',scope=\'" + block.getUid() + "\')";
+            ;
         }
         return funcStr;
     }
@@ -254,12 +256,11 @@ public class TFBuilder implements MLBuilder {
         if (block.isFirstBlock() && !(block instanceof InputBlock))
             throw new IllegalStateException("맨 첫 블록이 input블록이 아님");
         else if (block.isFirstBlock()) {
-            if (block.getNextBlocks().get(0) instanceof ClassifierBlock){
-                if (block instanceof InputBlock)
-                    if (((InputBlock) block).isXInput())
-                        codeList.add(generateTensorWhenPreprocessFinish()[0]);
-                    else
-                        codeList.add(generateTensorWhenPreprocessFinish()[1]);
+            if (block.getNextBlocks().get(0) instanceof ClassifierBlock) {
+                if (block instanceof XInputBlock)
+                    codeList.add(generateTensorWhenPreprocessFinish()[0]);
+                else
+                    codeList.add(generateTensorWhenPreprocessFinish()[1]);
 
                 if (block instanceof PreprocessorBlock)
                     if (((PreprocessorBlock) block).isXData())
@@ -281,20 +282,18 @@ public class TFBuilder implements MLBuilder {
         }
         if ((previousBlock instanceof PreprocessorBlock || previousBlock instanceof InputBlock) && !(block instanceof PreprocessorBlock)) {
             if (previousBlock instanceof InputBlock) {
-                if (((InputBlock) previousBlock).isXInput()){
+                if (previousBlock instanceof XInputBlock) {
                     codeList.add(generateTensorWhenPreprocessFinish()[0]);
                     previousBlock.setUid("self.tensor_x");
-                }
-                else{
+                } else {
                     codeList.add(generateTensorWhenPreprocessFinish()[1]);
                     previousBlock.setUid("self.tensor_y");
                 }
-            }else{ // previous 가 pre processor 임
-                if (((PreprocessorBlock) previousBlock).isXData()){
+            } else { // previous 가 pre processor 임
+                if (((PreprocessorBlock) previousBlock).isXData()) {
                     codeList.add(generateTensorWhenPreprocessFinish()[0]);
                     previousBlock.setUid("self.tensor_x");
-                }
-                else{
+                } else {
                     codeList.add(generateTensorWhenPreprocessFinish()[1]);
                     previousBlock.setUid("self.tensor_y");
 
@@ -315,12 +314,15 @@ public class TFBuilder implements MLBuilder {
             if (previousBlock instanceof PreprocessorBlock) {
                 ((PreprocessorBlock) block).setXData(((PreprocessorBlock) previousBlock).isXData());
             } else if (previousBlock instanceof InputBlock) {
-                ((PreprocessorBlock) block).setXData(((InputBlock) previousBlock).isXInput());
+                if (previousBlock instanceof XInputBlock)
+                    ((PreprocessorBlock) block).setXData(true);
+                else
+                    ((PreprocessorBlock) block).setXData(false);
             }
             codeList.add(generatePreprocessCode((PreprocessorBlock) block, ((PreprocessorBlock) block).isXData()));
         }
 
-        if ((previousBlock instanceof PreprocessorBlock || previousBlock instanceof InputBlock) && block.getNextBlocks().get(0) instanceof ClassifierBlock && block instanceof PreprocessorBlock){
+        if ((previousBlock instanceof PreprocessorBlock || previousBlock instanceof InputBlock) && block.getNextBlocks().get(0) instanceof ClassifierBlock && block instanceof PreprocessorBlock) {
             if (((PreprocessorBlock) block).isXData())
                 codeList.add(generateTensorWhenPreprocessFinish()[0]);
             else

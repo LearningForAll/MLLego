@@ -14,24 +14,28 @@ import java.awt.*;
 //Preprocessor, input이 옴
 public class BlockInput extends JPanel {
 
-    InputBlock inputBlock;
+    XInputBlock xInputBlock;
+    YInputBlock yInputBlock;
     PreprocessorBlock preprocessorBlock;
 
     public BlockInput(){
         setLayout(null);
         setBackground(Color.white);
 
-        inputBlock=new InputBlock();
+        xInputBlock=new XInputBlock();
+        yInputBlock=new YInputBlock();
         preprocessorBlock=new PreprocessorBlock();
-        inputBlock.setLocation(50,20);
-        preprocessorBlock.setLocation(50,120);
+        xInputBlock.setLocation(50,20);
+        yInputBlock.setLocation(50,120);
+        preprocessorBlock.setLocation(50,220);
 
-        add(inputBlock);
+        add(xInputBlock);
+        add(yInputBlock);
         add(preprocessorBlock);
         setVisible(true);
     }
 
     public Block[] getBlockComponents() {
-        return new Block[]{inputBlock,preprocessorBlock};
+        return new Block[]{xInputBlock,yInputBlock,preprocessorBlock};
     }
 }

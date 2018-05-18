@@ -18,8 +18,10 @@ public class CodeGeneratorTest {
         inputY.setXInput(false);
         PreprocessorBlock preprocessorY = new PreprocessorBlock();
         preprocessorY.preprocessorTypeCombobox.setSelectedItem(PreprocessorType.ONE_HOT_ENCODING);
-        DenseBlock xDenseBlock = new DenseBlock(50);
-        xDenseBlock.activationFunctionCombobox.setSelectedItem(ActivationFunc.ACTIVATION_RELU);
+        DenseBlock xHidden = new DenseBlock(10);
+        xHidden.activationFunctionCombobox.setSelectedItem(ActivationFunc.ACTIVATION_SIGMOID);
+        DenseBlock xDenseBlock = new DenseBlock(10);
+        xDenseBlock.activationFunctionCombobox.setSelectedItem(ActivationFunc.ACTIVATION_SIGMOID);
 
         trainingBlock.learningRateTextField.setText("0.001");
         trainingBlock.validRatioTextField.setText("0.3");
@@ -34,8 +36,11 @@ public class CodeGeneratorTest {
         classifierBlock.setyPartBlock(preprocessorY);
         preprocessorY.getNextBlocks().add(classifierBlock);
 
-        xDenseBlock.getPreviousBlocks().add(inputX);
-        inputX.getNextBlocks().add(xDenseBlock);
+        xDenseBlock.getPreviousBlocks().add(xHidden);
+        xHidden.getNextBlocks().add(xDenseBlock);
+
+        xHidden.getPreviousBlocks().add(inputX);
+        inputX.getNextBlocks().add(xHidden);
 
         preprocessorY.getPreviousBlocks().add(inputY);
         inputY.getNextBlocks().add(preprocessorY);
