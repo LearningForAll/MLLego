@@ -11,5 +11,7 @@ public class MyApp {
 
     public static void main(String[] args){
         new MainFrame();
+        CommunicationThread communicationThread = new CommunicationThread();
+        communicationThread.start();
     }
 }
