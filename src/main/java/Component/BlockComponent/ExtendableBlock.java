@@ -42,14 +42,18 @@ public abstract class ExtendableBlock extends Block {
     public boolean isPreviousBlockConnected() {
         return (extendSize - previousBlocks.size() == 0);
     }
+
     public boolean isFull(){
         return (extendSize - connectedSize == 0);
     }
     public void addConnectedSize(int size){
         connectedSize = connectedSize + size;
     }
-    public void minusConnectedSize(int size){
+    public void subConnectedSize(int size){
         connectedSize = connectedSize - size;
+    }
+    public void subConnectedSize(){
+        connectedSize--;
     }
 
     public int getExtendSize(){
@@ -58,6 +62,16 @@ public abstract class ExtendableBlock extends Block {
     public int addExtendSize(){
         extendSize++;
         return extendSize;
+    }
+    public void subExtendSize(){
+        extendSize--;
+    }
+    public void subExtendSize(int size){
+        if(extendSize - size >= 0){
+            extendSize = extendSize - size;
+        }else{
+            System.out.println("Cannnot subtract");
+        }
     }
     public int getBlockIndex(Block block){
         return this.previousBlocks.indexOf(block);

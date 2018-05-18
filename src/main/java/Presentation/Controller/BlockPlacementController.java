@@ -115,7 +115,7 @@ public class BlockPlacementController implements BlockObserver {
                         block.blinkTop();
                         block1.blinkBottom();
                         break;
-                    } else if (checkBottomCloseBlock(block.getLastConnectedBlock(), block1) && block1.isPreviousBlockConnectable(block.getLastConnectedBlock()) && !block1.isPreviousBlockConnected() && block.getLastConnectedBlock().isNextBlockConnectable(block1)) {
+                    } else if (checkBottomCloseBlock(block, block1) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)) {
 
                         block.blinkBottom();
                         block1.blinkTop();
@@ -188,7 +188,9 @@ public class BlockPlacementController implements BlockObserver {
 
     // TODO 논리 수정 필요 말이안됌
     private boolean checkTopCloseBlock(Block block, Block block1) {
-        //내가드래그 하는 블록이 아래쪽에서 위쪽으로 접근할
+        //내가드래그 하는 블록이 아래쪽에서 위쪽으로 접근할때
+        //block이 드래그하는 블록 block1이 드래그 못하는 블록
+
 
         if (block1.getX() > block.getX()){
             return ((block1.getX() - block.getX() < 50)
@@ -205,7 +207,7 @@ public class BlockPlacementController implements BlockObserver {
     }
 
     private boolean checkBottomCloseBlock(Block block, Block block1) {
-
+        //내가 드래그하는 블록이 위쪽에서 아래쪽으로 접근할때
         if(block1 instanceof ExtendableBlock){
             if (((ExtendableBlock) block1).isBlockExtended()){
                 if(block1.getX() > block.getX()){
@@ -233,6 +235,23 @@ public class BlockPlacementController implements BlockObserver {
                 }
             }
         }
+        if(block1 instanceof ClassifierBlock){
+            if(block1.getX() > block.getX()){
+                return ((block1.getX() - block.getX() < 50)
+                        && (block1.getX() - block.getX() > 0)
+                        && (block.getY() + block.getHeight() - block1.getY() > -30)
+                        && (block.getY() + block.getHeight() - block1.getY() < 0));
+            }else{
+                return ((block.getX() - block1.getX() > 0)
+                        && (block.getX() - block1.getX() < block1.getWidth() - block.getWidth() + 50)
+                        && (block.getY() + block.getHeight() - block1.getY() > -30)
+                        && (block.getY() + block.getHeight() - block1.getY() < 0));
+            }
+        }
+
+
+
+
         if (block1.getX() > block.getX()){
             return ((block1.getX() - block.getX() < 50)
                     && (block1.getX() - block.getX() > 0)

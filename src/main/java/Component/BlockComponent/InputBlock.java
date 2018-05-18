@@ -113,7 +113,7 @@ public class InputBlock extends Block{
     @Override
     public boolean isNextBlockConnectable(Block block) {
         // 블록이 연결되어 있을 경우
-        return (block instanceof PreprocessorBlock || block instanceof LayerBlock);
+        return (block instanceof PreprocessorBlock || block instanceof LayerBlock || block instanceof ClassifierBlock);
 
     }
 
@@ -132,7 +132,7 @@ public class InputBlock extends Block{
     public boolean isPreviousBlockConnected() {
 
         // 시작블록이지만 전 블록이랑 연결된 것은 아니기 때문에 로직 변경
-        return false;
+        return true;
     }
 
     public FileType getFileType(){
