@@ -311,10 +311,20 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     //블록들 사이에 삭제가 일어나고 다시 연결하려고 할 때, 삭제된 블록 전 후 블록들의 연결을 모두 끊어줌
     public void disconnectForBlock(){
-        this.previousBlocks.get(previousBlocks.size()-1).disconnectNextBlock();
-        this.disconnectPreviousBlock();
-        this.nextBlocks.get(0).disconnectPreviousBlock();
-        this.disconnectNextBlock();
+        if(this.previousBlocks.size()!=0 && this.nextBlocks.size()!=0){
+            this.previousBlocks.get(previousBlocks.size()-1).disconnectNextBlock();
+            this.disconnectPreviousBlock();
+            this.nextBlocks.get(0).disconnectPreviousBlock();
+            this.disconnectNextBlock();
+        }
+        else if(this.previousBlocks.size()==0 && this.nextBlocks.size()!=0){
+            this.nextBlocks.get(0).disconnectPreviousBlock();
+            this.disconnectNextBlock();
+        }
+        else if(this.previousBlocks.size()!=0 && this.nextBlocks.size()==0){
+            this.previousBlocks.get(previousBlocks.size()-1).disconnectNextBlock();
+            this.disconnectPreviousBlock();
+        }
     }
 
     //Reduction상태일때의 연결 변경되었으니 previous block들의 location이 바뀌는 걸로 수정
