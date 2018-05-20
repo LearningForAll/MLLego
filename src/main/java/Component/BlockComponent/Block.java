@@ -103,6 +103,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                 // 다음 블록으로 들어오는 블록의 location을 설정.
                 if(block instanceof ExtendableBlock){
                     // 블록이 확장되어있는지 검사
+                    // 다음 블록이 확장 되었을 때의 케이스
                     if(((ExtendableBlock) block).isBlockExtended() && !((ExtendableBlock) block).isFull()){
                         float plusWidth = block.getWidth() * ((float)(((ExtendableBlock) block).getConnectedSize()) / ((ExtendableBlock)(block)).getExtendSize());
 
@@ -117,6 +118,15 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                             cumulative_y = cumulative_y + block1.getHeight();
                             block1.setLocation(block.getX() + (int)plusWidth, block.getY() - cumulative_y);
                         }
+
+                    }else if(this instanceof ExtendableBlock && ((ExtendableBlock)this).isBlockExtended()){
+                       // 다음 블록이 Extendable 블록이지만 Extend 되어있진 않고 되려 현재 자신의 블록이 Extend되어있을때
+                        block.extendBlockJustSize();
+                        for(Block block1 : getAllPreviousBlocks()){
+                            block1.setLocation(block.getX(), block.getY() - block1.getHeight());
+                        }
+                        this.setLocation(block.getX(), block.getY() - this.getHeight());
+                        this.nextBlocks.add(block);
 
                     }else {
                         int cumulative_y = 0;
@@ -142,9 +152,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                     this.setLocation(block.getX(), block.getY() - this.getHeight());
                     this.nextBlocks.add(block);
                     // 다음 블록이 Extendable이 아닐때...
-                    if (this instanceof ExtendableBlock && ((ExtendableBlock)this).isBlockExtended()){
-                        block.extendBlockJustSize();
-                    }
+
                 }
 
 
