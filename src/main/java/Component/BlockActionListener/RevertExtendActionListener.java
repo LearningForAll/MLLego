@@ -1,6 +1,7 @@
 package Component.BlockActionListener;
 
 import Component.BlockComponent.Block;
+import Component.BlockComponent.ExtendableBlock;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +29,8 @@ public class RevertExtendActionListener implements ActionListener{
                 block.revertExtendButton.setEnabled(false);
             }
         }
+        // Extend 사이즈도 없애줘야함
+        ((ExtendableBlock)block).subExtendSize();
 
         block.revalidate();
     }
