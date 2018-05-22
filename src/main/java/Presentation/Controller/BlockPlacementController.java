@@ -99,11 +99,12 @@ public class BlockPlacementController implements BlockObserver {
 
 
         } else {
-            if (block.isPreviousBlockConnected()) {
+            if (block.isPreviousBlockConnected() || (block instanceof ClassifierBlock && ((ClassifierBlock) block).isAnyBlockConnected())) {
 
                 if (!block.checkTopBorder()) {
                     //블록이 끊길때
                     block.disconnectBlock();
+
                 }
             } else {
 
@@ -141,8 +142,8 @@ public class BlockPlacementController implements BlockObserver {
             if (block.checkTopBorder()) {// 그다음 위에가 활성화 되었는지 체크
                 for (Block block1 : tempBlocks) {// 모든 블록을 검사하면서 바텀이 빛나는 블록이있는지 체크
                     if (block1.checkBottomBorder()) {
-                        block.registerPreviousBlock(block1);
                         block1.registerNextBlock(block);
+                        block.registerPreviousBlock(block1);
                         // 등록하면 종료
                         break;
                     }

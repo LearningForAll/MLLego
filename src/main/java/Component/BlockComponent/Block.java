@@ -121,20 +121,10 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
                     }else if(this instanceof ExtendableBlock && (this.isBlockJustExtended() || ((ExtendableBlock)this).isBlockExtended())){
                        // 다음 블록이 Extendable 블록이지만 Extend 되어있진 않고 되려 현재 자신의 블록이 Extend되어있을때
-                        //TODO 이거 제대로 다시짜야함
-                        /*int moving_x;
-                        int moving_y;
-                        moving_x = this.getX() - block.getX();
-                        moving_y = this.getY() - block.getY();
-                        if(this.getX() > block.getX()){
 
-                        this.setLocation(block.getX(), block.getY() - this.getHeight());
-                        for(Block block1 : getAllPreviousBlocks()){
-                            block1.setLocation(block1.getX() + moving_x, block1.getY() + moving_y);
-                        }*/
                         block.setLocation(this.getX(), this.getY() + this.getHeight());
                         this.nextBlocks.add(block);
-                        block.extendBlockJustSize();
+                        block.extendBlockJustSize(this);
 
                     }else {
                         int cumulative_y = 0;
@@ -145,21 +135,31 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                         }
                     }
                 }else if(block instanceof ClassifierBlock){
-                    for(Block block1 : getAllPreviousBlocks()){
-                        block1.setLocation(block.getX(), block.getY() - block1.getHeight());
-                    }
-                    this.setLocation(block.getX(), block.getY() - this.getHeight());
+
                     // 여기서는 체크만한다.
-                    if (((ClassifierBlock) block).checkIfXYConnectable(this)){
+                    if (((ClassifierBlock) block).checkIfXConnectable(this)){
                         this.nextBlocks.add(block);
+                        int moving_x = this.getX() - block.getX();
+                        int moving_y = block.getY() - (this.getY() + this.getHeight());
+
+                        for(Block block1 : getAllPreviousBlocks()){
+                            block1.setLocation(block1.getX() - moving_x, block1.getY() + moving_y);
+                        }
+
+                    }else if(((ClassifierBlock) block).checkIfYConnectable(this)){
+
+                        this.nextBlocks.add(block);
+                        int moving_y = block.getY() - (this.getY() + this.getHeight());
+                        for(Block block1 : getAllPreviousBlocks()){
+                            block1.setLocation(block.getX() + block.getWidth() - block1.getWidth(), block1.getY() + moving_y);
+                        }
                     }
                 }else{
-                    for(Block block1 : getAllPreviousBlocks()){
-                        block1.setLocation(block.getX(), block.getY() - block1.getHeight());
-                    }
-                    this.setLocation(block.getX(), block.getY() - this.getHeight());
+                    block.setLocation(this.getX(), this.getY() + this.getHeight());
                     this.nextBlocks.add(block);
-                    // 다음 블록이 Extendable이 아닐때...
+                    if (this instanceof ClassifierBlock || this instanceof TrainingBlock){
+                        block.extendBlockJustSize(this);
+                    }
 
                 }
 
@@ -190,10 +190,14 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             if (block.isNextBlockConnectable(this)) {
                 // 분류기 블록은 따로 취급해준다.
                 if (this instanceof ClassifierBlock){
-                    if (((ClassifierBlock)this).checkIfXYConnectable(block)) {
-                        ((ClassifierBlock) this).setXYPartBlock(block);
+                    if (((ClassifierBlock)this).checkIfXConnectable(block)){
+                        ((ClassifierBlock)this).setxPartBlock(block);
+                        this.previousBlocks.add(block);
+                    }else if (((ClassifierBlock)this).checkIfYConnectable(block)){
+                        ((ClassifierBlock)this).setyPartBlock(block);
                         this.previousBlocks.add(block);
                     }
+
                 }else{
                     this.previousBlocks.add(block);
                 }
@@ -492,6 +496,13 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                     }
                 }
             }
+            if(block.nextBlocks.get(0) instanceof ClassifierBlock){
+                if(((ClassifierBlock)block.nextBlocks.get(0)).getyPartBlock() != null && !((ClassifierBlock) block.nextBlocks.get(0)).getyPartBlock().equals(block)){
+                    allConnectedBlock.addAll(block.nextBlocks.get(0).previousBlocks.get(1).getAllPreviousBlocks());
+                }else if(((ClassifierBlock)block.nextBlocks.get(0)).getxPartBlock() != null && !((ClassifierBlock) block.nextBlocks.get(0)).getxPartBlock().equals(block)){
+                    allConnectedBlock.addAll(block.nextBlocks.get(0).previousBlocks.get(0).getAllPreviousBlocks());
+                }
+            }
             //연결되어있으면
             if (block.isNextBlockConnected()) {
                 allConnectedBlock.add(block.nextBlocks.get(0));
@@ -520,6 +531,8 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                         allPreviousBlock.addAll(((ExtendableBlock) block).previousBlocks.get(i).getAllPreviousBlocks());
                     }
                     break;
+                }else{
+                    allPreviousBlock.add(block.previousBlocks.get(0));
                 }
             }
 
@@ -530,20 +543,23 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         return allPreviousBlock;
     }
 
-    private void extendBlockJustSize(){
+    private void extendBlockJustSize(Block block){
         if(!this.extended){
             int beforeHeight = this.getHeight();
             int beforeWidth = this.getWidth();
-            this.setSize(beforeWidth + this.width, beforeHeight);
+            if(block instanceof ExtendableBlock){
+                this.setSize(((ExtendableBlock)block).getExtendSize() * beforeWidth, beforeHeight);
+            }else{
+                this.setSize(block.getWidth(), beforeHeight);
+            }
             this.extended = true;
         }
     }
     private void revertExtendBlockJustSize(){
         int beforeHeight = this.getHeight();
-        int beforeWidth = this.getWidth();
         if (this.extended){
             if(this.getWidth() > this.width){
-                this.setSize(beforeWidth - this.width, beforeHeight);
+                this.setSize(this.width, beforeHeight);
             }
         }
         this.extended = false;
