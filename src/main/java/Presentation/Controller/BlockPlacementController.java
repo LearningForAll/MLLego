@@ -79,12 +79,18 @@ public class BlockPlacementController implements BlockObserver {
                     //만약 아래에서 위로 갔을 경우 즉 드래그 되는 블록이 탑에서 반짝거릴 경우
                     block.blinkTop();
                     block1.blinkBottom();
+                    if(block.checkWidth()) {
+                        block.setWidth();
+                    }
                     break;
                 } else {
                     // 위에서 아래로 갔을 경우
                     if (checkBottomCloseBlock(block.getLastConnectedBlock(), block1) && block1.isPreviousBlockConnectable(block.getLastConnectedBlock()) && !block1.isPreviousBlockConnected() && block.getLastConnectedBlock().isNextBlockConnectable(block1)) {
                         block.getLastConnectedBlock().blinkBottom();
                         block1.blinkTop();
+                        if(block1.checkWidth()) {
+                            block1.setWidth();
+                        }
                         break;
                     } else {
                         block.revertBlock();
@@ -109,11 +115,17 @@ public class BlockPlacementController implements BlockObserver {
 
                         block.blinkTop();
                         block1.blinkBottom();
+                        if(block.checkWidth()) {
+                            block.setWidth();
+                        }
                         break;
                     } else if (checkBottomCloseBlock(block.getLastConnectedBlock(), block1) && block1.isPreviousBlockConnectable(block.getLastConnectedBlock()) && !block1.isPreviousBlockConnected() && block.getLastConnectedBlock().isNextBlockConnectable(block1)) {
 
                         block.blinkBottom();
                         block1.blinkTop();
+                        if(block1.checkWidth()) {
+                            block1.setWidth();
+                        }
                         break;
                     } else {
                         //TODO 오류 찾음 여기서 아마 배열순서때문에 오류가 발생했을 가능성이 농후

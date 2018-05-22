@@ -59,6 +59,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public JMenuItem delete;
     public int diff;
     public int width;
+    public int changeWidth;
 
     public Block() {
         nextBlocks = new ArrayList<>();
@@ -380,7 +381,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
 
     public void disconnectNextBlock() {
-
         this.nextBlocks.clear();
     }
 
@@ -430,8 +430,8 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         }
         return allConnectedBlock;
 
-
     }
+
     private List<Block> getAllPreviousBlocks(){
         List<Block> allPreviousBlock = new ArrayList<>();
         Block block = this;
@@ -447,5 +447,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
         return allPreviousBlock;
     }
+
+
 
 }
