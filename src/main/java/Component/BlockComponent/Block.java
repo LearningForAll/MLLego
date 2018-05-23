@@ -145,6 +145,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                         for(Block block1 : getAllPreviousBlocks()){
                             block1.setLocation(block1.getX() - moving_x, block1.getY() + moving_y);
                         }
+                        ((ClassifierBlock) block).extendXSize(this);
 
                     }else if(((ClassifierBlock) block).checkIfYConnectable(this)){
 
@@ -380,6 +381,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             }
         }else if(this instanceof ClassifierBlock){
                 ((ClassifierBlock)this).deleteXYBlock();
+                ((ClassifierBlock)this).revertXSize();
         }
         for (int i = 0; i < this.previousBlocks.size(); i++){
             this.previousBlocks.get(i).disconnectNextBlock();
