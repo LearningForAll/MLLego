@@ -59,6 +59,9 @@ public class BlockPlacementController implements BlockObserver {
         panel.deleteBlock(block);
         // 패널에도 블록 삭제
         block.disconnectForBlock();
+        //block.getNextBlocks();
+        //block.disconnectNextBlock();
+        //block.disconnectPreviousBlock();
     }
 
     @Override
@@ -79,14 +82,12 @@ public class BlockPlacementController implements BlockObserver {
                     //만약 아래에서 위로 갔을 경우 즉 드래그 되는 블록이 탑에서 반짝거릴 경우
                     block.blinkTop();
                     block1.blinkBottom();
-
                     break;
                 } else {
                     // 위에서 아래로 갔을 경우
                     if (checkBottomCloseBlock(block.getLastConnectedBlock(), block1) && block1.isPreviousBlockConnectable(block.getLastConnectedBlock()) && !block1.isPreviousBlockConnected() && block.getLastConnectedBlock().isNextBlockConnectable(block1)) {
                         block.getLastConnectedBlock().blinkBottom();
                         block1.blinkTop();
-
                         break;
                     } else {
                         block.revertBlock();
@@ -98,26 +99,25 @@ public class BlockPlacementController implements BlockObserver {
 
 
         } else {
-            if (block.isPreviousBlockConnected()) {
+            if (block.isPreviousBlockConnected() || (block instanceof ClassifierBlock && ((ClassifierBlock) block).isAnyBlockConnected())) {
 
                 if (!block.checkTopBorder()) {
                     //블록이 끊길때
                     block.disconnectBlock();
+
                 }
             } else {
 
                 for (Block block1 : tempBlocks) {
                     if (checkTopCloseBlock(block, block1) && block1.isNextBlockConnectable(block) && !block1.isNextBlockConnected() && block.isPreviousBlockConnectable(block1)) {
-
+                        //아래에서 위로 갔을 경우
                         block.blinkTop();
                         block1.blinkBottom();
-
                         break;
-                    } else if (checkBottomCloseBlock(   block.getLastConnectedBlock(), block1) && block1.isPreviousBlockConnectable(block.getLastConnectedBlock()) && !block1.isPreviousBlockConnected() && block.getLastConnectedBlock().isNextBlockConnectable(block1)) {
+                    } else if (checkBottomCloseBlock(block, block1) && block1.isPreviousBlockConnectable(block) && !block1.isPreviousBlockConnected() && block.isNextBlockConnectable(block1)) {
 
                         block.blinkBottom();
                         block1.blinkTop();
-
                         break;
                     } else {
                         //TODO 오류 찾음 여기서 아마 배열순서때문에 오류가 발생했을 가능성이 농후
@@ -142,8 +142,8 @@ public class BlockPlacementController implements BlockObserver {
             if (block.checkTopBorder()) {// 그다음 위에가 활성화 되었는지 체크
                 for (Block block1 : tempBlocks) {// 모든 블록을 검사하면서 바텀이 빛나는 블록이있는지 체크
                     if (block1.checkBottomBorder()) {
-                        block.registerPreviousBlock(block1);
                         block1.registerNextBlock(block);
+                        block.registerPreviousBlock(block1);
                         // 등록하면 종료
                         break;
                     }
@@ -167,8 +167,8 @@ public class BlockPlacementController implements BlockObserver {
                 if (!block.checkTopBorder()) {// bottom이 빛날때
                     for (Block block1 : tempBlocks) {
                         if (block1.checkTopBorder()) {
-                            block.getLastConnectedBlock().registerNextBlock(block1);
                             block1.registerPreviousBlock(block.getLastConnectedBlock());
+                            block.getLastConnectedBlock().registerNextBlock(block1);
                             break;
                         }
                     }
@@ -187,7 +187,36 @@ public class BlockPlacementController implements BlockObserver {
 
     // TODO 논리 수정 필요 말이안됌
     private boolean checkTopCloseBlock(Block block, Block block1) {
-        //내가드래그 하는 블록이 아래쪽에서 위쪽으로 접근할
+        //내가드래그 하는 블록이 아래쪽에서 위쪽으로 접근할때
+        //block이 드래그하는 블록 block1이 드래그 못하는 블록
+        if (block1 instanceof ExtendableBlock) {
+            if (((ExtendableBlock) block1).isBlockExtended() || block1.isBlockJustExtended()) {
+                if (block1.getX() > block.getX()) {
+                    return ((block1.getX() - block.getX() < 50)
+                            && (block1.getX() - block.getX() > 0)
+                            && (block.getY() + block1.getHeight() - block.getY() > -30)
+                            && (block.getY() + block1.getHeight() - block.getY() < 0));
+                } else {
+                    return ((block.getX() - block1.getX() > 0)
+                            && (block.getX() - block1.getX() < block1.getWidth() - block.getWidth() + 50)
+                            && (block1.getY() + block1.getHeight() - block.getY() > -30)
+                            && (block1.getY() + block1.getHeight() - block.getY() < 0));
+                }
+            } else {
+                if (block1.getX() > block.getX()) {
+                    return ((block1.getX() - block.getX() < 50)
+                            && (block1.getX() - block.getX() > 0)
+                            && (block.getY() + block1.getHeight() - block.getY() > -30)
+                            && (block.getY() + block1.getHeight() - block.getY() < 0));
+                } else {
+                    return ((block.getX() - block1.getX() >= 0)
+                            && (block.getX() - block1.getX() < 50)
+                            && (block1.getY() + block1.getHeight() - block.getY() > -30)
+                            && (block1.getY() + block1.getHeight() - block.getY() < 0));
+                }
+            }
+        }
+
 
         if (block1.getX() > block.getX()) {
             return ((block1.getX() - block.getX() < 50)
@@ -204,7 +233,6 @@ public class BlockPlacementController implements BlockObserver {
     }
 
     private boolean checkBottomCloseBlock(Block block, Block block1) {
-
         if (block1 instanceof ExtendableBlock) {
             if (((ExtendableBlock) block1).isBlockExtended()) {
                 if (block1.getX() > block.getX()) {
@@ -232,6 +260,21 @@ public class BlockPlacementController implements BlockObserver {
                 }
             }
         }
+        if(block1 instanceof ClassifierBlock){
+            if(block1.getX() > block.getX()){
+                return ((block1.getX() - block.getX() < 50)
+                        && (block1.getX() - block.getX() > 0)
+                        && (block.getY() + block.getHeight() - block1.getY() > -30)
+                        && (block.getY() + block.getHeight() - block1.getY() < 0));
+            }else{
+                return ((block.getX() - block1.getX() > 0)
+                        && (block.getX() - block1.getX() < block1.getWidth() - block.getWidth() + 50)
+                        && (block.getY() + block.getHeight() - block1.getY() > -30)
+                        && (block.getY() + block.getHeight() - block1.getY() < 0));
+            }
+        }
+
+
         if (block1.getX() > block.getX()) {
             return ((block1.getX() - block.getX() < 50)
                     && (block1.getX() - block.getX() > 0)
