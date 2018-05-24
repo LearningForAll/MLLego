@@ -117,7 +117,7 @@ public class YInputBlock extends InputBlock {
     @Override
     public boolean isNextBlockConnectable(Block block) {
         // 블록이 연결되어 있을 경우
-        return (block instanceof PreprocessorBlock || block instanceof LayerBlock);
+        return (block instanceof PreprocessorBlock || block instanceof ClassifierBlock);
 
     }
 

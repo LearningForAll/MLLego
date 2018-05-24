@@ -9,6 +9,8 @@ import java.awt.*;
 public class ClassifierBlock extends Block{
     private Block xPartBlock,yPartBlock;
 
+    private boolean xExtended;
+    private int xExtendedSize = 0;
     // 분류기 종류
     Classifier classifier;
     JComboBox <Classifier> classifierComboBox;
@@ -27,6 +29,8 @@ public class ClassifierBlock extends Block{
         add(classifierComboBox);
         flowPanel.add(nameLabel);
         width=getWidth();
+        this.xPartBlock = null;
+        this.yPartBlock = null;
 
         setVisible(true);
     }
@@ -50,7 +54,7 @@ public class ClassifierBlock extends Block{
 
     @Override
     public boolean isPreviousBlockConnectable(Block block) {
-        return (block instanceof LayerBlock);
+        return (block instanceof LayerBlock || block instanceof InputBlock || block instanceof PreprocessorBlock);
     }
 
     @Override
@@ -60,6 +64,9 @@ public class ClassifierBlock extends Block{
 
     @Override
     public boolean isPreviousBlockConnected() {
+        return (previousBlocks.size() == 2);
+    }
+    public boolean isAnyBlockConnected(){
         return (previousBlocks.size() != 0);
     }
 
@@ -78,9 +85,71 @@ public class ClassifierBlock extends Block{
     public void setyPartBlock(Block yPartBlock) {
         this.yPartBlock = yPartBlock;
     }
+    public void deleteXYBlock(){
+        this.xPartBlock = null;
+        this.yPartBlock = null;
+    }
 
     public Classifier getClassifier(){
         return (Classifier)classifierComboBox.getSelectedItem();
     }
+
+    //TODO XY블록 해제하는것도 생각해봐야함
+    public boolean setXYPartBlock(Block block){
+        // 무조건 X블록 먼저 셋팅하게한다.
+        if(this.xPartBlock == null){
+            this.setxPartBlock(block);
+            return true;
+        }else if(this.yPartBlock == null && (block instanceof InputBlock || block instanceof PreprocessorBlock)){
+            this.setyPartBlock(block);
+            return false;
+        }else{
+            System.out.println("Can't connect the Block");
+            return false;
+        }
+    }
+    public boolean checkIfXConnectable(Block block){
+        if(this.xPartBlock == null){
+            return true;
+        }
+        return false;
+    }
+    public boolean checkIfYConnectable(Block block){
+        if(this.xPartBlock != null && this.yPartBlock == null){
+            if (block instanceof InputBlock || block instanceof PreprocessorBlock){
+                return true;
+            }
+        }else{
+            return false;
+        }
+        return false;
+    }
+    public boolean getxExtended(){
+        return this.xExtended;
+    }
+    public void setxExtended(boolean xExtended){
+        this.xExtended = xExtended;
+    }
+    public void extendXSize(Block block){
+        if (!this.xExtended){
+            //TODO 크기 늘려야함
+            if (block.isBlockJustExtended() || ((ExtendableBlock)block).isBlockExtended()){
+                int beforeHeight = this.getHeight();
+                int beforeWidth = block.getWidth();
+                this.setSize(beforeWidth +  (int)(0.5 * this.width), beforeHeight);
+                xExtended = true;
+            }
+        }
+    }
+    public void revertXSize(){
+        if (this.xExtended){
+            //TODO 크기 늘려야함
+            int beforeHeight = this.getHeight();
+            int beforeWidth = this.getWidth();
+            this.setSize(beforeWidth - this.width, beforeHeight);
+            xExtended = false;
+        }
+    }
+
 
 }

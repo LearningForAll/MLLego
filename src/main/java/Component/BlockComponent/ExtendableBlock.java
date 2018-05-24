@@ -3,9 +3,11 @@ package Component.BlockComponent;
 import Component.BlockActionListener.ExtendActionListener;
 import Component.BlockActionListener.RevertExtendActionListener;
 import Util.FileUtil;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
+
 
 public abstract class ExtendableBlock extends Block {
 
@@ -40,14 +42,18 @@ public abstract class ExtendableBlock extends Block {
     public boolean isPreviousBlockConnected() {
         return (extendSize - previousBlocks.size() == 0);
     }
+
     public boolean isFull(){
         return (extendSize - connectedSize == 0);
     }
     public void addConnectedSize(int size){
         connectedSize = connectedSize + size;
     }
-    public void minusConnectedSize(int size){
+    public void subConnectedSize(int size){
         connectedSize = connectedSize - size;
+    }
+    public void subConnectedSize(){
+        connectedSize--;
     }
 
     public int getExtendSize(){
@@ -57,6 +63,16 @@ public abstract class ExtendableBlock extends Block {
         extendSize++;
         return extendSize;
     }
+    public void subExtendSize(){
+        extendSize--;
+    }
+    public void subExtendSize(int size){
+        if(extendSize - size >= 0){
+            extendSize = extendSize - size;
+        }else{
+            System.out.println("Cannnot subtract");
+        }
+    }
     public int getBlockIndex(Block block){
         return this.previousBlocks.indexOf(block);
     }
@@ -65,6 +81,34 @@ public abstract class ExtendableBlock extends Block {
     }
     public int getConnectedSize(){
         return connectedSize;
+    }
+
+    private List<Block> getAllPreviousBlocksForExtendableBlock(){
+        List<Block> allPreviousBlock = new ArrayList<>();
+        Block block = this;
+
+        for (int i = 0; i < this.previousBlocks.size(); i++){
+            // Extendable 블록은 previousBlock이 여러개 있기 때문에..
+            allPreviousBlock.addAll(((ExtendableBlock)block.previousBlocks.get(i)).getAllPreviousBlocks());
+        }
+
+        return allPreviousBlock;
+    }
+    private List<Block> getAllPreviousBlocks(){
+        // 자기 자신을 제외한 블록의 이전블록들을 구함.
+        List<Block> allPreviousBlock = new ArrayList<>();
+        Block block = this;
+        //allPreviousBlock.add(block);
+        while(block.isPreviousBlockConnected()){
+
+            if(block.isPreviousBlockConnected()){
+                allPreviousBlock.add(block.previousBlocks.get(0));
+            }
+
+            block = block.previousBlocks.get(0);
+        }
+
+        return allPreviousBlock;
     }
 
 }
