@@ -1,6 +1,7 @@
 package Component.BlockComponent;
 
 import Component.BlockBatchModel.BlockTemplateComponent.InputBlockTemplate;
+import Component.BlockBatchModel.BlockTemplateComponent.XInputBlockTemplate;
 import Const.FileType;
 import Const.InputOption;
 
@@ -58,7 +59,7 @@ public class XInputBlock extends InputBlock {
         flowPanel.setBackground(new Color(243, 115, 50));
         setVisible(true);
     }
-    public XInputBlock(InputBlockTemplate blockTemplate){
+    public XInputBlock(XInputBlockTemplate blockTemplate){
         this();
         filePathTextField.setText(blockTemplate.getFilePath());
         filePath = blockTemplate.getFilePath();

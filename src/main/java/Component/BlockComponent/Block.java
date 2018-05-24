@@ -46,16 +46,16 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     // 이전 블록과 연결되어 있는지 여부
     abstract public boolean isPreviousBlockConnected();
 
-    public JLabel nameLabel;
+    protected JLabel nameLabel;
     //public String blockName;
     public JPanel flowPanel;
     public JButton reductButton;
     public JButton revertExtendButton;
-    public JPopupMenu popupMenu;
-    public JMenuItem delete;
+    private JPopupMenu popupMenu;
+    private JMenuItem delete;
     public int diff;
     public int width;
-    public boolean extended = false;
+    protected boolean extended = false;
 
     public Block() {
         nextBlocks = new ArrayList<>();
@@ -77,6 +77,8 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         delete=new JMenuItem("Delete");
         popupMenu.add(delete);
 
+        // 만약 템플릿에서 불러왔을때...
+        setInitialBlockSize();
         setVisible(true);
     }
     public Block(BlockTemplate blockTemplate){
@@ -554,7 +556,16 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         this.extended = false;
     }
 
+    private void setInitialBlockSize(){
+        if(this.extended){
+            if(this.getWidth() > this.width){
+                this.setSize(this.previousBlocks.get(0).getWidth(), this.getHeight());
+            }
+        }
+    }
+
     public boolean isBlockJustExtended(){
         return extended;
     }
+
 }

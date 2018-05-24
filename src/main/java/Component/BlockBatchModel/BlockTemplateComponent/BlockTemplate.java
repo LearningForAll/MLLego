@@ -16,13 +16,14 @@ public abstract class BlockTemplate implements Serializable {
 
 
     private static final long serialVersionUID = 6529685098267757690L;
-    int positionX;
-    int positionY;
-    String blockType;
-    String uid;
-    LineBorder border;
-    List<BlockTemplate> previousBlocks;
-    List<BlockTemplate> nextBlocks;
+    private int positionX;
+    private int positionY;
+    private String blockType;
+    private String uid;
+    private LineBorder border;
+    private List<BlockTemplate> previousBlocks;
+    private List<BlockTemplate> nextBlocks;
+    private boolean extended;
 
     public BlockTemplate(int positionX, int positionY, String blockType) {
         this.positionX = positionX;
@@ -37,6 +38,7 @@ public abstract class BlockTemplate implements Serializable {
         this.positionX = block.getX();
         this.positionY = block.getY();
         this.blockType = block.getClass().getSimpleName();
+        this.extended = block.isBlockJustExtended();
 
     }
 

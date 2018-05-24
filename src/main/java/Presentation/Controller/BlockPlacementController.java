@@ -260,13 +260,13 @@ public class BlockPlacementController implements BlockObserver {
                 }
             }
         }
-        if(block1 instanceof ClassifierBlock){
-            if(block1.getX() > block.getX()){
+        if (block1 instanceof ClassifierBlock) {
+            if (block1.getX() > block.getX()) {
                 return ((block1.getX() - block.getX() < 50)
                         && (block1.getX() - block.getX() > 0)
                         && (block.getY() + block.getHeight() - block1.getY() > -30)
                         && (block.getY() + block.getHeight() - block1.getY() < 0));
-            }else{
+            } else {
                 return ((block.getX() - block1.getX() > 0)
                         && (block.getX() - block1.getX() < block1.getWidth() - block.getWidth() + 50)
                         && (block.getY() + block.getHeight() - block1.getY() > -30)
@@ -361,6 +361,9 @@ public class BlockPlacementController implements BlockObserver {
     private List<BlockTemplate> convertBlocksToTemplate(List<Block> blocks) {
         List<BlockTemplate> blockTemplates = new ArrayList();
 
+        for (Block block : blocks){
+            System.out.println("블록 포지션" + block.getX() + "////" + block.getY());
+        }
         for (Block block : blocks) {
             switch (block.getClass().getSimpleName()) {
                 case "ClassifierBlock":
@@ -373,6 +376,8 @@ public class BlockPlacementController implements BlockObserver {
                     blockTemplates.add(new DenseBlockTemplate(block));
                     break;
                 case "XInputBlock":
+                    blockTemplates.add(new XInputBlockTemplate(block));
+                    break;
                 case "YInputBlock":
                     blockTemplates.add(new InputBlockTemplate(block));
                     break;
@@ -393,6 +398,10 @@ public class BlockPlacementController implements BlockObserver {
                     break;
             }
         }
+
+        for (BlockTemplate blockTemplate : blockTemplates){
+            System.out.println("블록 포지션" + blockTemplate.getPositionX() + "////" + blockTemplate.getPositionY());
+        }
         return blockTemplates;
     }
 
@@ -404,8 +413,6 @@ public class BlockPlacementController implements BlockObserver {
                 return (new ConvolutionLayerBlockTemplate(block));
             case "DenseBlock":
                 return (new DenseBlockTemplate(block));
-            case "InputBlock":
-                return (new InputBlockTemplate(block));
             case "LstmBlock":
                 return (new LstmBlockTemplate(block));
             case "ModelBlock":
@@ -416,6 +423,10 @@ public class BlockPlacementController implements BlockObserver {
                 return (new PoolingBlockTemplate(block));
             case "TrainingBlock":
                 return (new TrainingBlockTemplate(block));
+            case "XInputBlock":
+                return (new XInputBlockTemplate(block));
+            case "YInputBlock":
+                return (new YInputBlockTemplate(block));
         }
         return null;
     }
@@ -493,6 +504,13 @@ public class BlockPlacementController implements BlockObserver {
                 }
             }*/
         }
+
+        for (Block block : blocks){
+            if (block instanceof ExtendableBlock){
+                ((ExtendableBlock)block).setInitialExtendableBlockSize();
+            }
+
+        }
         System.out.println(blocks.get(0).getClass().getSimpleName() + "///" + blocks.get(0).getNextBlocks());
         System.out.println(blocks.get(1).getClass().getSimpleName() + "///" + blocks.get(1).getPreviousBlocks());
     }
@@ -511,13 +529,11 @@ public class BlockPlacementController implements BlockObserver {
                 case "DenseBlockTemplate":
                     tempBlocks.add(new DenseBlock((DenseBlockTemplate) blockTemplate));
                     break;
-                case "InputBlockTemplate":
-                    if (blockTemplate.getBlockType().equals("XInputBlock")) {
-                        tempBlocks.add(new XInputBlock((InputBlockTemplate) blockTemplate));
-                    } else {
-                        tempBlocks.add(new YInputBlock((InputBlockTemplate) blockTemplate));
-                    }
-
+                case "XInputBlockTemplate":
+                    tempBlocks.add(new XInputBlock((XInputBlockTemplate) blockTemplate));
+                    break;
+                case "YInputBlockTemplate":
+                    tempBlocks.add(new YInputBlock((YInputBlockTemplate) blockTemplate));
                     break;
                 case "LstmBlockTemplate":
                     tempBlocks.add(new LstmBlock((LstmBlockTemplate) blockTemplate));
@@ -541,43 +557,7 @@ public class BlockPlacementController implements BlockObserver {
         return tempBlocks;
     }
 
-    private Block blockTemplateToBlock(BlockTemplate blockTemplate) {
-        String str = blockTemplate.getClass().getSimpleName();
-        switch (str) {
-            case "ClassifierBlockTemplate":
-                return (new ClassifierBlock((ClassifierBlockTemplate) blockTemplate));
-            case "ConvolutionLayerBlockTemplate":
-                return (new ConvolutionLayerBlock((ConvolutionLayerBlockTemplate) blockTemplate));
 
-            case "DenseBlockTemplate":
-                return new DenseBlock((DenseBlockTemplate) blockTemplate);
-
-            case "InputBlockTemplate":
-                if (blockTemplate.getBlockType().equals("XInputBlock")) {
-                    return new XInputBlock((InputBlockTemplate) blockTemplate);
-                } else {
-                    return new YInputBlock((InputBlockTemplate) blockTemplate);
-                }
-            case "LstmBlockTemplate":
-                return new LstmBlock((LstmBlockTemplate) blockTemplate);
-
-            case "ModelBlockTemplate":
-                return new ModelBlock((ModelBlockTemplate) blockTemplate);
-
-            case "PreprocessorBlockTemplate":
-                return new PreprocessorBlock((PreprocessorBlockTemplate) blockTemplate);
-
-            case "PoolingBlockTemplate":
-                return new PoolingBlock((PoolingBlockTemplate) blockTemplate);
-
-            case "TrainingBlockTemplate":
-                return new TrainingBlock((TrainingBlockTemplate) blockTemplate);
-
-            default:
-                return null;
-
-        }
-    }
 
     private boolean compareBlock(Block block, BlockTemplate blockTemplate2) {
 
@@ -588,7 +568,4 @@ public class BlockPlacementController implements BlockObserver {
         return blockTemplates.indexOf(blockTemplate);
     }
 
-    private int getIndexForBlock(List<Block> blocks, Block block) {
-        return blocks.indexOf(block);
-    }
 }

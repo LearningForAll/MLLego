@@ -27,6 +27,9 @@ public abstract class ExtendableBlock extends Block {
         revertExtendButton.addActionListener(new RevertExtendActionListener(this));
         revertExtendButton.setPreferredSize(new Dimension(16, 16));
         revertExtendButton.setEnabled(false);
+
+        //Template에서 커넥션 정보 업데이트하고 사이즈 조정할때
+        setInitialExtendableBlockSize();
     }
     public boolean isBlockExtended(){
         return extendSize != 1;
@@ -55,9 +58,15 @@ public abstract class ExtendableBlock extends Block {
     public void subConnectedSize(){
         connectedSize--;
     }
+    public void setConnectedSize(int connectedSize){
+        this.connectedSize = connectedSize;
+    }
 
     public int getExtendSize(){
         return extendSize;
+    }
+    public void setExtendSize(int extendSize){
+        this.extendSize = extendSize;
     }
     public int addExtendSize(){
         extendSize++;
@@ -111,4 +120,10 @@ public abstract class ExtendableBlock extends Block {
         return allPreviousBlock;
     }
 
+    public void setInitialExtendableBlockSize(){
+        if(isBlockExtended()){
+            //TODO 사이즈를 늘려야함
+            this.setSize(this.getWidth() * extendSize, this.getHeight());
+        }
+    }
 }
