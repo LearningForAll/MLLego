@@ -20,8 +20,6 @@ public class ClassifierBlockTemplate extends BlockTemplate{
                                    Classifier classifier) {
         super(positionX, positionY, blockType);
         this.classifier = classifier;
-        this.xPartBlock = xPartBlock;
-        this.yPartBlock = yPartBlock;
 
     }
     public ClassifierBlockTemplate(Block block){

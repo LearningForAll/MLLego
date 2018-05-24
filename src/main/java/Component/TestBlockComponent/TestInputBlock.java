@@ -63,17 +63,6 @@ public class TestInputBlock extends TestBlock {
         setVisible(true);
     }
 
-    @Override
-    public boolean isNextConnectable(TestBlock block) {
-        //어떤 것이든 다 올 수 있음
-        return true;
-    }
-
-    @Override
-    public boolean isPreviousConnectable(TestBlock block) {
-        return false;
-    }
-
     public FileType getFileType(){
         //파일 타입을 판단하는 알고리즘 필요
         return FileType.TYPE_NUMBER;

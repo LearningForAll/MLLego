@@ -31,13 +31,4 @@ public class TestPreProcessorBlock extends TestBlock  {
         flowPanel.setBackground(new Color(243,115,50));
         setVisible(true);
     }
-    @Override
-    public boolean isNextConnectable(TestBlock block) {
-        return true;
-    }
-
-    @Override
-    public boolean isPreviousConnectable(TestBlock block) {
-        return true;
-    }
 }
