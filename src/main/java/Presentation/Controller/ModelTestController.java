@@ -38,6 +38,9 @@ public class ModelTestController implements TestBlockObserver {
         panel.addTestBlock(block);
 
     }
+    public void deleteTestBlock(TestBlock block){
+        blocks.remove(block);
+    }
 
     @Override
     public void blinkBlock(Block block) {

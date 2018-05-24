@@ -22,8 +22,6 @@ public abstract class TestBlock extends JPanel implements TestBlockPublisher {
         flowPanel = new JPanel(new FlowLayout());
     }
 
-    abstract public boolean isNextConnectable(TestBlock block);
-    abstract public boolean isPreviousConnectable(TestBlock block);
       @Override
     public void setObserver(TestBlockObserver observer) {
         this.observer = observer;
