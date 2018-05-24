@@ -409,40 +409,37 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     //Reduction상태일때의 연결 변경되었으니 previous block들의 location이 바뀌는 걸로 수정
     public void setFollowBlockPosition(boolean isReducted) {
-
         Block block = this;
         if (isReducted) {
             // 줄어든 상황에서 늘어나야함
-            while (block.isPreviousBlockConnected()) {
-
-                for(int k=0; k<block.previousBlocks.size();k++ ){
-                    block.previousBlocks.get(k).setLocation(this.getX(), block.previousBlocks.get(k).getY()-(getHeight()-flowPanel.getHeight())-block.diff);
+                List<Block> allBlock =block.getAllPreviousBlocks();
+                allBlock.remove(0);
+                for(Block blocks:allBlock){
+                    System.out.println("Reducted(true) blocks height :");
+                    blocks.setLocation(blocks.getX(), blocks.getY()-(this.getHeight()-this.flowPanel.getHeight())-this.diff);
+                    System.out.println(blocks.getY()-(getHeight()-flowPanel.getHeight())-block.diff);
                 }
-
                 //연결되어있으면
                 if (block.isPreviousBlockConnected()) {
                     block = block.previousBlocks.get(0);
                 } else {
-                    break;
                 }
-            }
+          //  }
 
         } else {
             // 아직 줄어들지 않은 상황에서
-            while (block.isPreviousBlockConnected()) {
-                for(int k=0; k<block.previousBlocks.size(); k++){
-                    block.previousBlocks.get(k).setLocation(this.getX(), block.previousBlocks.get(k).getY()+(getHeight()-flowPanel.getHeight()));
+                List<Block> allBlock =block.getAllPreviousBlocks();
+                allBlock.remove(0);
+                for(Block blocks:allBlock){
+                    System.out.println("Reducted(false) blocks height :");
+                    blocks.setLocation(blocks.getX(), blocks.getY()+(this.getHeight()-this.flowPanel.getHeight()));
+                    System.out.println(blocks.getY()+(getHeight()-flowPanel.getHeight()));
                 }
-
                 if (block.isPreviousBlockConnected()) {
                     block = block.previousBlocks.get(0);
                 } else {
-                    break;
                 }
-
-            }
         }
-
     }
 
     public Block getLastConnectedBlock() {

@@ -11,14 +11,14 @@ import java.awt.*;
 public class BlockPlacementDefault extends JTabbedPane{
 
     BlockPlacementPanel blockPlacementPanel;
-    ModelTestPanel modelTestPanel;
+    ModelTestDefault modelTestDefault;
 
     public BlockPlacementDefault(){
         setBackground(Color.white);
         blockPlacementPanel=new BlockPlacementPanel();
-        modelTestPanel=new ModelTestPanel();
+        modelTestDefault=new ModelTestDefault();
         add("Block Placement", blockPlacementPanel);
-        add("Model Test", modelTestPanel);
+        add("Model Test", modelTestDefault);
         //add(blockPlacementPanel.scroll);
         setVisible(true);
     }
