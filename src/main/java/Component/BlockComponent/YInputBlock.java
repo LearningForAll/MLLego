@@ -157,7 +157,7 @@ public class YInputBlock extends InputBlock {
     public static String getYPath(){
         return filePath;
     }
-    
+
     public void setViewerMode(){
         remove(flowSubPanel);
         setLayout(new GridLayout(2,1));

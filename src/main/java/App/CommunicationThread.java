@@ -28,7 +28,6 @@ public class CommunicationThread extends Thread {
                     for (String oneData : readStr.split("_END")){
                         ResultController.getInstance().addResultLine(oneData);
                     }
-
                 }
                 System.out.println("dis connected");
             } catch (Throwable e) {
