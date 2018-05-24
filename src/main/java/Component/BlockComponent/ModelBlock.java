@@ -28,7 +28,7 @@ public class ModelBlock extends Block {
     }
 
     @Override
-    String getBlockAttrStr() {
+    protected String getBlockAttrStr() {
         return null;
     }
 

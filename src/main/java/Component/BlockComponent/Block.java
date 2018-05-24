@@ -6,10 +6,8 @@ import Component.BlockBatchModel.BlockTemplateComponent.BlockTemplate;
 import Component.BlockException.BlockException;
 import Component.BlockObserver.BlockObserver;
 import Component.BlockObserver.BlockPublisher;
-import Const.Classifier;
 import Util.FileUtil;
 import Util.UidGenerator;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
@@ -17,16 +15,14 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 // 관찰될 수 있는 객체
-public abstract class Block extends JPanel implements MouseListener, MouseMotionListener, BlockPublisher, Serializable {
+public abstract class Block extends JPanel implements MouseListener, MouseMotionListener, BlockPublisher {
     private int offX, offY;
     private boolean isDragged = false;
-    private int draggedX, draggedY;
     private String uid;
 
     private BlockObserver blockObserver;
@@ -36,7 +32,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     private MatteBorder topBorder = new MatteBorder(5, 0, 0, 0, Color.cyan);
     private MatteBorder bottomBorder = new MatteBorder(0, 0, 5, 0, Color.cyan);
 
-    abstract String getBlockAttrStr();
+    protected abstract String getBlockAttrStr();
 
     // 인자로 들어온 블록이 현재 블록의 다음 블록으로 연결 될 수 있는지 확인하는 메소드
     abstract public boolean isNextBlockConnectable(Block block);
@@ -222,6 +218,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     /**
@@ -234,6 +231,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             this.updateUI();
         } catch (Exception e) {
             e.printStackTrace();
+
         }
 
     }
@@ -252,17 +250,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             offX = e.getX();
             offY = e.getY();
             isDragged = true;
-
-        }
-        if (isFirstBlock()) {
-
-            List<Block> allConnectedBlock = this.getAllConnectedBlock();
-
-            for(int i = 0; i < allConnectedBlock.size(); i++){
-                System.out.println("눌릴때");
-                System.out.println("e.getx" + e.getX() + "getlocationX().x" + getLocation().x + "offset x" + offX);
-                System.out.println(i + "번쨰 블록" + allConnectedBlock.get(i).getLocation().getX() + "//" + allConnectedBlock.get(i).getLocation().getY());
-                }
 
         }
     }

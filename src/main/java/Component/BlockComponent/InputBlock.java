@@ -1,13 +1,5 @@
 package Component.BlockComponent;
 
-import Component.BlockBatchModel.BlockTemplateComponent.InputBlockTemplate;
-import Const.FileType;
-import Const.InputOption;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
 import Const.FileType;
 import Const.InputOption;
 
