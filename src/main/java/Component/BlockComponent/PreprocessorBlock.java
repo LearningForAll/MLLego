@@ -41,7 +41,7 @@ public class PreprocessorBlock extends Block {
         setLocation(blockTemplate.getPositionX(), blockTemplate.getPositionY());
     }
     @Override
-    String getBlockAttrStr() {
+    protected String getBlockAttrStr() {
         return null;
     }
 

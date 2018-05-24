@@ -63,7 +63,7 @@ public class LstmBlock extends LayerBlock {
     }
 
     @Override
-    String getBlockAttrStr() {
+    protected String getBlockAttrStr() {
         return null;
     }
 

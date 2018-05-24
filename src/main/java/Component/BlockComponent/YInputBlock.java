@@ -110,7 +110,7 @@ public class YInputBlock extends InputBlock {
         }
     }
     @Override
-    String getBlockAttrStr() {
+    protected String getBlockAttrStr() {
         return null;
     }
 

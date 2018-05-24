@@ -2,7 +2,7 @@ package Component.BlockComponent;
 
 public class ConcatBlock extends Block {
     @Override
-    String getBlockAttrStr() {
+    protected String getBlockAttrStr() {
         return null;
     }
 

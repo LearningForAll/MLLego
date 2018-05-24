@@ -90,7 +90,7 @@ public class PoolingBlock extends LayerBlock {
     }
 
     @Override
-    String getBlockAttrStr() {
+    protected String getBlockAttrStr() {
         return null;
     }
 

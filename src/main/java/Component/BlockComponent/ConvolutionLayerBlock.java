@@ -79,7 +79,7 @@ public class ConvolutionLayerBlock extends LayerBlock {
     }
 
     @Override
-    String getBlockAttrStr() {
+    protected String getBlockAttrStr() {
         return null;
     }
 
