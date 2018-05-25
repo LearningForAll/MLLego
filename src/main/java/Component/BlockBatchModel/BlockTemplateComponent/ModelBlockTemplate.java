@@ -11,8 +11,10 @@ public class ModelBlockTemplate extends BlockTemplate {
 
      public ModelBlockTemplate(int positionX, int positionY, String blockType) {
         super(positionX, positionY, blockType);
+
     }
     public ModelBlockTemplate(Block block){
         super(block.getX(), block.getY(), block.getClass().getSimpleName());
+        this.extended = block.isBlockJustExtended();
     }
 }

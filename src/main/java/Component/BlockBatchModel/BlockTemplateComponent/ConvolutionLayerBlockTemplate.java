@@ -42,6 +42,7 @@ public class ConvolutionLayerBlockTemplate extends BlockTemplate{
         this.func = ((ConvolutionLayerBlock)block).getActivationFunction();
         this.extendSize = ((LayerBlock)block).getExtendSize();
         this.connectedSize = ((LayerBlock)block).getConnectedSize();
+        this.extended = block.isBlockJustExtended();
     }
 
     public ActivationFunc getFunc() {

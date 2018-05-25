@@ -63,6 +63,8 @@ public class DenseBlock extends LayerBlock {
         activationFunctionCombobox.setSelectedItem(blockTemplate.getActivationFunc());
         this.setConnectedSize(blockTemplate.getConnectedSize());
         this.setExtendSize(blockTemplate.getExtendSize());
+        // 크기만 늘어났는지 체크
+        this.setExtended(blockTemplate.isExtended());
         setLocation(blockTemplate.getPositionX(), blockTemplate.getPositionY());
     }
 

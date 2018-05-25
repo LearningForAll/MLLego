@@ -83,6 +83,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     }
     public Block(BlockTemplate blockTemplate){
         //TODO 완성해야함 좌표랑 다음블록 이전블록
+        extended = blockTemplate.isExtended();
     }
 
     public void checkExtendBlock(Block block){
@@ -566,6 +567,10 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     public boolean isBlockJustExtended(){
         return extended;
+    }
+
+    protected void setExtended(boolean extended){
+        this.extended = extended;
     }
 
 }

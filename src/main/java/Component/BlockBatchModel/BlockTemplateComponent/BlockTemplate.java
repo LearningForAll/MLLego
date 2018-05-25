@@ -23,7 +23,7 @@ public abstract class BlockTemplate implements Serializable {
     private LineBorder border;
     private List<BlockTemplate> previousBlocks;
     private List<BlockTemplate> nextBlocks;
-    private boolean extended;
+    protected boolean extended;
 
     public BlockTemplate(int positionX, int positionY, String blockType) {
         this.positionX = positionX;
@@ -31,6 +31,7 @@ public abstract class BlockTemplate implements Serializable {
         this.blockType = blockType;
         previousBlocks = new ArrayList<>();
         nextBlocks = new ArrayList<>();
+
 
     }
 
@@ -91,5 +92,8 @@ public abstract class BlockTemplate implements Serializable {
     }
     public boolean isPreviousBlockTemplateConnected(){
         return (this.previousBlocks.size() != 0);
+    }
+    public boolean isExtended(){
+        return extended;
     }
 }

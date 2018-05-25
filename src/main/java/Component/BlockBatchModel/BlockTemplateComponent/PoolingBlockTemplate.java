@@ -90,6 +90,7 @@ public class PoolingBlockTemplate extends BlockTemplate {
         this.verticalStride = ((PoolingBlock) block).getVerticalStride();
         this.extendSize = ((PoolingBlock) block).getExtendSize();
         this.connectSize = ((PoolingBlock) block).getConnectedSize();
+        this.extended = block.isBlockJustExtended();
     }
 
     public int getExtendSize(){
