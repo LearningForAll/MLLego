@@ -21,8 +21,8 @@ public abstract class BlockTemplate implements Serializable {
     private String blockType;
     private String uid;
     private LineBorder border;
-    private List<BlockTemplate> previousBlocks;
-    private List<BlockTemplate> nextBlocks;
+    private List<BlockTemplate> previousBlocks = new ArrayList<>();
+    private List<BlockTemplate> nextBlocks = new ArrayList<>();
     protected boolean extended;
 
     public BlockTemplate(int positionX, int positionY, String blockType) {
