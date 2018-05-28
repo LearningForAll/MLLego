@@ -17,6 +17,8 @@ public abstract class TestBlock extends JPanel implements TestBlockPublisher, Mo
     private int offX, offY;
     private boolean isDragged = false;
     private LineBorder basicBorder = new LineBorder(Color.black);
+    private JPopupMenu popupMenu;
+    private JMenuItem delete;
     public int width;
     public JLabel nameLabel;
     //public String blockName;
@@ -47,7 +49,10 @@ public abstract class TestBlock extends JPanel implements TestBlockPublisher, Mo
     //마우스 오른쪽 버튼을 누르면 delete가 팝업창으로 뜨면서 deleteActionListener 이벤트 발생
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        if(e.getButton()==MouseEvent.BUTTON3){//오른쪽버튼 클릭시
+            popupMenu.show(TestBlock.this, e.getX(), e.getY());
+            delete.addActionListener(new DeleteActionListener(this));
+        }
     }
 
     @Override

@@ -35,7 +35,7 @@ public class ModelTestController implements TestBlockObserver {
         // 옵저버 등록
         block.setObserver(this);
         //항상 스택처럼 쌓일테니까 마지막블록에 등록해줌
-        panel.addTestBlock(block);
+        panel.addTestBlocks(block);
 
     }
     public void deleteTestBlock(TestBlock block){

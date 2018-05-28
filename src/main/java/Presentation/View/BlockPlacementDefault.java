@@ -13,7 +13,6 @@ public class BlockPlacementDefault extends JTabbedPane{
     private ModelTestDefault modelTestDefault;
     private ModelResultPanel modelResultPanel;
     private BlockPlacementPanel blockPlacementPanel;
-    private ModelTestPanel modelTestPanel;
 
     public BlockPlacementDefault(){
         setBackground(Color.white);
@@ -28,10 +27,7 @@ public class BlockPlacementDefault extends JTabbedPane{
         setVisible(true);
     }
 
-    public BlockPlacementPanel getBlockPlacementPanel() {
-        return blockPlacementPanel;
-    }
-    public ModelTestPanel getModelTestPanel() { return modelTestPanel;}
-    public ModelTestDefault getModelTestDefaultPanel(){ return modelTestDefault;}
-
+    public BlockPlacementPanel getBlockPlacementPanel() {return blockPlacementPanel;}
+    public ModelTestPanel getModelTestPanel(){return modelTestDefault.modelTestPanel;}
+    public ModelResultPanel getModelResultPanel(){return modelResultPanel;}
 }

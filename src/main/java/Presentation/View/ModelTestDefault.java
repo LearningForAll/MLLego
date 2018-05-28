@@ -18,4 +18,5 @@ public class ModelTestDefault extends JPanel {
         setBackground(Color.white);
         setVisible(true);
     }
+
 }
