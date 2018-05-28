@@ -35,7 +35,7 @@ public class BlockListPanel extends JTabbedPane {
             mockBlock.addMouseListener(new BlockListClickListener());
         }
 
-        for (TestBlock mockBlock : blockTestInput.getAllComponent()){
+        for (TestBlock mockBlock : blockTestInput.getBlockComponents()){
             mockBlock.addMouseListener(new TestBlockListClickListener());
         }
 

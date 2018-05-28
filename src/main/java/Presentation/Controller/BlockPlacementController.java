@@ -326,14 +326,13 @@ public class BlockPlacementController implements BlockObserver {
             panel.deleteAllBlock();
 
 
-
             List<Block> tempList = blockTemplatesToBlocks(blockTemplateList);
             this.blocks.addAll(tempList);
 
             addAllBlock();
             updateBlockConnectionInfo(blockTemplateList, this.blocks);
             for (Block block : this.blocks) {
-                if(block instanceof ClassifierBlock){
+                if (block instanceof ClassifierBlock) {
                     System.out.println(((ClassifierBlock) block).getxPartBlock());
                     System.out.println(((ClassifierBlock) block).getyPartBlock());
                 }
@@ -489,12 +488,12 @@ public class BlockPlacementController implements BlockObserver {
             }
 
             //TODO Classifier xpart, ypart 추가해야함
-            if(blockTemplates.get(i).getClass().getSimpleName().equals("ClassifierBlockTemplate")){
-                if (((ClassifierBlockTemplate)blockTemplates.get(i)).getxPartBlock() != null){
-                    ((ClassifierBlock)blocks.get(i)).setxPartBlock(blocks.get(getIndexForBlockTemplates(blockTemplates, ((ClassifierBlockTemplate) blockTemplates.get(i)).getxPartBlock())));
+            if (blockTemplates.get(i).getClass().getSimpleName().equals("ClassifierBlockTemplate")) {
+                if (((ClassifierBlockTemplate) blockTemplates.get(i)).getxPartBlock() != null) {
+                    ((ClassifierBlock) blocks.get(i)).setxPartBlock(blocks.get(getIndexForBlockTemplates(blockTemplates, ((ClassifierBlockTemplate) blockTemplates.get(i)).getxPartBlock())));
                 }
-                if (((ClassifierBlockTemplate)blockTemplates.get(i)).getyPartBlock() != null){
-                    ((ClassifierBlock)blocks.get(i)).setxPartBlock(blocks.get(getIndexForBlockTemplates(blockTemplates, ((ClassifierBlockTemplate) blockTemplates.get(i)).getyPartBlock())));
+                if (((ClassifierBlockTemplate) blockTemplates.get(i)).getyPartBlock() != null) {
+                    ((ClassifierBlock) blocks.get(i)).setxPartBlock(blocks.get(getIndexForBlockTemplates(blockTemplates, ((ClassifierBlockTemplate) blockTemplates.get(i)).getyPartBlock())));
                 }
             }
         }
@@ -560,7 +559,8 @@ public class BlockPlacementController implements BlockObserver {
     private int getIndexForBlockTemplates(List<BlockTemplate> blockTemplates, BlockTemplate blockTemplate) {
         return blockTemplates.indexOf(blockTemplate);
     }
-    private void initializeAllBlockTypeResize(List<Block> blocks){
+
+    private void initializeAllBlockTypeResize(List<Block> blocks) {
 
         for (Block block : blocks) {
             if (block instanceof ExtendableBlock) {
@@ -568,7 +568,7 @@ public class BlockPlacementController implements BlockObserver {
             }
         }
         for (Block block : blocks) {
-            if (block instanceof ClassifierBlock){
+            if (block instanceof ClassifierBlock) {
                 ((ClassifierBlock) block).setInitialClassifierBlockSize();
             }
         }
@@ -580,5 +580,4 @@ public class BlockPlacementController implements BlockObserver {
 
         }
     }
-
 }

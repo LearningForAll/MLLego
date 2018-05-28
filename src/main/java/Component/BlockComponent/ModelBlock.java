@@ -7,17 +7,23 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ModelBlock extends Block {
+    JPanel flowSubPanel;
+    JTextField modelTextField;
 
     public ModelBlock(){
         super();
+        flowSubPanel=new JPanel();
+        modelTextField=new JTextField(18);
         nameLabel = new JLabel(getClass().getSimpleName());
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
-        GridLayout layout=new GridLayout(1, 1);
+        GridLayout layout=new GridLayout(2, 1);
         setLayout(layout);
-        setSize(200,30);
+        setSize(200,50);
         width=getWidth();
+        flowSubPanel.add(modelTextField);
         add(flowPanel);
+        add(flowSubPanel);
         flowPanel.add(nameLabel);
         flowPanel.setBackground(new Color(0, 0, 180));
         setVisible(true);
@@ -55,6 +61,10 @@ public class ModelBlock extends Block {
     @Override
     public boolean isPreviousBlockConnected() {
         return (previousBlocks.size() != 0);
+    }
+
+    public String getModelTextField(){
+        return modelTextField.getText();
     }
 
 }

@@ -1,5 +1,6 @@
 package Presentation.View;
 
+import Component.BlockComponent.Block;
 import Component.TestBlockComponent.TestBlock;
 import Component.TestBlockComponent.TestInputBlock;
 import Component.TestBlockComponent.TestPreProcessorBlock;
@@ -29,8 +30,9 @@ public class BlockTestInputPanel extends JPanel {
         setVisible(true);
     }
 
-    public TestBlock[] getAllComponent(){
-        return new TestBlock[]{testInputBlock, testPreProcessorBlock};
-    }
+    //public TestBlock[] getAllComponent(){
+    //    return new TestBlock[]{testInputBlock, testPreProcessorBlock};
+    //}
+    public TestBlock[] getBlockComponents() {return new TestBlock[]{testInputBlock,testPreProcessorBlock};}
 
 }

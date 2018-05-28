@@ -149,7 +149,7 @@ public class ClassifierBlock extends Block{
             //TODO 크기 늘려야함
             int beforeHeight = this.getHeight();
             int beforeWidth = this.getWidth();
-            this.setSize(beforeWidth - this.width, beforeHeight);
+            this.setSize(this.width, beforeHeight);
             xExtended = false;
         }
     }
