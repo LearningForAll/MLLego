@@ -47,7 +47,7 @@ public class PreprocessorBlock extends Block {
 
     @Override
     public boolean isNextBlockConnectable(Block block) {
-        return (block instanceof LayerBlock);
+        return (block instanceof LayerBlock || block instanceof ClassifierBlock);
     }
 
     @Override

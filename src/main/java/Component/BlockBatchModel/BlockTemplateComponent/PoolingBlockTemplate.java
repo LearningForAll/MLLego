@@ -18,6 +18,8 @@ public class PoolingBlockTemplate extends BlockTemplate {
     int verticalStride;
     PaddingOption paddingOption;
     PoolingType poolingType;
+    int extendSize;
+    int connectSize;
 
     public int getHorizontalKernelSize() {
         return horizontalKernelSize;
@@ -68,7 +70,6 @@ public class PoolingBlockTemplate extends BlockTemplate {
     }
 
     public PoolingBlockTemplate(int positionX, int positionY, String blockType,
-
                                 int horizontalKernelSize, int verticalKernelSize,
                                 int horizontalStride, int verticalStride, PaddingOption paddingOption,
                                 PoolingType poolingType) {
@@ -87,5 +88,15 @@ public class PoolingBlockTemplate extends BlockTemplate {
         this.verticalKernelSize = ((PoolingBlock) block).getVerticalKernel();
         this.horizontalStride = ((PoolingBlock) block).getHorizonStride();
         this.verticalStride = ((PoolingBlock) block).getVerticalStride();
+        this.extendSize = ((PoolingBlock) block).getExtendSize();
+        this.connectSize = ((PoolingBlock) block).getConnectedSize();
+        this.extended = block.isBlockJustExtended();
+    }
+
+    public int getExtendSize(){
+        return extendSize;
+    }
+    public int getConnectSize(){
+        return connectSize;
     }
 }

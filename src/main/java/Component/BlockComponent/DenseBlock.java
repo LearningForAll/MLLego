@@ -46,7 +46,7 @@ public class DenseBlock extends LayerBlock {
         GridLayout layout=new GridLayout(3,1);
         setLayout(layout);
         setSize(200,75);
-        width=getWidth();
+        width = getWidth();
         add(flowPanel);
         add(activationFunctionCombobox);
         add(flowSubPanel);
@@ -61,7 +61,11 @@ public class DenseBlock extends LayerBlock {
         layerTextField.setText(String.valueOf(blockTemplate.getLayerNum()));
         outputDimensionTextField.setText(String.valueOf(blockTemplate.getOutputDim()));
         activationFunctionCombobox.setSelectedItem(blockTemplate.getActivationFunc());
-
+        this.setConnectedSize(blockTemplate.getConnectedSize());
+        this.setExtendSize(blockTemplate.getExtendSize());
+        // 크기만 늘어났는지 체크
+        this.setExtended(blockTemplate.isExtended());
+        setLocation(blockTemplate.getPositionX(), blockTemplate.getPositionY());
     }
 
     @Override

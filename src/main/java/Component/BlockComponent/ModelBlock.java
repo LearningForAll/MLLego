@@ -30,6 +30,8 @@ public class ModelBlock extends Block {
     }
     public ModelBlock(ModelBlockTemplate template){
         this();
+        // 크기만 늘어났는지 체크
+        this.setExtended(template.isExtended());
         setLocation(template.getPositionX(), template.getPositionY());
     }
 

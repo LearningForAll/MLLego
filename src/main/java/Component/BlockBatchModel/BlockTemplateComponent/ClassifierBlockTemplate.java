@@ -14,19 +14,19 @@ public class ClassifierBlockTemplate extends BlockTemplate{
 
     Classifier classifier;
     private BlockTemplate xPartBlock,yPartBlock;
+    private boolean xExtended;
 
 
     public ClassifierBlockTemplate(int positionX, int positionY, String blockType,
                                    Classifier classifier) {
         super(positionX, positionY, blockType);
         this.classifier = classifier;
-        this.xPartBlock = xPartBlock;
-        this.yPartBlock = yPartBlock;
 
     }
     public ClassifierBlockTemplate(Block block){
         super(block.getX(), block.getY(), block.getClass().getSimpleName());
         this.classifier = ((ClassifierBlock)block).getClassifier();
+        this.xExtended = ((ClassifierBlock)block).getxExtended();
     }
 
     public void setxPartBlock(BlockTemplate xPartBlock) {
@@ -52,5 +52,9 @@ public class ClassifierBlockTemplate extends BlockTemplate{
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
+    }
+
+    public boolean isxExtended() {
+        return xExtended;
     }
 }

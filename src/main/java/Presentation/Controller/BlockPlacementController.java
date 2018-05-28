@@ -260,13 +260,13 @@ public class BlockPlacementController implements BlockObserver {
                 }
             }
         }
-        if(block1 instanceof ClassifierBlock){
-            if(block1.getX() > block.getX()){
+        if (block1 instanceof ClassifierBlock) {
+            if (block1.getX() > block.getX()) {
                 return ((block1.getX() - block.getX() < 50)
                         && (block1.getX() - block.getX() > 0)
                         && (block.getY() + block.getHeight() - block1.getY() > -30)
                         && (block.getY() + block.getHeight() - block1.getY() < 0));
-            }else{
+            } else {
                 return ((block.getX() - block1.getX() > 0)
                         && (block.getX() - block1.getX() < block1.getWidth() - block.getWidth() + 50)
                         && (block.getY() + block.getHeight() - block1.getY() > -30)
@@ -317,16 +317,13 @@ public class BlockPlacementController implements BlockObserver {
             // 직렬화된 객체를 로드해옴.
             List<BlockTemplate> blockTemplateList;
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath));
-            System.out.println(filePath);
+
             blockTemplateList = (List<BlockTemplate>) ois.readObject();
             ois.close();
 
             // 패널의 모든 블록삭제
             this.blocks.clear();
             panel.deleteAllBlock();
-
-            System.out.println(blockTemplateList.get(0));
-            System.out.println(blockTemplateList.size());
 
 
             List<Block> tempList = blockTemplatesToBlocks(blockTemplateList);
@@ -335,12 +332,12 @@ public class BlockPlacementController implements BlockObserver {
             addAllBlock();
             updateBlockConnectionInfo(blockTemplateList, this.blocks);
             for (Block block : this.blocks) {
-                System.out.println("블록들" + block.getClass().getSimpleName());
-                if (block.isNextBlockConnected()) {
-                    System.out.println("블록" + block.getClass().getSimpleName());
-                    System.out.println("불러온 것의 다음 블록" + block.getNextBlocks().get(0).getClass().getSimpleName());
+                if (block instanceof ClassifierBlock) {
+                    System.out.println(((ClassifierBlock) block).getxPartBlock());
+                    System.out.println(((ClassifierBlock) block).getyPartBlock());
                 }
             }
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -353,7 +350,6 @@ public class BlockPlacementController implements BlockObserver {
 
         //파일 이름을 받아서 파일 전체 저장 경로를 구하는 함수
         File file = new File("");
-        System.out.println(file.getAbsolutePath() + "/bin/" + MyApp.projectTitle + "/" + name + ".block");
         return file.getAbsolutePath() + "/bin/" + MyApp.projectTitle + "/" + name + ".block";
     }
 
@@ -373,8 +369,10 @@ public class BlockPlacementController implements BlockObserver {
                     blockTemplates.add(new DenseBlockTemplate(block));
                     break;
                 case "XInputBlock":
+                    blockTemplates.add(new XInputBlockTemplate(block));
+                    break;
                 case "YInputBlock":
-                    blockTemplates.add(new InputBlockTemplate(block));
+                    blockTemplates.add(new YInputBlockTemplate(block));
                     break;
                 case "LstmBlock":
                     blockTemplates.add(new LstmBlockTemplate(block));
@@ -393,6 +391,7 @@ public class BlockPlacementController implements BlockObserver {
                     break;
             }
         }
+
         return blockTemplates;
     }
 
@@ -404,8 +403,6 @@ public class BlockPlacementController implements BlockObserver {
                 return (new ConvolutionLayerBlockTemplate(block));
             case "DenseBlock":
                 return (new DenseBlockTemplate(block));
-            case "InputBlock":
-                return (new InputBlockTemplate(block));
             case "LstmBlock":
                 return (new LstmBlockTemplate(block));
             case "ModelBlock":
@@ -416,10 +413,15 @@ public class BlockPlacementController implements BlockObserver {
                 return (new PoolingBlockTemplate(block));
             case "TrainingBlock":
                 return (new TrainingBlockTemplate(block));
+            case "XInputBlock":
+                return (new XInputBlockTemplate(block));
+            case "YInputBlock":
+                return (new YInputBlockTemplate(block));
         }
         return null;
     }
 
+    // 저장할때
     private void updateTemplateConnectionInfo(List<BlockTemplate> blockTemplates, List<Block> blocks) {
         for (int i = 0; i < blocks.size(); i++) {
             if (blocks.get(i).isNextBlockConnected()) {
@@ -464,13 +466,13 @@ public class BlockPlacementController implements BlockObserver {
         }
     }
 
+    // 불러 올
     private void updateBlockConnectionInfo(List<BlockTemplate> blockTemplates, List<Block> blocks) {
         for (int i = 0; i < blockTemplates.size(); i++) {
             if (blockTemplates.get(i).isNextBlockTemplateConnected()) {
                 for (int j = 0; j < blocks.size(); j++) {
                     // 어차피 다음 블록은 하나만 오기때문에 상관없음..
                     if (compareBlock(blocks.get(i), blockTemplates.get(j))) {
-                        System.out.println("불러오면서 다음 블록 등록");
                         blocks.get(i).registerInitialNextBlock(blocks.get(getIndexForBlockTemplates(blockTemplates, blockTemplates.get(j).getNextBlocks().get(0))));
                     }
                 }
@@ -479,7 +481,6 @@ public class BlockPlacementController implements BlockObserver {
                 for (int j = 0; j < blocks.size(); j++) {
                     if (compareBlock(blocks.get(i), blockTemplates.get(j))) {
                         for (int k = 0; k < blockTemplates.get(j).getPreviousBlocks().size(); k++) {
-                            System.out.println("불러오면서 이전 블록 등록");
                             blocks.get(i).registerPreviousBlock(blocks.get(getIndexForBlockTemplates(blockTemplates, blockTemplates.get(j).getPreviousBlocks().get(k))));
                         }
                     }
@@ -487,14 +488,18 @@ public class BlockPlacementController implements BlockObserver {
             }
 
             //TODO Classifier xpart, ypart 추가해야함
-            /*if(blocks.get(i).getClass().getSimpleName().equals("ClassifierBlock")){
-                if (((ClassifierBlock)blocks.get(i)).getxPartBlock() != null){
-                    ((ClassifierBlockTemplate)blockTemplates.get(i)).setxPartBlock(convertOneBlockToTemplate();
+            if (blockTemplates.get(i).getClass().getSimpleName().equals("ClassifierBlockTemplate")) {
+                if (((ClassifierBlockTemplate) blockTemplates.get(i)).getxPartBlock() != null) {
+                    ((ClassifierBlock) blocks.get(i)).setxPartBlock(blocks.get(getIndexForBlockTemplates(blockTemplates, ((ClassifierBlockTemplate) blockTemplates.get(i)).getxPartBlock())));
                 }
-            }*/
+                if (((ClassifierBlockTemplate) blockTemplates.get(i)).getyPartBlock() != null) {
+                    ((ClassifierBlock) blocks.get(i)).setxPartBlock(blocks.get(getIndexForBlockTemplates(blockTemplates, ((ClassifierBlockTemplate) blockTemplates.get(i)).getyPartBlock())));
+                }
+            }
         }
-        System.out.println(blocks.get(0).getClass().getSimpleName() + "///" + blocks.get(0).getNextBlocks());
-        System.out.println(blocks.get(1).getClass().getSimpleName() + "///" + blocks.get(1).getPreviousBlocks());
+
+        initializeAllBlockTypeResize(blocks);
+
     }
 
     private List<Block> blockTemplatesToBlocks(List<BlockTemplate> blockTemplates) {
@@ -511,13 +516,17 @@ public class BlockPlacementController implements BlockObserver {
                 case "DenseBlockTemplate":
                     tempBlocks.add(new DenseBlock((DenseBlockTemplate) blockTemplate));
                     break;
-                case "InputBlockTemplate":
-                    if (blockTemplate.getBlockType().equals("XInputBlock")) {
-                        tempBlocks.add(new XInputBlock((InputBlockTemplate) blockTemplate));
-                    } else {
-                        tempBlocks.add(new YInputBlock((InputBlockTemplate) blockTemplate));
-                    }
-
+                case "XInputBlockTemplate":
+                    // 뷰어모드로 들어가야함
+                    XInputBlock xInputBlock = new XInputBlock((XInputBlockTemplate) blockTemplate);
+                    xInputBlock.setViewerMode();
+                    tempBlocks.add(xInputBlock);
+                    break;
+                case "YInputBlockTemplate":
+                    // 뷰어모드로 들어가야함
+                    YInputBlock yInputBlock = new YInputBlock((YInputBlockTemplate) blockTemplate);
+                    yInputBlock.setViewerMode();
+                    tempBlocks.add(yInputBlock);
                     break;
                 case "LstmBlockTemplate":
                     tempBlocks.add(new LstmBlock((LstmBlockTemplate) blockTemplate));
@@ -541,43 +550,6 @@ public class BlockPlacementController implements BlockObserver {
         return tempBlocks;
     }
 
-    private Block blockTemplateToBlock(BlockTemplate blockTemplate) {
-        String str = blockTemplate.getClass().getSimpleName();
-        switch (str) {
-            case "ClassifierBlockTemplate":
-                return (new ClassifierBlock((ClassifierBlockTemplate) blockTemplate));
-            case "ConvolutionLayerBlockTemplate":
-                return (new ConvolutionLayerBlock((ConvolutionLayerBlockTemplate) blockTemplate));
-
-            case "DenseBlockTemplate":
-                return new DenseBlock((DenseBlockTemplate) blockTemplate);
-
-            case "InputBlockTemplate":
-                if (blockTemplate.getBlockType().equals("XInputBlock")) {
-                    return new XInputBlock((InputBlockTemplate) blockTemplate);
-                } else {
-                    return new YInputBlock((InputBlockTemplate) blockTemplate);
-                }
-            case "LstmBlockTemplate":
-                return new LstmBlock((LstmBlockTemplate) blockTemplate);
-
-            case "ModelBlockTemplate":
-                return new ModelBlock((ModelBlockTemplate) blockTemplate);
-
-            case "PreprocessorBlockTemplate":
-                return new PreprocessorBlock((PreprocessorBlockTemplate) blockTemplate);
-
-            case "PoolingBlockTemplate":
-                return new PoolingBlock((PoolingBlockTemplate) blockTemplate);
-
-            case "TrainingBlockTemplate":
-                return new TrainingBlock((TrainingBlockTemplate) blockTemplate);
-
-            default:
-                return null;
-
-        }
-    }
 
     private boolean compareBlock(Block block, BlockTemplate blockTemplate2) {
 
@@ -588,7 +560,24 @@ public class BlockPlacementController implements BlockObserver {
         return blockTemplates.indexOf(blockTemplate);
     }
 
-    private int getIndexForBlock(List<Block> blocks, Block block) {
-        return blocks.indexOf(block);
+    private void initializeAllBlockTypeResize(List<Block> blocks) {
+
+        for (Block block : blocks) {
+            if (block instanceof ExtendableBlock) {
+                ((ExtendableBlock) block).setInitialExtendableBlockSize();
+            }
+        }
+        for (Block block : blocks) {
+            if (block instanceof ClassifierBlock) {
+                ((ClassifierBlock) block).setInitialClassifierBlockSize();
+            }
+        }
+        for (Block block : blocks) {
+            // 크기만 커진 블록들 사이즈 재조정
+            if (block.isBlockJustExtended()) {
+                block.setSize(block.getPreviousBlocks().get(0).getWidth(), block.getHeight());
+            }
+
+        }
     }
 }

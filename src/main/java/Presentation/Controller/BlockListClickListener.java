@@ -18,6 +18,7 @@ public class BlockListClickListener implements MouseListener {
         } else if(e.getSource() instanceof ConvolutionLayerBlock){
             BlockPlacementController.getInstance().addBlock(new ConvolutionLayerBlock());
         } else if(e.getSource() instanceof XInputBlock) {
+            //TODO Input 제어
             XInputBlock xinput = new XInputBlock();
             xinput.setViewerMode();
             BlockPlacementController.getInstance().addBlock(xinput);

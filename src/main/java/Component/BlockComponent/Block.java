@@ -8,7 +8,6 @@ import Component.BlockObserver.BlockObserver;
 import Component.BlockObserver.BlockPublisher;
 import Util.FileUtil;
 import Util.UidGenerator;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
@@ -16,16 +15,14 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 // 관찰될 수 있는 객체
-public abstract class Block extends JPanel implements MouseListener, MouseMotionListener, BlockPublisher, Serializable {
+public abstract class Block extends JPanel implements MouseListener, MouseMotionListener, BlockPublisher {
     private int offX, offY;
     private boolean isDragged = false;
-    private int draggedX, draggedY;
     private String uid;
 
     private BlockObserver blockObserver;
@@ -35,8 +32,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     private MatteBorder topBorder = new MatteBorder(5, 0, 0, 0, Color.cyan);
     private MatteBorder bottomBorder = new MatteBorder(0, 0, 5, 0, Color.cyan);
 
-    protected abstract  String getBlockAttrStr();
-
+    protected abstract String getBlockAttrStr();
     // 인자로 들어온 블록이 현재 블록의 다음 블록으로 연결 될 수 있는지 확인하는 메소드
     abstract public boolean isNextBlockConnectable(Block block);
 
@@ -49,18 +45,17 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     // 이전 블록과 연결되어 있는지 여부
     abstract public boolean isPreviousBlockConnected();
 
-    public JLabel nameLabel;
+    protected JLabel nameLabel;
     //public String blockName;
     public JPanel flowPanel;
     public JButton reductButton;
     public JButton revertExtendButton;
-    public JPopupMenu popupMenu;
-    public JMenuItem delete;
+    private JPopupMenu popupMenu;
+    private JMenuItem delete;
     public int diff;
     public int width;
-    public boolean extended = false;
+    protected boolean extended = false;
     public int seemToExtend=1;
-
     public Block() {
         nextBlocks = new ArrayList<>();
         previousBlocks = new ArrayList<>();
@@ -81,10 +76,13 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         delete=new JMenuItem("Delete");
         popupMenu.add(delete);
 
+        // 만약 템플릿에서 불러왔을때...
+        setInitialBlockSize();
         setVisible(true);
     }
     public Block(BlockTemplate blockTemplate){
         //TODO 완성해야함 좌표랑 다음블록 이전블록
+        extended = blockTemplate.isExtended();
     }
 
     public void checkExtendBlock(Block block){
@@ -126,7 +124,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                         this.nextBlocks.add(block);
                         block.extendBlockJustSize(this);
 
-                    }else if(this.isBlockJustExtended() && ((ExtendableBlock) block).isBlockExtended())
+                    }else if(this.isBlockJustExtended() && ((ExtendableBlock) block).isBlockExtended()){}
                     else {
                         int cumulative_y = 0;
                         this.nextBlocks.add(block);
@@ -570,6 +568,14 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         this.extended = false;
     }
 
+    private void setInitialBlockSize(){
+        if(this.extended){
+            if(this.getWidth() > this.width){
+                this.setSize(this.previousBlocks.get(0).getWidth(), this.getHeight());
+            }
+        }
+    }
+
     public boolean isBlockJustExtended(){
         return extended;
     }
@@ -605,4 +611,9 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             }
         }
     }
+
+    protected void setExtended(boolean extended){
+        this.extended = extended;
+    }
+
 }
