@@ -59,6 +59,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public int diff;
     public int width;
     public boolean extended = false;
+    public int seemToExtend=1;
 
     public Block() {
         nextBlocks = new ArrayList<>();
@@ -103,7 +104,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                 if(block instanceof ExtendableBlock){
                     // 블록이 확장되어있는지 검사
                     // 다음 블록이 확장 되었을 때의 케이스
-                    if(((ExtendableBlock) block).isBlockExtended() && !((ExtendableBlock) block).isFull()){
+                    if((((ExtendableBlock) block).isBlockExtended() && !((ExtendableBlock) block).isFull())){
                         float plusWidth = block.getWidth() * ((float)(((ExtendableBlock) block).getConnectedSize()) / ((ExtendableBlock)(block)).getExtendSize());
 
                         if(this instanceof ExtendableBlock){
@@ -125,7 +126,8 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                         this.nextBlocks.add(block);
                         block.extendBlockJustSize(this);
 
-                    }else {
+                    }else if(this.isBlockJustExtended() && ((ExtendableBlock) block).isBlockExtended())
+                    else {
                         int cumulative_y = 0;
                         this.nextBlocks.add(block);
                         for(Block block1 : getAllPreviousBlocks()){
@@ -572,10 +574,25 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         return extended;
     }
 
+    public int getSeemToExtend(){
+        return seemToExtend;
+    }
+
+    public int addSeemToExtend(){
+        seemToExtend++;
+        return seemToExtend;
+    }
+
+    public void subSeemToExtend(){
+        seemToExtend--;
+    }
+
+    //블록이 연결되었으면 extendButton과 revertExtendButton을 비활성화시킨다.
     public void extendButtonDisabled(Block block){
         if(block instanceof ExtendableBlock){
             if(block.isPreviousBlockConnected()==true || block.isNextBlockConnected()==true){
                 ((ExtendableBlock) block).extendButton.setEnabled(false);
+                ((ExtendableBlock) block).revertExtendButton.setEnabled(false);
             }
         }
     }
@@ -584,6 +601,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         if(block instanceof ExtendableBlock){
             if(block.isPreviousBlockConnected()==false && block.isNextBlockConnected()==false){
                 ((ExtendableBlock) block).extendButton.setEnabled(true);
+                ((ExtendableBlock) block).revertExtendButton.setEnabled(false);
             }
         }
     }
