@@ -86,11 +86,15 @@ public class PoolingBlock extends LayerBlock {
         verticalStrideTextField.setText(String.valueOf(template.getVerticalStride()));
         horizontalKernelSizeTextField.setText(String.valueOf(template.getHorizontalKernelSize()));
         verticalKernelSizeTextField.setText(String.valueOf(template.getVerticalKernelSize()));
+        this.setConnectedSize(template.getConnectSize());
+        this.setExtendSize(template.getExtendSize());
+        // 크기만 늘어났는지 체크
+        this.setExtended(template.isExtended());
         setLocation(template.getPositionX(), template.getPositionY());
     }
 
     @Override
-    String getBlockAttrStr() {
+    protected String getBlockAttrStr() {
         return null;
     }
 

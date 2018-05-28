@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ClassifierBlock extends Block{
+
     private Block xPartBlock,yPartBlock;
 
     private boolean xExtended;
@@ -37,13 +38,14 @@ public class ClassifierBlock extends Block{
     public ClassifierBlock(ClassifierBlockTemplate template){
         this();
         classifier = template.getClassifier();
+        this.xExtended = template.isxExtended();
         setLocation(template.getPositionX(), template.getPositionY());
 
     }
 
 
     @Override
-    String getBlockAttrStr() {
+    protected String getBlockAttrStr() {
         return null;
     }
 
@@ -130,6 +132,7 @@ public class ClassifierBlock extends Block{
     public void setxExtended(boolean xExtended){
         this.xExtended = xExtended;
     }
+
     public void extendXSize(Block block){
         if (!this.xExtended){
             //TODO 크기 늘려야함
@@ -148,6 +151,12 @@ public class ClassifierBlock extends Block{
             int beforeWidth = this.getWidth();
             this.setSize(beforeWidth - this.width, beforeHeight);
             xExtended = false;
+        }
+    }
+
+    public void setInitialClassifierBlockSize(){
+        if(xExtended){
+            this.setSize(this.xPartBlock.getWidth() + (int)(this.getWidth() / 2.0), this.getHeight());
         }
     }
 

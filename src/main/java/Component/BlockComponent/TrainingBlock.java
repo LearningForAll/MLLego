@@ -76,11 +76,13 @@ public class TrainingBlock extends Block {
         epochTextField.setText(String.valueOf(template.getEpochSize()));
         //TODO 주석제거
         //validRatioTextField.setText(String.valueOf(template.getValidRatio()));
+        // 크기만 늘어났는지 체크
+        this.setExtended(template.isExtended());
         setLocation(template.getPositionX(), template.getPositionY());
     }
 
     @Override
-    String getBlockAttrStr() {
+    protected String getBlockAttrStr() {
         return null;
     }
 

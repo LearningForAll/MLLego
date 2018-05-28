@@ -1,6 +1,7 @@
 package Component.BlockComponent;
 
 import Component.BlockBatchModel.BlockTemplateComponent.InputBlockTemplate;
+import Component.BlockBatchModel.BlockTemplateComponent.YInputBlockTemplate;
 import Const.FileType;
 import Const.InputOption;
 
@@ -58,7 +59,7 @@ public class YInputBlock extends InputBlock {
         flowPanel.setBackground(new Color(243, 115, 50));
         setVisible(true);
     }
-    public YInputBlock(InputBlockTemplate blockTemplate){
+    public YInputBlock(YInputBlockTemplate blockTemplate){
         this();
         filePathTextField.setText(blockTemplate.getFilePath());
         filePath = blockTemplate.getFilePath();
@@ -110,7 +111,7 @@ public class YInputBlock extends InputBlock {
         }
     }
     @Override
-    String getBlockAttrStr() {
+    protected String getBlockAttrStr() {
         return null;
     }
 

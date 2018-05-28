@@ -6,10 +6,8 @@ import Component.BlockBatchModel.BlockTemplateComponent.BlockTemplate;
 import Component.BlockException.BlockException;
 import Component.BlockObserver.BlockObserver;
 import Component.BlockObserver.BlockPublisher;
-import Const.Classifier;
 import Util.FileUtil;
 import Util.UidGenerator;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
@@ -17,16 +15,14 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 // 관찰될 수 있는 객체
-public abstract class Block extends JPanel implements MouseListener, MouseMotionListener, BlockPublisher, Serializable {
+public abstract class Block extends JPanel implements MouseListener, MouseMotionListener, BlockPublisher {
     private int offX, offY;
     private boolean isDragged = false;
-    private int draggedX, draggedY;
     private String uid;
 
     private BlockObserver blockObserver;
@@ -36,7 +32,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     private MatteBorder topBorder = new MatteBorder(5, 0, 0, 0, Color.cyan);
     private MatteBorder bottomBorder = new MatteBorder(0, 0, 5, 0, Color.cyan);
 
-    abstract String getBlockAttrStr();
+    protected abstract String getBlockAttrStr();
 
     // 인자로 들어온 블록이 현재 블록의 다음 블록으로 연결 될 수 있는지 확인하는 메소드
     abstract public boolean isNextBlockConnectable(Block block);
@@ -50,16 +46,16 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     // 이전 블록과 연결되어 있는지 여부
     abstract public boolean isPreviousBlockConnected();
 
-    public JLabel nameLabel;
+    protected JLabel nameLabel;
     //public String blockName;
     public JPanel flowPanel;
     public JButton reductButton;
     public JButton revertExtendButton;
-    public JPopupMenu popupMenu;
-    public JMenuItem delete;
+    private JPopupMenu popupMenu;
+    private JMenuItem delete;
     public int diff;
     public int width;
-    public boolean extended = false;
+    protected boolean extended = false;
 
     public Block() {
         nextBlocks = new ArrayList<>();
@@ -81,10 +77,13 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         delete=new JMenuItem("Delete");
         popupMenu.add(delete);
 
+        // 만약 템플릿에서 불러왔을때...
+        setInitialBlockSize();
         setVisible(true);
     }
     public Block(BlockTemplate blockTemplate){
         //TODO 완성해야함 좌표랑 다음블록 이전블록
+        extended = blockTemplate.isExtended();
     }
 
     public void checkExtendBlock(Block block){
@@ -145,6 +144,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                         for(Block block1 : getAllPreviousBlocks()){
                             block1.setLocation(block1.getX() - moving_x, block1.getY() + moving_y);
                         }
+                        ((ClassifierBlock) block).extendXSize(this);
 
                     }else if(((ClassifierBlock) block).checkIfYConnectable(this)){
 
@@ -221,6 +221,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     /**
@@ -233,6 +234,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             this.updateUI();
         } catch (Exception e) {
             e.printStackTrace();
+
         }
 
     }
@@ -251,17 +253,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             offX = e.getX();
             offY = e.getY();
             isDragged = true;
-
-        }
-        if (isFirstBlock()) {
-
-            List<Block> allConnectedBlock = this.getAllConnectedBlock();
-
-            for(int i = 0; i < allConnectedBlock.size(); i++){
-                System.out.println("눌릴때");
-                System.out.println("e.getx" + e.getX() + "getlocationX().x" + getLocation().x + "offset x" + offX);
-                System.out.println(i + "번쨰 블록" + allConnectedBlock.get(i).getLocation().getX() + "//" + allConnectedBlock.get(i).getLocation().getY());
-                }
 
         }
     }
@@ -380,6 +371,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             }
         }else if(this instanceof ClassifierBlock){
                 ((ClassifierBlock)this).deleteXYBlock();
+                ((ClassifierBlock)this).revertXSize();
         }
         for (int i = 0; i < this.previousBlocks.size(); i++){
             this.previousBlocks.get(i).disconnectNextBlock();
@@ -565,7 +557,20 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         this.extended = false;
     }
 
+    private void setInitialBlockSize(){
+        if(this.extended){
+            if(this.getWidth() > this.width){
+                this.setSize(this.previousBlocks.get(0).getWidth(), this.getHeight());
+            }
+        }
+    }
+
     public boolean isBlockJustExtended(){
         return extended;
     }
+
+    protected void setExtended(boolean extended){
+        this.extended = extended;
+    }
+
 }

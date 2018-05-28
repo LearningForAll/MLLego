@@ -2,6 +2,7 @@ package Component.BlockBatchModel.BlockTemplateComponent;
 
 import Component.BlockComponent.Block;
 import Component.BlockComponent.ConvolutionLayerBlock;
+import Component.BlockComponent.LayerBlock;
 import Const.ActivationFunc;
 
 import java.util.List;
@@ -12,12 +13,15 @@ import java.util.List;
 public class ConvolutionLayerBlockTemplate extends BlockTemplate{
 
 
-    int kernelSize;
-    int horizontalKernelSize;
-    int verticalKernelSize;
-    int keepProb;
-    int convDimension;
-    ActivationFunc func;
+    private int kernelSize;
+    private int horizontalKernelSize;
+    private int verticalKernelSize;
+    private int keepProb;
+    private int convDimension;
+
+    private int extendSize;
+    private int connectedSize;
+    private ActivationFunc func;
 
     public ConvolutionLayerBlockTemplate(int positionX, int positionY, String blockType,
                                          int kernelSize, int horizontalKernelSize, int verticalKernelSize,
@@ -36,6 +40,9 @@ public class ConvolutionLayerBlockTemplate extends BlockTemplate{
         this.horizontalKernelSize = ((ConvolutionLayerBlock)block).getHorizonKernelSize();
         this.verticalKernelSize = ((ConvolutionLayerBlock)block).getVerticalKernelSize();
         this.func = ((ConvolutionLayerBlock)block).getActivationFunction();
+        this.extendSize = ((LayerBlock)block).getExtendSize();
+        this.connectedSize = ((LayerBlock)block).getConnectedSize();
+        this.extended = block.isBlockJustExtended();
     }
 
     public ActivationFunc getFunc() {
@@ -57,4 +64,12 @@ public class ConvolutionLayerBlockTemplate extends BlockTemplate{
     public int getVerticalKernelSize() {
         return verticalKernelSize;
     }
+
+    public int getExtendSize(){
+        return extendSize;
+    }
+    public int getConnectedSize(){
+        return connectedSize;
+    }
+
 }

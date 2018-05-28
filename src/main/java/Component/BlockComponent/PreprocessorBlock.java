@@ -41,13 +41,13 @@ public class PreprocessorBlock extends Block {
         setLocation(blockTemplate.getPositionX(), blockTemplate.getPositionY());
     }
     @Override
-    String getBlockAttrStr() {
+    protected String getBlockAttrStr() {
         return null;
     }
 
     @Override
     public boolean isNextBlockConnectable(Block block) {
-        return (block instanceof LayerBlock);
+        return (block instanceof LayerBlock || block instanceof ClassifierBlock);
     }
 
     @Override
