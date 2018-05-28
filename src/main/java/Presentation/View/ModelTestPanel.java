@@ -25,11 +25,13 @@ public class ModelTestPanel extends JPanel {
         setBackground(Color.white);
         TestBlock[] allComponents=ArrayUtil.merge1(blockTestInput.getBlockComponents());
         //블록들의 마우스 이벤트 해제
+        /*
         for (TestBlock mockBlock : allComponents){
             mockBlock.removeMouseListener(mockBlock);
             mockBlock.addMouseListener(new TestBlockListClickListener());
         }
         revalidate();
+        */
         setVisible(true);
         this.setLayout(null);
     }

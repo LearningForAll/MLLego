@@ -55,6 +55,19 @@ public class BlockPlacementController implements BlockObserver {
 
     //TODO :: 연결된 블록 중 중간 블록이 삭제 된 후의 연결 처리하기
     public void removeBlock(Block block) {
+        //블록이 삭제되었을때 extend 버튼 활성화 시키기
+        if(block instanceof ExtendableBlock) {
+            if (((ExtendableBlock) block).isPreviousBlockConnected()) {
+                if (((ExtendableBlock) block).getPreviousBlocks().get(block.getPreviousBlocks().size() - 1) instanceof ExtendableBlock) {
+                    ((ExtendableBlock) ((ExtendableBlock) block).getPreviousBlocks().get(block.getPreviousBlocks().size() - 1)).activateButton();
+                }
+            }
+            if (((ExtendableBlock) block).isNextBlockConnected()) {
+                if (((ExtendableBlock) block).getNextBlocks().get(0) instanceof ExtendableBlock) {
+                    ((ExtendableBlock) ((ExtendableBlock) block).getPreviousBlocks().get(0)).activateButton();
+                }
+            }
+        }
         blocks.remove(block);
         panel.deleteBlock(block);
         // 패널에도 블록 삭제
