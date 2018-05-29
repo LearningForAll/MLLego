@@ -125,13 +125,16 @@ public class ClassifierOption {
     }
 
     public String getClassifierOption(String checkOption) {
+        String slashPath;
         switch (checkOption) {
             case "model_path":
-                return "\""+modelPath+"\"";
+                slashPath = modelPath.replaceAll("\\\\","/");
+                return "\""+slashPath+"\"";
             case "x_path":
-                return "\""+xPath+"\"";
-            case "y_path":
-                return "\""+yPath+"\"";
+                slashPath = xPath.replaceAll("\\\\","/");
+                return "\""+slashPath+"\"";
+            case "y_path":slashPath = yPath.replaceAll("\\\\","/");
+                return "\""+slashPath+"\"";
             case "x_option":
                 return "\""+xOption.name()+"\"";
             case "y_option":

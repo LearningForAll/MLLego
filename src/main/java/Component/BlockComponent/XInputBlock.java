@@ -1,6 +1,5 @@
 package Component.BlockComponent;
 
-import Component.BlockBatchModel.BlockTemplateComponent.InputBlockTemplate;
 import Component.BlockBatchModel.BlockTemplateComponent.XInputBlockTemplate;
 import Const.FileType;
 import Const.InputOption;
@@ -153,7 +152,7 @@ public class XInputBlock extends InputBlock {
 
     //todo x와 y구분해서 경로 리턴하기. 어떤 object에서도 같은값을 return 하기위해서 / Class로도 값을 얻을수 있게 하기 위해서 static으로 처리
     public static String getXPath(){
-        return "Empty";
+        return filePath;
     }
     public void setViewerMode(){
         remove(flowSubPanel);

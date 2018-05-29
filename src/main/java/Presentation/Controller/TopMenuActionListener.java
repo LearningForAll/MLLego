@@ -32,8 +32,8 @@ public class TopMenuActionListener implements ActionListener {
                 }
                 TFBuilder tfBuilder = new TFBuilder();
                 boolean result = tfBuilder.generateCodeFile(trainingBlock,modelBlock.getName());
-                //if (!result) return;
-                //tfBuilder.training();
+                if (!result) return;
+                tfBuilder.training();
                 break;
             case "stop":
                 MyApp.stop();

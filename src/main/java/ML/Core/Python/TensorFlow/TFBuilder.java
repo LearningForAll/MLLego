@@ -130,7 +130,22 @@ public class TFBuilder implements MLBuilder {
         String envDir = currentDir+"\\envs";
         String pythonDir = envDir+"\\python.exe";
         try {
-            Runtime.getRuntime().exec(pythonDir+" "+recentGenerateTrainingCodeURL+"\\Trainer.py");
+            Process process = Runtime.getRuntime().exec(new String[]{"cmd.exe", "/c", pythonDir + " " + recentGenerateTrainingCodeURL + "\\Trainer.py"});
+            process.getErrorStream().close();
+            process.getInputStream().close();
+            process.getOutputStream().close();
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        process.waitFor();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            thread.start();
+
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -358,7 +373,8 @@ public class TFBuilder implements MLBuilder {
 
     private void generateModelTestCode(String modelName,String xPath){
         String currentDir = System.getProperty("user.dir");
-        String folderDir = currentDir+"\\bin\\"+ modelName;
+        String folderDir = currentDir+"/bin/"+ modelName;
+        folderDir = folderDir.replaceAll("\\\\","/");
         if (!new File(folderDir).isDirectory()){
             JOptionPane.showMessageDialog(null,"해당 모델파일이 존재하지않습니다,","ERROR",JOptionPane.ERROR_MESSAGE);
             return;
