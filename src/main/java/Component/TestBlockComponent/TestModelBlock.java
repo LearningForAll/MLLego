@@ -13,7 +13,7 @@ public class TestModelBlock extends TestBlock {
 
     public TestModelBlock(String modelName){
         super();
-        flowSubPanel=new JPanel();
+        flowSubPanel = new JPanel();
         modelTextField=new JTextField(18);
         nameLabel = new JLabel(getClass().getSimpleName());
         nameLabel.setForeground(Color.white);
@@ -28,9 +28,15 @@ public class TestModelBlock extends TestBlock {
         flowPanel.add(nameLabel);
         flowPanel.setBackground(new Color(0, 0, 180));
         setVisible(true);
-
         // 생성자에 모델네임 넘기고 ...
         modelTextField.setText(modelName);
+        modelTextField.setEnabled(false);
 
+
+    }
+    public void setName(String modelName){
+        modelTextField.setEnabled(true);
+        modelTextField.setText(modelName);
+        modelTextField.setEnabled(false);
     }
 }

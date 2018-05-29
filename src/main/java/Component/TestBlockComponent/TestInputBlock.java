@@ -29,7 +29,7 @@ public class TestInputBlock extends TestBlock {
 
     public TestInputBlock(){
         super();
-        nameLabel = new JLabel("X Input");
+        nameLabel = new JLabel("Test X Input");
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         openFileExploreButton = new JButton("File");
@@ -41,7 +41,7 @@ public class TestInputBlock extends TestBlock {
         startEliminationRadioButton = new JRadioButton("Start");
         inputOptionCombobox = new JComboBox<>(InputOption.values());
 
-        flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,2,2));
+        flowSubPanel = new JPanel(new FlowLayout(FlowLayout.LEADING,2,2));
         openFileExploreButton.setPreferredSize(new Dimension(60,20));
         filePathTextField.setPreferredSize(new Dimension(134,20));
 
