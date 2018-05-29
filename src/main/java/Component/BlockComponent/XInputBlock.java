@@ -55,7 +55,7 @@ public class XInputBlock extends InputBlock {
         add(flowSubPanel);
         add(inputOptionCombobox);
         flowPanel.add(nameLabel);
-        inputOptionCombobox.setEnabled(false);
+        inputOptionCombobox.setEnabled(true);
         flowPanel.setBackground(new Color(243, 115, 50));
         setVisible(true);
     }
