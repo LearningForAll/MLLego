@@ -28,8 +28,19 @@ public class ModelTestPanel extends JPanel {
     public ModelTestPanel(){
         setLayout(null);
         setBackground(Color.white);
+<<<<<<< HEAD
         testInputBlock = new TestInputBlock();
+=======
+        TestBlock[] allComponents=ArrayUtil.merge1(blockTestInput.getBlockComponents());
+        //블록들의 마우스 이벤트 해제
+        /*
+        for (TestBlock mockBlock : allComponents){
+            mockBlock.removeMouseListener(mockBlock);
+            mockBlock.addMouseListener(new TestBlockListClickListener());
+        }
+>>>>>>> 16e6462178ec7c51b9434c033d394855203d6eac
         revalidate();
+        */
         setVisible(true);
 
         // 인풋 고정블록 추가

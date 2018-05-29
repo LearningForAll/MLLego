@@ -25,9 +25,9 @@ public class BlockInput extends JPanel {
         xInputBlock=new XInputBlock();
         yInputBlock=new YInputBlock();
         preprocessorBlock=new PreprocessorBlock();
-        xInputBlock.setLocation(50,20);
-        yInputBlock.setLocation(50,120);
-        preprocessorBlock.setLocation(50,220);
+        xInputBlock.setLocation(50,30);
+        yInputBlock.setLocation(50,xInputBlock.getHeight()+80);
+        preprocessorBlock.setLocation(50,xInputBlock.getHeight()+yInputBlock.getHeight()+130);
 
         add(xInputBlock);
         add(yInputBlock);

@@ -130,4 +130,12 @@ public abstract class ExtendableBlock extends Block {
             this.setSize(this.getWidth() * extendSize, this.getHeight());
         }
     }
+
+    //블록의 연결이 아예 없으면 extendButton과 revertExtendButton 활성화시킴
+    public void activateButton(){
+        if(!this.isNextBlockConnected() && !this.isPreviousBlockConnected()){
+            this.extendButton.setEnabled(true);
+            this.revertExtendButton.setEnabled(true);
+        }
+    }
 }

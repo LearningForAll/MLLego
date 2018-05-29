@@ -1,6 +1,7 @@
 package Component.TestBlockComponent;
 
 import Component.BlockActionListener.DeleteActionListener;
+import Component.BlockActionListener.DeleteModelTestActionListener;
 import Component.BlockComponent.Block;
 import Component.BlockObserver.TestBlockObserver;
 import Component.BlockObserver.TestBlockPublisher;
@@ -27,6 +28,9 @@ public abstract class TestBlock extends JPanel implements TestBlockPublisher, Mo
 
     public TestBlock(){
         this.setBorder(basicBorder);
+        popupMenu=new JPopupMenu();
+        delete=new JMenuItem("Delete");
+        popupMenu.add(delete);
         flowPanel = new JPanel(new FlowLayout());
     }
 
@@ -51,7 +55,7 @@ public abstract class TestBlock extends JPanel implements TestBlockPublisher, Mo
     public void mouseClicked(MouseEvent e) {
         if(e.getButton()==MouseEvent.BUTTON3){//오른쪽버튼 클릭시
             popupMenu.show(TestBlock.this, e.getX(), e.getY());
-            delete.addActionListener(new DeleteActionListener(this));
+            delete.addActionListener(new DeleteModelTestActionListener(this));
         }
     }
 
