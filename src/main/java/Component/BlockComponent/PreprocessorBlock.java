@@ -30,7 +30,7 @@ public class PreprocessorBlock extends Block {
         add(flowPanel);
         add(preprocessorTypeCombobox);
         flowPanel.add(nameLabel);
-        preprocessorTypeCombobox.setEnabled(false);
+        preprocessorTypeCombobox.setEnabled(true);
 
         flowPanel.setBackground(new Color(243,115,50));
         setVisible(true);
