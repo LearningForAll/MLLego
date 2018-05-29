@@ -208,7 +208,7 @@ public class TFBuilder implements MLBuilder {
             beforeUid = beforeBlock.getUid();
         }
         funcStr += "=lg.conv2d(" + beforeUid + "," + block.getKernelNum() + ",[" + block.getHorizonKernelSize() + "," + block.getVerticalKernelSize() + "],\"" +
-                block.getActivationFunction().toString() + "\",[1,1]," + "\'VALID\'" + "\',scope=\'" + block.getUid() + "\')";
+                block.getActivationFunction().toString() + "\",[1,1]," + "\'VALID\'" + ",scope=\'" + block.getUid() + "\')";
         return funcStr;
     }
 
@@ -239,7 +239,7 @@ public class TFBuilder implements MLBuilder {
         } else {
             beforeUid = beforeBlock.getUid();
         }
-        funcStr += "=lg.pool(" + beforeUid + "," + block.getPoolingType().toString() + ",[" + block.getHorizonKernel() + "," + block.getVerticalKernel() + "],["
+        funcStr += "=lg.pool(" + beforeUid + ",\'" + block.getPoolingType().toString() + "\',[" + block.getHorizonKernel() + "," + block.getVerticalKernel() + "],["
                 + block.getHorizonStride() + "," + block.getVerticalStride() + "],\'" + block.getPaddingOption().toString() + "\',scope=\'" + block.getUid() + "\')";
         return funcStr;
     }

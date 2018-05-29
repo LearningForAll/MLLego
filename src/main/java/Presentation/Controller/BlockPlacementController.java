@@ -585,7 +585,7 @@ public class BlockPlacementController implements BlockObserver {
 
     public ModelBlock getModelBlock() {
         for (Block block : blocks){
-            if (block instanceof TrainingBlock)return (ModelBlock) block;
+            if (block instanceof ModelBlock)return (ModelBlock) block;
         }
         return null;
     }

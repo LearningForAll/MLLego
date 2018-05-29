@@ -129,9 +129,9 @@ public class TrainingBlock extends Block {
     public Optimizer getOptimizer(){ return (Optimizer) optimizerCombobox.getSelectedItem(); }
 
     public float getLearningRate() {
-        return Float.valueOf(learningRateTextField.getText());}
+        return Float.parseFloat(learningRateTextField.getText());}
 
     public float getValidRatio() {
-        return Float.valueOf(validRatioTextField.getText());
+        return Float.parseFloat(validRatioTextField.getText());
     }
 }
