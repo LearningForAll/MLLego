@@ -20,11 +20,15 @@ public class TemplatePanel extends JPanel {
 
     JButton mnistCnn;
     JButton xorDnn;
+    JLabel mnistCnnLabel;
+    JLabel xorDnnLabel;
     TemplateController templateController;
 
     public TemplatePanel() {
         setBackground(Color.white);
         List<String> fileNameList = getAllFileName();
+        mnistCnnLabel=new JLabel("Mnist Cnn");
+        xorDnnLabel=new JLabel("Xor Dnn");
         mnistCnn = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/mnistCnn.png")));
         xorDnn = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/xorDnn.png")));
         mnistCnn.setBorderPainted(false);
@@ -36,6 +40,8 @@ public class TemplatePanel extends JPanel {
 
         add(mnistCnn);
         add(xorDnn);
+        add(mnistCnnLabel);
+        add(xorDnnLabel);
         setVisible(true);
     }
 

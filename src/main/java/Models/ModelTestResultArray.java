@@ -1,5 +1,6 @@
 package Models;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -7,14 +8,14 @@ import java.awt.*;
  */
 public class ModelTestResultArray {
     private String modelName;
-    private Image graph1;
-    private Image graph2;
+    private String graph1;
+    private String graph2;
     private float accuracy;
     private float cost;
 
     ModelTestResultArray(){}
 
-    ModelTestResultArray(String modelName, Image graph1, Image graph2, float accuracy, float cost){
+    ModelTestResultArray(String modelName, String graph1, String graph2, float accuracy, float cost){
         this.modelName=modelName;
         this.graph1=graph1;
         this.graph2=graph2;
@@ -25,12 +26,15 @@ public class ModelTestResultArray {
     public String getModelName(){return modelName;}
     public float getAccuracy(){return accuracy;}
     public float getCost(){return cost;}
-    public Image getGraph1(){return graph1;}
-    public Image getGraph2(){return graph2;}
+    public String getGraph1(){return graph1;}
+    public String getGraph2(){return graph2;}
 
+    //모델 부분과 소통하는 부분
     public void setModelName(String modelName){this.modelName=modelName;}
-    public void setGraph1(Image graph1){this.graph1=graph1;}
-    public void setGraph2(Image graph2){this.graph2=graph2;}
+    public void setGraph1(String graph1){this.graph1=graph1;}
+    public void setGraph2(String graph2){this.graph2=graph2;}//String graph는 그래프의 경로를 넘겨줌
     public void setAccuracy(float accuracy){this.accuracy=accuracy;}
-    public void setCost(float cost){this.cost=cost;}
+    public void setCostPanel(float cost){this.cost=cost;}
+
+
 }
