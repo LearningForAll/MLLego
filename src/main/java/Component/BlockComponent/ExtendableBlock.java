@@ -92,6 +92,10 @@ public abstract class ExtendableBlock extends Block {
         return connectedSize;
     }
 
+    public boolean isAnyBlockConnected(){
+        return (previousBlocks.size() != 0);
+    }
+
     private List<Block> getAllPreviousBlocksForExtendableBlock(){
         List<Block> allPreviousBlock = new ArrayList<>();
         Block block = this;

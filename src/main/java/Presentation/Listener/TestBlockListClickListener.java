@@ -12,12 +12,12 @@ import java.awt.event.MouseListener;
 public class TestBlockListClickListener implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() instanceof TestInputBlock){
+        /*if (e.getSource() instanceof TestInputBlock){
             ModelTestController.getInstance().addTestBlock(new TestInputBlock());
         } else if(e.getSource() instanceof TestPreProcessorBlock){
             ModelTestController.getInstance().addTestBlock(new TestPreProcessorBlock());
         }
-
+    */
         //TODO 해성이 여기다가 추가하면댐
     }
 

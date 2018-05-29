@@ -26,7 +26,6 @@ public class BlockListPanel extends JTabbedPane {
         add("Input", blockInput);
         add("Layer", blockLayer);
         add("Processing", blockProcessing);
-        add("Testing", blockTestInput);
 
         Block[] allComponents = ArrayUtil.merge1(blockInput.getBlockComponents(),blockLayer.getBlockComponents(),blockProcessing.getBlockComponents());
         //BlockListPanel에 있는 블록들에는 드래그 안되고 마우스 클릭만 가능하게 함
@@ -35,11 +34,6 @@ public class BlockListPanel extends JTabbedPane {
             mockBlock.addMouseListener(new BlockListClickListener());
         }
 
-        //BlockListPanel의 Testing패널에 있는 블록들에는 또한 드래그 안되고 마우스 클릭만 가능하게 함
-        for (TestBlock mockBlock : blockTestInput.getBlockComponents()){
-            mockBlock.removeMouseListener(mockBlock);
-            mockBlock.addMouseListener(new TestBlockListClickListener());
-        }
 
         revalidate();
         setVisible(true);
