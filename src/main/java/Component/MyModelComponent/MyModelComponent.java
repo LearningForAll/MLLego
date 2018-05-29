@@ -1,5 +1,6 @@
 package Component.MyModelComponent;
 
+import Presentation.Controller.BlockPlacementDefaultController;
 import Presentation.Controller.ModelTestController;
 import Util.FileUtil;
 import javax.swing.*;
@@ -45,6 +46,7 @@ public class MyModelComponent extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             ModelTestController.getInstance().addTestModel(modelName);
+            BlockPlacementDefaultController.getInstance().changeModelTestTab();
         }
     }
 }

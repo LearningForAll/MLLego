@@ -1,10 +1,7 @@
 package Presentation.View;
 
 import Component.BlockComponent.ConvolutionLayerBlock;
-import Presentation.Controller.BlockListController;
-import Presentation.Controller.BlockPlacementController;
-import Presentation.Controller.ModelTestController;
-import Presentation.Controller.TopmenuController;
+import Presentation.Controller.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,6 +31,7 @@ public class MainFrame extends JFrame {
         BlockPlacementController.getInstance().setPanel(blockPlacementDefault.getBlockPlacementPanel());
         ModelTestController.getInstance().setPanel(blockPlacementDefault.getModelTestPanel());
         BlockListController.getInstance().setPanel(blockListPanel);
+        BlockPlacementDefaultController.getInstance().setDefaultPanel(blockPlacementDefault);
         setSize(1800,1000);
         add(topMenuPanel, BorderLayout.NORTH);
         add(blockPlacementDefault, BorderLayout.CENTER);
