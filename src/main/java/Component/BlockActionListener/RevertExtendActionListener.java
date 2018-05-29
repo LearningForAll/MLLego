@@ -31,6 +31,7 @@ public class RevertExtendActionListener implements ActionListener{
         }
         // Extend 사이즈도 없애줘야함
         ((ExtendableBlock)block).subExtendSize();
+        ((ExtendableBlock)block).subSeemToExtend();
 
         block.revalidate();
     }

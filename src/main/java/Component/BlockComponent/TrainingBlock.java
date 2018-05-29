@@ -36,6 +36,7 @@ public class TrainingBlock extends Block {
         optimizerCombobox = new JComboBox<>(Optimizer.values());
 
         JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,7,2));
+        JPanel flowSubPanel2=new JPanel(new FlowLayout(FlowLayout.LEADING, 7,2));
         JLabel batchSizeLabel=new JLabel("Size");
         JLabel learningRateLabel=new JLabel("Rate");
         JLabel epochLabel=new JLabel("Epoch");
@@ -44,25 +45,26 @@ public class TrainingBlock extends Block {
         learningRateLabel.setFont(new Font("BOLD", Font.BOLD, 11));
         epochLabel.setFont(new Font("BOLD", Font.BOLD, 11));
         ratioLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        learningRateTextField.setPreferredSize(new Dimension(20,20));
-        batchSizeTextField.setPreferredSize(new Dimension(20,20));
-        epochTextField.setPreferredSize(new Dimension(20,20));
-        validRatioTextField.setPreferredSize(new Dimension(20,20));
+        learningRateTextField.setPreferredSize(new Dimension(30,20));
+        batchSizeTextField.setPreferredSize(new Dimension(30,20));
+        epochTextField.setPreferredSize(new Dimension(30,20));
+        validRatioTextField.setPreferredSize(new Dimension(30,20));
         flowSubPanel.add(batchSizeLabel);
         flowSubPanel.add(batchSizeTextField);
         flowSubPanel.add(learningRateLabel);
         flowSubPanel.add(learningRateTextField);
-        flowSubPanel.add(epochLabel);
-        flowSubPanel.add(epochTextField);
-        flowSubPanel.add(ratioLabel);
-        flowSubPanel.add(validRatioTextField);
+        flowSubPanel2.add(epochLabel);
+        flowSubPanel2.add(epochTextField);
+        flowSubPanel2.add(ratioLabel);
+        flowSubPanel2.add(validRatioTextField);
 
-        GridLayout layout=new GridLayout(3,1);
+        GridLayout layout=new GridLayout(4,1);
         setLayout(layout);
-        setSize(200,75);
+        setSize(200,99);
         width=getWidth();
         add(flowPanel);
         add(flowSubPanel);
+        add(flowSubPanel2);
         add(optimizerCombobox);
         flowPanel.add(nameLabel);
         flowPanel.setBackground(new Color(0,0,180));
@@ -76,11 +78,13 @@ public class TrainingBlock extends Block {
         epochTextField.setText(String.valueOf(template.getEpochSize()));
         //TODO 주석제거
         //validRatioTextField.setText(String.valueOf(template.getValidRatio()));
+        // 크기만 늘어났는지 체크
+        this.setExtended(template.isExtended());
         setLocation(template.getPositionX(), template.getPositionY());
     }
 
     @Override
-    String getBlockAttrStr() {
+    protected String getBlockAttrStr() {
         return null;
     }
 

@@ -2,29 +2,27 @@ package Component.BlockBatchModel.BlockTemplateComponent;
 
 import Component.BlockComponent.Block;
 import Component.BlockComponent.InputBlock;
+import Component.BlockComponent.XInputBlock;
+import Const.FileType;
 import Const.InputOption;
 
-import java.util.List;
+public class XInputBlockTemplate extends BlockTemplate {
 
-/**
- * Created by chaebyeonghun on 2018. 4. 29..
- */
-public class InputBlockTemplate extends BlockTemplate {
-
+    FileType fileType;
     String filePath;
     InputOption inputOption;
     boolean isXinput;
 
-    public InputBlockTemplate(int positionX, int positionY, String blockType,
+    public XInputBlockTemplate(int positionX, int positionY, String blockType,
                               String filePath, InputOption inputOption) {
         super(positionX, positionY, blockType);
         this.filePath = filePath;
         this.inputOption = inputOption;
     }
-    public InputBlockTemplate(Block block){
+    public XInputBlockTemplate(Block block){
         super(block.getX(), block.getY(), block.getClass().getSimpleName());
-        //this.filePath = ((InputBlock)block).get();
-        this.inputOption = ((InputBlock)block).getInputOption();
+        this.filePath = XInputBlock.getXPath();
+        this.inputOption = ((XInputBlock)block).getInputOption();
 
     }
 
@@ -43,4 +41,5 @@ public class InputBlockTemplate extends BlockTemplate {
     public void setInputOption(InputOption inputOption) {
         this.inputOption = inputOption;
     }
+
 }

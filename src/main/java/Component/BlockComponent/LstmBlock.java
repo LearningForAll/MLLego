@@ -58,12 +58,14 @@ public class LstmBlock extends LayerBlock {
     public LstmBlock(LstmBlockTemplate template){
         keepProbJSlider.setValue(template.getKeepProb());
         //TODO 주석풀어야함
-        //stackSizeTextField.setValue(template.getStackSize());
+        stackSizeTextField.setValue(template.getStackSize());
+        // 크기만 늘어났는지 체크
+        this.setExtended(template.isExtended());
         setLocation(template.getPositionX(), template.getPositionY());
     }
 
     @Override
-    String getBlockAttrStr() {
+    protected String getBlockAttrStr() {
         return null;
     }
 

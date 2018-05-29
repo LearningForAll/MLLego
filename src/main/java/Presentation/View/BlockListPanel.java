@@ -1,16 +1,13 @@
 package Presentation.View;
 
-import Component.BlockActionListener.DeleteActionListener;
-import Component.BlockActionListener.ExtendActionListener;
-import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockComponent.Block;
+import Component.TestBlockComponent.TestBlock;
 import Presentation.Controller.BlockListClickListener;
-import Presentation.Controller.BlockListController;
+import Presentation.Listener.TestBlockListClickListener;
 import Util.ArrayUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseListener;
 
 /**
  * Created by LG on 2018-03-26.
@@ -20,14 +17,16 @@ import java.awt.event.MouseListener;
 public class BlockListPanel extends JTabbedPane {
 
     BlockLayer blockLayer=new BlockLayer();
-    BlockProcessing blockProcessing=new BlockProcessing();
+    BlockProcessingPanel blockProcessing=new BlockProcessingPanel();
     BlockInput blockInput=new BlockInput();
+    BlockTestInputPanel blockTestInput = new BlockTestInputPanel();
 
     public BlockListPanel(){
         setBackground(Color.white);
         add("Input", blockInput);
         add("Layer", blockLayer);
         add("Processing", blockProcessing);
+        add("Testing", blockTestInput);
 
         Block[] allComponents = ArrayUtil.merge1(blockInput.getBlockComponents(),blockLayer.getBlockComponents(),blockProcessing.getBlockComponents());
         //BlockListPanel에 있는 블록들에는 드래그 안되고 마우스 클릭만 가능하게 함
@@ -35,6 +34,13 @@ public class BlockListPanel extends JTabbedPane {
             mockBlock.removeMouseListener(mockBlock);
             mockBlock.addMouseListener(new BlockListClickListener());
         }
+
+        //BlockListPanel의 Testing패널에 있는 블록들에는 또한 드래그 안되고 마우스 클릭만 가능하게 함
+        for (TestBlock mockBlock : blockTestInput.getBlockComponents()){
+            mockBlock.removeMouseListener(mockBlock);
+            mockBlock.addMouseListener(new TestBlockListClickListener());
+        }
+
         revalidate();
         setVisible(true);
     }
