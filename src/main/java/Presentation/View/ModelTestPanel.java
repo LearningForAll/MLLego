@@ -19,7 +19,7 @@ import java.awt.image.BufferedImage;
  */
 public class ModelTestPanel extends JPanel {
 
-    BlockTestInputPanel blockTestInput=new BlockTestInputPanel();
+    BlockTestInputPanel blockTestInput = new BlockTestInputPanel();
     TestInputBlock testInputBlock;
     TestModelBlock testModelBlock = null;
     int xPosit = 160;
@@ -28,17 +28,13 @@ public class ModelTestPanel extends JPanel {
     public ModelTestPanel(){
         setLayout(null);
         setBackground(Color.white);
-<<<<<<< HEAD
         testInputBlock = new TestInputBlock();
-=======
-        TestBlock[] allComponents=ArrayUtil.merge1(blockTestInput.getBlockComponents());
         //블록들의 마우스 이벤트 해제
         /*
         for (TestBlock mockBlock : allComponents){
             mockBlock.removeMouseListener(mockBlock);
             mockBlock.addMouseListener(new TestBlockListClickListener());
         }
->>>>>>> 16e6462178ec7c51b9434c033d394855203d6eac
         revalidate();
         */
         setVisible(true);
@@ -78,20 +74,6 @@ public class ModelTestPanel extends JPanel {
             this.repaint();
             this.revalidate();
         }
-    }
-    public void screenSizeLocation() {
-
-
-
-        Dimension frameSize = getSize(); // 컴포넌트 크기
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 모니터 화면의 크기 구하기
-
-        // (모니터화면 가로 - 프레임화면 가로) / 2, (모니터화면 세로 - 프레임화면 세로) / 2
-        setLocation((screenSize.width - frameSize.width)/2, (screenSize.height - frameSize.height)/2);
-
-
-
     }
 
 }
