@@ -29,7 +29,7 @@ public class ModelTestResultArray {
     public String getGraph1(){return graph1;}
     public String getGraph2(){return graph2;}
 
-    //모델 부분과 소통하는 부분
+    //해성이가 건드려야 하는 부분
     public void setModelName(String modelName){this.modelName=modelName;}
     public void setGraph1(String graph1){this.graph1=graph1;}
     public void setGraph2(String graph2){this.graph2=graph2;}//String graph는 그래프의 경로를 넘겨줌
