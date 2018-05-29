@@ -2,7 +2,9 @@ package App;
 
 import Presentation.Controller.ResultController;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,6 +12,7 @@ import java.net.Socket;
 public class CommunicationThread extends Thread {
     public int Port = 9999;
     public boolean runningSignal = true;
+    Socket recentSocket;
     @Override
     public void run() {
         super.run();
@@ -18,6 +21,7 @@ public class CommunicationThread extends Thread {
                 InetSocketAddress ipep = new InetSocketAddress(Port);
                 server.bind(ipep);
                 Socket client = server.accept();
+                recentSocket = client;
                 System.out.println("connected");
                 while (runningSignal) {
                     InputStream reciever = client.getInputStream();
@@ -33,6 +37,17 @@ public class CommunicationThread extends Thread {
             } catch (Throwable e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void SendStopSignal(){
+        try {
+            OutputStream os = recentSocket.getOutputStream();
+            String stop = "stop";
+            os.write(stop.getBytes("UTF-8"));
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

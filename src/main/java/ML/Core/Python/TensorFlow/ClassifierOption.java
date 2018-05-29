@@ -5,6 +5,7 @@ import Const.FileOption;
 import Const.Optimizer;
 
 public class ClassifierOption {
+    private String modelPath;
     private String xPath, yPath;
     private FileOption xOption, yOption;
     private Classifier classifier;
@@ -13,10 +14,18 @@ public class ClassifierOption {
     private double learning_rate;
     private Optimizer optimizer;
     private double validationRatio;
-    private static String[] pythonOptionStrings = new String[]{"x_path", "y_path", "x_option", "y_option", "classifier_option", "batch_size", "epoch", "learning_rate", "optimizer", "validation_ratio"};
+    private static String[] pythonOptionStrings = new String[]{"model_path","x_path", "y_path", "x_option", "y_option", "classifier_option", "batch_size", "epoch", "learning_rate", "optimizer", "validation_ratio"};
 
     public static String[] getPythonOptionStrings() {
         return pythonOptionStrings;
+    }
+
+    public String getModelPath() {
+        return modelPath;
+    }
+
+    public void setModelPath(String modelPath) {
+        this.modelPath = modelPath;
     }
 
     public String getxPath() {
@@ -99,9 +108,10 @@ public class ClassifierOption {
         this.validationRatio = validationRatio;
     }
 
-    public ClassifierOption(String xPath, String yPath, FileOption xOption, FileOption yOption,
+    public ClassifierOption(String modelPath,String xPath, String yPath, FileOption xOption, FileOption yOption,
                             Classifier classifierOption, int batchSize, int epoch, double learning_rate,
                             Optimizer optimizerOption, double validationRatio) {
+        this.modelPath = modelPath;
         this.xPath = xPath;
         this.yPath = yPath;
         this.xOption = xOption;
@@ -116,6 +126,8 @@ public class ClassifierOption {
 
     public String getClassifierOption(String checkOption) {
         switch (checkOption) {
+            case "model_path":
+                return "\""+modelPath+"\"";
             case "x_path":
                 return "\""+xPath+"\"";
             case "y_path":

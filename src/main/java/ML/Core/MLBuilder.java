@@ -19,11 +19,11 @@ public interface MLBuilder {
      * @return
      * 코드파일이 정상적으로 생성되었는지 반환
      */
-    boolean generateCodeFile(TrainingBlock trainingBlock);
+    boolean generateCodeFile(TrainingBlock trainingBlock,String name);
 
     /**
      * 트레이닝 요청 함수. 가장 최근 생성된 codeFile을 트레이닝함
-     * @see #generateCodeFile(TrainingBlock)
+     * @see #generateCodeFile(TrainingBlock,String)
      *
      * @return
      * 트레이닝 요청 성공 실패를 반환.

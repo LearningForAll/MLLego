@@ -6,7 +6,7 @@ import tensorflow as tf
 
 def image_to_vector(source, option="RGB", size=None):
     if size is None:
-        size = [256, 256]
+        size = [28, 28]
     if option == "BW":
         option = "L"
     if isinstance(source, str):
@@ -30,7 +30,6 @@ def one_hot_encoding(source):
 
 
 def dimension_reduction():
-
     pass
 
 
@@ -45,5 +44,4 @@ def make_placeholder_with_batch_space(data):
     param = [s for s in np.shape(np_data)[1:]]
     param.insert(0, None)
     return tf.placeholder(tf.float32, param)
-
 
