@@ -55,7 +55,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public int diff;
     public int width;
     protected boolean extended = false;
-    public int seemToExtend=1;
+    public int seemToExtend=1;//previousBlock이 그 전 블록에 의해 justExtended된 상태일 때
     public Block() {
         nextBlocks = new ArrayList<>();
         previousBlocks = new ArrayList<>();
@@ -408,18 +408,23 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         if(this.isBlockJustExtended()){
             this.revertExtendBlockJustSize();
         }
-        if(((ExtendableBlock) this).isPreviousBlockConnected()){
-            if(((ExtendableBlock)this).previousBlocks.get(this.previousBlocks.size()-1) instanceof ExtendableBlock){
-                ((ExtendableBlock) ((ExtendableBlock)this).previousBlocks.get(this.previousBlocks.size()-1)).activateButton();
+
+        if(this instanceof ExtendableBlock) {
+            if (((ExtendableBlock) this).isPreviousBlockConnected()) {
+                if (((ExtendableBlock) this).previousBlocks.get(this.previousBlocks.size() - 1) instanceof ExtendableBlock) {
+                    ((ExtendableBlock) ((ExtendableBlock) this).previousBlocks.get(this.previousBlocks.size() - 1)).activateButton();
+                }
             }
         }
         this.disconnectPreviousBlock();
 
         //연결이 끊어지면 extendable블록의 버튼들을 다시 활성화시켜줌
-        ((ExtendableBlock) this).activateButton();
-        if(((ExtendableBlock) this).isNextBlockConnected()){
-            if(((ExtendableBlock)this).nextBlocks.get(0) instanceof ExtendableBlock){
-                ((ExtendableBlock) ((ExtendableBlock)this).nextBlocks.get(0)).activateButton();
+        if(this instanceof ExtendableBlock) {
+            ((ExtendableBlock) this).activateButton();
+            if (((ExtendableBlock) this).isNextBlockConnected()) {
+                if (((ExtendableBlock) this).nextBlocks.get(0) instanceof ExtendableBlock) {
+                    ((ExtendableBlock) ((ExtendableBlock) this).nextBlocks.get(0)).activateButton();
+                }
             }
         }
 

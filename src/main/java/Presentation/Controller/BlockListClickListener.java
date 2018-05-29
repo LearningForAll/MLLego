@@ -26,6 +26,7 @@ public class BlockListClickListener implements MouseListener {
             YInputBlock yinput = new YInputBlock();
             yinput.setViewerMode();
             BlockPlacementController.getInstance().addBlock(yinput);
+            //yinput
         }else if(e.getSource() instanceof PreprocessorBlock){
             BlockPlacementController.getInstance().addBlock(new PreprocessorBlock());
         }else if(e.getSource() instanceof LstmBlock){
