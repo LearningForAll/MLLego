@@ -31,9 +31,7 @@ public class BlockPlacementController implements BlockObserver {
         return instance;
     }
 
-    public void setPanel(BlockPlacementPanel panel) {
-        this.panel = panel;
-    }
+    public void setPanel(BlockPlacementPanel panel) { this.panel = panel; }
 
     /**
      * 이 함수로 블록 BlockPlacementController에 블록 추가
@@ -64,7 +62,7 @@ public class BlockPlacementController implements BlockObserver {
             }
             if (((ExtendableBlock) block).isNextBlockConnected()) {
                 if (((ExtendableBlock) block).getNextBlocks().get(0) instanceof ExtendableBlock) {
-                    ((ExtendableBlock) block).getNextBlocks().get(0).disconnectPreviousBlock();
+
                     ((ExtendableBlock) ((ExtendableBlock) block).getNextBlocks().get(0)).activateButton();
                 }
             }

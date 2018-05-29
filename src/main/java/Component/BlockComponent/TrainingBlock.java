@@ -45,10 +45,10 @@ public class TrainingBlock extends Block {
         learningRateLabel.setFont(new Font("BOLD", Font.BOLD, 11));
         epochLabel.setFont(new Font("BOLD", Font.BOLD, 11));
         ratioLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        learningRateTextField.setPreferredSize(new Dimension(30,20));
-        batchSizeTextField.setPreferredSize(new Dimension(30,20));
-        epochTextField.setPreferredSize(new Dimension(30,20));
-        validRatioTextField.setPreferredSize(new Dimension(30,20));
+        learningRateTextField.setPreferredSize(new Dimension(50,20));
+        batchSizeTextField.setPreferredSize(new Dimension(50,20));
+        epochTextField.setPreferredSize(new Dimension(50,20));
+        validRatioTextField.setPreferredSize(new Dimension(50,20));
         flowSubPanel.add(batchSizeLabel);
         flowSubPanel.add(batchSizeTextField);
         flowSubPanel.add(learningRateLabel);

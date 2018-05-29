@@ -1,10 +1,7 @@
 package Presentation.View;
 
 import Component.BlockComponent.ConvolutionLayerBlock;
-import Presentation.Controller.BlockListController;
-import Presentation.Controller.BlockPlacementController;
-import Presentation.Controller.ModelTestController;
-import Presentation.Controller.TopmenuController;
+import Presentation.Controller.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +13,7 @@ public class MainFrame extends JFrame {
     BlockListPanel blockListPanel;
     MyModelDefault myModelDefault;
     ModelTestDefault modelTestDefault;
+    ModelResultPanel modelResultPanel;
     public MainFrame(){
 
         super("ML Lego");
@@ -34,6 +32,7 @@ public class MainFrame extends JFrame {
         BlockPlacementController.getInstance().setPanel(blockPlacementDefault.getBlockPlacementPanel());
         ModelTestController.getInstance().setPanel(blockPlacementDefault.getModelTestPanel());
         BlockListController.getInstance().setPanel(blockListPanel);
+        ModelResultController.getInstance().setPanel(modelResultPanel);
         setSize(1800,1000);
         add(topMenuPanel, BorderLayout.NORTH);
         add(blockPlacementDefault, BorderLayout.CENTER);
