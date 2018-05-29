@@ -55,7 +55,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public int diff;
     public int width;
     protected boolean extended = false;
-    public int seemToExtend=1;
+    public int seemToExtend=1;//previousBlock이 그 전 블록에 의해 justExtended된 상태일 때
     public Block() {
         nextBlocks = new ArrayList<>();
         previousBlocks = new ArrayList<>();
@@ -96,7 +96,16 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public void registerNextBlock(Block block) throws BlockException {
 
         if (isNextBlockConnectable(block)) {
+            //연결되면 ExtendableBlock일 경우, extendButton과 revertExtendButton을 비활성화 시킨다.
             if (block.isPreviousBlockConnectable(this)) {
+                if(block instanceof ExtendableBlock){
+                    ((ExtendableBlock) block).extendButton.setEnabled(false);
+                    ((ExtendableBlock) block).revertExtendButton.setEnabled(false);
+                }
+                if(this instanceof ExtendableBlock){
+                    ((ExtendableBlock) this).extendButton.setEnabled(false);
+                    ((ExtendableBlock) this).revertExtendButton.setEnabled(false);
+                }
 
                 // 다음 블록으로 들어오는 블록의 location을 설정.
                 if(block instanceof ExtendableBlock){
@@ -163,7 +172,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
                 }
 
-
             } else {
                 throw new BlockException(block.getClass().getSimpleName() + "is not connectable Previous block for" + this.getClass().getSimpleName());
             }
@@ -188,6 +196,15 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public void registerPreviousBlock(Block block) throws BlockException {
         if (isPreviousBlockConnectable(block)) {
             if (block.isNextBlockConnectable(this)) {
+                //연결되면 ExtendableBlock일 경우, extendButton과 revertExtendButton을 비활성화 시킨다.
+                if(block instanceof ExtendableBlock){
+                    ((ExtendableBlock) block).extendButton.setEnabled(false);
+                    ((ExtendableBlock) block).revertExtendButton.setEnabled(false);
+                }
+                if(this instanceof ExtendableBlock){
+                    ((ExtendableBlock) this).extendButton.setEnabled(false);
+                    ((ExtendableBlock) this).revertExtendButton.setEnabled(false);
+                }
                 // 분류기 블록은 따로 취급해준다.
                 if (this instanceof ClassifierBlock){
                     if (((ClassifierBlock)this).checkIfXConnectable(block)){
@@ -391,7 +408,26 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         if(this.isBlockJustExtended()){
             this.revertExtendBlockJustSize();
         }
+
+        if(this instanceof ExtendableBlock) {
+            if (((ExtendableBlock) this).isPreviousBlockConnected()) {
+                if (((ExtendableBlock) this).previousBlocks.get(this.previousBlocks.size() - 1) instanceof ExtendableBlock) {
+                    ((ExtendableBlock) ((ExtendableBlock) this).previousBlocks.get(this.previousBlocks.size() - 1)).activateButton();
+                }
+            }
+        }
         this.disconnectPreviousBlock();
+
+        //연결이 끊어지면 extendable블록의 버튼들을 다시 활성화시켜줌
+        if(this instanceof ExtendableBlock) {
+            ((ExtendableBlock) this).activateButton();
+            if (((ExtendableBlock) this).isNextBlockConnected()) {
+                if (((ExtendableBlock) this).nextBlocks.get(0) instanceof ExtendableBlock) {
+                    ((ExtendableBlock) ((ExtendableBlock) this).nextBlocks.get(0)).activateButton();
+                }
+            }
+        }
+
     }
 
     public void disconnectForBlock() {
@@ -593,27 +629,9 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         seemToExtend--;
     }
 
-    //블록이 연결되었으면 extendButton과 revertExtendButton을 비활성화시킨다.
-    public void extendButtonDisabled(Block block){
-        if(block instanceof ExtendableBlock){
-            if(block.isPreviousBlockConnected()==true || block.isNextBlockConnected()==true){
-                ((ExtendableBlock) block).extendButton.setEnabled(false);
-                ((ExtendableBlock) block).revertExtendButton.setEnabled(false);
-            }
-        }
-    }
-
-    public void extendButtonAbled(Block block){
-        if(block instanceof ExtendableBlock){
-            if(block.isPreviousBlockConnected()==false && block.isNextBlockConnected()==false){
-                ((ExtendableBlock) block).extendButton.setEnabled(true);
-                ((ExtendableBlock) block).revertExtendButton.setEnabled(false);
-            }
-        }
-    }
-
     protected void setExtended(boolean extended){
         this.extended = extended;
     }
+
 
 }

@@ -24,12 +24,12 @@ public class BlockProcessingPanel extends JPanel{
         setBackground(Color.white);
 
         modelBlock=new ModelBlock();
-        modelBlock.setLocation(50,20);
+        modelBlock.setLocation(50,30);
         trainingBlock=new TrainingBlock();
-        trainingBlock.setLocation(50,90);
+        trainingBlock.setLocation(50,modelBlock.getHeight()+80);
         classifierBlock = new ClassifierBlock();
         classifierBlock.setSize(290,50);
-        classifierBlock.setLocation(5,210);
+        classifierBlock.setLocation(5,modelBlock.getHeight()+trainingBlock.getHeight()+130);
 
         add(modelBlock);
         add(trainingBlock);

@@ -3,6 +3,7 @@ package Presentation.View;
 import App.MyApp;
 import Presentation.Controller.BlockPlacementController;
 import Presentation.Controller.TemplateController;
+import Util.FileUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,8 +25,15 @@ public class TemplatePanel extends JPanel {
     public TemplatePanel() {
         setBackground(Color.white);
         List<String> fileNameList = getAllFileName();
-        mnistCnn = new JButton("Mnist CNN");
-        xorDnn = new JButton("Xor DNN");
+        mnistCnn = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/mnistCnn.png")));
+        xorDnn = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/xorDnn.png")));
+        mnistCnn.setBorderPainted(false);
+        mnistCnn.setFocusPainted(false);
+        mnistCnn.setContentAreaFilled(false);
+        xorDnn.setBorderPainted(false);
+        xorDnn.setFocusPainted(false);
+        xorDnn.setContentAreaFilled(false);
+
         add(mnistCnn);
         add(xorDnn);
         setVisible(true);

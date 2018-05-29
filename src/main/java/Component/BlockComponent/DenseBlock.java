@@ -19,6 +19,7 @@ public class DenseBlock extends LayerBlock {
     NumberOnlyTextField outputDimensionTextField;
     // todo Activation 배치해야함
     public JComboBox<ActivationFunc> activationFunctionCombobox;
+    public JSlider keepProbJSlider;
 
     public DenseBlock(){
         super();
@@ -34,6 +35,7 @@ public class DenseBlock extends LayerBlock {
         JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,6,2));
         JLabel layerNumLabel=new JLabel("Num layer");
         JLabel outputDimLabel=new JLabel("     Dimension");
+        JSlider keepProbJSlider=new JSlider();
         layerNumLabel.setFont(new Font("BOLD", Font.BOLD, 11));
         outputDimLabel.setFont(new Font("BOLD", Font.BOLD, 11));
         layerTextField.setPreferredSize(new Dimension(20,20));
@@ -43,13 +45,15 @@ public class DenseBlock extends LayerBlock {
         flowSubPanel.add(outputDimLabel);
         flowSubPanel.add(outputDimensionTextField);
 
-        GridLayout layout=new GridLayout(3,1);
+        GridLayout layout=new GridLayout(4,1);
         setLayout(layout);
-        setSize(200,75);
+        setSize(200,99);
         width = getWidth();
         add(flowPanel);
+        add(keepProbJSlider);
         add(activationFunctionCombobox);
         add(flowSubPanel);
+
         flowPanel.add(nameLabel);
         flowPanel.add(extendButton);
         flowPanel.add(revertExtendButton);
@@ -95,5 +99,9 @@ public class DenseBlock extends LayerBlock {
 
     public ActivationFunc getActivationFunction() {
         return (ActivationFunc) activationFunctionCombobox.getSelectedItem();
+    }
+
+    public int getKeepProb() {
+        return keepProbJSlider.getValue();
     }
 }
