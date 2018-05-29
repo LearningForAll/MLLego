@@ -108,7 +108,9 @@ public class BlockPlacementController implements BlockObserver {
 
 
         } else {
-            if (block.isPreviousBlockConnected() || (block instanceof ClassifierBlock && ((ClassifierBlock) block).isAnyBlockConnected())) {
+            if (block.isPreviousBlockConnected() ||
+                    (block instanceof ClassifierBlock && ((ClassifierBlock) block).isAnyBlockConnected())
+                    || (block instanceof ExtendableBlock && ((ExtendableBlock) block).isAnyBlockConnected())) {
 
                 if (!block.checkTopBorder()) {
                     //블록이 끊길때
@@ -176,8 +178,8 @@ public class BlockPlacementController implements BlockObserver {
                 if (!block.checkTopBorder()) {// bottom이 빛날때
                     for (Block block1 : tempBlocks) {
                         if (block1.checkTopBorder()) {
-                            block1.registerPreviousBlock(block.getLastConnectedBlock());
                             block.getLastConnectedBlock().registerNextBlock(block1);
+                            block1.registerPreviousBlock(block.getOneNotLastConnectedBlock());
                             break;
                         }
                     }
@@ -334,7 +336,6 @@ public class BlockPlacementController implements BlockObserver {
             this.blocks.clear();
             panel.deleteAllBlock();
 
-
             List<Block> tempList = blockTemplatesToBlocks(blockTemplateList);
             this.blocks.addAll(tempList);
 
@@ -359,7 +360,7 @@ public class BlockPlacementController implements BlockObserver {
 
         //파일 이름을 받아서 파일 전체 저장 경로를 구하는 함수
         File file = new File("");
-        return file.getAbsolutePath() + "/bin/" + MyApp.projectTitle + "/" + name + ".block";
+        return file.getAbsolutePath() + "/blocks/" + MyApp.projectTitle + "/" + name + ".block";
     }
 
 
@@ -502,7 +503,7 @@ public class BlockPlacementController implements BlockObserver {
                     ((ClassifierBlock) blocks.get(i)).setxPartBlock(blocks.get(getIndexForBlockTemplates(blockTemplates, ((ClassifierBlockTemplate) blockTemplates.get(i)).getxPartBlock())));
                 }
                 if (((ClassifierBlockTemplate) blockTemplates.get(i)).getyPartBlock() != null) {
-                    ((ClassifierBlock) blocks.get(i)).setxPartBlock(blocks.get(getIndexForBlockTemplates(blockTemplates, ((ClassifierBlockTemplate) blockTemplates.get(i)).getyPartBlock())));
+                    ((ClassifierBlock) blocks.get(i)).setyPartBlock(blocks.get(getIndexForBlockTemplates(blockTemplates, ((ClassifierBlockTemplate) blockTemplates.get(i)).getyPartBlock())));
                 }
             }
         }

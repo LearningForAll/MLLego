@@ -3,6 +3,7 @@ package Presentation.Controller;
 import Component.BlockComponent.Block;
 import Component.BlockObserver.TestBlockObserver;
 import Component.TestBlockComponent.TestBlock;
+import Component.TestBlockComponent.TestModelBlock;
 import Presentation.View.ModelTestPanel;
 
 import java.util.ArrayList;
@@ -30,12 +31,13 @@ public class ModelTestController implements TestBlockObserver {
         this.panel = panel;
     }
 
-    public void addTestBlock(TestBlock block){
-        blocks.add(block);
+    public void addTestModel(String modelName){
+        TestModelBlock testModelBlock = new TestModelBlock(modelName);
+        blocks.add(testModelBlock);
         // 옵저버 등록
-        block.setObserver(this);
+        testModelBlock.setObserver(this);
         //항상 스택처럼 쌓일테니까 마지막블록에 등록해줌
-        panel.addTestBlocks(block);
+        panel.addModelBlock(testModelBlock);
 
     }
     public void deleteTestBlock(TestBlock block){
