@@ -23,7 +23,7 @@ public class MyModelPanel extends JPanel {
         modelComponents = new ArrayList<>();
         setVisible(true);
         FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
-        flowLayout.setVgap(10);
+        flowLayout.setVgap(25);
         flowLayout.setHgap(40);
         setLayout(flowLayout);
 
@@ -32,7 +32,6 @@ public class MyModelPanel extends JPanel {
             modelComponents.add(modelComponent);
             add(modelComponent);
         }
-
 
     }
 

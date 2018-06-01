@@ -40,6 +40,8 @@ public class BlockListClickListener implements MouseListener {
         }else if(e.getSource() instanceof TrainingBlock){
             BlockPlacementController.getInstance().addBlock(new TrainingBlock());
         }
+        // 블록 배치들이 있는 곳으로 이동
+        BlockPlacementDefaultController.getInstance().changeBlockPlacementTab();
     }
 
     @Override
