@@ -1,6 +1,7 @@
 package Presentation.View;
 
 import Presentation.Controller.BlockPlacementController;
+import Presentation.Controller.BlockPlacementDefaultController;
 import Presentation.Controller.TopmenuController;
 import Presentation.Observer.TopmenuObserver;
 import Presentation.Observer.TopmenuPublisher;
@@ -20,6 +21,7 @@ public class TopMenuPanel extends JPanel implements TopmenuPublisher{
     JButton btn_pause;
     JButton btn_save;
     JButton btn_load;
+    JButton btn_reset;
     TopmenuController controller;
 
 
@@ -31,6 +33,7 @@ public class TopMenuPanel extends JPanel implements TopmenuPublisher{
         btn_pause=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/stop.png")));
         btn_save=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/save.png")));
         btn_load=new JButton(new ImageIcon(FileUtil.getResourcePath("icon/folder.png")));
+        btn_reset = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/recycle.png")));
 
         btn_run.setBorderPainted(false);
         btn_run.setFocusPainted(false);
@@ -60,9 +63,17 @@ public class TopMenuPanel extends JPanel implements TopmenuPublisher{
         btn_save.setLocation(60, 10);
         add(btn_save);
 
+        btn_reset.setBorderPainted(false);
+        btn_reset.setFocusPainted(false);
+        btn_reset.setContentAreaFilled(false);
+        btn_reset.setSize(10, 10);
+        btn_reset.setLocation(60, 10);
+        add(btn_reset);
+
 
         btn_load.addActionListener(new LoadButtonListener());
         btn_save.addActionListener(new SaveButtonListener());
+        btn_reset.addActionListener(new ResetButtonListener());
 
         setVisible(true);
     }
@@ -90,6 +101,23 @@ public class TopMenuPanel extends JPanel implements TopmenuPublisher{
         @Override
         public void actionPerformed(ActionEvent e) {
             controller.saveBatchModel();
+        }
+    }
+
+    private class ResetButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e){
+
+            BlockPlacementDefaultController.getInstance().changeBlockPlacementTab();
+           int result =  JOptionPane.showConfirmDialog(null, "현재 화면에있는 모든 블록을 삭제합니다. 계속 하시겠습니까?", "경고",JOptionPane.YES_NO_OPTION);
+
+           if(result == JOptionPane.YES_OPTION){
+                // if yes
+               BlockPlacementController.getInstance().resetAllBlockPlacement();
+           }else {
+
+           }
+
         }
     }
 
