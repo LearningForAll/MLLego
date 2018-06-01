@@ -20,7 +20,6 @@ public class MyModelComponent extends JPanel {
     public MyModelComponent(String modelName){
         this.setVisible(true);
         this.setLayout(new GridLayout(2,1));
-
         this.modelName = modelName;
         ImageIcon imageIcon = new ImageIcon(FileUtil.getResourcePath("icon/model_block_icon.png"));
         setBackground(Color.white);
