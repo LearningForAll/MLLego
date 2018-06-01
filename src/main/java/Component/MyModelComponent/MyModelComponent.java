@@ -1,16 +1,12 @@
 package Component.MyModelComponent;
 
+import Presentation.Controller.BlockPlacementDefaultController;
 import Presentation.Controller.ModelTestController;
 import Util.FileUtil;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by chaebyeonghun on 2018. 5. 29..
@@ -50,6 +46,7 @@ public class MyModelComponent extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             ModelTestController.getInstance().addTestModel(modelName);
+            BlockPlacementDefaultController.getInstance().changeModelTestTab();
         }
     }
 }

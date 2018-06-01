@@ -10,13 +10,15 @@ public class ModelTestDefault extends JPanel {
     ModelTestPanel modelTestPanel;
     ModelTestResultPanel modelTestResultPanel;
     ModelTestDefault(){
+
         setLayout(new GridLayout(1,2));
-        modelTestPanel=new ModelTestPanel();
-        modelTestResultPanel=new ModelTestResultPanel();
+        modelTestPanel = new ModelTestPanel();
+        modelTestResultPanel = new ModelTestResultPanel();
         add(modelTestPanel);
         add(modelTestResultPanel);
         setBackground(Color.white);
         setVisible(true);
+
     }
 
 }
