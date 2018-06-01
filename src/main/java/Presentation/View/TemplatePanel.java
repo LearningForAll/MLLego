@@ -23,10 +23,12 @@ public class TemplatePanel extends JPanel {
     TemplateController templateController;
 
     public TemplatePanel() {
+        setLayout(new FlowLayout(FlowLayout.LEFT));
+
         setBackground(Color.white);
         List<String> fileNameList = getAllFileName();
-        mnistCnn = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/mnistCnn.png")));
-        xorDnn = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/xorDnn.png")));
+        mnistCnn = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/lego_block.png")));
+        xorDnn = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/lego_block1.png")));
         mnistCnn.setBorderPainted(false);
         mnistCnn.setFocusPainted(false);
         mnistCnn.setContentAreaFilled(false);
