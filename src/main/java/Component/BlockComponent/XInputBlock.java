@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 
 public class XInputBlock extends InputBlock {
     private static String filePath = "empty";
+    private static String inputOptionStr = "ALL";
     private JPanel flowSubPanel;
     // ... 이런식으로 생겨서 누르면 파일 익스플로어를 연다.
     private JButton openFileExploreButton;
@@ -55,6 +56,12 @@ public class XInputBlock extends InputBlock {
         add(inputOptionCombobox);
         flowPanel.add(nameLabel);
         inputOptionCombobox.setEnabled(true);
+        inputOptionCombobox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                inputOptionStr = ((InputOption)(inputOptionCombobox.getSelectedItem())).name();
+            }
+        });
         flowPanel.setBackground(new Color(243, 115, 50));
         setVisible(true);
     }
@@ -159,5 +166,9 @@ public class XInputBlock extends InputBlock {
         setLayout(new GridLayout(2,1));
         setSize(200,50);
         revalidate();
+    }
+
+    public static String getInputOptionStr(){
+        return inputOptionStr;
     }
 }

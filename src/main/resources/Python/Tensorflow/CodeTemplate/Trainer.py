@@ -1,3 +1,5 @@
+from time import sleep
+
 import ClassifierTemplate
 import threading
 from socket import *
@@ -17,7 +19,6 @@ def main():
     isTraining = True
     recvThread.start()
     classifier.training(clientSocket, [isTraining])
-
 
 def read_thread(sock):
     global isTraining

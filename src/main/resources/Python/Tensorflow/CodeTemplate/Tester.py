@@ -13,12 +13,13 @@ serverPort = 9999
 clientSocket = socket(AF_INET, SOCK_STREAM)
 clientSocket.connect((serverName, serverPort))
 
-sess = tf.Session()
-saver = tf.train.Saver()
-saver.restore(sess, './save_model.ckpt')
-
 classifier = ClassifierTemplate.Classifier()
 test_op = classifier.get_test(x_path)
+
+sess = tf.Session()
+saver = tf.train.Saver()
+saver.restore(sess, classifier.get_model_path()+'/save_model.ckpt')
+
 
 result, acc = sess.run(test_op, feed_dict={classifier.inferencer.tensor_x: classifier.inferencer.get_data_x(),
                                            classifier.inferencer.dropout_keep_prob: 1.0})

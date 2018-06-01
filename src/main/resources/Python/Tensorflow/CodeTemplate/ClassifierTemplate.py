@@ -15,7 +15,7 @@ epoch = None
 learning_rate = None
 optimizer = None
 validation_ratio = None
-max_grad_norm = 5.0
+max_grad_norm = 20.0
 
 
 # END_SETTING
@@ -39,8 +39,8 @@ class Classifier:
             raise NotImplementedError("not impl")
         elif classifier_option == "LOGISTIC_CLASSIFIER":
             self.loss = -tf.reduce_mean(
-                self.inferencer.get_tensor_y() * tf.log(self.logit) + ((1 - self.inferencer.get_tensor_y()) * tf.log(
-                    1 - self.logit)))
+                (self.inferencer.get_tensor_y() * tf.log(self.logit)) + (1 - self.inferencer.get_tensor_y()) * tf.log(
+                    1.0 - self.logit))
             self.predict = tf.cast(self.logit > 0.5, dtype=tf.float32)
             self.accuracy = tf.reduce_mean(
                 tf.cast(tf.equal(self.predict, self.inferencer.get_tensor_y()), dtype=tf.float32))
@@ -84,10 +84,10 @@ class Classifier:
                     _, step, loss, accuracy = sess.run(
                         [self.train_op, self.global_step, self.loss, self.accuracy],
                         feed_dict=feed)
-                    print("{}/{} ({} epochs) step, loss : {:.6f}, accuracy : {:.3f}, time/batch : {:.3f}sec"
-                          .format(current_step, data_reader.num_train / data_reader.batch_size * epoch, current_epoch,
-                                  loss,
-                                  accuracy, time.time() - start))
+                    #print("{}/{} ({} epochs) step, loss : {:.6f}, accuracy : {:.3f}, time/batch : {:.3f}sec"
+                    #      .format(current_step, data_reader.num_train / data_reader.batch_size * epoch, current_epoch,
+                    #              loss,
+                    #              accuracy, time.time() - start))
                     sock.sendall("{}/{} ({} epochs) step, loss : {:.6f}, accuracy : {:.3f}, time/batch : {:.3f}sec_END"
                                  .format(current_step, data_reader.num_train / data_reader.batch_size * epoch,
                                          current_epoch,
@@ -105,17 +105,19 @@ class Classifier:
                             loss, accuracy = sess.run([self.loss, self.accuracy], feed_dict=feed)
                             avg_accuracy += accuracy * len(valid_x)
                             avg_loss += loss * len(valid_x)
-                        customHistory.val_loss.append(avg_loss / len(data_reader.valid_y))
-                        customHistory.val_acc.append(avg_accuracy / len(data_reader.valid_y))
-                        print("({} epochs) evaluation step, loss : {:.6f}, accuracy : {:.3f}, time/batch : {:.3f}sec"
-                              .format(current_epoch, avg_loss / len(data_reader.valid_y),
-                                      avg_accuracy / len(data_reader.valid_y), time.time() - start))
-                        sock.sendall(
-                            "({} epochs) evaluation step, loss : {:.6f}, accuracy : {:.3f}, time/batch : {:.3f}sec_END"
+                        if len(data_reader.valid_y) != 0:
+                            customHistory.val_loss.append(avg_loss / len(data_reader.valid_y))
+                            customHistory.val_acc.append(avg_accuracy / len(data_reader.valid_y))
+                            #print(
+                            #    "({} epochs) evaluation step, loss : {:.6f}, accuracy : {:.3f}, time/batch : {:.3f}sec"
+                            #    .format(current_epoch, avg_loss / len(data_reader.valid_y),
+                            #            avg_accuracy / len(data_reader.valid_y), time.time() - start))
+                            sock.sendall(
+                                "({} epochs) evaluation step, loss : {:.6f}, accuracy : {:.3f}, time/batch : {:.3f}sec_END"
                                 .format(current_epoch, avg_loss / len(data_reader.valid_y),
                                         avg_accuracy / len(data_reader.valid_y), time.time() - start).encode())
                     start = time.time()
-                saver.save(sess, './save_model.ckpt')
+                saver.save(sess, model_path+'/save_model.ckpt')
 
         import matplotlib.pyplot as plt
 
@@ -124,10 +126,8 @@ class Classifier:
         acc_ax = loss_ax.twinx()
 
         loss_ax.plot(customHistory.train_loss, 'y', label='train loss')
-        loss_ax.plot(customHistory.val_loss, 'r', label='val loss')
 
         acc_ax.plot(customHistory.train_acc, 'b', label='train acc')
-        acc_ax.plot(customHistory.val_acc, 'g', label='val acc')
 
         loss_ax.set_xlabel('step')
         loss_ax.set_ylabel('loss')
@@ -136,7 +136,21 @@ class Classifier:
         loss_ax.legend(loc='upper left')
         acc_ax.legend(loc='lower left')
 
-        plt.show()
+        fig.savefig(model_path+"/train.png",format="png")
+
+        fig,loss_ax = plt.subplots()
+
+        acc_ax = loss_ax.twinx()
+        acc_ax.plot(customHistory.val_acc, 'g', label='val acc')
+        loss_ax.plot(customHistory.val_loss, 'r', label='val loss')
+        loss_ax.set_xlabel('step')
+        loss_ax.set_ylabel('loss')
+        acc_ax.set_ylabel('accuray')
+
+        loss_ax.legend(loc='upper left')
+        acc_ax.legend(loc='lower left')
+
+        fig.savefig(model_path+"/validate.png", format="png")
 
     def get_test(self, xPath):
         self.inferencer = InferenceTemplate.Inferencer(xPath, y_path, x_option, y_option)
@@ -161,6 +175,9 @@ class Classifier:
         global classifier_option
         return classifier_option
 
+    def get_model_path(self):
+        global model_path
+        return model_path
 
 class CustomHistory:
     def __init__(self):

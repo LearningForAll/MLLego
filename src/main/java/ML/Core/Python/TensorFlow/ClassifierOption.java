@@ -1,19 +1,18 @@
 package ML.Core.Python.TensorFlow;
 
 import Const.Classifier;
-import Const.FileOption;
 import Const.Optimizer;
 
 public class ClassifierOption {
     private String modelPath;
     private String xPath, yPath;
-    private FileOption xOption, yOption;
+    private String xOption, yOption;
     private Classifier classifier;
     private int batchSize = -1;
     private int epoch = -1;
-    private double learning_rate;
+    private float learning_rate;
     private Optimizer optimizer;
-    private double validationRatio;
+    private float validationRatio;
     private static String[] pythonOptionStrings = new String[]{"model_path","x_path", "y_path", "x_option", "y_option", "classifier_option", "batch_size", "epoch", "learning_rate", "optimizer", "validation_ratio"};
 
     public static String[] getPythonOptionStrings() {
@@ -44,19 +43,19 @@ public class ClassifierOption {
         this.yPath = yPath;
     }
 
-    public FileOption getxOption() {
+    public String getxOption() {
         return xOption;
     }
 
-    public void setxOption(FileOption xOption) {
+    public void setxOption(String xOption) {
         this.xOption = xOption;
     }
 
-    public FileOption getyOption() {
+    public String getyOption() {
         return yOption;
     }
 
-    public void setyOption(FileOption yOption) {
+    public void setyOption(String yOption) {
         this.yOption = yOption;
     }
 
@@ -84,11 +83,11 @@ public class ClassifierOption {
         this.epoch = epoch;
     }
 
-    public double getLearning_rate() {
+    public float getLearning_rate() {
         return learning_rate;
     }
 
-    public void setLearning_rate(double learning_rate) {
+    public void setLearning_rate(float learning_rate) {
         this.learning_rate = learning_rate;
     }
 
@@ -100,17 +99,17 @@ public class ClassifierOption {
         this.optimizer = optimizer;
     }
 
-    public double getValidationRatio() {
+    public float getValidationRatio() {
         return validationRatio;
     }
 
-    public void setValidationRatio(double validationRatio) {
+    public void setValidationRatio(float validationRatio) {
         this.validationRatio = validationRatio;
     }
 
-    public ClassifierOption(String modelPath,String xPath, String yPath, FileOption xOption, FileOption yOption,
-                            Classifier classifierOption, int batchSize, int epoch, double learning_rate,
-                            Optimizer optimizerOption, double validationRatio) {
+    public ClassifierOption(String modelPath,String xPath, String yPath, String xOption, String yOption,
+                            Classifier classifierOption, int batchSize, int epoch, float learning_rate,
+                            Optimizer optimizerOption, float validationRatio) {
         this.modelPath = modelPath;
         this.xPath = xPath;
         this.yPath = yPath;
@@ -136,9 +135,9 @@ public class ClassifierOption {
             case "y_path":slashPath = yPath.replaceAll("\\\\","/");
                 return "\""+slashPath+"\"";
             case "x_option":
-                return "\""+xOption.name()+"\"";
+                return "\""+xOption+"\"";
             case "y_option":
-                return "\""+yOption.name()+"\"";
+                return "\""+yOption+"\"";
             case "classifier_option":
                 return "\""+classifier.name()+"\"";
             case "batch_size":

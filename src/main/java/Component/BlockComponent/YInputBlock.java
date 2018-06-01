@@ -1,6 +1,5 @@
 package Component.BlockComponent;
 
-import Component.BlockBatchModel.BlockTemplateComponent.InputBlockTemplate;
 import Component.BlockBatchModel.BlockTemplateComponent.YInputBlockTemplate;
 import Const.FileType;
 import Const.InputOption;
@@ -16,6 +15,7 @@ import java.io.InputStreamReader;
 
 public class YInputBlock extends InputBlock {
     public static String filePath = "empty";
+    private static String inputOptionStr = "ALL";
     // ... 이런식으로 생겨서 누르면 파일 익스플로어를 연다.
     private JButton openFileExploreButton;
     // 불러온 파일패스를 보여주는 텍스트필드 유저가 직접 편집할수 없게 설정
@@ -56,6 +56,12 @@ public class YInputBlock extends InputBlock {
         add(inputOptionCombobox);
         flowPanel.add(nameLabel);
         inputOptionCombobox.setEnabled(true);
+        inputOptionCombobox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                inputOptionStr = ((InputOption)(inputOptionCombobox.getSelectedItem())).name();
+            }
+        });
         flowPanel.setBackground(new Color(243, 115, 50));
         setVisible(true);
     }
@@ -167,4 +173,7 @@ public class YInputBlock extends InputBlock {
     }
 
 
+    public static String getInputOptionStr(){
+        return inputOptionStr;
+    }
 }

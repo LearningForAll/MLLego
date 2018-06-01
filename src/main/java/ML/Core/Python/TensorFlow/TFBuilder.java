@@ -1,10 +1,10 @@
 package ML.Core.Python.TensorFlow;
 
 import Component.BlockComponent.*;
-import Const.FileOption;
 import Const.RnnOutputOption;
 import ML.Core.MLBuilder;
 import ML.Core.ProcessListener;
+import Util.CMDExecuteUtil;
 import Util.FileUtil;
 import Util.StringUtil;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -83,7 +83,7 @@ public class TFBuilder implements MLBuilder {
 
 
         // TODO :: classifier option is mocked.
-        ClassifierOption classifierOption = new ClassifierOption(curProjectDir, XInputBlock.getXPath(), YInputBlock.getYPath(), FileOption.ALL, FileOption.ALL,
+        ClassifierOption classifierOption = new ClassifierOption(curProjectDir, XInputBlock.getXPath(), YInputBlock.getYPath(), XInputBlock.getInputOptionStr(), YInputBlock.getInputOptionStr(),
                 classifierBlock.getClassifier(), trainingBlock.getBatchSize(), trainingBlock.getEpoch(),
                 trainingBlock.getLearningRate(), trainingBlock.getOptimizer(), trainingBlock.getValidRatio());
         // generate classifier
@@ -127,29 +127,20 @@ public class TFBuilder implements MLBuilder {
     @Override
     public boolean training() {
         String currentDir = System.getProperty("user.dir");
-        String envDir = currentDir+"\\envs";
-        String pythonDir = envDir+"\\python.exe";
-        try {
-            Process process = Runtime.getRuntime().exec(new String[]{"cmd.exe", "/c", pythonDir + " " + recentGenerateTrainingCodeURL + "\\Trainer.py"});
-            process.getErrorStream().close();
-            process.getInputStream().close();
-            process.getOutputStream().close();
-            Thread thread = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        process.waitFor();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        String envDir = currentDir + "\\envs";
+        String pythonDir = envDir + "\\python.exe";
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    CMDExecuteUtil.cmdExecute(new String[]{"cmd.exe", "/c", pythonDir + " " + recentGenerateTrainingCodeURL + "\\Trainer.py"});
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            };
-            thread.start();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+            }
+        };
+        thread.start();
         return true;
     }
 
@@ -184,17 +175,17 @@ public class TFBuilder implements MLBuilder {
         if (isDataX) dataType = "x";
         else dataType = "y";
         String funcStr = "self.data_" + dataType + " = ";
-        int xSize,ySize;
+        int xSize, ySize;
         switch (preprocessorBlock.getPreprocessorType()) {
             case RGB:
                 xSize = preprocessorBlock.getImageSizeX();
                 ySize = preprocessorBlock.getImageSizeY();
-                funcStr += "pp.image_to_vector(self.data_" + dataType + ",size=["+xSize+","+ySize+"])";
+                funcStr += "pp.image_to_vector(self.data_" + dataType + ",size=[" + xSize + "," + ySize + "])";
                 break;
             case BLACK_WHITE:
                 xSize = preprocessorBlock.getImageSizeX();
                 ySize = preprocessorBlock.getImageSizeY();
-                funcStr += "pp.image_to_vector(self.data_" + dataType + ",option=\"BW\",size=["+xSize+","+ySize+"])";
+                funcStr += "pp.image_to_vector(self.data_" + dataType + ",option=\"BW\",size=[" + xSize + "," + ySize + "])";
                 break;
             case ONE_HOT_ENCODING:
                 funcStr += "pp.one_hot_encoding(self.data_" + dataType + ")";
@@ -371,12 +362,12 @@ public class TFBuilder implements MLBuilder {
         }
     }
 
-    private void generateModelTestCode(String modelName,String xPath){
+    private void generateModelTestCode(String modelName, String xPath) {
         String currentDir = System.getProperty("user.dir");
-        String folderDir = currentDir+"/bin/"+ modelName;
-        folderDir = folderDir.replaceAll("\\\\","/");
-        if (!new File(folderDir).isDirectory()){
-            JOptionPane.showMessageDialog(null,"해당 모델파일이 존재하지않습니다,","ERROR",JOptionPane.ERROR_MESSAGE);
+        String folderDir = currentDir + "/bin/" + modelName;
+        folderDir = folderDir.replaceAll("\\\\", "/");
+        if (!new File(folderDir).isDirectory()) {
+            JOptionPane.showMessageDialog(null, "해당 모델파일이 존재하지않습니다,", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -384,17 +375,17 @@ public class TFBuilder implements MLBuilder {
         try {
             File testerFile = FileUtil.resourceLoad("Python/Tensorflow/CodeTemplate/Tester.py");
             if (testerFile == null) throw new RuntimeException("Tester 리소스 존재 X");
-            File recentFile = new File(folderDir+"Tester.py");
-            if (recentFile.exists()){
+            File recentFile = new File(folderDir + "Tester.py");
+            if (recentFile.exists()) {
                 boolean success = recentFile.delete();
-                if (!success){
-                    JOptionPane.showMessageDialog(null,"최근 test 파일을 지우지 못했습니다","ERROR",JOptionPane.ERROR_MESSAGE);
+                if (!success) {
+                    JOptionPane.showMessageDialog(null, "최근 test 파일을 지우지 못했습니다", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
             String line;
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(testerFile)));
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folderDir+"Tester.py")));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folderDir + "Tester.py")));
             boolean isCheckFinish = false;
             while ((line = br.readLine()) != null) {
                 if (line.contains("END_SETTING")) isCheckFinish = true;
@@ -413,15 +404,15 @@ public class TFBuilder implements MLBuilder {
 
     }
 
-    public void runModelTestBlock(String modelName,String xPath){
+    public void runModelTestBlock(String modelName, String xPath) {
         generateModelTestCode(modelName, xPath);
         String currentDir = System.getProperty("user.dir");
-        String binDir = currentDir+"\\bin";
-        String envDir = currentDir+"\\envs";
-        String pythonDir = envDir+"\\python.exe";
-        String folderDir =binDir+"\\"+modelName;
+        String binDir = currentDir + "\\bin";
+        String envDir = currentDir + "\\envs";
+        String pythonDir = envDir + "\\python.exe";
+        String folderDir = binDir + "\\" + modelName;
         try {
-            Runtime.getRuntime().exec(pythonDir+" "+folderDir+"\\Tester.py");
+            Runtime.getRuntime().exec(pythonDir + " " + folderDir + "\\Tester.py");
         } catch (IOException e) {
             e.printStackTrace();
         }

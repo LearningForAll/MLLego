@@ -119,11 +119,11 @@ public class TrainingBlock extends Block {
     }
 
     public int getBatchSize(){
-        return (int)batchSizeTextField.getValue();
+        return Integer.parseInt(batchSizeTextField.getText());
     }
 
     public int getEpoch(){
-        return (int)epochTextField.getValue();
+        return Integer.parseInt(epochTextField.getText());
     }
 
     public Optimizer getOptimizer(){ return (Optimizer) optimizerCombobox.getSelectedItem(); }
