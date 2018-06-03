@@ -23,6 +23,7 @@ import java.util.List;
 public abstract class Block extends JPanel implements MouseListener, MouseMotionListener, BlockPublisher {
     private int offX, offY;
     private boolean isDragged = false;
+    boolean isReducted = false;
     private String uid;
 
     private BlockObserver blockObserver;
@@ -83,6 +84,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public Block(BlockTemplate blockTemplate){
         //TODO 완성해야함 좌표랑 다음블록 이전블록
         extended = blockTemplate.isExtended();
+        isReducted = blockTemplate.isReducted();
     }
 
     public void checkExtendBlock(Block block){
@@ -624,6 +626,17 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     protected void setExtended(boolean extended){
         this.extended = extended;
+    }
+
+    public void setReducted(boolean reducted){
+        this.isReducted = reducted;
+    }
+
+    public boolean getReducted(){
+        return this.isReducted;
+    }
+    public JButton getReductButton(){
+        return this.reductButton;
     }
 
 

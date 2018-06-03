@@ -46,6 +46,7 @@ public class PreprocessorBlockTemplate extends BlockTemplate {
         super(block.getX(), block.getY(), block.getClass().getSimpleName());
         //this.fileType = ((PreprocessorBlock)block).getFileType();
         this.preprocessorType = ((PreprocessorBlock) block).getPreprocessorType();
+        this.reducted = block.getReducted();
 
     }
 }

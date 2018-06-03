@@ -345,10 +345,10 @@ public class BlockPlacementController implements BlockObserver {
 
             addAllBlock();
             updateBlockConnectionInfo(blockTemplateList, this.blocks);
-            for (Block block : this.blocks) {
-                if (block instanceof ClassifierBlock) {
-                    System.out.println(((ClassifierBlock) block).getxPartBlock());
-                    System.out.println(((ClassifierBlock) block).getyPartBlock());
+
+            for(Block tempBlock : this.blocks){
+                if (tempBlock.getReducted()){
+                    tempBlock.getReductButton().doClick();
                 }
             }
 

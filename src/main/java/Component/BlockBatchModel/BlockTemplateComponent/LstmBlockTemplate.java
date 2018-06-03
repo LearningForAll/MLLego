@@ -44,5 +44,6 @@ public class LstmBlockTemplate extends BlockTemplate {
        // this.stackSize = ((LstmBlock)block).getStackSize();
         this.keepProb = ((LstmBlock)block).getKeepProb();
         this.extended = block.isBlockJustExtended();
+        this.reducted = block.getReducted();
     }
 }
