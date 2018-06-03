@@ -34,7 +34,6 @@ public class TopmenuController implements TopmenuObserver{
         //Block파일이 저장되어있는 Default Directory 로드
         File file = new File("");
         String defaultPath = file.getAbsolutePath() + "/blocks/" + MyApp.projectTitle;
-        System.out.println(defaultPath);
         JFileChooser jFileChooser = new JFileChooser(defaultPath);
         //폴더와 디렉토리 둘다 가능
         jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
