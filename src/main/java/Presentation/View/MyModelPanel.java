@@ -28,7 +28,7 @@ public class MyModelPanel extends JPanel {
         setLayout(flowLayout);
 
         for(String modelName : getModelList()){
-            MyModelComponent modelComponent = new MyModelComponent(modelName);
+            MyModelComponent modelComponent = new MyModelComponent(modelName, "model_block_icon", 0);
             modelComponents.add(modelComponent);
             add(modelComponent);
         }
