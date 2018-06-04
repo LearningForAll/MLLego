@@ -19,34 +19,36 @@ public class ModelResultPanel extends JScrollPane {
     ImageIcon imageIcon;
     java.util.List<ModelTestResultArray> modelTestResultArrays;
     JPanel jpanel;
+    GridBagLayout gridBagLayout;
 
     ModelResultPanel(){
         super(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         modelTestResultArrays = new ArrayList<>();
-        GridBagLayout gridBagLayout=new GridBagLayout();
+        gridBagLayout=new GridBagLayout();
         jpanel=new JPanel(gridBagLayout);
         GridBagConstraints constraints=new GridBagConstraints();
         constraints.fill=GridBagConstraints.BOTH;
         constraints.weightx = 1.0;
         constraints.weighty = 1.0;
+        //constraints.gridwidth=2;
+        //constraints.gridheight=2;
 
 
         for(int i=0; i<getModelList().size(); i++){
-            constraints.gridwidth=3;
-            constraints.gridheight=3;
+            constraints.gridwidth=2;
+            constraints.gridheight=2;
 
             ModelTestResultArray modelTestResultArray=new ModelTestResultArray(getModelList().get(i), getGraph1List().get(i), getGraph2List().get(i));
             modelTestResultArrays.add(modelTestResultArray);
             jlabel=new JLabel(getModelList().get(i));
-            jlabel.setSize(new Dimension(100,80));
-            gridBagLayout.setConstraints(jlabel,constraints);
-            jpanel.add(jlabel);
+            //gridBagLayout.setConstraints(jlabel,constraints);
+            //jpanel.add(jlabel);
+            insert(jlabel, 0,0,1,1);
 
             String path=getGraph1List().get(i);
             imageIcon=new ImageIcon(path);
             graphLabel=new JLabel();
             graphLabel.setIcon(imageIcon);
-            graphLabel.setSize(new Dimension(100,80));
             gridBagLayout.setConstraints(graphLabel,constraints);
             jpanel.add(graphLabel);
 
@@ -54,7 +56,6 @@ public class ModelResultPanel extends JScrollPane {
             String path2=getGraph2List().get(i);
             imageIcon=new ImageIcon(path2);
             graphLabel=new JLabel(imageIcon);
-            graphLabel.setSize(new Dimension(100,80));
             gridBagLayout.setConstraints(graphLabel,constraints);
             jpanel.add(graphLabel);
         }
@@ -134,5 +135,18 @@ public class ModelResultPanel extends JScrollPane {
         }
         return graph2List;
     }
+
+
+    private void insert(Component cmpt, int x, int y, int w, int h){
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridx = x;
+        gbc.gridy = y;
+        gbc.gridwidth = w;
+        gbc.gridheight = h;
+        gridBagLayout.setConstraints(cmpt, gbc);
+        jpanel.add(cmpt);
+    }
+
 
 }
