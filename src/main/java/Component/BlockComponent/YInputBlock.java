@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockBatchModel.BlockTemplateComponent.InputBlockTemplate;
 import Component.BlockBatchModel.BlockTemplateComponent.YInputBlockTemplate;
 import Const.FileType;
@@ -65,6 +66,9 @@ public class YInputBlock extends InputBlock {
         filePath = blockTemplate.getFilePath();
         inputOptionCombobox.setSelectedItem(blockTemplate.getInputOption());
         setLocation(blockTemplate.getPositionX(), blockTemplate.getPositionY());
+        this.setReducted(blockTemplate.isReducted());
+        reductButton.removeActionListener(getReductButton().getActionListeners()[0]);
+        reductButton.addActionListener(new ReductionActionListener(this));
     }
 
     //이너 클래스로 재 정의

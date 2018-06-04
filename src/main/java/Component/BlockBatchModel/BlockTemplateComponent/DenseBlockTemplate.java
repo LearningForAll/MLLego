@@ -32,6 +32,7 @@ public class DenseBlockTemplate extends BlockTemplate {
         this.extendSize = ((DenseBlock) block).getExtendSize();
         this.connectedSize = ((DenseBlock) block).getConnectedSize();
         this.extended = block.isBlockJustExtended();
+        this.reducted = block.getReducted();
     }
 
     public int getOutputDim() {

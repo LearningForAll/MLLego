@@ -25,6 +25,7 @@ public class InputBlockTemplate extends BlockTemplate {
         super(block.getX(), block.getY(), block.getClass().getSimpleName());
         //this.filePath = ((InputBlock)block).get();
         this.inputOption = ((InputBlock)block).getInputOption();
+        this.reducted = block.getReducted();
 
     }
 

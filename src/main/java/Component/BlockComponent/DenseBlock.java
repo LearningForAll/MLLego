@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockBatchModel.BlockTemplateComponent.BlockTemplate;
 import Component.BlockBatchModel.BlockTemplateComponent.DenseBlockTemplate;
 import Component.NumberOnlyTextField;
@@ -62,6 +63,7 @@ public class DenseBlock extends LayerBlock {
 
     public DenseBlock(DenseBlockTemplate blockTemplate){
         this();
+
         layerTextField.setText(String.valueOf(blockTemplate.getLayerNum()));
         outputDimensionTextField.setText(String.valueOf(blockTemplate.getOutputDim()));
         activationFunctionCombobox.setSelectedItem(blockTemplate.getActivationFunc());
@@ -69,6 +71,7 @@ public class DenseBlock extends LayerBlock {
         this.setExtendSize(blockTemplate.getExtendSize());
         // 크기만 늘어났는지 체크
         this.setExtended(blockTemplate.isExtended());
+        this.setReducted(blockTemplate.isReducted());
         setLocation(blockTemplate.getPositionX(), blockTemplate.getPositionY());
     }
 
@@ -90,15 +93,17 @@ public class DenseBlock extends LayerBlock {
 
 
     public int getLayerNum(){
-        return (int)layerTextField.getValue();
+
+        return Integer.parseInt(layerTextField.getText());
     }
 
     public int getOutputDim(){
-        return (int)outputDimensionTextField.getValue();
+
+        return Integer.parseInt(outputDimensionTextField.getText());
     }
 
     public ActivationFunc getActivationFunction() {
-        return (ActivationFunc) activationFunctionCombobox.getSelectedItem();
+        return (ActivationFunc)activationFunctionCombobox.getSelectedItem();
     }
 
     public int getKeepProb() {

@@ -91,6 +91,7 @@ public class PoolingBlockTemplate extends BlockTemplate {
         this.extendSize = ((PoolingBlock) block).getExtendSize();
         this.connectSize = ((PoolingBlock) block).getConnectedSize();
         this.extended = block.isBlockJustExtended();
+        this.reducted = block.getReducted();
     }
 
     public int getExtendSize(){

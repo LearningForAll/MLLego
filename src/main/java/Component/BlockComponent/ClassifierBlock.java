@@ -39,7 +39,9 @@ public class ClassifierBlock extends Block{
     public ClassifierBlock(ClassifierBlockTemplate template){
         this();
         classifier = template.getClassifier();
+        classifierComboBox.setSelectedItem(classifier);
         this.xExtended = template.isxExtended();
+        this.setReducted(template.isReducted());
         setLocation(template.getPositionX(), template.getPositionY());
 
     }

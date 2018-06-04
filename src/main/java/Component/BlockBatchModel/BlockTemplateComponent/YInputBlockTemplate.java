@@ -23,6 +23,7 @@ public class YInputBlockTemplate extends BlockTemplate {
         super(block);
         this.filePath = YInputBlock.getYPath();
         this.inputOption = ((YInputBlock)block).getInputOption();
+        this.reducted = block.getReducted();
     }
 
     public String getFilePath() {
