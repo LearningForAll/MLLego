@@ -1,6 +1,5 @@
 package Presentation.View;
 
-import Component.MyModelComponent.MyModelComponent;
 import Models.ModelTestResultArray;
 
 import javax.swing.*;
@@ -15,7 +14,6 @@ import java.util.List;
 
 //모델 테스트에 대한 모델 이름, 그래프, 정확도, cost가 나오는 패널
 public class ModelResultPanel extends JScrollPane {
-    //JScrollPane scrollPane=new JScrollPane(this);
     JLabel jlabel;
     JLabel graphLabel;
     ImageIcon imageIcon;
@@ -25,7 +23,6 @@ public class ModelResultPanel extends JScrollPane {
     ModelResultPanel(){
         super(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         modelTestResultArrays = new ArrayList<>();
-        //setLayout(new GridLayout(0, 3));
         GridBagLayout gridBagLayout=new GridBagLayout();
         jpanel=new JPanel(gridBagLayout);
         GridBagConstraints constraints=new GridBagConstraints();
@@ -46,7 +43,6 @@ public class ModelResultPanel extends JScrollPane {
             jpanel.add(jlabel);
 
             String path=getGraph1List().get(i);
-            System.out.println("model result path:"+path);
             imageIcon=new ImageIcon(path);
             graphLabel=new JLabel();
             graphLabel.setIcon(imageIcon);
@@ -79,15 +75,12 @@ public class ModelResultPanel extends JScrollPane {
         String currentDir = System.getProperty("user.dir");
         String folderDir = currentDir+"/bin/";
 
-        System.out.println(folderDir);
-
         File dir = new File(folderDir);
         File[] fileList = dir.listFiles();
         try{
             for(int i = 0 ; i < fileList.length ; i++){
                 File file = fileList[i];
                 if(file.isDirectory()){
-                    System.out.println("디렉토리 이름 = " + file.getName());
                     modelList.add(file.getName());
                 }
             }
