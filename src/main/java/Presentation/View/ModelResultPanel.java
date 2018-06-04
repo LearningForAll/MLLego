@@ -17,6 +17,9 @@ public class ModelResultPanel extends JScrollPane {
     JLabel jlabel;
     JLabel graphLabel;
     ImageIcon imageIcon;
+    ImageIcon imageIcon2;
+    Image image;
+    Image image2;
     java.util.List<ModelTestResultArray> modelTestResultArrays;
     JPanel jpanel;
     GridBagLayout gridBagLayout;
@@ -30,8 +33,6 @@ public class ModelResultPanel extends JScrollPane {
         constraints.fill=GridBagConstraints.BOTH;
         constraints.weightx = 1.0;
         constraints.weighty = 1.0;
-        //constraints.gridwidth=2;
-        //constraints.gridheight=2;
 
 
         for(int i=0; i<getModelList().size(); i++){
@@ -41,26 +42,29 @@ public class ModelResultPanel extends JScrollPane {
             ModelTestResultArray modelTestResultArray=new ModelTestResultArray(getModelList().get(i), getGraph1List().get(i), getGraph2List().get(i));
             modelTestResultArrays.add(modelTestResultArray);
             jlabel=new JLabel(getModelList().get(i));
-            //gridBagLayout.setConstraints(jlabel,constraints);
-            //jpanel.add(jlabel);
-            insert(jlabel, 0,0,1,1);
+            gridBagLayout.setConstraints(jlabel,constraints);
+            jpanel.add(jlabel);
 
             String path=getGraph1List().get(i);
             imageIcon=new ImageIcon(path);
+            image=imageIcon.getImage();
+            image2=image.getScaledInstance(400,300,java.awt.Image.SCALE_SMOOTH);
+            imageIcon2=new ImageIcon(image2);
             graphLabel=new JLabel();
-            graphLabel.setIcon(imageIcon);
+            graphLabel.setIcon(imageIcon2);
             gridBagLayout.setConstraints(graphLabel,constraints);
             jpanel.add(graphLabel);
 
             constraints.gridwidth = GridBagConstraints.REMAINDER;
             String path2=getGraph2List().get(i);
             imageIcon=new ImageIcon(path2);
+            image=imageIcon.getImage();
+            image2=image.getScaledInstance(400,300,java.awt.Image.SCALE_SMOOTH);
+            imageIcon2=new ImageIcon(image2);
             graphLabel=new JLabel(imageIcon);
             gridBagLayout.setConstraints(graphLabel,constraints);
             jpanel.add(graphLabel);
         }
-
-        //TODO: 이미지 크기 맞추기
 
         setViewportView(jpanel);
         revalidate();
@@ -135,18 +139,5 @@ public class ModelResultPanel extends JScrollPane {
         }
         return graph2List;
     }
-
-
-    private void insert(Component cmpt, int x, int y, int w, int h){
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridx = x;
-        gbc.gridy = y;
-        gbc.gridwidth = w;
-        gbc.gridheight = h;
-        gridBagLayout.setConstraints(cmpt, gbc);
-        jpanel.add(cmpt);
-    }
-
 
 }
