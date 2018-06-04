@@ -362,7 +362,7 @@ public class TFBuilder implements MLBuilder {
         }
     }
 
-    private void generateModelTestCode(String modelName, String xPath) {
+    private static void generateModelTestCode(String modelName, String xPath) {
         String currentDir = System.getProperty("user.dir");
         String folderDir = currentDir + "/bin/" + modelName;
         folderDir = folderDir.replaceAll("\\\\", "/");
@@ -404,7 +404,7 @@ public class TFBuilder implements MLBuilder {
 
     }
 
-    public void runModelTestBlock(String modelName, String xPath) {
+    public static void runModelTestBlock(String modelName, String xPath) {
         generateModelTestCode(modelName, xPath);
         String currentDir = System.getProperty("user.dir");
         String binDir = currentDir + "\\bin";

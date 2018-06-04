@@ -11,12 +11,14 @@ def image_to_vector(source, option="RGB", size=None):
         option = "L"
     if isinstance(source, str):
         img = pilutil.imread(source, mode=option)  # shape: (H, W, 3), range: [0, 255]
-        img = pilutil.imresize(img, (size[0], [size[1]]), mode='constant').astype(np.float32)
+        img = pilutil.imresize(img, (size[0], [size[1]]), mode=option).astype(np.float32)
         return img
     result_list = list()
     for element in source:  # TODO : 대용량 이미지 또는 엄청 여러개의 이미지인경우는 메모리 상황 고려 소스 작성
         img = pilutil.imread(element, mode=option)  # shape: (H, W, 3), range: [0, 255]
-        img = pilutil.imresize(img, (size[0], [size[1]]), mode='constant').astype(np.float32)
+        img = pilutil.imresize(img, (size[0], size[1]), mode=option).astype(np.float32)
+        if option == "L":
+            img = np.reshape(img, [size[0], size[1], 1])
         result_list.append(img)
     return result_list
 

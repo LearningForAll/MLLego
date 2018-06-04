@@ -20,21 +20,29 @@ public class TopMenuActionListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (id) {
             case "run":
-                TrainingBlock trainingBlock = BlockPlacementController.getInstance().getTrainingBlock();
-                if (trainingBlock == null) {
-                    JOptionPane.showMessageDialog(null, "Training 블록이 없습니다", "ERROR", JOptionPane.WARNING_MESSAGE);
-                    return;
+                BlockPlacementDefaultController controller = BlockPlacementDefaultController.getInstance();
+                switch (controller.getCurrentTabIndex()){
+                    case 0: // block placement
+                        TrainingBlock trainingBlock = BlockPlacementController.getInstance().getTrainingBlock();
+                        if (trainingBlock == null) {
+                            JOptionPane.showMessageDialog(null, "Training 블록이 없습니다", "ERROR", JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }
+                        ModelBlock modelBlock = BlockPlacementController.getInstance().getModelBlock();
+                        if (modelBlock== null) {
+                            JOptionPane.showMessageDialog(null, "Model 블록이 없습니다", "ERROR", JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }
+                        TFBuilder tfBuilder = new TFBuilder();
+                        boolean result = tfBuilder.generateCodeFile(trainingBlock,modelBlock.getName());
+                        if (!result) return;
+                        tfBuilder.training();
+                        break;
+                    case 1: // model test
+                        TFBuilder.runModelTestBlock();
                 }
-                ModelBlock modelBlock = BlockPlacementController.getInstance().getModelBlock();
-                if (modelBlock== null) {
-                    JOptionPane.showMessageDialog(null, "Model 블록이 없습니다", "ERROR", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                TFBuilder tfBuilder = new TFBuilder();
-                boolean result = tfBuilder.generateCodeFile(trainingBlock,modelBlock.getName());
-                if (!result) return;
-                tfBuilder.training();
                 break;
+
             case "stop":
                 MyApp.stop();
                 break;

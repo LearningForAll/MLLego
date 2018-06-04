@@ -30,9 +30,13 @@ public class BlockPlacementDefaultController {
             this.defaultPanel.setSelectedIndex(0);
         }
     }
-    public void ChangeModelResult(){
+    public void changeModelResult(){
         if(this.defaultPanel.getSelectedIndex() != 2){
             this.defaultPanel.setSelectedIndex(2);
         }
+    }
+
+    public int getCurrentTabIndex(){
+        return this.defaultPanel.getSelectedIndex();
     }
 }

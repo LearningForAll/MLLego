@@ -77,6 +77,39 @@ class Classifier:
                 start = time.time()
                 for batch_x, batch_y in data_reader.batches():
                     if not is_training_container[0]:
+                        #save logic copy
+                        import matplotlib.pyplot as plt
+
+                        fig, loss_ax = plt.subplots()
+
+                        acc_ax = loss_ax.twinx()
+
+                        loss_ax.plot(customHistory.train_loss, 'y', label='train loss')
+
+                        acc_ax.plot(customHistory.train_acc, 'b', label='train acc')
+
+                        loss_ax.set_xlabel('step')
+                        loss_ax.set_ylabel('loss')
+                        acc_ax.set_ylabel('accuray')
+
+                        loss_ax.legend(loc='upper left')
+                        acc_ax.legend(loc='lower left')
+
+                        fig.savefig(model_path + "/train.png", format="png")
+
+                        fig, loss_ax = plt.subplots()
+
+                        acc_ax = loss_ax.twinx()
+                        acc_ax.plot(customHistory.val_acc, 'g', label='val acc')
+                        loss_ax.plot(customHistory.val_loss, 'r', label='val loss')
+                        loss_ax.set_xlabel('step')
+                        loss_ax.set_ylabel('loss')
+                        acc_ax.set_ylabel('accuray')
+
+                        loss_ax.legend(loc='upper left')
+                        acc_ax.legend(loc='lower left')
+
+                        fig.savefig(model_path + "/validate.png", format="png")
                         return
                     current_step = tf.train.global_step(sess, self.global_step)
                     feed = {self.inferencer.tensor_x: batch_x, self.inferencer.tensor_y: batch_y,
