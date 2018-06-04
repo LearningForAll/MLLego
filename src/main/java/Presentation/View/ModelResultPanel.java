@@ -15,7 +15,7 @@ import java.util.List;
 
 //모델 테스트에 대한 모델 이름, 그래프, 정확도, cost가 나오는 패널
 public class ModelResultPanel extends JPanel {
-    JScrollPane scrollPane;
+    JScrollPane scrollPane=new JScrollPane(this);
     JLabel modelLabel;
     JLabel graph_1;
     JLabel graph_2;
@@ -26,7 +26,8 @@ public class ModelResultPanel extends JPanel {
     java.util.List<ModelTestResultArray> modelTestResultArrays;
 
     ModelResultPanel(){
-        scrollPane=new JScrollPane();
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         modelTestResultArrays = new ArrayList<>();
         modelLabel=new JLabel("Model Name");
         graph_1=new JLabel("Graph 1");
@@ -41,23 +42,28 @@ public class ModelResultPanel extends JPanel {
             ModelTestResultArray modelTestResultArray=new ModelTestResultArray(getModelList().get(i), getGraph1List().get(i), getGraph2List().get(i));
             modelTestResultArrays.add(modelTestResultArray);
             jlabel=new JLabel(getModelList().get(i));
+            jlabel.setSize(new Dimension(100,100));
             add(jlabel);
 
             String path=getGraph1List().get(i);
-            imageIcon = new ImageIcon(path);
-            graphLabel=new JLabel(imageIcon);
-            graphLabel.setSize(100,100);
+            System.out.println("model result path:"+path);
+            imageIcon=new ImageIcon(path);
+            graphLabel=new JLabel();
+            graphLabel.setIcon(imageIcon);
+            graphLabel.setSize(new Dimension(100,100));
+
+
             add(graphLabel);
 
             String path2=getGraph2List().get(i);
-            imageIcon = new ImageIcon(path2);
+            imageIcon=new ImageIcon(path2);
             graphLabel=new JLabel(imageIcon);
-            graphLabel.setSize(100,100);
+            graphLabel.setSize(new Dimension(100,100));
             add(graphLabel);
         }
         //scrollPane.add(this);
-        //scrollPane.setViewportView(this);
-        //TODO: 이미지 나오게 띄우기, 스크롤 달기
+        scrollPane.setViewportView(this);
+        //TODO: 이미지 크기 정하기, 스크롤 달기
 
         revalidate();
         setBackground(Color.WHITE);
@@ -102,9 +108,7 @@ public class ModelResultPanel extends JPanel {
             for(int i = 0 ; i < fileList.length ; i++){
                 File file = fileList[i];
                 if(file.isDirectory()){
-                    System.out.println("디렉토리 이름 = " + file.getName());
-                    //graph1List.add(folderDir+file.getName()+"/train.png");
-                    graph1List.add("/bin/"+file.getName()+"/train.png");
+                    graph1List.add(folderDir+file.getName()+"/train.png");
                 }
             }
         }catch(Exception e){
@@ -127,9 +131,7 @@ public class ModelResultPanel extends JPanel {
             for(int i = 0 ; i < fileList.length ; i++){
                 File file = fileList[i];
                 if(file.isDirectory()){
-                    System.out.println("디렉토리 이름 = " + file.getName());
-                    //graph2List.add(folderDir+file.getName()+"/validate.png");
-                    graph2List.add("/bin/"+file.getName()+"/validate.png");
+                    graph2List.add(folderDir+file.getName()+"/validate.png");
                 }
             }
         }catch(Exception e){
