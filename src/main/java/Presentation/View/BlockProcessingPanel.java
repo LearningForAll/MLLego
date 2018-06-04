@@ -20,16 +20,19 @@ public class BlockProcessingPanel extends JPanel{
     ModelBlock modelBlock;
 
     public BlockProcessingPanel() {
+        int location=30;
         setLayout(null);
         setBackground(Color.white);
 
         modelBlock=new ModelBlock();
-        modelBlock.setLocation(50,30);
+        modelBlock.setLocation(50,location);
+        location+=modelBlock.getHeight()+50;
         trainingBlock=new TrainingBlock();
-        trainingBlock.setLocation(50,modelBlock.getHeight()+80);
+        trainingBlock.setLocation(50,location);
+        location+=trainingBlock.getHeight()+50;
         classifierBlock = new ClassifierBlock();
         classifierBlock.setSize(290,50);
-        classifierBlock.setLocation(5,modelBlock.getHeight()+trainingBlock.getHeight()+130);
+        classifierBlock.setLocation(5,location);
 
         add(modelBlock);
         add(trainingBlock);

@@ -14,58 +14,60 @@ import java.util.List;
  */
 
 //모델 테스트에 대한 모델 이름, 그래프, 정확도, cost가 나오는 패널
-public class ModelResultPanel extends JPanel {
-    JScrollPane scrollPane=new JScrollPane(this);
-    JLabel modelLabel;
-    JLabel graph_1;
-    JLabel graph_2;
+public class ModelResultPanel extends JScrollPane {
+    //JScrollPane scrollPane=new JScrollPane(this);
     JLabel jlabel;
     JLabel graphLabel;
     ImageIcon imageIcon;
-    LayoutManager manager;
     java.util.List<ModelTestResultArray> modelTestResultArrays;
+    JPanel jpanel;
 
     ModelResultPanel(){
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        super(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         modelTestResultArrays = new ArrayList<>();
-        modelLabel=new JLabel("Model Name");
-        graph_1=new JLabel("Graph 1");
-        graph_2=new JLabel("Graph 2");
-        setLayout(manager);
-        setLayout(new GridLayout(0, 3));
+        //setLayout(new GridLayout(0, 3));
+        GridBagLayout gridBagLayout=new GridBagLayout();
+        jpanel=new JPanel(gridBagLayout);
+        GridBagConstraints constraints=new GridBagConstraints();
+        constraints.fill=GridBagConstraints.BOTH;
+        constraints.weightx = 1.0;
+        constraints.weighty = 1.0;
 
-        add(modelLabel);
-        add(graph_1);
-        add(graph_2);
+
         for(int i=0; i<getModelList().size(); i++){
+            constraints.gridwidth=3;
+            constraints.gridheight=3;
+
             ModelTestResultArray modelTestResultArray=new ModelTestResultArray(getModelList().get(i), getGraph1List().get(i), getGraph2List().get(i));
             modelTestResultArrays.add(modelTestResultArray);
             jlabel=new JLabel(getModelList().get(i));
-            jlabel.setSize(new Dimension(100,100));
-            add(jlabel);
+            jlabel.setSize(new Dimension(100,80));
+            gridBagLayout.setConstraints(jlabel,constraints);
+            jpanel.add(jlabel);
 
             String path=getGraph1List().get(i);
             System.out.println("model result path:"+path);
             imageIcon=new ImageIcon(path);
             graphLabel=new JLabel();
             graphLabel.setIcon(imageIcon);
-            graphLabel.setSize(new Dimension(100,100));
+            graphLabel.setSize(new Dimension(100,80));
+            gridBagLayout.setConstraints(graphLabel,constraints);
+            jpanel.add(graphLabel);
 
-
-            add(graphLabel);
-
+            constraints.gridwidth = GridBagConstraints.REMAINDER;
             String path2=getGraph2List().get(i);
             imageIcon=new ImageIcon(path2);
             graphLabel=new JLabel(imageIcon);
-            graphLabel.setSize(new Dimension(100,100));
-            add(graphLabel);
+            graphLabel.setSize(new Dimension(100,80));
+            gridBagLayout.setConstraints(graphLabel,constraints);
+            jpanel.add(graphLabel);
         }
-        //scrollPane.add(this);
-        scrollPane.setViewportView(this);
-        //TODO: 이미지 크기 정하기, 스크롤 달기
 
+        //TODO: 이미지 크기 맞추기
+
+        setViewportView(jpanel);
         revalidate();
+        jpanel.setBackground(Color.WHITE);
         setBackground(Color.WHITE);
         setVisible(true);
     }

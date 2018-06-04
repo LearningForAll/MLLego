@@ -38,6 +38,7 @@ public class MainFrame extends JFrame {
         add(blockPlacementDefault, BorderLayout.CENTER);
         add(blockListPanel, BorderLayout.EAST);
         add(myModelDefault, BorderLayout.SOUTH);
+        //add(blockPlacementDefault.getModelResultPanel(), blockPlacementDefault.getModelResultPanel().scrollPane);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 

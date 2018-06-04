@@ -21,7 +21,8 @@ public class BlockLayer extends JScrollPane{
     //Layer 블록들이 오는 패널
     //Convolution, Dense, LSTM, Pooling이 옴
     public BlockLayer(){
-        super(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        super(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        int location=30;
         setBackground(Color.white);
         setPreferredSize(new Dimension(300,800));
         jpanel.setPreferredSize(new Dimension(300,1000));
@@ -32,10 +33,13 @@ public class BlockLayer extends JScrollPane{
         lstmBlock=new LstmBlock();
         poolingBlock=new PoolingBlock();
 
-        convolutionLayerBlock.setLocation(50,30);
-        denseBlock.setLocation(50, convolutionLayerBlock.getHeight()+70);
-        lstmBlock.setLocation(50, denseBlock.getHeight()+convolutionLayerBlock.getHeight()+110);
-        poolingBlock.setLocation(50, denseBlock.getHeight()+lstmBlock.getHeight()+convolutionLayerBlock.getHeight()+150);
+        convolutionLayerBlock.setLocation(50,location);
+        location+=50+convolutionLayerBlock.getHeight();
+        denseBlock.setLocation(50, location);
+        location+=50+denseBlock.getHeight();
+        lstmBlock.setLocation(50, location);
+        location+=50+lstmBlock.getHeight();
+        poolingBlock.setLocation(50, location);
 
         jpanel.add(convolutionLayerBlock);
         jpanel.add(denseBlock);
