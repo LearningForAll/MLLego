@@ -1,22 +1,12 @@
 package Presentation.View;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import Component.BlockComponent.Block;
+import Component.TestBlockComponent.TestBlock;
 import Component.TestBlockComponent.TestInputBlock;
 import Component.TestBlockComponent.TestModelBlock;
-import Presentation.Controller.BlockListClickListener;
-import Presentation.Listener.TestBlockListClickListener;
-import Util.ArrayUtil;
-import Component.TestBlockComponent.TestBlock;
 import Util.FileUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by LG on 2018-03-26.
@@ -90,4 +80,11 @@ public class ModelTestPanel extends JPanel {
         }
     }
 
+    public TestModelBlock getTestModelBlock() {
+        return testModelBlock;
+    }
+
+    public TestInputBlock getInputBlock() {
+        return testInputBlock;
+    }
 }

@@ -39,7 +39,8 @@ public class TopMenuActionListener implements ActionListener {
                         tfBuilder.training();
                         break;
                     case 1: // model test
-                        TFBuilder.runModelTestBlock();
+                        ModelTestController modelTestController = ModelTestController.getInstance();
+                        TFBuilder.runModelPredictTestBlock(modelTestController.getSelectedModelName(),modelTestController.getSelectedDataPath());
                 }
                 break;
 

@@ -1,5 +1,6 @@
 package App;
 
+import Presentation.Controller.ModelTestController;
 import Presentation.Controller.ResultController;
 
 import java.io.IOException;
@@ -30,7 +31,13 @@ public class CommunicationThread extends Thread {
                     if (readCount == -1) break;
                     String readStr = new String(buff);
                     for (String oneData : readStr.split("_END")){
-                        ResultController.getInstance().addResultLine(oneData);
+                        oneData = oneData.trim();
+                        if (oneData.isEmpty() || oneData.equals(" ") || oneData.length()<5) continue;
+                        if (oneData.contains("type_test")){
+                            ModelTestController.getInstance().addResultLine(oneData.split("type_test")[1]);
+                        }else{
+                            ResultController.getInstance().addResultLine(oneData);
+                        }
                     }
                 }
                 System.out.println("dis connected");

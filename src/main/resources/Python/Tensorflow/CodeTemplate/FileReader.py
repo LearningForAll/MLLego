@@ -16,13 +16,13 @@ def read_file(x_file_path, y_file_path, x_using_option="ALL", y_using_option="AL
         for line in file_lines:
             vect_element = line.split(",")
             vect = list()
-            if x_using_option == "ALL":
+            if x_using_option == "ENTIRE_VALUE":
                 for element in vect_element:
                     vect.append(element)
-            elif x_using_option == "EXCEPT_END":
+            elif x_using_option == "REMOVE_THE_END":
                 for element in vect_element[:-1]:
                     vect.append(element)
-            elif x_using_option == "EXCEPT_FIRST":
+            elif x_using_option == "REMOVE_THE_START":
                 for element in vect_element[1:]:
                     vect.append(element)
             elif x_using_option == "EXCEPT_FIRST_END":
@@ -44,7 +44,7 @@ def read_file(x_file_path, y_file_path, x_using_option="ALL", y_using_option="AL
         for line in file_lines:
             vect_element = line.split(",")
             vect = list()
-            if y_using_option == "ALL":
+            if y_using_option == "ENTIRE_VALUE":
                 for element in vect_element:
                     vect.append(element)
             elif y_using_option == "ONLY_END":
@@ -55,6 +55,4 @@ def read_file(x_file_path, y_file_path, x_using_option="ALL", y_using_option="AL
                 for element in vect_element:
                     vect.append(element)
             data_y_list.append(vect)
-    if len(data_x_list) != len(data_y_list):
-        raise ValueError("x 데이터와 y 데이터의 크기가 맞지않습니다")
     return data_x_list, data_y_list

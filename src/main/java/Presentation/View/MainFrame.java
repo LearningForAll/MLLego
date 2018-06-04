@@ -1,18 +1,15 @@
 package Presentation.View;
 
-import Component.BlockComponent.ConvolutionLayerBlock;
 import Presentation.Controller.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class MainFrame extends JFrame {
     TopMenuPanel topMenuPanel;
     BlockPlacementDefault blockPlacementDefault;
     BlockListPanel blockListPanel;
     MyModelDefault myModelDefault;
-    ModelTestDefault modelTestDefault;
     ModelResultPanel modelResultPanel;
     public MainFrame(){
 
@@ -28,7 +25,6 @@ public class MainFrame extends JFrame {
         blockPlacementDefault =new BlockPlacementDefault();
         blockListPanel=new BlockListPanel();
         myModelDefault=new MyModelDefault();
-        modelTestDefault=new ModelTestDefault();
         BlockPlacementController.getInstance().setPanel(blockPlacementDefault.getBlockPlacementPanel());
         ModelTestController.getInstance().setPanel(blockPlacementDefault.getModelTestPanel());
         BlockListController.getInstance().setPanel(blockListPanel);

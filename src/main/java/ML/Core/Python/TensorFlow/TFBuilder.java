@@ -362,7 +362,7 @@ public class TFBuilder implements MLBuilder {
         }
     }
 
-    private static void generateModelTestCode(String modelName, String xPath) {
+    private static void generateModelTestCode(String modelName, String xPath,String yPath) {
         String currentDir = System.getProperty("user.dir");
         String folderDir = currentDir + "/bin/" + modelName;
         folderDir = folderDir.replaceAll("\\\\", "/");
@@ -375,7 +375,7 @@ public class TFBuilder implements MLBuilder {
         try {
             File testerFile = FileUtil.resourceLoad("Python/Tensorflow/CodeTemplate/Tester.py");
             if (testerFile == null) throw new RuntimeException("Tester 리소스 존재 X");
-            File recentFile = new File(folderDir + "Tester.py");
+            File recentFile = new File(folderDir + "/Tester.py");
             if (recentFile.exists()) {
                 boolean success = recentFile.delete();
                 if (!success) {
@@ -385,12 +385,15 @@ public class TFBuilder implements MLBuilder {
             }
             String line;
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(testerFile)));
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folderDir + "Tester.py")));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folderDir + "/Tester.py")));
             boolean isCheckFinish = false;
             while ((line = br.readLine()) != null) {
                 if (line.contains("END_SETTING")) isCheckFinish = true;
-                if (!isCheckFinish && line.equals("x_path")) {
-                    line = line.replace("None", xPath);
+                if (!isCheckFinish && line.contains("x_path")) {
+                    line = line.replace("None", "\""+xPath+"\"");
+                }
+                if (!isCheckFinish && line.contains("y_path")) {
+                    line = line.replace("None", "\""+yPath+"\"");
                 }
                 bw.write(line);
                 bw.newLine();
@@ -404,15 +407,16 @@ public class TFBuilder implements MLBuilder {
 
     }
 
-    public static void runModelTestBlock(String modelName, String xPath) {
-        generateModelTestCode(modelName, xPath);
+    public static void runModelPredictTestBlock(String modelName, String xPath) {
+        xPath = xPath.replaceAll("\\\\","/");
+        generateModelTestCode(modelName, xPath,"None");
         String currentDir = System.getProperty("user.dir");
         String binDir = currentDir + "\\bin";
         String envDir = currentDir + "\\envs";
         String pythonDir = envDir + "\\python.exe";
         String folderDir = binDir + "\\" + modelName;
         try {
-            Runtime.getRuntime().exec(pythonDir + " " + folderDir + "\\Tester.py");
+            Runtime.getRuntime().exec(pythonDir + " " + folderDir + "\\Tester.py False");
         } catch (IOException e) {
             e.printStackTrace();
         }

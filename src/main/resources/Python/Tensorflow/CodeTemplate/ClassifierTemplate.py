@@ -185,7 +185,7 @@ class Classifier:
 
         fig.savefig(model_path+"/validate.png", format="png")
 
-    def get_test(self, xPath):
+    def get_test(self, xPath,yPath):
         self.inferencer = InferenceTemplate.Inferencer(xPath, y_path, x_option, y_option)
         self.logit = self.inferencer.get_logit()
         if classifier_option == "LINEAR_REGRESSION":
@@ -204,6 +204,21 @@ class Classifier:
             raise ValueError("classifier option Error , option = " + str(classifier_option))
         return self.predict, self.accuracy
 
+    def get_try(self, xPath):
+        self.inferencer = InferenceTemplate.Inferencer(xPath, y_path, "ENTIRE_VALUE", y_option)
+        self.logit = self.inferencer.get_logit()
+        if classifier_option == "LINEAR_REGRESSION":
+            self.predict = self.logit
+        elif classifier_option == "SVM":
+            raise NotImplementedError("not impl")
+        elif classifier_option == "LOGISTIC_CLASSIFIER":
+            self.predict = tf.cast(self.logit > 0.5, dtype=tf.float32)
+            pass
+        elif classifier_option == "SOFTMAX_CLASSIFIER":
+            self.predict = tf.cast(tf.argmax(self.logit, 1), tf.int32)
+        else:
+            raise ValueError("classifier option Error , option = " + str(classifier_option))
+        return self.predict
     def get_classifier_option(self):
         global classifier_option
         return classifier_option

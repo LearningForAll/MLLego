@@ -123,7 +123,7 @@ public class TrainingBlock extends Block {
     }
 
     public int getEpoch(){
-        return Integer.parseInt(epochTextField.getText());
+        return Integer.parseInt(epochTextField.getText().replaceAll(",",""));
     }
 
     public Optimizer getOptimizer(){ return (Optimizer) optimizerCombobox.getSelectedItem(); }

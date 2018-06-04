@@ -39,4 +39,8 @@ public class TestModelBlock extends TestBlock {
         modelTextField.setText(modelName);
         modelTextField.setEnabled(false);
     }
+
+    public String getModelName(){
+        return modelTextField.getText();
+    }
 }
