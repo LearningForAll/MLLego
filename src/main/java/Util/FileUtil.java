@@ -65,4 +65,15 @@ public class FileUtil {
         if(!dir.mkdirs()) throw new RuntimeException("안된다고 안만들어진다고!");
         return folderDir;
     }
+
+    public static String getCurrentProjectDirPath(String name) {
+        String currentDir = System.getProperty("user.dir");
+        String folderDir = currentDir+"\\bin\\"+ name;
+        if (new File(folderDir).isDirectory()){
+            return null;
+        }
+        File dir = new File(folderDir);
+        if(!dir.mkdirs()) throw new RuntimeException("안된다고 안만들어진다고!");
+        return folderDir;
+    }
 }

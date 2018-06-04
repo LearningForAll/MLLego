@@ -1,19 +1,15 @@
 package Presentation.View;
 
-import Component.BlockComponent.ConvolutionLayerBlock;
-import Models.ModelTestResultArray;
 import Presentation.Controller.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class MainFrame extends JFrame {
     TopMenuPanel topMenuPanel;
     BlockPlacementDefault blockPlacementDefault;
     BlockListPanel blockListPanel;
     MyModelDefault myModelDefault;
-    ModelTestDefault modelTestDefault;
     public MainFrame(){
 
         super("ML Lego");
@@ -27,7 +23,7 @@ public class MainFrame extends JFrame {
         blockPlacementDefault =new BlockPlacementDefault();
         blockListPanel=new BlockListPanel();
         myModelDefault=new MyModelDefault();
-        modelTestDefault=new ModelTestDefault();
+        MyModelDefaultController.getInstance().setDefaultPanel(myModelDefault);
         BlockPlacementController.getInstance().setPanel(blockPlacementDefault.getBlockPlacementPanel());
         ModelTestController.getInstance().setPanel(blockPlacementDefault.getModelTestPanel());
         BlockListController.getInstance().setPanel(blockListPanel);

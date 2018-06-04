@@ -1,5 +1,7 @@
 package Presentation.View;
 
+import Presentation.Controller.ModelTestController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,6 +16,7 @@ public class ModelTestDefault extends JPanel {
         setLayout(new GridLayout(1,2));
         modelTestPanel = new ModelTestPanel();
         modelTestResultPanel = new ModelTestResultPanel();
+        ModelTestController.getInstance().setResultPanel(modelTestResultPanel);
         add(modelTestPanel);
         add(modelTestResultPanel);
         setBackground(Color.white);

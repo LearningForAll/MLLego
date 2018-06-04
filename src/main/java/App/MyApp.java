@@ -9,9 +9,14 @@ public class MyApp {
     public static ClassLoader classLoader;
 
 
+    static CommunicationThread communicationThread;
     public static void main(String[] args){
         new MainFrame();
-        CommunicationThread communicationThread = new CommunicationThread();
+        communicationThread = new CommunicationThread();
         communicationThread.start();
+    }
+
+    public static void stop(){
+        communicationThread.SendStopSignal();
     }
 }

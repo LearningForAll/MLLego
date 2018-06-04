@@ -6,20 +6,31 @@ class LayerGenerator:
     def __init__(self):
         pass
 
-    def conv2d(self, input_tensor, output_size, kernel_size, activation, stride, padding,scope='cnn'):
+    def conv2d(self, input_tensor, output_size, kernel_size, activation, stride, padding='SAME', scope='cnn'):
         with tf.variable_scope(scope, reuse=tf.AUTO_REUSE):
             w = tf.get_variable('w', [kernel_size[0], kernel_size[1], input_tensor.get_shape()[-1], output_size])
             b = tf.get_variable('b', [output_size])
         return self.apply_activation(
             tf.nn.conv2d(input_tensor, w, strides=[1, stride[0], stride[1], 1], padding=padding) + b, activation)
 
-    def linear(self, input_tensor, output_size, activation,scope='linear'):
+    def linear(self, input_tensor, output_size, activation, scope='linear'):
         with tf.variable_scope(scope, reuse=tf.AUTO_REUSE):
-            w = tf.get_variable("w", [output_size, input_tensor.get_shape()[-1]], dtype=tf.float32)
+            r = len(input_tensor.get_shape())
+            local_tensor = None
+            if r != 2:
+                total = tf.Dimension(1)
+                for idx, val in enumerate(input_tensor.get_shape()):
+                    if idx == 0:
+                        continue
+                    total *= val
+                local_tensor = tf.reshape(input_tensor, [-1, total])
+            else:
+                local_tensor = input_tensor
+            w = tf.get_variable("w", [output_size, local_tensor.get_shape()[-1]], dtype=tf.float32)
             b = tf.get_variable('b', [output_size], dtype=tf.float32)
-        return self.apply_activation(tf.matmul(input_tensor, tf.transpose(w)) + b, activation)
+        return self.apply_activation(tf.matmul(local_tensor, tf.transpose(w)) + b, activation)
 
-    def create_stack_rnn(self, input_tensor, rnn_size, stack_size, using_only_end=False,scope='rnn'):
+    def create_stack_rnn(self, input_tensor, rnn_size, stack_size, using_only_end=False, scope='rnn'):
         with tf.variable_scope(scope, reuse=tf.AUTO_REUSE):
             cell = rnn.MultiRNNCell([self.__create_rnn_cell(rnn_size) for _ in range(stack_size)]
                                     , state_is_tuple=True)
@@ -28,7 +39,7 @@ class LayerGenerator:
             return outputs[-1]
         return outputs
 
-    def pool(self, input_tensor, pool_type, pool_size, stride_size=None, padding='VALID',scope='pool'):
+    def pool(self, input_tensor, pool_type, pool_size, stride_size=None, padding='VALID', scope='pool'):
         with tf.variable_scope(scope, reuse=tf.AUTO_REUSE):
             if stride_size is None:
                 stride_size = pool_size

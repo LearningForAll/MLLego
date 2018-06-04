@@ -2,7 +2,6 @@ package Component.BlockComponent;
 
 import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockBatchModel.BlockTemplateComponent.ModelBlockTemplate;
-import Models.Coords;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,4 +72,7 @@ public class ModelBlock extends Block {
         return modelTextField.getText();
     }
 
+    public String getName(){
+        return modelTextField.getText();
+    }
 }

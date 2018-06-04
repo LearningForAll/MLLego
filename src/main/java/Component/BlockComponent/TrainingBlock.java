@@ -29,19 +29,19 @@ public class TrainingBlock extends Block {
         nameLabel = new JLabel(getClass().getSimpleName());
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
-        validRatioTextField = new NumberOnlyTextField(0.1,0.1,0.5);
+        validRatioTextField = new NumberOnlyTextField(0.1,0.0,0.5);
         batchSizeTextField = new NumberOnlyTextField(1,1,100000);
         //TODO 러닝레이트 값 조정해야함
-        learningRateTextField = new NumberOnlyTextField(0.1, 0.00001, 1);
+        learningRateTextField = new NumberOnlyTextField(0.1, 0.00000, 1);
         epochTextField = new NumberOnlyTextField(1,1,100000);
         optimizerCombobox = new JComboBox<>(Optimizer.values());
 
         JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,7,2));
         JPanel flowSubPanel2=new JPanel(new FlowLayout(FlowLayout.LEADING, 7,2));
         JLabel batchSizeLabel=new JLabel("Size");
-        JLabel learningRateLabel=new JLabel("Rate");
+        JLabel learningRateLabel=new JLabel("learningRate");
         JLabel epochLabel=new JLabel("Epoch");
-        JLabel ratioLabel=new JLabel("Ratio");
+        JLabel ratioLabel=new JLabel("validationRatio");
         batchSizeLabel.setFont(new Font("BOLD", Font.BOLD, 11));
         learningRateLabel.setFont(new Font("BOLD", Font.BOLD, 11));
         epochLabel.setFont(new Font("BOLD", Font.BOLD, 11));
@@ -126,16 +126,17 @@ public class TrainingBlock extends Block {
     }
 
     public int getEpoch(){
-        return Integer.parseInt(epochTextField.getText());
+        return Integer.parseInt(epochTextField.getText().replaceAll(",",""));
     }
 
     public Optimizer getOptimizer(){ return (Optimizer) optimizerCombobox.getSelectedItem(); }
 
     public float getLearningRate() {
-        return Float.valueOf(learningRateTextField.getText());
+        return Float.parseFloat(learningRateTextField.getText());
     }
 
+
     public float getValidRatio() {
-        return Float.valueOf(validRatioTextField.getText());
+        return Float.parseFloat(validRatioTextField.getText());
     }
 }

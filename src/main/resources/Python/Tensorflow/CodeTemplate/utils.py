@@ -10,10 +10,19 @@ class BatchGenerator:
         self.num_data = len(y)
         self.num_train = int(self.num_data * (1 - validation_percent))
         self.num_valid = self.num_data - self.num_train
-        self.train_x = self.X[:self.num_train]
-        self.train_y = self.Y[:self.num_train]
-        self.valid_x = self.X[self.num_train:]
-        self.valid_y = self.Y[self.num_train:]
+        perm = np.random.permutation(self.num_data)
+        self.train_x = list()
+        self.train_y = list()
+        self.valid_x = list()
+        self.valid_y = list()
+        train_perm = perm[:self.num_train]
+        valid_perm = perm[self.num_train:]
+        for idx in train_perm:
+            self.train_x.append(self.X[idx])
+            self.train_y.append(self.Y[idx])
+        for idx in valid_perm:
+            self.valid_x.append(self.X[idx])
+            self.valid_y.append(self.Y[idx])
 
     def batches(self):
         perm = np.random.permutation(self.num_train)

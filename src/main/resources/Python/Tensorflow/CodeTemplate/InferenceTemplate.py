@@ -31,6 +31,14 @@ class Inferencer:
     def get_data_y(self):
         return self.data_y
 
+    def get_data_len(self):
+        return len(self.data_y)
+
+    def get_label_encoder(self):
+        label_encoder = preprocessing.LabelEncoder()
+        label_encoder.fit(self.raw_y)
+        return label_encoder
+
     def get_logit(self):
         lg = LayerGenerator.LayerGenerator()
         # below here, MLLego will generate source code.

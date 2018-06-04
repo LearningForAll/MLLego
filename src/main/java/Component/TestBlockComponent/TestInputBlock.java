@@ -1,7 +1,5 @@
 package Component.TestBlockComponent;
 
-import Component.BlockComponent.Block;
-import Component.BlockComponent.XInputBlock;
 import Const.FileType;
 import Const.InputOption;
 
@@ -76,8 +74,8 @@ public class TestInputBlock extends TestBlock {
     }
 
     //todo x와 y구분해서 경로 리턴하기. 어떤 object에서도 같은값을 return 하기위해서 / Class로도 값을 얻을수 있게 하기 위해서 static으로 처리
-    public static String getXPath(){
-        return "Empty";
+    public String getXPath(){
+        return filePathTextField.getText();
     }
 
 

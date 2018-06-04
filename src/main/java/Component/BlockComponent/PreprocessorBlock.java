@@ -103,4 +103,12 @@ public class PreprocessorBlock extends Block {
     public void setXData(boolean XData) {
         IsXData = XData;
     }
+
+    public int getImageSizeX() {
+        return 28;
+    }
+
+    public int getImageSizeY() {
+        return 28;
+    }
 }

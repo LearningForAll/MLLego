@@ -1,14 +1,13 @@
 package Presentation.View;
 
+import Presentation.Controller.TopMenuActionListener;
 import Presentation.Controller.BlockPlacementController;
 import Presentation.Controller.BlockPlacementDefaultController;
 import Presentation.Controller.TopmenuController;
-import Presentation.Observer.TopmenuObserver;
 import Presentation.Observer.TopmenuPublisher;
 import Util.FileUtil;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,6 +40,7 @@ public class TopMenuPanel extends JPanel implements TopmenuPublisher{
         btn_run.setSize(20, 20);
         btn_run.setLocation(0, 10);
         add(btn_run);
+        btn_run.addActionListener(new TopMenuActionListener("run"));
 
         btn_pause.setBorderPainted(false);
         btn_pause.setFocusPainted(false);
@@ -48,6 +48,7 @@ public class TopMenuPanel extends JPanel implements TopmenuPublisher{
         btn_pause.setSize(10, 10);
         btn_pause.setLocation(30, 10);
         add(btn_pause);
+        btn_pause.addActionListener(new TopMenuActionListener("stop"));
 
         btn_load.setBorderPainted(false);
         btn_load.setFocusPainted(false);

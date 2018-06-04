@@ -1,16 +1,15 @@
 package ML.Core.Python.TensorFlow;
 
 import Component.BlockComponent.*;
-import Const.FileOption;
 import Const.RnnOutputOption;
-import ML.Core.Exception.IncompleteBlockException;
-import ML.Core.Exception.NoClassificationException;
 import ML.Core.MLBuilder;
 import ML.Core.ProcessListener;
+import Util.CMDExecuteUtil;
 import Util.FileUtil;
 import Util.StringUtil;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +39,14 @@ public class TFBuilder implements MLBuilder {
      * @return 성공, 실패 반환
      */
     @Override
-    public boolean generateCodeFile(TrainingBlock trainingBlock) {
+    public boolean generateCodeFile(TrainingBlock trainingBlock, String name) {
         //resource load
-        String curProjectDir = FileUtil.getCurrentProjectDirPath();
+        String curProjectDir = FileUtil.getCurrentProjectDirPath(name);
+        if (curProjectDir == null) {
+            JOptionPane.showMessageDialog(null, "Model 이름이 중복됩니다", "ERROR", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        recentGenerateTrainingCodeURL = curProjectDir;
         File classifierTemplateFile = FileUtil.resourceLoad("Python/Tensorflow/CodeTemplate/ClassifierTemplate.py");
         File fileReaderFile = FileUtil.resourceLoad("Python/Tensorflow/CodeTemplate/FileReader.py");
         File inferenceTemplateFile = FileUtil.resourceLoad("Python/Tensorflow/CodeTemplate/InferenceTemplate.py");
@@ -63,15 +67,23 @@ public class TFBuilder implements MLBuilder {
 
         //read training block
         ClassifierBlock classifierBlock = trainingBlock.getClassifierBlock();
-        if (classifierBlock == null) throw new NoClassificationException("classification 블록이 없습니다.", trainingBlock);
+        if (classifierBlock == null) {
+            //throw new NoClassificationException("classification 블록이 없습니다.", trainingBlock);
+            JOptionPane.showMessageDialog(null, "classification 블록이 없습니다.", "ERROR", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
 
         Block xPartBlock = classifierBlock.getxPartBlock();
         Block yPartBlock = classifierBlock.getyPartBlock();
-        if (xPartBlock == null || yPartBlock == null) throw new IncompleteBlockException("x 또는 y 파트의 블록이 존재하지않습니다");
+        if (xPartBlock == null || yPartBlock == null) {
+            // throw new IncompleteBlockException("x 또는 y 파트의 블록이 존재하지않습니다");
+            JOptionPane.showMessageDialog(null, "x 또는 y 파트의 블록이 존재하지않습니다", "ERROR", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
 
 
         // TODO :: classifier option is mocked.
-        ClassifierOption classifierOption = new ClassifierOption(XInputBlock.getXPath(), YInputBlock.getYPath(), FileOption.ALL, FileOption.ALL,
+        ClassifierOption classifierOption = new ClassifierOption(curProjectDir, XInputBlock.getXPath(), YInputBlock.getYPath(), XInputBlock.getInputOptionStr(), YInputBlock.getInputOptionStr(),
                 classifierBlock.getClassifier(), trainingBlock.getBatchSize(), trainingBlock.getEpoch(),
                 trainingBlock.getLearningRate(), trainingBlock.getOptimizer(), trainingBlock.getValidRatio());
         // generate classifier
@@ -89,7 +101,7 @@ public class TFBuilder implements MLBuilder {
         generateCodeRecursive(xPartBlock);
         codeList.add("return " + xPartBlock.getUid());
         generateInferenceFile(codeList, curProjectDir + "/" + inferenceTemplateFile.getName());
-        return false;
+        return true;
     }
 
     private void generateInferenceFile(List<String> codeList, String inferenceFilePath) {
@@ -114,7 +126,22 @@ public class TFBuilder implements MLBuilder {
      */
     @Override
     public boolean training() {
-        return false;
+        String currentDir = System.getProperty("user.dir");
+        String envDir = currentDir + "\\envs";
+        String pythonDir = envDir + "\\python.exe";
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    CMDExecuteUtil.cmdExecute(new String[]{"cmd.exe", "/c", pythonDir + " " + recentGenerateTrainingCodeURL + "\\Trainer.py False"});
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        thread.start();
+        return true;
     }
 
 
@@ -148,12 +175,17 @@ public class TFBuilder implements MLBuilder {
         if (isDataX) dataType = "x";
         else dataType = "y";
         String funcStr = "self.data_" + dataType + " = ";
+        int xSize, ySize;
         switch (preprocessorBlock.getPreprocessorType()) {
             case RGB:
-                funcStr += "pp.image_to_vector(self.data_" + dataType + ")";
+                xSize = preprocessorBlock.getImageSizeX();
+                ySize = preprocessorBlock.getImageSizeY();
+                funcStr += "pp.image_to_vector(self.data_" + dataType + ",size=[" + xSize + "," + ySize + "])";
                 break;
             case BLACK_WHITE:
-                funcStr += "pp.image_to_vector(self.data_" + dataType + ",option=\"BW\")";
+                xSize = preprocessorBlock.getImageSizeX();
+                ySize = preprocessorBlock.getImageSizeY();
+                funcStr += "pp.image_to_vector(self.data_" + dataType + ",option=\"BW\",size=[" + xSize + "," + ySize + "])";
                 break;
             case ONE_HOT_ENCODING:
                 funcStr += "pp.one_hot_encoding(self.data_" + dataType + ")";
@@ -182,7 +214,7 @@ public class TFBuilder implements MLBuilder {
             beforeUid = beforeBlock.getUid();
         }
         funcStr += "=lg.conv2d(" + beforeUid + "," + block.getKernelNum() + ",[" + block.getHorizonKernelSize() + "," + block.getVerticalKernelSize() + "],\"" +
-                block.getActivationFunction().toString() + "\",[1,1]," + "\'VALID\'" + "\',scope=\'" + block.getUid() + "\')";
+                block.getActivationFunction().toString() + "\",[1,1]," + "\'VALID\'" + ",scope=\'" + block.getUid() + "\')";
         return funcStr;
     }
 
@@ -213,7 +245,7 @@ public class TFBuilder implements MLBuilder {
         } else {
             beforeUid = beforeBlock.getUid();
         }
-        funcStr += "=lg.pool(" + beforeUid + "," + block.getPoolingType().toString() + ",[" + block.getHorizonKernel() + "," + block.getVerticalKernel() + "],["
+        funcStr += "=lg.pool(" + beforeUid + ",\'" + block.getPoolingType().toString() + "\',[" + block.getHorizonKernel() + "," + block.getVerticalKernel() + "],["
                 + block.getHorizonStride() + "," + block.getVerticalStride() + "],\'" + block.getPaddingOption().toString() + "\',scope=\'" + block.getUid() + "\')";
         return funcStr;
     }
@@ -330,4 +362,63 @@ public class TFBuilder implements MLBuilder {
         }
     }
 
+    private static void generateModelTestCode(String modelName, String xPath,String yPath) {
+        String currentDir = System.getProperty("user.dir");
+        String folderDir = currentDir + "/bin/" + modelName;
+        folderDir = folderDir.replaceAll("\\\\", "/");
+        if (!new File(folderDir).isDirectory()) {
+            JOptionPane.showMessageDialog(null, "해당 모델파일이 존재하지않습니다,", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
+        try {
+            File testerFile = FileUtil.resourceLoad("Python/Tensorflow/CodeTemplate/Tester.py");
+            if (testerFile == null) throw new RuntimeException("Tester 리소스 존재 X");
+            File recentFile = new File(folderDir + "/Tester.py");
+            if (recentFile.exists()) {
+                boolean success = recentFile.delete();
+                if (!success) {
+                    JOptionPane.showMessageDialog(null, "최근 test 파일을 지우지 못했습니다", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+            String line;
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(testerFile)));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folderDir + "/Tester.py")));
+            boolean isCheckFinish = false;
+            while ((line = br.readLine()) != null) {
+                if (line.contains("END_SETTING")) isCheckFinish = true;
+                if (!isCheckFinish && line.contains("x_path")) {
+                    line = line.replace("None", "\""+xPath+"\"");
+                }
+                if (!isCheckFinish && line.contains("y_path")) {
+                    line = line.replace("None", "\""+yPath+"\"");
+                }
+                bw.write(line);
+                bw.newLine();
+                bw.flush();
+            }
+            br.close();
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void runModelPredictTestBlock(String modelName, String xPath) {
+        xPath = xPath.replaceAll("\\\\","/");
+        generateModelTestCode(modelName, xPath,"None");
+        String currentDir = System.getProperty("user.dir");
+        String binDir = currentDir + "\\bin";
+        String envDir = currentDir + "\\envs";
+        String pythonDir = envDir + "\\python.exe";
+        String folderDir = binDir + "\\" + modelName;
+        try {
+            Runtime.getRuntime().exec(pythonDir + " " + folderDir + "\\Tester.py False");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

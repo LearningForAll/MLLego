@@ -30,4 +30,10 @@ public class BlockPlacementDefault extends JTabbedPane{
     public BlockPlacementPanel getBlockPlacementPanel() {return blockPlacementPanel;}
     public ModelTestPanel getModelTestPanel(){return modelTestDefault.modelTestPanel;}
     public ModelResultPanel getModelResultPanel(){return modelResultPanel;}
+    public void resetResultPanel(){
+        remove(modelResultPanel);
+        modelResultPanel = new ModelResultPanel();
+        add("Model Result", modelResultPanel);
+        revalidate();
+    }
 }

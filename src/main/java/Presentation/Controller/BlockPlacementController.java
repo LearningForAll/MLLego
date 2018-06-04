@@ -21,7 +21,12 @@ public class BlockPlacementController implements BlockObserver {
     // 패널을 가지고 있음 컨트롤러니까
     BlockPlacementPanel panel;
     List<Block> blocks;
-
+    public TrainingBlock getTrainingBlock(){
+        for (Block block : blocks){
+            if (block instanceof TrainingBlock)return (TrainingBlock)block;
+        }
+        return null;
+    }
 
     private BlockPlacementController() {
         blocks = new ArrayList<>();
@@ -598,5 +603,12 @@ public class BlockPlacementController implements BlockObserver {
             }
 
         }
+    }
+
+    public ModelBlock getModelBlock() {
+        for (Block block : blocks){
+            if (block instanceof ModelBlock)return (ModelBlock) block;
+        }
+        return null;
     }
 }
