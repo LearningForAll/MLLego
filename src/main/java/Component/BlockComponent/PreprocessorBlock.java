@@ -28,6 +28,7 @@ public class PreprocessorBlock extends Block {
         setLayout(layout);
         setSize(200,50);
         width=getWidth();
+        flowPanel.remove(reductButton);
         add(flowPanel);
         add(preprocessorTypeCombobox);
         flowPanel.add(nameLabel);

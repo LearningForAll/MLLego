@@ -33,14 +33,14 @@ public class DenseBlock extends LayerBlock {
         outputDimensionTextField = new NumberOnlyTextField(tempInputDimension, 1, 1000);
         activationFunctionCombobox = new JComboBox<>(ActivationFunc.values());
 
-        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,6,2));
+        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,4,2));
         JLabel layerNumLabel=new JLabel("Num layer");
         JLabel outputDimLabel=new JLabel("     Dimension");
         JSlider keepProbJSlider=new JSlider();
-        layerNumLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        outputDimLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        layerTextField.setPreferredSize(new Dimension(20,20));
-        outputDimensionTextField.setPreferredSize(new Dimension(20,20));
+        layerNumLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        outputDimLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        layerTextField.setPreferredSize(new Dimension(30,20));
+        outputDimensionTextField.setPreferredSize(new Dimension(30,20));
         flowSubPanel.add(layerNumLabel);
         flowSubPanel.add(layerTextField);
         flowSubPanel.add(outputDimLabel);

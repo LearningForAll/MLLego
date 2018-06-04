@@ -35,18 +35,18 @@ public class ConvolutionLayerBlock extends LayerBlock {
         horizontalKernelSize = new NumberOnlyTextField(2, 1, 1000);
         verticalKernelSize = new NumberOnlyTextField(2, 1, 1000);
 
-        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,3,2));
+        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,2,1));
         JLabel multiplyLabel=new JLabel("X");
         JLabel horizonLabel=new JLabel("Hor");
         JLabel verticalLabel=new JLabel("Ver");
         JLabel explainLabel=new JLabel("  Num kernel");
-        multiplyLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        horizonLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        verticalLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        explainLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        horizontalKernelSize.setPreferredSize(new Dimension(20,20));
-        verticalKernelSize.setPreferredSize(new Dimension(20,20));
-        kernelNumTextField.setPreferredSize(new Dimension(20,20));
+        multiplyLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        horizonLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        verticalLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        explainLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        horizontalKernelSize.setPreferredSize(new Dimension(28,20));
+        verticalKernelSize.setPreferredSize(new Dimension(28,20));
+        kernelNumTextField.setPreferredSize(new Dimension(28,20));
         flowSubPanel.add(horizonLabel);
         flowSubPanel.add(horizontalKernelSize);
         flowSubPanel.add(multiplyLabel);

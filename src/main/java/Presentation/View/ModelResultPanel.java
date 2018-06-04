@@ -1,6 +1,5 @@
 package Presentation.View;
 
-import Component.MyModelComponent.MyModelComponent;
 import Models.ModelTestResultArray;
 
 import javax.swing.*;
@@ -14,34 +13,66 @@ import java.util.List;
  */
 
 //모델 테스트에 대한 모델 이름, 그래프, 정확도, cost가 나오는 패널
-public class ModelResultPanel extends JPanel {
-    //TODO:: dataNum 받아오는 것으로 수정 필요
-    int dataNum;//데이터 갯수를 받아와야함
-    JLabel modelLabel;
-    JLabel graph_1;
-    JLabel graph_2;
+public class ModelResultPanel extends JScrollPane {
+    JLabel jlabel;
+    JLabel graphLabel;
+    ImageIcon imageIcon;
+    ImageIcon imageIcon2;
+    Image image;
+    Image image2;
     java.util.List<ModelTestResultArray> modelTestResultArrays;
+    JPanel jpanel;
+    GridBagLayout gridBagLayout;
 
     ModelResultPanel(){
-        dataNum=getModelList().size();
-        setLayout(new GridLayout(dataNum+1, 3));
+        super(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         modelTestResultArrays = new ArrayList<>();
-        modelLabel=new JLabel("Model Name");
-        graph_1=new JLabel("Graph 1");
-        graph_2=new JLabel("Graph 2");
-        add(modelLabel);
-        add(graph_1);
-        add(graph_2);
+        gridBagLayout=new GridBagLayout();
+        jpanel=new JPanel(gridBagLayout);
+        GridBagConstraints constraints=new GridBagConstraints();
+        constraints.fill=GridBagConstraints.BOTH;
+        constraints.weightx = 1.0;
+        constraints.weighty = 1.0;
+
 
         for(int i=0; i<getModelList().size(); i++){
+            constraints.gridwidth=2;
+            constraints.gridheight=2;
+
             ModelTestResultArray modelTestResultArray=new ModelTestResultArray(getModelList().get(i), getGraph1List().get(i), getGraph2List().get(i));
             modelTestResultArrays.add(modelTestResultArray);
-            add(modelTestResultArray);
+            jlabel=new JLabel(getModelList().get(i));
+            gridBagLayout.setConstraints(jlabel,constraints);
+            jpanel.add(jlabel);
+
+            String path=getGraph1List().get(i);
+            imageIcon=new ImageIcon(path);
+            image=imageIcon.getImage();
+            image2=image.getScaledInstance(400,300,java.awt.Image.SCALE_SMOOTH);
+            imageIcon2=new ImageIcon(image2);
+            graphLabel=new JLabel();
+            graphLabel.setIcon(imageIcon2);
+            gridBagLayout.setConstraints(graphLabel,constraints);
+            jpanel.add(graphLabel);
+
+            constraints.gridwidth = GridBagConstraints.REMAINDER;
+            String path2=getGraph2List().get(i);
+            imageIcon=new ImageIcon(path2);
+            image=imageIcon.getImage();
+            image2=image.getScaledInstance(400,300,java.awt.Image.SCALE_SMOOTH);
+            imageIcon2=new ImageIcon(image2);
+            graphLabel=new JLabel(imageIcon);
+            gridBagLayout.setConstraints(graphLabel,constraints);
+            jpanel.add(graphLabel);
         }
 
+        setViewportView(jpanel);
+        revalidate();
+        jpanel.setBackground(Color.WHITE);
         setBackground(Color.WHITE);
         setVisible(true);
     }
+
 
     private List<String> getModelList(){
 
@@ -49,15 +80,12 @@ public class ModelResultPanel extends JPanel {
         String currentDir = System.getProperty("user.dir");
         String folderDir = currentDir+"/bin/";
 
-        System.out.println(folderDir);
-
         File dir = new File(folderDir);
         File[] fileList = dir.listFiles();
         try{
             for(int i = 0 ; i < fileList.length ; i++){
                 File file = fileList[i];
                 if(file.isDirectory()){
-                    System.out.println("디렉토리 이름 = " + file.getName());
                     modelList.add(file.getName());
                 }
             }
@@ -80,9 +108,7 @@ public class ModelResultPanel extends JPanel {
             for(int i = 0 ; i < fileList.length ; i++){
                 File file = fileList[i];
                 if(file.isDirectory()){
-                    System.out.println("디렉토리 이름 = " + file.getName());
-                    //graph1List.add(folderDir+file.getName()+"/train.png");
-                    graph1List.add("/bin/"+file.getName()+"/train.png");
+                    graph1List.add(folderDir+file.getName()+"/train.png");
                 }
             }
         }catch(Exception e){
@@ -105,9 +131,7 @@ public class ModelResultPanel extends JPanel {
             for(int i = 0 ; i < fileList.length ; i++){
                 File file = fileList[i];
                 if(file.isDirectory()){
-                    System.out.println("디렉토리 이름 = " + file.getName());
-                    //graph2List.add(folderDir+file.getName()+"/validate.png");
-                    graph2List.add("/bin/"+file.getName()+"/validate.png");
+                    graph2List.add(folderDir+file.getName()+"/validate.png");
                 }
             }
         }catch(Exception e){

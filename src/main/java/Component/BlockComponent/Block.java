@@ -47,7 +47,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     abstract public boolean isPreviousBlockConnected();
 
     protected JLabel nameLabel;
-    //public String blockName;
     public JPanel flowPanel;
     public JButton reductButton;
     public JButton revertExtendButton;

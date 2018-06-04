@@ -27,18 +27,18 @@ public class LstmBlock extends LayerBlock {
         stackSizeTextField = new NumberOnlyTextField(1,1,10);
         cellSizeTextField = new NumberOnlyTextField(1,1,10);
         rnnOutputOption=new JComboBox<>(RnnOutputOption.values());
-        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,3,2));
+        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,6,2));
         nameLabel = new JLabel(getClass().getSimpleName());
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         keepProbJSlider = new JSlider();
 
-        stackSizeTextField.setPreferredSize(new Dimension(20,20));
-        cellSizeTextField.setPreferredSize(new Dimension(20,20));
+        stackSizeTextField.setPreferredSize(new Dimension(30,20));
+        cellSizeTextField.setPreferredSize(new Dimension(30,20));
         JLabel stackLabel=new JLabel("stack");
         JLabel cellLabel=new JLabel("cell");
-        stackLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        cellLabel.setFont(new Font("BOLD", Font.BOLD, 11));
+        stackLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        cellLabel.setFont(new Font("BOLD", Font.BOLD, 9));
         GridLayout layout = new GridLayout(4,1);
         setLayout(layout);
         setSize(200,99);
