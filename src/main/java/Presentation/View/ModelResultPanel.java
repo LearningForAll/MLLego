@@ -14,34 +14,64 @@ import java.util.List;
  */
 
 //모델 테스트에 대한 모델 이름, 그래프, 정확도, cost가 나오는 패널
-public class ModelResultPanel extends JPanel {
-    //TODO:: dataNum 받아오는 것으로 수정 필요
-    int dataNum;//데이터 갯수를 받아와야함
-    JLabel modelLabel;
-    JLabel graph_1;
-    JLabel graph_2;
+public class ModelResultPanel extends JScrollPane {
+    //JScrollPane scrollPane=new JScrollPane(this);
+    JLabel jlabel;
+    JLabel graphLabel;
+    ImageIcon imageIcon;
     java.util.List<ModelTestResultArray> modelTestResultArrays;
+    JPanel jpanel;
 
     ModelResultPanel(){
-        dataNum=getModelList().size();
-        setLayout(new GridLayout(dataNum+1, 3));
+        super(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         modelTestResultArrays = new ArrayList<>();
-        modelLabel=new JLabel("Model Name");
-        graph_1=new JLabel("Graph 1");
-        graph_2=new JLabel("Graph 2");
-        add(modelLabel);
-        add(graph_1);
-        add(graph_2);
+        //setLayout(new GridLayout(0, 3));
+        GridBagLayout gridBagLayout=new GridBagLayout();
+        jpanel=new JPanel(gridBagLayout);
+        GridBagConstraints constraints=new GridBagConstraints();
+        constraints.fill=GridBagConstraints.BOTH;
+        constraints.weightx = 1.0;
+        constraints.weighty = 1.0;
+
 
         for(int i=0; i<getModelList().size(); i++){
+            constraints.gridwidth=3;
+            constraints.gridheight=3;
+
             ModelTestResultArray modelTestResultArray=new ModelTestResultArray(getModelList().get(i), getGraph1List().get(i), getGraph2List().get(i));
             modelTestResultArrays.add(modelTestResultArray);
-            add(modelTestResultArray);
+            jlabel=new JLabel(getModelList().get(i));
+            jlabel.setSize(new Dimension(100,80));
+            gridBagLayout.setConstraints(jlabel,constraints);
+            jpanel.add(jlabel);
+
+            String path=getGraph1List().get(i);
+            System.out.println("model result path:"+path);
+            imageIcon=new ImageIcon(path);
+            graphLabel=new JLabel();
+            graphLabel.setIcon(imageIcon);
+            graphLabel.setSize(new Dimension(100,80));
+            gridBagLayout.setConstraints(graphLabel,constraints);
+            jpanel.add(graphLabel);
+
+            constraints.gridwidth = GridBagConstraints.REMAINDER;
+            String path2=getGraph2List().get(i);
+            imageIcon=new ImageIcon(path2);
+            graphLabel=new JLabel(imageIcon);
+            graphLabel.setSize(new Dimension(100,80));
+            gridBagLayout.setConstraints(graphLabel,constraints);
+            jpanel.add(graphLabel);
         }
 
+        //TODO: 이미지 크기 맞추기
+
+        setViewportView(jpanel);
+        revalidate();
+        jpanel.setBackground(Color.WHITE);
         setBackground(Color.WHITE);
         setVisible(true);
     }
+
 
     private List<String> getModelList(){
 
@@ -80,9 +110,7 @@ public class ModelResultPanel extends JPanel {
             for(int i = 0 ; i < fileList.length ; i++){
                 File file = fileList[i];
                 if(file.isDirectory()){
-                    System.out.println("디렉토리 이름 = " + file.getName());
-                    //graph1List.add(folderDir+file.getName()+"/train.png");
-                    graph1List.add("/bin/"+file.getName()+"/train.png");
+                    graph1List.add(folderDir+file.getName()+"/train.png");
                 }
             }
         }catch(Exception e){
@@ -105,9 +133,7 @@ public class ModelResultPanel extends JPanel {
             for(int i = 0 ; i < fileList.length ; i++){
                 File file = fileList[i];
                 if(file.isDirectory()){
-                    System.out.println("디렉토리 이름 = " + file.getName());
-                    //graph2List.add(folderDir+file.getName()+"/validate.png");
-                    graph2List.add("/bin/"+file.getName()+"/validate.png");
+                    graph2List.add(folderDir+file.getName()+"/validate.png");
                 }
             }
         }catch(Exception e){

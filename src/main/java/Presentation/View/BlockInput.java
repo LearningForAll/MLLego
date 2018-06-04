@@ -19,15 +19,19 @@ public class BlockInput extends JPanel {
     PreprocessorBlock preprocessorBlock;
 
     public BlockInput(){
+        int location=30;
+
         setLayout(null);
         setBackground(Color.white);
 
         xInputBlock=new XInputBlock();
         yInputBlock=new YInputBlock();
         preprocessorBlock=new PreprocessorBlock();
-        xInputBlock.setLocation(50,30);
-        yInputBlock.setLocation(50,xInputBlock.getHeight()+80);
-        preprocessorBlock.setLocation(50,xInputBlock.getHeight()+yInputBlock.getHeight()+130);
+        xInputBlock.setLocation(50,location);
+        location+=50+xInputBlock.getHeight();
+        yInputBlock.setLocation(50,location);
+        location+=50+yInputBlock.getHeight();
+        preprocessorBlock.setLocation(50,location);
 
         add(xInputBlock);
         add(yInputBlock);
