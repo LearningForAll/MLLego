@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockBatchModel.BlockTemplateComponent.ConvolutionLayerBlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.ActivationFunc;
@@ -34,18 +35,18 @@ public class ConvolutionLayerBlock extends LayerBlock {
         horizontalKernelSize = new NumberOnlyTextField(2, 1, 1000);
         verticalKernelSize = new NumberOnlyTextField(2, 1, 1000);
 
-        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,3,2));
+        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,2,1));
         JLabel multiplyLabel=new JLabel("X");
         JLabel horizonLabel=new JLabel("Hor");
         JLabel verticalLabel=new JLabel("Ver");
         JLabel explainLabel=new JLabel("  Num kernel");
-        multiplyLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        horizonLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        verticalLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        explainLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        horizontalKernelSize.setPreferredSize(new Dimension(20,20));
-        verticalKernelSize.setPreferredSize(new Dimension(20,20));
-        kernelNumTextField.setPreferredSize(new Dimension(20,20));
+        multiplyLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        horizonLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        verticalLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        explainLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        horizontalKernelSize.setPreferredSize(new Dimension(28,20));
+        verticalKernelSize.setPreferredSize(new Dimension(28,20));
+        kernelNumTextField.setPreferredSize(new Dimension(28,20));
         flowSubPanel.add(horizonLabel);
         flowSubPanel.add(horizontalKernelSize);
         flowSubPanel.add(multiplyLabel);
@@ -57,7 +58,7 @@ public class ConvolutionLayerBlock extends LayerBlock {
         GridLayout layout=new GridLayout(4,1);
         setLayout(layout);
         setSize(200,99);
-        width=getWidth();
+        width = getWidth();
         add(flowPanel);
         add(keepprobJSlider);
         add(activationFunctionCombobox);
@@ -71,13 +72,19 @@ public class ConvolutionLayerBlock extends LayerBlock {
         this();
         activationFunctionCombobox.setSelectedItem(template.getFunc());
         keepprobJSlider.setValue(template.getKeepProb());
+
+
         kernelNumTextField.setValue(template.getKernelSize());
         verticalKernelSize.setValue(template.getVerticalKernelSize());
         horizontalKernelSize.setValue(template.getHorizontalKernelSize());
+
         this.setConnectedSize(template.getConnectedSize());
         this.setExtendSize(template.getExtendSize());
         // 크기만 늘어났는지 체크
         this.setExtended(template.isExtended());
+        this.setReducted(template.isReducted());
+        reductButton.removeActionListener(getReductButton().getActionListeners()[0]);
+        reductButton.addActionListener(new ReductionActionListener(this));
         setLocation(template.getPositionX(), template.getPositionY());
 
     }
@@ -108,14 +115,16 @@ public class ConvolutionLayerBlock extends LayerBlock {
     }
 
     public int getKernelNum(){
-        return (int)kernelNumTextField.getValue();
+        return Integer.parseInt(kernelNumTextField.getText());
     }
 
     public int getHorizonKernelSize(){
-        return (int)horizontalKernelSize.getValue();
+        return Integer.parseInt(horizontalKernelSize.getText());
     }
 
-    public int getVerticalKernelSize(){ return (int)verticalKernelSize.getValue(); }
+    public int getVerticalKernelSize(){
+        return Integer.parseInt(verticalKernelSize.getText());
+    }
 
 }
 

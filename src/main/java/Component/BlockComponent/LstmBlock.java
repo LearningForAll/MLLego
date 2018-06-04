@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockBatchModel.BlockTemplateComponent.LstmBlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.RnnOutputOption;
@@ -26,18 +27,18 @@ public class LstmBlock extends LayerBlock {
         stackSizeTextField = new NumberOnlyTextField(1,1,10);
         cellSizeTextField = new NumberOnlyTextField(1,1,10);
         rnnOutputOption=new JComboBox<>(RnnOutputOption.values());
-        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,3,2));
+        JPanel flowSubPanel=new JPanel(new FlowLayout(FlowLayout.LEADING,6,2));
         nameLabel = new JLabel(getClass().getSimpleName());
         nameLabel.setForeground(Color.white);
         nameLabel.setHorizontalAlignment(nameLabel.CENTER);
         keepProbJSlider = new JSlider();
 
-        stackSizeTextField.setPreferredSize(new Dimension(20,20));
-        cellSizeTextField.setPreferredSize(new Dimension(20,20));
+        stackSizeTextField.setPreferredSize(new Dimension(30,20));
+        cellSizeTextField.setPreferredSize(new Dimension(30,20));
         JLabel stackLabel=new JLabel("stack");
         JLabel cellLabel=new JLabel("cell");
-        stackLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        cellLabel.setFont(new Font("BOLD", Font.BOLD, 11));
+        stackLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        cellLabel.setFont(new Font("BOLD", Font.BOLD, 9));
         GridLayout layout = new GridLayout(4,1);
         setLayout(layout);
         setSize(200,99);
@@ -56,11 +57,17 @@ public class LstmBlock extends LayerBlock {
         setVisible(true);
     }
     public LstmBlock(LstmBlockTemplate template){
+        this();
         keepProbJSlider.setValue(template.getKeepProb());
         //TODO 주석풀어야함
         stackSizeTextField.setValue(template.getStackSize());
+        cellSizeTextField.setText(String.valueOf(template.getCellSize()));
+        rnnOutputOption.setSelectedItem(template.getRnnOutputOption());
         // 크기만 늘어났는지 체크
         this.setExtended(template.isExtended());
+        this.setReducted(template.isReducted());
+        reductButton.removeActionListener(getReductButton().getActionListeners()[0]);
+        reductButton.addActionListener(new ReductionActionListener(this));
         setLocation(template.getPositionX(), template.getPositionY());
     }
 

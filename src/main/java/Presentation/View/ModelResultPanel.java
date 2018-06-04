@@ -1,6 +1,5 @@
 package Presentation.View;
 
-import Component.MyModelComponent.MyModelComponent;
 import Models.ModelTestResultArray;
 
 import javax.swing.*;
@@ -15,18 +14,20 @@ import java.util.List;
 
 //모델 테스트에 대한 모델 이름, 그래프, 정확도, cost가 나오는 패널
 public class ModelResultPanel extends JScrollPane {
-    //JScrollPane scrollPane=new JScrollPane(this);
     JLabel jlabel;
     JLabel graphLabel;
     ImageIcon imageIcon;
+    ImageIcon imageIcon2;
+    Image image;
+    Image image2;
     java.util.List<ModelTestResultArray> modelTestResultArrays;
     JPanel jpanel;
+    GridBagLayout gridBagLayout;
 
     ModelResultPanel(){
         super(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         modelTestResultArrays = new ArrayList<>();
-        //setLayout(new GridLayout(0, 3));
-        GridBagLayout gridBagLayout=new GridBagLayout();
+        gridBagLayout=new GridBagLayout();
         jpanel=new JPanel(gridBagLayout);
         GridBagConstraints constraints=new GridBagConstraints();
         constraints.fill=GridBagConstraints.BOTH;
@@ -35,35 +36,35 @@ public class ModelResultPanel extends JScrollPane {
 
 
         for(int i=0; i<getModelList().size(); i++){
-            constraints.gridwidth=3;
-            constraints.gridheight=3;
+            constraints.gridwidth=2;
+            constraints.gridheight=2;
 
             ModelTestResultArray modelTestResultArray=new ModelTestResultArray(getModelList().get(i), getGraph1List().get(i), getGraph2List().get(i));
             modelTestResultArrays.add(modelTestResultArray);
             jlabel=new JLabel(getModelList().get(i));
-            jlabel.setSize(new Dimension(100,80));
             gridBagLayout.setConstraints(jlabel,constraints);
             jpanel.add(jlabel);
 
             String path=getGraph1List().get(i);
-            System.out.println("model result path:"+path);
             imageIcon=new ImageIcon(path);
+            image=imageIcon.getImage();
+            image2=image.getScaledInstance(400,300,java.awt.Image.SCALE_SMOOTH);
+            imageIcon2=new ImageIcon(image2);
             graphLabel=new JLabel();
-            graphLabel.setIcon(imageIcon);
-            graphLabel.setSize(new Dimension(100,80));
+            graphLabel.setIcon(imageIcon2);
             gridBagLayout.setConstraints(graphLabel,constraints);
             jpanel.add(graphLabel);
 
             constraints.gridwidth = GridBagConstraints.REMAINDER;
             String path2=getGraph2List().get(i);
             imageIcon=new ImageIcon(path2);
+            image=imageIcon.getImage();
+            image2=image.getScaledInstance(400,300,java.awt.Image.SCALE_SMOOTH);
+            imageIcon2=new ImageIcon(image2);
             graphLabel=new JLabel(imageIcon);
-            graphLabel.setSize(new Dimension(100,80));
             gridBagLayout.setConstraints(graphLabel,constraints);
             jpanel.add(graphLabel);
         }
-
-        //TODO: 이미지 크기 맞추기
 
         setViewportView(jpanel);
         revalidate();
@@ -79,15 +80,12 @@ public class ModelResultPanel extends JScrollPane {
         String currentDir = System.getProperty("user.dir");
         String folderDir = currentDir+"/bin/";
 
-        System.out.println(folderDir);
-
         File dir = new File(folderDir);
         File[] fileList = dir.listFiles();
         try{
             for(int i = 0 ; i < fileList.length ; i++){
                 File file = fileList[i];
                 if(file.isDirectory()){
-                    System.out.println("디렉토리 이름 = " + file.getName());
                     modelList.add(file.getName());
                 }
             }

@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockBatchModel.BlockTemplateComponent.PoolingBlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.PaddingOption;
@@ -42,22 +43,21 @@ public class PoolingBlock extends LayerBlock {
         JLabel horizonLabel2=new JLabel("Hor");
         JLabel verticalLabel=new JLabel("Ver");
         JLabel verticalLabel2=new JLabel("Ver");
-        JLabel blankLabel=new JLabel("   ");
-        multiplyLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        horizonLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        horizonLabel2.setFont(new Font("BOLD", Font.BOLD, 11));
-        verticalLabel.setFont(new Font("BOLD", Font.BOLD, 11));
-        verticalLabel2.setFont(new Font("BOLD", Font.BOLD, 11));
-        horizontalKernelSizeTextField.setPreferredSize(new Dimension(20,20));
-        verticalKernelSizeTextField.setPreferredSize(new Dimension(20,20));
-        horizontalStrideTextField.setPreferredSize(new Dimension(20,20));
-        verticalStrideTextField.setPreferredSize(new Dimension(20,20));
+        multiplyLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        multiplyLabel2.setFont(new Font("BOLD", Font.BOLD, 9));
+        horizonLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        horizonLabel2.setFont(new Font("BOLD", Font.BOLD, 9));
+        verticalLabel.setFont(new Font("BOLD", Font.BOLD, 9));
+        verticalLabel2.setFont(new Font("BOLD", Font.BOLD, 9));
+        horizontalKernelSizeTextField.setPreferredSize(new Dimension(28,20));
+        verticalKernelSizeTextField.setPreferredSize(new Dimension(28,20));
+        horizontalStrideTextField.setPreferredSize(new Dimension(28,20));
+        verticalStrideTextField.setPreferredSize(new Dimension(28,20));
         flowSubPanel.add(horizonLabel);
         flowSubPanel.add(horizontalKernelSizeTextField);
         flowSubPanel.add(multiplyLabel);
         flowSubPanel.add(verticalLabel);
         flowSubPanel.add(verticalKernelSizeTextField);
-        flowSubPanel.add(blankLabel);
         flowSubPanel.add(horizonLabel2);
         flowSubPanel.add(horizontalStrideTextField);
         flowSubPanel.add(multiplyLabel2);
@@ -90,6 +90,7 @@ public class PoolingBlock extends LayerBlock {
         this.setExtendSize(template.getExtendSize());
         // 크기만 늘어났는지 체크
         this.setExtended(template.isExtended());
+        this.setReducted(template.isReducted());
         setLocation(template.getPositionX(), template.getPositionY());
     }
 
@@ -112,19 +113,19 @@ public class PoolingBlock extends LayerBlock {
     public PaddingOption getPaddingOption(){ return (PaddingOption) paddingOptionCombobox.getSelectedItem(); }
 
     public int getHorizonKernel(){
-        return (int)horizontalKernelSizeTextField.getValue();
+        return Integer.parseInt(horizontalKernelSizeTextField.getText());
     }
 
     public int getVerticalKernel(){
-        return (int)verticalKernelSizeTextField.getValue();
+        return Integer.parseInt(verticalKernelSizeTextField.getText());
     }
 
     public int getHorizonStride(){
-        return (int)horizontalStrideTextField.getValue();
+        return Integer.parseInt(horizontalStrideTextField.getText());
     }
 
     public int getVerticalStride(){
-        return (int)verticalStrideTextField.getValue();
+        return Integer.parseInt(verticalStrideTextField.getText());
     }
 
     public PoolingType getPoolingType(){

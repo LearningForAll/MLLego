@@ -77,6 +77,7 @@ public class TrainingBlockTemplate extends BlockTemplate{
         this.learningRate = ((TrainingBlock)block).getLearningRate();
         this.validRatio = ((TrainingBlock)block).getValidRatio();
         this.extended = block.isBlockJustExtended();
+        this.reducted = block.getReducted();
 
     }
 

@@ -23,6 +23,7 @@ public class XInputBlockTemplate extends BlockTemplate {
         super(block.getX(), block.getY(), block.getClass().getSimpleName());
         this.filePath = XInputBlock.getXPath();
         this.inputOption = ((XInputBlock)block).getInputOption();
+        this.reducted = block.getReducted();
 
     }
 

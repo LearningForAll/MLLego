@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockBatchModel.BlockTemplateComponent.TrainingBlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.Optimizer;
@@ -76,11 +77,13 @@ public class TrainingBlock extends Block {
         learningRateTextField.setText(String.valueOf(template.getLearningRate()));
         batchSizeTextField.setText(String.valueOf(template.getBatchSize()));
         epochTextField.setText(String.valueOf(template.getEpochSize()));
-        //TODO 주석제거
-        //validRatioTextField.setText(String.valueOf(template.getValidRatio()));
+        validRatioTextField.setText(String.valueOf(template.getValidRatio()));
         // 크기만 늘어났는지 체크
         this.setExtended(template.isExtended());
         setLocation(template.getPositionX(), template.getPositionY());
+        this.setReducted(template.isReducted());
+        reductButton.removeActionListener(getReductButton().getActionListeners()[0]);
+        reductButton.addActionListener(new ReductionActionListener(this));
     }
 
     @Override
@@ -129,7 +132,9 @@ public class TrainingBlock extends Block {
     public Optimizer getOptimizer(){ return (Optimizer) optimizerCombobox.getSelectedItem(); }
 
     public float getLearningRate() {
-        return Float.parseFloat(learningRateTextField.getText());}
+        return Float.parseFloat(learningRateTextField.getText());
+    }
+
 
     public float getValidRatio() {
         return Float.parseFloat(validRatioTextField.getText());

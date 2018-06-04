@@ -23,6 +23,7 @@ import java.util.List;
 public abstract class Block extends JPanel implements MouseListener, MouseMotionListener, BlockPublisher {
     private int offX, offY;
     private boolean isDragged = false;
+    boolean isReducted = false;
     private String uid;
 
     private BlockObserver blockObserver;
@@ -82,6 +83,9 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
     public Block(BlockTemplate blockTemplate){
         //TODO 완성해야함 좌표랑 다음블록 이전블록
         extended = blockTemplate.isExtended();
+        isReducted = blockTemplate.isReducted();
+        reductButton.removeActionListener(getReductButton().getActionListeners()[0]);
+        reductButton.addActionListener(new ReductionActionListener(this));
     }
 
     public void checkExtendBlock(Block block){
@@ -132,7 +136,9 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
                         this.nextBlocks.add(block);
                         block.extendBlockJustSize(this);
 
-                    }else if(this.isBlockJustExtended() && ((ExtendableBlock) block).isBlockExtended()){}
+                    }else if(this.isBlockJustExtended() && ((ExtendableBlock) block).isBlockExtended()){
+
+                    }
                     else {
                         int cumulative_y = 0;
                         this.nextBlocks.add(block);
@@ -193,36 +199,6 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     // 인자로 넘어온 블록을 이전 블록으로 등록하는 함수
     public void registerPreviousBlock(Block block) throws BlockException {
-        /*if (isPreviousBlockConnectable(block)) {
-            if (block.isNextBlockConnectable(this)) {
-                //연결되면 ExtendableBlock일 경우, extendButton과 revertExtendButton을 비활성화 시킨다.
-                if(block instanceof ExtendableBlock){
-                    ((ExtendableBlock) block).extendButton.setEnabled(false);
-                    ((ExtendableBlock) block).revertExtendButton.setEnabled(false);
-                }
-                if(this instanceof ExtendableBlock){
-                    ((ExtendableBlock) this).extendButton.setEnabled(false);
-                    ((ExtendableBlock) this).revertExtendButton.setEnabled(false);
-                }
-                // 분류기 블록은 따로 취급해준다.
-                if (this instanceof ClassifierBlock){
-                    if (((ClassifierBlock)this).checkIfXConnectable(block)){
-                        ((ClassifierBlock)this).setxPartBlock(block);
-                        this.previousBlocks.add(block);
-                    }else if (((ClassifierBlock)this).checkIfYConnectable(block)){
-                        ((ClassifierBlock)this).setyPartBlock(block);
-                        this.previousBlocks.add(block);
-                    }
-
-                }else{
-                    this.previousBlocks.add(block);
-                }
-            } else {
-                throw new BlockException(block.getClass().getSimpleName() + "is not connectable Next block for" + this.getClass().getSimpleName());
-            }
-        } else {
-            throw new BlockException(block.getClass().getSimpleName() + "is not connectable Previous block for" + this.getClass().getSimpleName());
-        }*/
 
         if (this instanceof ClassifierBlock){
             if (((ClassifierBlock)this).checkIfXConnectable(block)){
@@ -607,7 +583,7 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
             int beforeHeight = this.getHeight();
             int beforeWidth = this.getWidth();
             if(block instanceof ExtendableBlock){
-                this.setSize(((ExtendableBlock)block).getExtendSize() * beforeWidth, beforeHeight);
+                this.setSize(block.getWidth(), beforeHeight);
             }else{
                 this.setSize(block.getWidth(), beforeHeight);
             }
@@ -651,6 +627,17 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
 
     protected void setExtended(boolean extended){
         this.extended = extended;
+    }
+
+    public void setReducted(boolean reducted){
+        this.isReducted = reducted;
+    }
+
+    public boolean getReducted(){
+        return this.isReducted;
+    }
+    public JButton getReductButton(){
+        return this.reductButton;
     }
 
 

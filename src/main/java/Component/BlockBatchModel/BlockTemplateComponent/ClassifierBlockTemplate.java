@@ -27,6 +27,7 @@ public class ClassifierBlockTemplate extends BlockTemplate{
         super(block.getX(), block.getY(), block.getClass().getSimpleName());
         this.classifier = ((ClassifierBlock)block).getClassifier();
         this.xExtended = ((ClassifierBlock)block).getxExtended();
+        this.reducted = block.getReducted();
     }
 
     public void setxPartBlock(BlockTemplate xPartBlock) {

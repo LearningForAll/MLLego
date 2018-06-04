@@ -19,11 +19,10 @@ public abstract class BlockTemplate implements Serializable {
     private int positionX;
     private int positionY;
     private String blockType;
-    private String uid;
-    private LineBorder border;
     private List<BlockTemplate> previousBlocks = new ArrayList<>();
     private List<BlockTemplate> nextBlocks = new ArrayList<>();
     protected boolean extended;
+    protected boolean reducted;
 
     public BlockTemplate(int positionX, int positionY, String blockType) {
         this.positionX = positionX;
@@ -40,6 +39,7 @@ public abstract class BlockTemplate implements Serializable {
         this.positionY = block.getY();
         this.blockType = block.getClass().getSimpleName();
         this.extended = block.isBlockJustExtended();
+        this.reducted = block.getReducted();
 
     }
 
@@ -96,4 +96,5 @@ public abstract class BlockTemplate implements Serializable {
     public boolean isExtended(){
         return extended;
     }
+    public boolean isReducted() { return reducted; }
 }
