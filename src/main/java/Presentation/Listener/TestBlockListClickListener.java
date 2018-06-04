@@ -17,7 +17,7 @@ public class TestBlockListClickListener implements MouseListener {
         } else if(e.getSource() instanceof TestPreProcessorBlock){
             ModelTestController.getInstance().addTestBlock(new TestPreProcessorBlock());
         }
-        */
+        M*/
     }
 
     @Override

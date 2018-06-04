@@ -31,6 +31,11 @@ public class MainFrame extends JFrame {
         BlockPlacementController.getInstance().setPanel(blockPlacementDefault.getBlockPlacementPanel());
         ModelTestController.getInstance().setPanel(blockPlacementDefault.getModelTestPanel());
         BlockListController.getInstance().setPanel(blockListPanel);
+<<<<<<< HEAD
+=======
+        BlockPlacementDefaultController.getInstance().setDefaultPanel(blockPlacementDefault);
+        ModelResultController.getInstance().setPanel(modelResultPanel);
+>>>>>>> 09b77590e999584d15847ffd7aa11d2d9f772db0
         setSize(1800,1000);
         add(topMenuPanel, BorderLayout.NORTH);
         add(blockPlacementDefault, BorderLayout.CENTER);
