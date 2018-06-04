@@ -58,7 +58,7 @@ public class ConvolutionLayerBlock extends LayerBlock {
         GridLayout layout=new GridLayout(4,1);
         setLayout(layout);
         setSize(200,99);
-        width=getWidth();
+        width = getWidth();
         add(flowPanel);
         add(keepprobJSlider);
         add(activationFunctionCombobox);
@@ -72,9 +72,12 @@ public class ConvolutionLayerBlock extends LayerBlock {
         this();
         activationFunctionCombobox.setSelectedItem(template.getFunc());
         keepprobJSlider.setValue(template.getKeepProb());
+
+
         kernelNumTextField.setValue(template.getKernelSize());
         verticalKernelSize.setValue(template.getVerticalKernelSize());
         horizontalKernelSize.setValue(template.getHorizontalKernelSize());
+
         this.setConnectedSize(template.getConnectedSize());
         this.setExtendSize(template.getExtendSize());
         // 크기만 늘어났는지 체크
@@ -112,14 +115,16 @@ public class ConvolutionLayerBlock extends LayerBlock {
     }
 
     public int getKernelNum(){
-        return (int)kernelNumTextField.getValue();
+        return Integer.parseInt(kernelNumTextField.getText());
     }
 
     public int getHorizonKernelSize(){
-        return (int)horizontalKernelSize.getValue();
+        return Integer.parseInt(horizontalKernelSize.getText());
     }
 
-    public int getVerticalKernelSize(){ return (int)verticalKernelSize.getValue(); }
+    public int getVerticalKernelSize(){
+        return Integer.parseInt(verticalKernelSize.getText());
+    }
 
 }
 

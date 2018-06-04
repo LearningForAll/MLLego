@@ -34,6 +34,7 @@ public class ModelBlock extends Block {
         // 크기만 늘어났는지 체크
         this.setExtended(template.isExtended());
         this.setReducted(template.isReducted());
+        modelTextField.setText(template.getModelName());
         reductButton.removeActionListener(getReductButton().getActionListeners()[0]);
         reductButton.addActionListener(new ReductionActionListener(this));
         setLocation(template.getPositionX(), template.getPositionY());
@@ -67,7 +68,7 @@ public class ModelBlock extends Block {
         return (previousBlocks.size() != 0);
     }
 
-    public String getModelTextField(){
+    public String getModelName(){
         return modelTextField.getText();
     }
 

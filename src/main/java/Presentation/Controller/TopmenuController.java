@@ -55,28 +55,33 @@ public class TopmenuController implements TopmenuObserver{
     @Override
     public void saveBatchModel() {
         String name = JOptionPane.showInputDialog(null, "저장할 블록배치 모델의 이름을 입력해주세요");
-        while(name.contains(".")){
-            JOptionPane.showMessageDialog(null, "이름에 .을 포함할 수 없습니다.","경고", JOptionPane.WARNING_MESSAGE);
-            name = JOptionPane.showInputDialog(null, "저장할 블록배치 모델의 이름을 입력해주세요");
-        }
-        File file = new File(BlockPlacementController.getInstance().getStorePath(name));
-        if(file.isFile()){
-            int ans = JOptionPane.showConfirmDialog(null, "이미 존재하는 파일입니다. 덮어 쓰시겠습니까?", "경고", JOptionPane.YES_NO_CANCEL_OPTION);
-
-            if(ans == 0){
-                //Yes 일떄
-                BlockPlacementController.getInstance().saveBlockBatch(name);
-            }else{
-                //No 일때
+        try{
+            while(name.contains(".")){
+                JOptionPane.showMessageDialog(null, "이름에 .을 포함할 수 없습니다.","경고", JOptionPane.WARNING_MESSAGE);
                 name = JOptionPane.showInputDialog(null, "저장할 블록배치 모델의 이름을 입력해주세요");
-                while(name.contains(".")){
-                    JOptionPane.showMessageDialog(null, "이름에 .을 포함할 수 없습니다.","경고", JOptionPane.WARNING_MESSAGE);
-                    name = JOptionPane.showInputDialog(null, "저장할 블록배치 모델의 이름을 입력해주세요");
-                }
             }
-        }else{
-            BlockPlacementController.getInstance().saveBlockBatch(name);
+            File file = new File(BlockPlacementController.getInstance().getStorePath(name));
+            if(file.isFile()){
+                int ans = JOptionPane.showConfirmDialog(null, "이미 존재하는 파일입니다. 덮어 쓰시겠습니까?", "경고", JOptionPane.YES_NO_CANCEL_OPTION);
+
+                if(ans == 0){
+                    //Yes 일떄
+                    BlockPlacementController.getInstance().saveBlockBatch(name);
+                }else{
+                    //No 일때
+                    name = JOptionPane.showInputDialog(null, "저장할 블록배치 모델의 이름을 입력해주세요");
+                    while(name.contains(".")){
+                        JOptionPane.showMessageDialog(null, "이름에 .을 포함할 수 없습니다.","경고", JOptionPane.WARNING_MESSAGE);
+                        name = JOptionPane.showInputDialog(null, "저장할 블록배치 모델의 이름을 입력해주세요");
+                    }
+                }
+            }else{
+                BlockPlacementController.getInstance().saveBlockBatch(name);
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
+
     }
 
 }

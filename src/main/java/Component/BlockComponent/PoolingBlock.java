@@ -92,8 +92,6 @@ public class PoolingBlock extends LayerBlock {
         // 크기만 늘어났는지 체크
         this.setExtended(template.isExtended());
         this.setReducted(template.isReducted());
-        reductButton.removeActionListener(getReductButton().getActionListeners()[0]);
-        reductButton.addActionListener(new ReductionActionListener(this));
         setLocation(template.getPositionX(), template.getPositionY());
     }
 
@@ -116,19 +114,19 @@ public class PoolingBlock extends LayerBlock {
     public PaddingOption getPaddingOption(){ return (PaddingOption) paddingOptionCombobox.getSelectedItem(); }
 
     public int getHorizonKernel(){
-        return (int)horizontalKernelSizeTextField.getValue();
+        return Integer.parseInt(horizontalKernelSizeTextField.getText());
     }
 
     public int getVerticalKernel(){
-        return (int)verticalKernelSizeTextField.getValue();
+        return Integer.parseInt(verticalKernelSizeTextField.getText());
     }
 
     public int getHorizonStride(){
-        return (int)horizontalStrideTextField.getValue();
+        return Integer.parseInt(horizontalStrideTextField.getText());
     }
 
     public int getVerticalStride(){
-        return (int)verticalStrideTextField.getValue();
+        return Integer.parseInt(verticalStrideTextField.getText());
     }
 
     public PoolingType getPoolingType(){

@@ -39,11 +39,20 @@ public class LstmBlockTemplate extends BlockTemplate {
         this.stackSize = stackSize;
     }
 
+    public int getCellSize(){
+        return this.cellSize;
+    }
+    public RnnOutputOption getRnnOutputOption(){
+        return this.rnnOutputOption;
+    }
+
     public LstmBlockTemplate(Block block){
         super(block.getX(), block.getY(), block.getClass().getSimpleName());
-       // this.stackSize = ((LstmBlock)block).getStackSize();
+        this.stackSize = ((LstmBlock)block).getStackSize();
+        this.cellSize = ((LstmBlock)block).getCellSize();
         this.keepProb = ((LstmBlock)block).getKeepProb();
         this.extended = block.isBlockJustExtended();
         this.reducted = block.getReducted();
+        this.rnnOutputOption = ((LstmBlock)block).getOutputOption();
     }
 }

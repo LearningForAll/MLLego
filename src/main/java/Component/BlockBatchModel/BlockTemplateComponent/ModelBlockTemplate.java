@@ -1,6 +1,7 @@
 package Component.BlockBatchModel.BlockTemplateComponent;
 
 import Component.BlockComponent.Block;
+import Component.BlockComponent.ModelBlock;
 
 import java.util.List;
 
@@ -9,13 +10,19 @@ import java.util.List;
  */
 public class ModelBlockTemplate extends BlockTemplate {
 
-     public ModelBlockTemplate(int positionX, int positionY, String blockType) {
+    String modelName;
+
+    public ModelBlockTemplate(int positionX, int positionY, String blockType) {
         super(positionX, positionY, blockType);
 
     }
     public ModelBlockTemplate(Block block){
         super(block.getX(), block.getY(), block.getClass().getSimpleName());
+        this.modelName = ((ModelBlock)block).getModelName();
         this.extended = block.isBlockJustExtended();
         this.reducted = block.getReducted();
+    }
+    public String getModelName(){
+        return this.modelName;
     }
 }

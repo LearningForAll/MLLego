@@ -63,6 +63,7 @@ public class DenseBlock extends LayerBlock {
 
     public DenseBlock(DenseBlockTemplate blockTemplate){
         this();
+
         layerTextField.setText(String.valueOf(blockTemplate.getLayerNum()));
         outputDimensionTextField.setText(String.valueOf(blockTemplate.getOutputDim()));
         activationFunctionCombobox.setSelectedItem(blockTemplate.getActivationFunc());
@@ -92,15 +93,17 @@ public class DenseBlock extends LayerBlock {
 
 
     public int getLayerNum(){
-        return (int)layerTextField.getValue();
+
+        return Integer.parseInt(layerTextField.getText());
     }
 
     public int getOutputDim(){
-        return (int)outputDimensionTextField.getValue();
+
+        return Integer.parseInt(outputDimensionTextField.getText());
     }
 
     public ActivationFunc getActivationFunction() {
-        return (ActivationFunc) activationFunctionCombobox.getSelectedItem();
+        return (ActivationFunc)activationFunctionCombobox.getSelectedItem();
     }
 
     public int getKeepProb() {

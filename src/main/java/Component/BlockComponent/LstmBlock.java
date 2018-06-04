@@ -57,9 +57,12 @@ public class LstmBlock extends LayerBlock {
         setVisible(true);
     }
     public LstmBlock(LstmBlockTemplate template){
+        this();
         keepProbJSlider.setValue(template.getKeepProb());
         //TODO 주석풀어야함
         stackSizeTextField.setValue(template.getStackSize());
+        cellSizeTextField.setText(String.valueOf(template.getCellSize()));
+        rnnOutputOption.setSelectedItem(template.getRnnOutputOption());
         // 크기만 늘어났는지 체크
         this.setExtended(template.isExtended());
         this.setReducted(template.isReducted());

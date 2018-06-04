@@ -311,8 +311,19 @@ public class BlockPlacementController implements BlockObserver {
             try {
 
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(getStorePath(name)));
+                for (Block block : this.blocks){
+                    if(block.getReducted()){
+                        block.reductButton.doClick();
+                    }
+                }
                 List<BlockTemplate> blockTemplates = convertBlocksToTemplate(blocks);
                 updateTemplateConnectionInfo(blockTemplates, blocks);
+
+                for (Block block : this.blocks){
+                    if(block.getReducted()){
+                        block.reductButton.doClick();
+                    }
+                }
 
                 oos.writeObject(blockTemplates);
                 oos.close();
@@ -345,12 +356,6 @@ public class BlockPlacementController implements BlockObserver {
 
             addAllBlock();
             updateBlockConnectionInfo(blockTemplateList, this.blocks);
-
-            for(Block tempBlock : this.blocks){
-                if (tempBlock.getReducted()){
-                    tempBlock.getReductButton().doClick();
-                }
-            }
 
 
         } catch (Exception e) {

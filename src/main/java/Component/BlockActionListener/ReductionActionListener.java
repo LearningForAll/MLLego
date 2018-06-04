@@ -35,6 +35,7 @@ public class ReductionActionListener implements ActionListener {
             block.setLocation(block.getX(), block.getY()-beforeHeight+beforeFlowPanelHeight);
             block.revalidate();
             isReducted = false;
+            block.setReducted(false);
 
         } else {
             block.setLocation(block.getX(), block.getY()+block.getHeight()-block.flowPanel.getHeight());
@@ -46,6 +47,7 @@ public class ReductionActionListener implements ActionListener {
             block.setSize(block.getWidth(), block.flowPanel.getHeight());
             block.revalidate();
             isReducted = true;
+            block.setReducted(true);
         }
     }
 }
