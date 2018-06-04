@@ -15,6 +15,10 @@ public class MyModelPanel extends JPanel {
     JScrollPane scrollPane;
     List<MyModelComponent> modelComponents;
 
+    @Override
+    public String getName() {
+        return "My Model";
+    }
 
     public MyModelPanel(){
 

@@ -17,7 +17,9 @@ public class MyModelDefaultController {
     public void setDefaultPanel(MyModelDefault defaultPanel){
         this.defaultPanel = defaultPanel;
     }
-
+    public void restartMyModelList(){
+        defaultPanel.restartMyModelList();
+    }
     public void setResultTab(){
         if (defaultPanel.getSelectedIndex()!=2){
             defaultPanel.setSelectedIndex(2);

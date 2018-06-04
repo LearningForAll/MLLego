@@ -1,6 +1,8 @@
 package App;
 
+import Presentation.Controller.BlockPlacementDefaultController;
 import Presentation.Controller.ModelTestController;
+import Presentation.Controller.MyModelDefaultController;
 import Presentation.Controller.ResultController;
 
 import java.io.IOException;
@@ -44,6 +46,8 @@ public class CommunicationThread extends Thread {
             } catch (Throwable e) {
                 e.printStackTrace();
             }
+            BlockPlacementDefaultController.getInstance().resetResultPanel();
+            MyModelDefaultController.getInstance().restartMyModelList();
         }
     }
 

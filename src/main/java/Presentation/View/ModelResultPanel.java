@@ -48,7 +48,7 @@ public class ModelResultPanel extends JScrollPane {
             String path=getGraph1List().get(i);
             imageIcon=new ImageIcon(path);
             image=imageIcon.getImage();
-            image2=image.getScaledInstance(400,300,java.awt.Image.SCALE_SMOOTH);
+            image2=image.getScaledInstance(400,400,java.awt.Image.SCALE_SMOOTH);
             imageIcon2=new ImageIcon(image2);
             graphLabel=new JLabel();
             graphLabel.setIcon(imageIcon2);
@@ -59,9 +59,10 @@ public class ModelResultPanel extends JScrollPane {
             String path2=getGraph2List().get(i);
             imageIcon=new ImageIcon(path2);
             image=imageIcon.getImage();
-            image2=image.getScaledInstance(400,300,java.awt.Image.SCALE_SMOOTH);
+            image2=image.getScaledInstance(400,400,java.awt.Image.SCALE_SMOOTH);
             imageIcon2=new ImageIcon(image2);
-            graphLabel=new JLabel(imageIcon);
+            graphLabel=new JLabel();
+            graphLabel.setIcon(imageIcon2);
             gridBagLayout.setConstraints(graphLabel,constraints);
             jpanel.add(graphLabel);
         }
@@ -138,6 +139,46 @@ public class ModelResultPanel extends JScrollPane {
             e.printStackTrace();
         }
         return graph2List;
+    }
+
+    public void AddOneList(String modelName){
+        String currentDir=System.getProperty("user.dir");
+        String folderDir=currentDir+"/bin/";
+        String fullpath = folderDir+modelName;
+        String validatePath = fullpath+"/validate.png";
+        String traingPath = fullpath+"/train.png";
+
+        GridBagConstraints constraints=new GridBagConstraints();
+        constraints.fill=GridBagConstraints.BOTH;
+        constraints.weightx = 1.0;
+        constraints.weighty = 1.0;
+        constraints.gridwidth=2;
+        constraints.gridheight=2;
+
+        ModelTestResultArray modelTestResultArray=new ModelTestResultArray(fullpath, traingPath, validatePath);
+        modelTestResultArrays.add(modelTestResultArray);
+        jlabel=new JLabel(modelName);
+        gridBagLayout.setConstraints(jlabel,constraints);
+        jpanel.add(jlabel);
+
+        imageIcon=new ImageIcon(traingPath);
+        image=imageIcon.getImage();
+        image2=image.getScaledInstance(250,250,java.awt.Image.SCALE_SMOOTH);
+        imageIcon2=new ImageIcon(image2);
+        graphLabel=new JLabel();
+        graphLabel.setIcon(imageIcon2);
+        gridBagLayout.setConstraints(graphLabel,constraints);
+        jpanel.add(graphLabel);
+
+        constraints.gridwidth = GridBagConstraints.REMAINDER;
+        imageIcon=new ImageIcon(validatePath);
+        image=imageIcon.getImage();
+        image2=image.getScaledInstance(250,250,java.awt.Image.SCALE_SMOOTH);
+        imageIcon2=new ImageIcon(image2);
+        graphLabel=new JLabel(imageIcon);
+        gridBagLayout.setConstraints(graphLabel,constraints);
+        jpanel.add(graphLabel);
+        revalidate();
     }
 
 }

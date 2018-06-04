@@ -30,12 +30,12 @@ if sys.argv[1] == "False":
 
     if classifier.get_classifier_option() == "SOFTMAX_CLASSIFIER":
         label_encoder = classifier.inferencer.get_label_encoder()
-        result = label_encoder.inverse_transform(np.argmax(result, axis=1))
+        result = label_encoder.inverse_transform(result)
 
     for idx, result_data in enumerate(result):
         # if isinstance(result_data,list) or isinstance(result_data,np.ndarray):
         #    result_data = result_data[0]
-        message = "type_test try : " + str(classifier.inferencer.get_data_x()[idx]) + "  result : " + str(result_data) + "_END"
+        message = "type_test try : " + str(classifier.inferencer.raw_x[idx]) + "  result : " + str(result_data) + "_END"
         clientSocket.sendall(message.encode())
 else:
     # Predict + accuracy

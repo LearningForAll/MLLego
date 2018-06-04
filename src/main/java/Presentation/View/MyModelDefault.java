@@ -23,4 +23,11 @@ public class MyModelDefault extends JTabbedPane {
     public Dimension getPreferredSize() {
         return new Dimension(1700,200);
     }
+
+    public void restartMyModelList() {
+        remove(myModelPanel);
+        myModelPanel = new MyModelPanel();
+        add(myModelPanel,0);
+        revalidate();
+    }
 }

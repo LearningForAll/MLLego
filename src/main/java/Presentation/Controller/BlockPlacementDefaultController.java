@@ -39,4 +39,8 @@ public class BlockPlacementDefaultController {
     public int getCurrentTabIndex(){
         return this.defaultPanel.getSelectedIndex();
     }
+
+    public void resetResultPanel(){
+        defaultPanel.resetResultPanel();
+    }
 }

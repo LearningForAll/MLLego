@@ -73,7 +73,7 @@ class Classifier:
         with tf.Session() as sess:
             sess.run(tf.global_variables_initializer())
             saver = tf.train.Saver()
-            valid_length = int(self.inferencer.get_data_len()*validation_ratio)
+            valid_length = int(self.inferencer.get_data_len()/batch_size*validation_ratio)
             for current_epoch in range(epoch):
                 start = time.time()
                 for batch_x, batch_y in data_reader.batches():
@@ -85,9 +85,9 @@ class Classifier:
 
                         acc_ax = loss_ax.twinx()
 
-                        loss_ax.plot(customHistory.train_loss, 'y', label='train loss')
+                        loss_ax.plot(customHistory.train_loss, 'y',alpha=0.5, label='train loss')
 
-                        acc_ax.plot(customHistory.train_acc, 'b', label='train acc')
+                        acc_ax.plot(customHistory.train_acc, 'b', alpha=0.5,label='train acc')
 
                         loss_ax.set_xlabel('step')
                         loss_ax.set_ylabel('loss')
@@ -101,8 +101,8 @@ class Classifier:
                         fig, loss_ax = plt.subplots()
 
                         acc_ax = loss_ax.twinx()
-                        acc_ax.plot(customHistory.val_acc, 'g', label='val acc')
-                        loss_ax.plot(customHistory.val_loss, 'r', label='val loss')
+                        acc_ax.plot(customHistory.val_acc, 'g',alpha=0.5, label='val acc')
+                        loss_ax.plot(customHistory.val_loss, 'r',alpha=0.5, label='val loss')
                         loss_ax.set_xlabel('step')
                         loss_ax.set_ylabel('loss')
                         acc_ax.set_ylabel('accuray')
@@ -159,9 +159,9 @@ class Classifier:
 
         acc_ax = loss_ax.twinx()
 
-        loss_ax.plot(customHistory.train_loss, 'y', label='train loss')
+        loss_ax.plot(customHistory.train_loss, 'y',alpha=0.5, label='train loss')
 
-        acc_ax.plot(customHistory.train_acc, 'b', label='train acc')
+        acc_ax.plot(customHistory.train_acc, 'b',alpha=0.5, label='train acc')
 
         loss_ax.set_xlabel('step')
         loss_ax.set_ylabel('loss')
@@ -175,8 +175,8 @@ class Classifier:
         fig,loss_ax = plt.subplots()
 
         acc_ax = loss_ax.twinx()
-        acc_ax.plot(customHistory.val_acc, 'g', label='val acc')
-        loss_ax.plot(customHistory.val_loss, 'r', label='val loss')
+        acc_ax.plot(customHistory.val_acc, 'g',alpha=0.5, label='val acc')
+        loss_ax.plot(customHistory.val_loss, 'r', alpha=0.5,label='val loss')
         loss_ax.set_xlabel('step')
         loss_ax.set_ylabel('loss')
         acc_ax.set_ylabel('accuray')
