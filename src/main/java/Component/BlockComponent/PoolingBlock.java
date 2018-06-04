@@ -81,11 +81,16 @@ public class PoolingBlock extends LayerBlock {
     }
     public PoolingBlock(PoolingBlockTemplate template){
         this();
+
         paddingOptionCombobox.setSelectedItem(template.getPaddingOption());
+
         horizontalStrideTextField.setText(String.valueOf(template.getHorizontalStride()));
         verticalStrideTextField.setText(String.valueOf(template.getVerticalStride()));
         horizontalKernelSizeTextField.setText(String.valueOf(template.getHorizontalKernelSize()));
         verticalKernelSizeTextField.setText(String.valueOf(template.getVerticalKernelSize()));
+
+        poolOptionCombobox.setSelectedItem(template.getPoolingType());
+
         this.setConnectedSize(template.getConnectSize());
         this.setExtendSize(template.getExtendSize());
         // 크기만 늘어났는지 체크

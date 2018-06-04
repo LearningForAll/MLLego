@@ -88,6 +88,8 @@ public class PoolingBlockTemplate extends BlockTemplate {
         this.verticalKernelSize = ((PoolingBlock) block).getVerticalKernel();
         this.horizontalStride = ((PoolingBlock) block).getHorizonStride();
         this.verticalStride = ((PoolingBlock) block).getVerticalStride();
+        this.paddingOption = ((PoolingBlock) block).getPaddingOption();
+        this.poolingType = ((PoolingBlock) block).getPoolingType();
         this.extendSize = ((PoolingBlock) block).getExtendSize();
         this.connectSize = ((PoolingBlock) block).getConnectedSize();
         this.extended = block.isBlockJustExtended();
