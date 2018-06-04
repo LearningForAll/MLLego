@@ -1,5 +1,6 @@
 package Component.MyModelComponent;
 
+import Presentation.Controller.BlockPlacementController;
 import Presentation.Controller.BlockPlacementDefaultController;
 import Presentation.Controller.ModelTestController;
 import Util.FileUtil;
@@ -17,18 +18,23 @@ public class MyModelComponent extends JPanel {
     JLabel jLabel;
     String modelName;
 
-    public MyModelComponent(String modelName){
+    // MyModelComponent를 재사용하기 위한 옵션 0 이면 Mymodel, 1이면 Template
+    public MyModelComponent(String modelName, String iconName ,int option){
         this.setVisible(true);
         this.setLayout(new GridLayout(2,1));
         this.modelName = modelName;
-        ImageIcon imageIcon = new ImageIcon(FileUtil.getResourcePath("icon/model_block_icon.png"));
+        ImageIcon imageIcon = new ImageIcon(FileUtil.getResourcePath("icon/"+iconName+".png"));
         setBackground(Color.white);
         jButton = new JButton(imageIcon);
         jButton.setSize(50, 50);
         jButton.setBorder(null);
         add(jButton);
-        jButton.addActionListener(new ButtonActionListener(this.modelName));
 
+        if (option == 0){
+            jButton.addActionListener(new ButtonActionListener(this.modelName));
+        }else {
+            jButton.addActionListener(new ModelClickActionListener(this.modelName));
+        }
         jLabel = new JLabel(modelName);
         jLabel.setSize(50, 10);
         jLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -47,5 +53,15 @@ public class MyModelComponent extends JPanel {
             ModelTestController.getInstance().addTestModel(modelName);
             BlockPlacementDefaultController.getInstance().changeModelTestTab();
         }
+    }
+    private class ModelClickActionListener implements ActionListener{
+
+        String templateName;
+        ModelClickActionListener(String templateName){this.templateName = templateName;}
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            BlockPlacementController.getInstance().loadBlockBatch("bin/inner/"+templateName+".block");
+        }
+
     }
 }

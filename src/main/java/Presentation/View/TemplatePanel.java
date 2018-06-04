@@ -1,6 +1,7 @@
 package Presentation.View;
 
 import App.MyApp;
+import Component.MyModelComponent.MyModelComponent;
 import Presentation.Controller.BlockPlacementController;
 import Presentation.Controller.TemplateController;
 import Util.FileUtil;
@@ -18,26 +19,29 @@ import java.util.List;
  */
 public class TemplatePanel extends JPanel {
 
-    JButton mnistCnn;
-    JButton xorDnn;
+    JButton mnistCnn, xorDnn;
+    JLabel mnistLabel, xorLabel;
+    JPanel mnistPanel, xorPanel;
+
     TemplateController templateController;
 
     public TemplatePanel() {
-        setLayout(new FlowLayout(FlowLayout.LEFT));
-
         setBackground(Color.white);
         List<String> fileNameList = getAllFileName();
-        mnistCnn = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/lego_block.png")));
-        xorDnn = new JButton(new ImageIcon(FileUtil.getResourcePath("icon/lego_block1.png")));
-        mnistCnn.setBorderPainted(false);
-        mnistCnn.setFocusPainted(false);
-        mnistCnn.setContentAreaFilled(false);
-        xorDnn.setBorderPainted(false);
-        xorDnn.setFocusPainted(false);
-        xorDnn.setContentAreaFilled(false);
 
-        add(mnistCnn);
-        add(xorDnn);
+        FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
+        flowLayout.setVgap(25);
+        flowLayout.setHgap(40);
+        setLayout(flowLayout);
+
+        MyModelComponent mnistCNN = new MyModelComponent("mnistCnn","template_block", 1);
+        MyModelComponent xorDNN = new MyModelComponent("xorDnn","template_block", 1);
+
+
+        add(mnistCNN);
+        add(xorDNN);
+
+
         setVisible(true);
     }
 
