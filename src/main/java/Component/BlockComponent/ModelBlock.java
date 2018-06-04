@@ -21,6 +21,7 @@ public class ModelBlock extends Block {
         setSize(200,50);
         width=getWidth();
         flowSubPanel.add(modelTextField);
+        flowPanel.remove(reductButton);
         add(flowPanel);
         add(flowSubPanel);
         flowPanel.add(nameLabel);

@@ -77,6 +77,10 @@ public class BlockPlacementController implements BlockObserver {
         // 패널에도 블록 삭제
         block.disconnectForBlock();
     }
+    public void resetAllBlockPlacement(){
+        this.blocks.clear();
+        panel.deleteAllBlock();
+    }
 
     @Override
     public void blinkBlock(Block block) {

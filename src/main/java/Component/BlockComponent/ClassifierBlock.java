@@ -26,6 +26,7 @@ public class ClassifierBlock extends Block{
         setLayout(layout);
         setSize(400,50);
         flowPanel.setBackground(new Color(0,0,180));
+        flowPanel.remove(reductButton);
         add(flowPanel);
         add(classifierComboBox);
         flowPanel.add(nameLabel);
