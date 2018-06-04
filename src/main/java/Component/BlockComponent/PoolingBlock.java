@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockBatchModel.BlockTemplateComponent.PoolingBlockTemplate;
 import Component.NumberOnlyTextField;
 import Const.PaddingOption;
@@ -90,6 +91,9 @@ public class PoolingBlock extends LayerBlock {
         this.setExtendSize(template.getExtendSize());
         // 크기만 늘어났는지 체크
         this.setExtended(template.isExtended());
+        this.setReducted(template.isReducted());
+        reductButton.removeActionListener(getReductButton().getActionListeners()[0]);
+        reductButton.addActionListener(new ReductionActionListener(this));
         setLocation(template.getPositionX(), template.getPositionY());
     }
 

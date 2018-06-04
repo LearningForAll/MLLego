@@ -85,6 +85,8 @@ public abstract class Block extends JPanel implements MouseListener, MouseMotion
         //TODO 완성해야함 좌표랑 다음블록 이전블록
         extended = blockTemplate.isExtended();
         isReducted = blockTemplate.isReducted();
+        reductButton.removeActionListener(getReductButton().getActionListeners()[0]);
+        reductButton.addActionListener(new ReductionActionListener(this));
     }
 
     public void checkExtendBlock(Block block){

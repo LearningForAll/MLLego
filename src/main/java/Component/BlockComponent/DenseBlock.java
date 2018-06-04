@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockBatchModel.BlockTemplateComponent.BlockTemplate;
 import Component.BlockBatchModel.BlockTemplateComponent.DenseBlockTemplate;
 import Component.NumberOnlyTextField;
@@ -69,6 +70,7 @@ public class DenseBlock extends LayerBlock {
         this.setExtendSize(blockTemplate.getExtendSize());
         // 크기만 늘어났는지 체크
         this.setExtended(blockTemplate.isExtended());
+        this.setReducted(blockTemplate.isReducted());
         setLocation(blockTemplate.getPositionX(), blockTemplate.getPositionY());
     }
 

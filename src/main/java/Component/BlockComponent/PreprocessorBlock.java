@@ -1,5 +1,6 @@
 package Component.BlockComponent;
 
+import Component.BlockActionListener.ReductionActionListener;
 import Component.BlockBatchModel.BlockTemplateComponent.PreprocessorBlockTemplate;
 import Const.FileType;
 import Const.PreprocessorType;
@@ -39,6 +40,9 @@ public class PreprocessorBlock extends Block {
         this();
         preprocessorTypeCombobox.setSelectedItem(blockTemplate.getPreprocessorType());
         setLocation(blockTemplate.getPositionX(), blockTemplate.getPositionY());
+        this.setReducted(blockTemplate.isReducted());
+        reductButton.removeActionListener(getReductButton().getActionListeners()[0]);
+        reductButton.addActionListener(new ReductionActionListener(this));
     }
     @Override
     protected String getBlockAttrStr() {

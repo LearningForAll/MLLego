@@ -209,8 +209,8 @@ public class BlockPlacementController implements BlockObserver {
                 if (block1.getX() > block.getX()) {
                     return ((block1.getX() - block.getX() < 50)
                             && (block1.getX() - block.getX() > 0)
-                            && (block.getY() + block1.getHeight() - block.getY() > -30)
-                            && (block.getY() + block1.getHeight() - block.getY() < 0));
+                            && (block1.getY() + block1.getHeight() - block.getY() > -30)
+                            && (block1.getY() + block1.getHeight() - block.getY() < 0));
                 } else {
                     return ((block.getX() - block1.getX() > 0)
                             && (block.getX() - block1.getX() < block1.getWidth() - block.getWidth() + 50)
@@ -219,12 +219,12 @@ public class BlockPlacementController implements BlockObserver {
                 }
             } else {
                 if (block1.getX() > block.getX()) {
-                    return ((block1.getX() - block.getX() < 50)
-                            && (block1.getX() - block.getX() > 0)
-                            && (block.getY() + block1.getHeight() - block.getY() > -30)
-                            && (block.getY() + block1.getHeight() - block.getY() < 0));
+                    return (((block1.getX() - block.getX() < 50)
+                            && (block1.getX() - block.getX() > -50))
+                            && (block1.getY() + block1.getHeight() - block.getY() > -30)
+                            && (block1.getY() + block1.getHeight() - block.getY() < 0));
                 } else {
-                    return ((block.getX() - block1.getX() >= 0)
+                    return ((block.getX() - block1.getX() >= -50)
                             && (block.getX() - block1.getX() < 50)
                             && (block1.getY() + block1.getHeight() - block.getY() > -30)
                             && (block1.getY() + block1.getHeight() - block.getY() < 0));
@@ -235,7 +235,7 @@ public class BlockPlacementController implements BlockObserver {
 
         if (block1.getX() > block.getX()) {
             return ((block1.getX() - block.getX() < 50)
-                    && (block1.getX() - block.getX() > 0)
+                    && (block1.getX() - block.getX() > -50)
                     && (block1.getY() + block1.getHeight() - block.getY() > -30)
                     && (block1.getY() + block1.getHeight() - block.getY() < 0));
         } else {

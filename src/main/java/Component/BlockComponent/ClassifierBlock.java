@@ -39,6 +39,7 @@ public class ClassifierBlock extends Block{
         this();
         classifier = template.getClassifier();
         this.xExtended = template.isxExtended();
+        this.setReducted(template.isReducted());
         setLocation(template.getPositionX(), template.getPositionY());
 
     }
