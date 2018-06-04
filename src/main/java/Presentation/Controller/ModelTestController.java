@@ -70,4 +70,8 @@ public class ModelTestController implements TestBlockObserver {
     public void addResultLine(String result){
         resultPanel.addLine(result);
     }
+
+    public void removeAll() {
+        resultPanel.reset();
+    }
 }

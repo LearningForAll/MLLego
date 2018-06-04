@@ -25,4 +25,7 @@ public class ModelTestResultPanel extends JPanel {
         jTextPane.setCaretPosition(jTextPane.getDocument().getLength());  // 맨아래로 스크롤한다.jTextPane.append();
     }
 
+    public void reset() {
+        jTextPane.setText("");
+    }
 }

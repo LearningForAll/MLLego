@@ -36,10 +36,15 @@ public class TopMenuActionListener implements ActionListener {
                         TFBuilder tfBuilder = new TFBuilder();
                         boolean result = tfBuilder.generateCodeFile(trainingBlock,modelBlock.getName());
                         if (!result) return;
+                        MyModelDefaultController.getInstance().setResultTab();
+                        ResultController.getInstance().removeAll();
+                        ResultController.getInstance().addResultLine("학습을 준비중입니다... 잠시만 기다려주세요...");
                         tfBuilder.training();
                         break;
                     case 1: // model test
                         ModelTestController modelTestController = ModelTestController.getInstance();
+                        modelTestController.removeAll();
+                        modelTestController.addResultLine("테스트를 진행합니다... 잠시만 기다려주세요...");
                         TFBuilder.runModelPredictTestBlock(modelTestController.getSelectedModelName(),modelTestController.getSelectedDataPath());
                 }
                 break;

@@ -133,7 +133,7 @@ public class TFBuilder implements MLBuilder {
             @Override
             public void run() {
                 try {
-                    CMDExecuteUtil.cmdExecute(new String[]{"cmd.exe", "/c", pythonDir + " " + recentGenerateTrainingCodeURL + "\\Trainer.py"});
+                    CMDExecuteUtil.cmdExecute(new String[]{"cmd.exe", "/c", pythonDir + " " + recentGenerateTrainingCodeURL + "\\Trainer.py False"});
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

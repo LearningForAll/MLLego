@@ -20,6 +20,7 @@ def main():
     recvThread.start()
     classifier.training(clientSocket, [isTraining])
 
+
 def read_thread(sock):
     global isTraining
     while isTraining:

@@ -1,7 +1,5 @@
 package Presentation.View;
 
-import Component.BlockComponent.ConvolutionLayerBlock;
-import Models.ModelTestResultArray;
 import Presentation.Controller.*;
 
 import javax.swing.*;
@@ -25,6 +23,7 @@ public class MainFrame extends JFrame {
         blockPlacementDefault =new BlockPlacementDefault();
         blockListPanel=new BlockListPanel();
         myModelDefault=new MyModelDefault();
+        MyModelDefaultController.getInstance().setDefaultPanel(myModelDefault);
         BlockPlacementController.getInstance().setPanel(blockPlacementDefault.getBlockPlacementPanel());
         ModelTestController.getInstance().setPanel(blockPlacementDefault.getModelTestPanel());
         BlockListController.getInstance().setPanel(blockListPanel);

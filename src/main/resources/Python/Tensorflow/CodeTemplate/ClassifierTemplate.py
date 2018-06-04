@@ -73,6 +73,7 @@ class Classifier:
         with tf.Session() as sess:
             sess.run(tf.global_variables_initializer())
             saver = tf.train.Saver()
+            valid_length = int(self.inferencer.get_data_len()*validation_ratio)
             for current_epoch in range(epoch):
                 start = time.time()
                 for batch_x, batch_y in data_reader.batches():
@@ -129,7 +130,7 @@ class Classifier:
 
                     customHistory.train_acc.append(accuracy)
                     customHistory.train_loss.append(loss)
-                    if current_step % 10 == 0:
+                    if current_step % valid_length == 0:
                         avg_loss, avg_accuracy = 0.0, 0.0
                         start = time.time()
                         for valid_x, valid_y in data_reader.valid_batches():
@@ -185,7 +186,7 @@ class Classifier:
 
         fig.savefig(model_path+"/validate.png", format="png")
 
-    def get_test(self, xPath,yPath):
+    def get_test(self, xPath, yPath):
         self.inferencer = InferenceTemplate.Inferencer(xPath, y_path, x_option, y_option)
         self.logit = self.inferencer.get_logit()
         if classifier_option == "LINEAR_REGRESSION":
@@ -219,6 +220,7 @@ class Classifier:
         else:
             raise ValueError("classifier option Error , option = " + str(classifier_option))
         return self.predict
+
     def get_classifier_option(self):
         global classifier_option
         return classifier_option
@@ -226,6 +228,7 @@ class Classifier:
     def get_model_path(self):
         global model_path
         return model_path
+
 
 class CustomHistory:
     def __init__(self):

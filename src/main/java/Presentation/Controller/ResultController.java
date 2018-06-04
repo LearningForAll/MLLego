@@ -21,4 +21,8 @@ public class ResultController {
     public void addResultLine(String string){
         resultPanel.addResultLine(string);
     }
+
+    public void removeAll(){
+        resultPanel.resetResult();
+    }
 }
