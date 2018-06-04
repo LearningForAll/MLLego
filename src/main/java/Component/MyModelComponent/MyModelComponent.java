@@ -60,6 +60,8 @@ public class MyModelComponent extends JPanel {
         ModelClickActionListener(String templateName){this.templateName = templateName;}
         @Override
         public void actionPerformed(ActionEvent e) {
+            BlockPlacementDefaultController.getInstance().changeBlockPlacementTab();
+            //TODO 블록 플레이스먼트를 띄워야함
             BlockPlacementController.getInstance().loadBlockBatch("bin/inner/"+templateName+".block");
         }
 

@@ -34,8 +34,8 @@ public class TemplatePanel extends JPanel {
         flowLayout.setHgap(40);
         setLayout(flowLayout);
 
-        MyModelComponent mnistCNN = new MyModelComponent("mnistCnn","template_block", 1);
-        MyModelComponent xorDNN = new MyModelComponent("xorDnn","template_block", 1);
+        MyModelComponent mnistCNN = new MyModelComponent("mnistCnn","block_art", 1);
+        MyModelComponent xorDNN = new MyModelComponent("xorDnn","block_art", 1);
 
 
         add(mnistCNN);
