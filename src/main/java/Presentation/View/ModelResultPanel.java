@@ -48,7 +48,7 @@ public class ModelResultPanel extends JScrollPane {
             String path=getGraph1List().get(i);
             imageIcon=new ImageIcon(path);
             image=imageIcon.getImage();
-            image2=image.getScaledInstance(400,300,java.awt.Image.SCALE_SMOOTH);
+            image2=image.getScaledInstance(250,250,java.awt.Image.SCALE_SMOOTH);
             imageIcon2=new ImageIcon(image2);
             graphLabel=new JLabel();
             graphLabel.setIcon(imageIcon2);
@@ -59,9 +59,10 @@ public class ModelResultPanel extends JScrollPane {
             String path2=getGraph2List().get(i);
             imageIcon=new ImageIcon(path2);
             image=imageIcon.getImage();
-            image2=image.getScaledInstance(400,300,java.awt.Image.SCALE_SMOOTH);
+            image2=image.getScaledInstance(250,250,java.awt.Image.SCALE_SMOOTH);
             imageIcon2=new ImageIcon(image2);
-            graphLabel=new JLabel(imageIcon);
+            graphLabel=new JLabel();
+            graphLabel.setIcon(imageIcon2);
             gridBagLayout.setConstraints(graphLabel,constraints);
             jpanel.add(graphLabel);
         }
